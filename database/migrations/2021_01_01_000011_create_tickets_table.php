@@ -15,7 +15,8 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('contact_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('department_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('frame_id', 100);
             $table->string('plate', 100);
@@ -26,10 +27,10 @@ class CreateTicketsTable extends Migration
             $table->text('description');
             $table->text('tests_done');
             $table->text('ask_for');
-            $table->text('files');
-            $table->boolean('is_head');
             $table->boolean('knowledge_base');
             $table->string('status', 100)->nullable()->default('opened');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
