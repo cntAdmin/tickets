@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Department;
+use App\Models\Department;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DepartmentController extends Controller
 {
@@ -12,9 +14,25 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        //
+        if($req->ajax()) {
+            $departments = Department::
+            // SI ENCUENTRA "NAME" EN EL REQUEST FILTRA POR EL "NAME"
+            when($req->name, function(Builder $q, $name) {
+                $q->where('name', 'LIKE', $name . '%');
+            })
+            // EAGER LOAD USERS COUNT
+            ->withCount('users')
+            // ORDENA POR NOMBRE INCREMENTAL (A - Z)
+            ->orderBy('name', 'ASC')
+            // PAGINADO
+            ->paginate();
+
+            return response()->json([
+                'departments' => $departments
+            ]);
+        }
     }
 
     /**
@@ -24,6 +42,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
+        return view('departments.create');
         //
     }
 
@@ -33,9 +52,33 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $messages = [
+            'name.required' => __('El nombre es un campo obligatorio'),
+            'name.string' => __('Debe ser una cadena de texto'),
+            'name.max' => __('No puede superar los :max caracteres'),
+            'name.unique' => __('Debe ser un campo único en la tabla')
+        ];
+
+        $validator = Validator::make($req->all(), [
+            'name' => ['required', 'string', 'max:100', 'unique:departments,name']
+        ], $messages);
+
+        if($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $new_dep = Department::create([
+            'name' => $req->name
+        ]);
+
+        return $new_dep
+            ? response()->json([ 'success' => __('Departamento creado correctamente.'), 'new_dep' => $new_dep ])
+            : response()->json([ 'error' => __('Lo sentimos, algo ha ido mal, inténtelo de nuevo mas tarde') ]);
+
     }
 
     /**
@@ -67,9 +110,33 @@ class DepartmentController extends Controller
      * @param  \App\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $req, Department $department)
     {
-        //
+        $messages = [
+            'name.required' => __('El nombre es un campo obligatorio'),
+            'name.string' => __('Debe ser una cadena de texto'),
+            'name.max' => __('No puede superar los :max caracteres'),
+            'name.unique' => __('Debe ser un campo único en la tabla')
+        ];
+
+        $validator = Validator::make($req->all(), [
+            'name' => ['required', 'string', 'max:100', 'unique:departments,name,' . $department]
+        ], $messages);
+
+        if($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $updated = $department->update([
+            'name' => $req->name
+        ]);
+
+        return $updated
+            ? response()->json([ 'success' => __('Departamento actualizado correctamente.'), 'updated' => $updated ])
+            : response()->json([ 'error' => __('Lo sentimos, algo ha ido mal, inténtelo de nuevo mas tarde') ]);
+
     }
 
     /**
@@ -80,6 +147,12 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        $this->authorize('departments.destroy');
+
+        $deleted = $department->delete();
+
+        return $deleted
+        ? response()->json([ 'success' => __('Departamento eliminado correctamente.'), 'deleted' => $deleted ])
+        : response()->json([ 'error' => __('Lo sentimos, algo ha ido mal, inténtelo de nuevo mas tarde') ]);
     }
 }

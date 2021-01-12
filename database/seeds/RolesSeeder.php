@@ -12,35 +12,38 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $roles[] = [
-            'name' => 'superadmin',
-            'guard_name' => 'web',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-        $roles[] = [
-            'name' => 'admin',
-            'guard_name' => 'web',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-        $roles[] = [
-            'name' => 'department',
-            'guard_name' => 'web',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-        $roles[] = [
-            'name' => 'staff',
-            'guard_name' => 'web',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-        $roles[] = [
-            'name' => 'user',
-            'guard_name' => 'web',
-            'created_at' => now(),
-            'updated_at' => now(),
+        $roles = [
+            [
+                'name' => 'superadmin',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],[
+                'name' => 'admin',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],[
+                'name' => 'department',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],[
+                'name' => 'staff',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],[
+                'name' => 'customer',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],[
+                'name' => 'contact',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ];
         
         Role::insert($roles);

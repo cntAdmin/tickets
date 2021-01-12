@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     protected $fillable = [
-        'customer_id', 'name', 'surname', 'phone', 'email', 'deleted_by'
+        'customer_id', 'name', 'surname', 'deleted_by'
     ];
     public function customer()
     {
@@ -18,4 +18,10 @@ class Contact extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'deleted_by', 'id');
     }
+
+    public function user()
+    {
+        return $this->hasOne(\App\Models\User::class, 'contact_id', 'id');
+    }
+
 }

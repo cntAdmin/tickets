@@ -13,6 +13,7 @@ class PermissionsSeeder extends Seeder
     public function run()
     {
         $permissions = [
+            // Permisos sobre la tabla "users"
             [
                 'name' => 'users.view',
                 'guard_name' => 'web',
@@ -32,11 +33,12 @@ class PermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'users.delete',
+                'name' => 'users.destroy',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // Permisos sobre la tabla "contacts"
             [
                 'name' => 'contacts.view',
                 'guard_name' => 'web',
@@ -56,11 +58,12 @@ class PermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'contacts.delete',
+                'name' => 'contacts.destroy',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // Permisos sobre la tabla "departments"
             [
                 'name' => 'departments.view',
                 'guard_name' => 'web',
@@ -86,11 +89,12 @@ class PermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'departments.delete',
+                'name' => 'departments.destroy',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // Permisos sobre la tabla "customers"
             [
                 'name' => 'customers.view',
                 'guard_name' => 'web',
@@ -110,11 +114,12 @@ class PermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'customers.delete',
+                'name' => 'customers.destroy',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // Permisos sobre la tabla "roles"
             [
                 'name' => 'roles.view',
                 'guard_name' => 'web',
@@ -134,11 +139,12 @@ class PermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'roles.delete',
+                'name' => 'roles.destroy',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // Permisos sobre la tabla "permissions"
             [
                 'name' => 'permissions.view',
                 'guard_name' => 'web',
@@ -158,11 +164,12 @@ class PermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'permissions.delete',
+                'name' => 'permissions.destroy',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // Permisos sobre la tabla "tickets"
             [
                 'name' => 'tickets.view',
                 'guard_name' => 'web',
@@ -182,7 +189,7 @@ class PermissionsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'tickets.delete',
+                'name' => 'tickets.destroy',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),

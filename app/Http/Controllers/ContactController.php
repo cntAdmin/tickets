@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -12,9 +13,23 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        //
+        // if($req->ajax()) {
+            $contacts = Contact::
+            // SI ENCUENTRA "NAME" EN EL REQUEST FILTRA POR EL "NAME"
+            when($req->name, function(Builder $q, $name) {
+                $q->where('name', 'LIKE', $name . '%');
+            })
+            // ORDENA POR NOMBRE INCREMENTAL (A - Z)
+            ->orderBy('name', 'ASC')
+            // PAGINADO
+            ->paginate();
+
+            return response()->json([
+                'contacts' => $contacts
+            ]);
+        // }
     }
 
     /**

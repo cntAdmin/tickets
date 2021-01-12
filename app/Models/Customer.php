@@ -10,7 +10,7 @@ class Customer extends Model
         'cif', 'fiscal_name', 'comercial_name', 'phone', 'email', 'street', 'town', 'city', 'country', 'postcode', 'shop', 'is_active'
     ];
 
-    public function contacts()
+    public function users()
     {
         return $this->hasMany(\App\Models\Contact::class, 'customer_id', 'id');
     }
