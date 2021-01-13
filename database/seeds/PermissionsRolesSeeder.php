@@ -21,6 +21,7 @@ class PermissionsRolesSeeder extends Seeder
             'customers.view', 'customers.create', 'customers.update', 'customers.destroy',
             'contacts.view', 'contacts.create', 'contacts.update', 'contacts.destroy',
             'tickets.view', 'tickets.create', 'tickets.update', 'tickets.destroy',
+            'engine_types.view', 'engine_types.create', 'engine_types.update', 'engine_types.destroy',
         ]);
 
         // ROL DEPARTMENT
@@ -31,6 +32,7 @@ class PermissionsRolesSeeder extends Seeder
             'customers.view', 'customers.create', 'customers.update', 'customers.destroy',
             'contacts.view', 'contacts.create', 'contacts.update', 'contacts.destroy',
             'tickets.view', 'tickets.create', 'tickets.update', 'tickets.destroy',
+            'engine_types.view', 'engine_types.create', 'engine_types.update', 'engine_types.destroy',
         ]);
 
         // ROL STAFF
@@ -41,6 +43,7 @@ class PermissionsRolesSeeder extends Seeder
             'customers.view', 'customers.create', 'customers.update', 'customers.destroy',
             'contacts.view', 'contacts.create', 'contacts.update', 'contacts.destroy',
             'tickets.view', 'tickets.create', 'tickets.update', 'tickets.destroy',
+            'engine_types.view', 'engine_types.create', 'engine_types.update', 'engine_types.destroy',
         ]);
         
         // ROL CUSTOMER

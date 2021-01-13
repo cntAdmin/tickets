@@ -40,12 +40,17 @@ class User extends Authenticatable
 
     public function customer()
     {
-        return $this->belongsTo(\App\Models\Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(\App\Models\Customer::class, 'customer_id', 'id')->withCount('tickets');
     }
 
-    public function contact()
+    public function tickets()
     {
-        return $this->belongsTo(\App\Models\Contact::class, 'contact_id', 'id');
+        return $this->hasMany(\App\Models\Ticket::class, 'user_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(\App\Models\Comment::class, 'user_id', 'id');
     }
 
 }

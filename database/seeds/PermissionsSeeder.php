@@ -194,6 +194,31 @@ class PermissionsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            // Permisos sobre la tabla "engine_types"
+            [
+                'name' => 'engine_types.view',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'engine_types.create',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'engine_types.update',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'engine_types.destroy',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
         
         Permission::insert($permissions);

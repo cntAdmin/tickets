@@ -28,7 +28,6 @@ class EngineTypeSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
         ];
         
         EngineType::insert($engine_types);

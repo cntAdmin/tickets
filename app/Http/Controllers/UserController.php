@@ -18,25 +18,17 @@ class UserController extends Controller
      */
     public function index(Request $req)
     {
-        if($req->ajax()) {
-            $users = User::
-            // SI ENCUENTRA "NAME" EN EL REQUEST FILTRA POR EL "NAME"
-            when($req->name, function(Builder $q, $name) {
+        // if($req->ajax()) {
+            $users = User::when($req->name, function(Builder $q, $name) {
                 $q->where('name', 'LIKE', $name . '%');
-            })
-            // SI ENCUENTRA "SURNAME" EN EL REQUEST FILTRA POR EL "SURNAME"
-            ->when($req->surname, function(Builder $q, $surname) {
+            })->when($req->surname, function(Builder $q, $surname) {
                 $q->where('surname', 'LIKE', $surname . '%');
-            })
-            // SI ENCUENTRA "EMAIL" EN EL REQUEST FILTRA POR EL "EMAIL"
-            ->when($req->email, function(Builder $q, $email) {
+            })->when($req->email, function(Builder $q, $email) {
                 $q->where('email', 'LIKE', $email . '%');
-            })
-            // SI ENCUENTRA "PHONE" EN EL REQUEST FILTRA POR EL "PHONE"
-            ->when($req->phone, function(Builder $q, $phone) {
+            })->when($req->phone, function(Builder $q, $phone) {
                 $q->where('phone', 'LIKE', $phone . '%');
-            })
-            // ORDENA POR APELLIDO INCREMENTAL (A - Z)
+            })->with(['customer'])
+            ->withCount('tickets')
             ->orderBy('surname', 'ASC')
             // PAGINADO
             ->paginate();
@@ -44,7 +36,7 @@ class UserController extends Controller
             return response()->json([
                 'users' => $users
             ]);
-        }
+        // }
     }
 
     /**
@@ -77,7 +69,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('users.show', compact($user));
     }
 
     /**
@@ -88,7 +80,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $this->authorize('users.update');
+
+        return view('users.edit', compact($user));
     }
 
     /**
@@ -126,7 +120,7 @@ class UserController extends Controller
 
         if($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors()
+                'error' => $validator->errors()
             ]);
         }
 

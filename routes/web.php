@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,10 +23,10 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('user', 'UserController');
     Route::resource('attachment', 'AttachmentController');
-    Route::resource('contact', 'ContactController');
     Route::resource('department', 'DepartmentController');
     Route::resource('engineType', 'EngineTypeController');
     Route::resource('ticket', 'TicketController');
+    Route::resource('ticket.comments', 'CommentController');
     Route::resource('customer', 'CustomerController');
 });
 

@@ -11,9 +11,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Ticket::class, function (Faker $faker) {
     $faker->addProvider(new \Faker\Provider\Fakecar($faker));
-
+    $user = User::find(rand(1,100));
     return [
-        'user_id' => User::find(rand(1,100)),
+        'customer_id' => $user->customer_id,
+        'user_id' => $user->id,
         'department_id' => Department::find(rand(1,5)),
         'frame_id' => $faker->vin,
         'plate' => $faker->vehicleRegistration('[A-Z]{3}-[0-9]{4}'),

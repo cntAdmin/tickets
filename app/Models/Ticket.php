@@ -10,6 +10,14 @@ class Ticket extends Model
         'frame_id', 'plate', 'brand', 'model', 'subject', 'description', 'tests_done', 'ask_for', 'knowledge_base', 'status'
     ];
 
+    protected $casts = [
+        'knowledge_base' => 'boolean'
+    ];
+
+    protected $with = [
+        'comments'
+    ];
+
     public function department()
     {
         return $this->belongsTo(\App\Models\Department::class, 'department_id', 'id');
@@ -38,6 +46,11 @@ class Ticket extends Model
     public function attachments()
     {
         return $this->belongsToMany(\App\Models\Attachment::class, 'attachment_ticket', 'attachment_id', 'ticket_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(\App\Models\Comment::class, 'ticket_id', 'id');
     }
     
 }

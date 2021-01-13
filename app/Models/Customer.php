@@ -10,9 +10,13 @@ class Customer extends Model
         'cif', 'fiscal_name', 'comercial_name', 'phone', 'email', 'street', 'town', 'city', 'country', 'postcode', 'shop', 'is_active'
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
+
     public function users()
     {
-        return $this->hasMany(\App\Models\Contact::class, 'customer_id', 'id');
+        return $this->hasMany(\App\Models\User::class, 'customer_id', 'id');
     }
 
     public function tickets()

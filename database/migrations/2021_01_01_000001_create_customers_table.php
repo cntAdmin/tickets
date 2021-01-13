@@ -26,7 +26,8 @@ class CreateCustomersTable extends Migration
             $table->string('country');
             $table->string('postcode');
             $table->string('shop');
-            $table->boolean('is_active')->nullable(false)->default(false);
+            $table->boolean('is_active')->default(false);
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

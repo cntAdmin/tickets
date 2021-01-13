@@ -67,7 +67,7 @@ class DepartmentController extends Controller
 
         if($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors()
+                'error' => $validator->errors()
             ]);
         }
 
@@ -100,7 +100,9 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        $this->authorize('department.update');
+        
+        return view('department.edit');
     }
 
     /**
@@ -125,7 +127,7 @@ class DepartmentController extends Controller
 
         if($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors()
+                'error' => $validator->errors()
             ]);
         }
 
