@@ -157,4 +157,8 @@ class DepartmentController extends Controller
         ? response()->json([ 'success' => __('Departamento eliminado correctamente.'), 'deleted' => $deleted ])
         : response()->json([ 'error' => __('Lo sentimos, algo ha ido mal, inténtelo de nuevo mas tarde') ]);
     }
+
+    public function get_all_departments() {
+        return Department::all();
+    }
 }

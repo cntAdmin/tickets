@@ -26,6 +26,5 @@ $factory->define(Ticket::class, function (Faker $faker) {
         'tests_done' => $faker->paragraph(),
         'ask_for' => 'asistencia',
         'knowledge_base' => $faker->boolean(50),
-        'status' => 'opened',
     ];
 });

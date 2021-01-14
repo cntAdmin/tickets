@@ -20,6 +20,10 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('card-ticket-counter', require('./components/CardTicketCounter.vue').default);
+Vue.component('ticket-search-and-table', require('./components/TicketSearchAndTableForm.vue').default);
+Vue.component('card-tickets', require('./components/CardTickets.vue').default);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

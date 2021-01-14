@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Department;
 use App\Models\EngineType;
 use App\Models\Ticket;
+use App\Models\TicketStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -20,6 +21,14 @@ class TicketController extends Controller
      */
     public function index(Request $req)
     {
+        if(!$req->ajax()) {
+            return view('tickets.index')->with([
+                'ticket_statuses' => TicketStatus::all()
+            ]);
+        }
+
+// return $req->department;
+
         $tickets = Ticket::when($req->id, function(Builder $q, $id) {
                 $q->where('id', 'LIKE', $id . '%');
             })->when($req->frame_id, function(Builder $q, $frame_id) {
@@ -40,25 +49,46 @@ class TicketController extends Controller
                 $q->where('tests_done', 'LIKE', $tests_done . '%');
             })->when($req->knowledge_base, function(Builder $q, $knowledge_base) {
                 $q->where('knowledge_base', $knowledge_base);
-            })->when($req->status, function(Builder $q, $status) {
-                $q->where('status', $status);
             })->when($req->order_by, function(Builder $q, $order_by) {
                 $q->orderBy($order_by->field, $order_by->value);
             },function ($q) {
                 $q->orderBy('created_at', 'DESC');
             })
+            // SI ESTE TICKET ESTADO BUSCA POR EL ID
+            ->when($req->status, function(Builder $q, $status_id) {
+                $q->whereHas('status', function($q2) use ($status_id){
+                    $q2->where('ticket_statuses.id', $status_id);
+                });
+            })
+            // SI ESTE TICKET TIENE USUARIOS BUSCA POR EL NOMBRE
+            ->when($req->user, function(Builder $q, $user_name){
+                $q->whereHas('user', function($q2) use ($user_name){
+                    $q2->where('users.name', 'LIKE', $user_name . '%');
+                });
+            })
+            // SI ESTE TICKET TIENE UN CLIENTE BUSCA POR EL ID
+            ->when($req->customer, function(Builder $q, $customer_id){
+                $q->whereHas('customer', function($q2) use ($customer_id){
+                    $q2->where('customers.id', 'LIKE', $customer_id . '%');
+                });
+            })
+            // SI ESTE TICKET TIENE UN DEPARTAMENTO BUSCA POR EL ID
+            ->when($req->department, function(Builder $q, $department_id){
+                $q->whereHas('department', function($q2) use ($department_id){
+                    $q2->where('departments.id', $department_id);
+                });
+            })
+            ->with(['user', 'customer', 'department', 'status'])
             ->withCount('comments')
             ->paginate();
 
         // $customers = Customer::where('is_active', 1)->get();
         $users = User::where('is_active', 1)->get();
 
-            return response()->json([
-                'tickets' => $tickets,
-                'engine_types' => EngineType::all(),
-                // 'customers' => $customers,
-                'users' => $users,
-            ]);
+        return response()->json([
+            'tickets' => $tickets,
+        ]);
+
     }
 
     /**
@@ -68,7 +98,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $this->authorize('tickets.create');
+        // $this->authorize('tickets.create');
 
         // $customers = Customer::where('is_active', 1)->get();
         $users = User::where('is_active', 1)->get();
@@ -173,7 +203,7 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        $this->authorize('tickets.update');
+        // $this->authorize('tickets.update');
 
         return view('tickets.edit', compact($ticket));
     }
@@ -187,7 +217,7 @@ class TicketController extends Controller
      */
     public function update(Request $req, Ticket $ticket)
     {
-        $this->authorize('tickets.update');
+        // $this->authorize('tickets.update');
 
         $messages = [
             'required' => __(''),
@@ -275,6 +305,12 @@ class TicketController extends Controller
             : response()->json([
                 'error' => __('El Ticket no se ha podido eliminar, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
         ]);
+    }
 
+    public function get_ticket_counter(TicketStatus $ticketStatus = null) {
+
+        return $ticketStatus
+            ? $ticketStatus->tickets()->count()
+            : Ticket::count();
     }
 }

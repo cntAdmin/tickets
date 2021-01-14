@@ -15,7 +15,7 @@ class Ticket extends Model
     ];
 
     protected $with = [
-        'comments'
+        'comments', 'status', 'call'
     ];
 
     public function department()
@@ -28,9 +28,9 @@ class Ticket extends Model
         return $this->belongsTo(\App\Models\Customer::class, 'customer_id', 'id');
     }
 
-    public function contact()
+    public function user()
     {
-        return $this->belongsTo(\App\Models\Contact::class, 'contact_id', 'id');
+        return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
     }
 
     public function engine_type()
@@ -51,6 +51,16 @@ class Ticket extends Model
     public function comments()
     {
         return $this->hasMany(\App\Models\Comment::class, 'ticket_id', 'id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(\App\Models\TicketStatus::class, 'ticket_status_id', 'id');
+    }
+
+    public function call()
+    {
+        return $this->belongsTo(\App\Models\Mtcdr\Call::class, 'call_id', 'id');
     }
     
 }
