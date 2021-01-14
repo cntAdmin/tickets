@@ -2044,7 +2044,6 @@ __webpack_require__.r(__webpack_exports__);
           status: status
         }
       }).then(function (res) {
-        console.log(res.data);
         _this.tickets = res.data.tickets;
         _this.searching = !_this.searching;
       })["catch"](function (err) {
@@ -2261,8 +2260,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     check_length: function check_length(to_check) {
-      console.log('to_check', to_check);
-
       if (to_check === 'id' && (this.id.length === 0 || this.id.length > 2)) {
         this.emit_to_parent();
       }

@@ -47,7 +47,6 @@ export default {
                     status: status,
                 }
             }).then(res => {
-                console.log(res.data);
                 this.tickets = res.data.tickets;
                 this.searching = !this.searching;
             }).catch(err => {

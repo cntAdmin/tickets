@@ -163,7 +163,6 @@ export default {
                 });
         },
         check_length(to_check) {
-            console.log('to_check', to_check)
             if(to_check === 'id' && (this.id.length === 0 || this.id.length > 2)){
                 this.emit_to_parent();
             }
