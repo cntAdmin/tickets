@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@syncfusion/ej2-vue-richtexteditor": "^18.4.34",
         "laravel-vue-pagination": "^2.3.1"
     }
 }

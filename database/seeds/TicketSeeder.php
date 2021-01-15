@@ -13,11 +13,8 @@ class TicketSeeder extends Seeder
     public function run()
     {
         factory(\App\Models\Ticket::class, 50)->create()
-            ->each(function(\App\Models\Ticket $ticket){
-                $ticket->comments()->save(
-                    factory(\App\Models\Comment::class)->make()
-                );
-                $ticket->status()->save(TicketStatus::find(rand(1,3)));
+            ->each(function(\App\Models\Ticket $ticket) {
+                $ticket->comments()->save(factory(\App\Models\Comment::class)->make());
             });
     }
 }

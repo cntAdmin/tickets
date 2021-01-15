@@ -19,11 +19,14 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('card-ticket-counter', require('./components/CardTicketCounter.vue').default);
-Vue.component('ticket-search-and-table', require('./components/TicketSearchAndTableForm.vue').default);
-Vue.component('card-tickets', require('./components/CardTickets.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
+
+// TICKETS
+    Vue.component('tickets-card-counter', require('./components/TicketsCardCounterComponent.vue').default);
+    Vue.component('tickets-search-and-table', require('./components/TicketsSearchAndTableFormComponent.vue').default);
+    Vue.component('tickets-card', require('./components/TicketsCardComponent.vue').default);
+    // Create Page
+    Vue.component('tickets-create', require('./components/TicketsCreateComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

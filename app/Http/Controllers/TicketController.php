@@ -8,9 +8,11 @@ use App\Models\EngineType;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class TicketController extends Controller
 {
@@ -26,8 +28,6 @@ class TicketController extends Controller
                 'ticket_statuses' => TicketStatus::all()
             ]);
         }
-
-// return $req->department;
 
         $tickets = Ticket::when($req->id, function(Builder $q, $id) {
                 $q->where('id', 'LIKE', $id . '%');
@@ -119,38 +119,64 @@ class TicketController extends Controller
      */
     public function store(Request $req)
     {
+        $custom_attributes = [
+            'user_id' => __('Usuario'),
+            'department_id' => __('Departamento'),
+            'assigned_to' => __('Asignado a'),
+            'frame_id' => __('Número de Bastidor'),
+            'plate' => __('Matrícula'),
+            'brand' => __('Marca'),
+            'model' => __('Modelo'),
+            'engine_type' => __('Tipo de Motor'),
+            'subject' => __('Asunto'),
+            'description' => __('Descripción'),
+            'test_done' => __('Pruebas realizadas'),
+            'ask_for' => __('Solicito'),
+            'status' => __('Estado'),
+        ];
+
+        // return $req->subject;
         $messages = [
-            'required' => __(''),
-            'exists' => __(':attribute debe existir en la tabla :table'),
-            'string' => __(':attribute debe ser de una cadena de texto'),
-            'max' => __(':attribute debe ser inferior a :max caracteres'),
+            'required' => __(':attribute es un campo requerido.'),
+            'exists' => __(':attribute debe existir en la tabla :table.'),
+            'string' => __(':attribute debe ser de una cadena de texto.'),
+            'max' => __(':attribute debe ser inferior a :max caracteres.'),
             'boolean' => __(':attribute debe ser de tipo boleano (true/false).'),
         ];
         
         $validator = Validator::make($req->all(), [
-            'user_id' => ['required', 'numeric', 'exists:users,id' ],
-            'department_id' => ['required', 'numeric', 'exists:department,id' ],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'department_id' => ['required', 'numeric', 'exists:departments,id'],
             'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
-            'frame_id' => ['required_unless:plate', 'string', 'max:100'],
-            'plate' => ['required_unless:frame_id', 'string', 'max:100'],
+            'frame_id' => ['nullable', 'string', 'max:100'],
+            'plate' => ['nullable', 'string', 'max:100'],
             'brand' => ['nullable', 'string', 'max:100'],
             'model' => ['nullable', 'string', 'max:100'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'test_done' => ['required', 'string'],
+            'tests_done' => ['required', 'string'],
             'ask_for' => ['required', 'string', 'max:50'],
-            'knwoledge_base' => ['required', 'boolean'],
-            'status' => ['nullable', 'string', 'max:100'],
-        ], $messages);
+            'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
+        ], $messages, $custom_attributes);
+        // return $validator->errors();
 
         if($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
-            ]);
+            ], 200);
         }
 
+        // GET DATA TO ASSIGN
+        $get_user = User::find($req->user_id);
+        $get_customer = Customer::find($get_user->customer_id);
+        $get_department = Department::find($req->department_id);
+        $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
+        $get_status = TicketStatus::find($req->status ?? 1);
+
+        // CREATING TICKET
         $create_ticket = Ticket::create([
+            'custom_id' => $get_department->code . '-' . now()->timestamp,
             'frame_id' => $req->frame_id,
             'plate' => $req->plate,
             'brand' => $req->brand,
@@ -158,30 +184,35 @@ class TicketController extends Controller
             'engine_type' => $req->engine_type,
             'subject' => $req->subject,
             'description' => $req->description,
-            'test_done' => $req->test_done,
+            'tests_done' => $req->tests_done,
             'ask_for' => $req->ask_for,
-            'knwoledge_base' => $req->knwoledge_base,
-            'status' => $req->status ?? 'Abierto',
-        ]);
+            'knowledge_base' => $req->knowledge_base ? 1 : 0,
+            ]);
 
-        $get_user = User::find($req->user_id);
-        $get_customer = Customer::find($get_user->customer_id);
-        $get_department = Department::find($req->department_id);
-        $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
+            
+            // ASSIGNING DATA
+                // ASSOCIATE STATUS
+                $create_ticket->status()->associate($get_status);
+                // ASSIGN USER
+                $create_ticket->user()->associate($get_user);
+                // ASSIGN CUSTOMER
+                $create_ticket->customer()->associate($get_customer);
+                // ASSIGN DEPARTMENT
+                $create_ticket->department()->associate($get_department);
+            
+                if($req->assigned_to) {
+                // ASSIGN USER ASSIGNED TO THIS TICKET
+                    $get_assigned_to->tickets()->associate($create_ticket);
+                }
 
-        $get_user->tickets()->save($create_ticket);
-        $get_customer->tickets()->save($create_ticket);
-        $get_department->tickets()->save($create_ticket);
-        
-        if($req->assigned_to) {
-            $get_assigned_to->tickets()->save($create_ticket);
-        }
+            // SAVE ASSOCIATED DATA
+            $create_ticket->save();
 
         return $create_ticket
-            ? response()->json(['success' => __('Ticket creado correctamente.')])
+            ? response()->json(['success' => __('Ticket creado correctamente.')], 200)
             : response()->json([
                     'error' => __('El Ticket no se ha podido crear, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
-        ]);
+            ],422);
     }
 
     /**

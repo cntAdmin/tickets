@@ -243,4 +243,12 @@ class CustomerController extends Controller
             ? response()->json(['success' => __('Cliente eliminado correctamente.')])
             : response()->json(['error' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
     }
+
+    public function get_all_customers(Request $req) {
+        return response()->json(
+            \App\Models\Customer::where('is_active', 1)
+                ->orderBy('comercial_name')
+                ->get()
+        );
+    }
 }

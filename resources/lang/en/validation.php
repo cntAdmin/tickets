@@ -146,6 +146,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'frame_id' => 'Número de Bastidor'
+    ],
 
 ];

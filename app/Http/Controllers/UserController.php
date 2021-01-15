@@ -161,4 +161,12 @@ class UserController extends Controller
             'success' => 'Usuario eliminado correctamente.'
         ]);
     }
+
+    public function get_all_users(Request $req) {
+        $users = User::where('is_active', 1)->when($req->customer_id, function(Builder $q, $customer_id){
+            $q->where('customer_id', $customer_id);
+        })->get();
+
+        return response()->json($users);
+    }
 }

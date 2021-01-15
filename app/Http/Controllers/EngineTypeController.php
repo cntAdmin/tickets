@@ -147,4 +147,8 @@ class EngineTypeController extends Controller
             ?   response()->json(['success' => __('Tipo de motor creado correctamente!')])
             :   response()->json(['error' => __('Tipo de motor no se ha podido eliminar, vuelva a intentarlo mas tarde!')]);
     }
+
+    public function get_all_engine_types(Request $req) {
+        return response()->json(EngineType::all());
+    }
 }

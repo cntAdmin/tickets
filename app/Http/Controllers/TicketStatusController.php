@@ -82,4 +82,9 @@ class TicketStatusController extends Controller
     {
         //
     }
+
+    public function get_all_ticket_statuses(Request $req) {
+        return response()->json(\App\Models\TicketStatus::all());
+    }
+
 }

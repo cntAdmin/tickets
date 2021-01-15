@@ -28,17 +28,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ticket', 'TicketController');
     Route::resource('ticket.comments', 'CommentController');
     Route::resource('customer', 'CustomerController');
+    Route::resource('customer.ticket', 'CustomerTicketController');
 
     // VUE GETTERS
-    Route::get('get_ticket_counter/{ticket_status?}', 'TicketController@get_ticket_counter');
-    Route::get('get_all_departments', 'DepartmentController@get_all_departments');
-    Route::get('get_all_tickets', function() {
-        return \App\Models\TicketStatus::all();
-    });
-
-    Route::get('users/{id}', function ($id) {
+        // TICKETS
+        Route::get('get_ticket_counter/{ticket_status?}', 'TicketController@get_ticket_counter');
+        Route::get('/get_all_tickets', 'DepartmentController@get_all_departments');
+        Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
         
-    });
+        // CREATE
+        Route::get('/get_all_users', 'UserController@get_all_users');
+        Route::get('/get_all_customers', 'CustomerController@get_all_customers');
+        Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
+        Route::get('/get_all_engine_types', 'EngineTypeController@get_all_engine_types');
 });
-
-Route::get('/home', 'HomeController@index')->name('home');

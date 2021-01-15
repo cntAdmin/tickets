@@ -159,6 +159,6 @@ class DepartmentController extends Controller
     }
 
     public function get_all_departments() {
-        return Department::all();
+        return response()->json(\App\Models\Department::all());
     }
 }
