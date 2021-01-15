@@ -15,8 +15,8 @@ class CreateAttachmentTicketTable extends Migration
     {
         Schema::create('attachment_ticket', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('attachment_id')->nullable(false)->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('ticket_id')->nullable(false)->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('attachment_id')->nullable()->constrained('attachments')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('ticket_id')->nullable()->constrained('tickets')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

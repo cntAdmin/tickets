@@ -56,9 +56,9 @@ class Ticket extends Model
         return $this->belongsTo(\App\Models\TicketStatus::class, 'ticket_status_id', 'id');
     }
 
-    public function call()
+    public function calls()
     {
-        return $this->belongsTo(\App\Models\Mtcdr\Call::class, 'call_id', 'id');
+        return $this->belongsToMany(\App\Models\Mtcdr\Call::class, 'call_ticket', 'ticket_id', 'call_id');
     }
-    
+
 }
