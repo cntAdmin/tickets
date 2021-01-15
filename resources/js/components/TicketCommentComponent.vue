@@ -2,7 +2,7 @@
     <div :class="'mt-3 d-flex justify-content-' + align('comment') ">
         <div class="col-10">
             <h4 :class="'title text-' + align('text')">{{ username }}</h4>
-            <p :class="'h6 text-' + align('text')">{{ timestamp }}</small>
+            <p :class="'h6 text-' + align('text')">{{ timestamp }}</p>
             <div class="card mt-1 shadow">
                 <div class="card-body"> 
                     <p v-html="comment.description"></p>
