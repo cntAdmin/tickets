@@ -223,7 +223,9 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        return view('tickets.view', compact($ticket->with('comments')));
+        return view('tickets.view')->with([
+            'ticket' => $ticket->load(['customer', 'user', 'department'])
+            ]);
     }
 
     /**

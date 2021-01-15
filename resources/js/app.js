@@ -25,8 +25,12 @@ Vue.component('pagination', require('laravel-vue-pagination'));
     Vue.component('tickets-card-counter', require('./components/TicketsCardCounterComponent.vue').default);
     Vue.component('tickets-search-and-table', require('./components/TicketsSearchAndTableFormComponent.vue').default);
     Vue.component('tickets-card', require('./components/TicketsCardComponent.vue').default);
-    // Create Page
+    // CREATE TICKET
     Vue.component('tickets-create', require('./components/TicketsCreateComponent.vue').default);
+    // VIEW TICKET 
+    Vue.component('ticket-info', require('./components/TicketInfoComponent.vue').default);
+    Vue.component('ticket-comment', require('./components/TicketCommentComponent.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
