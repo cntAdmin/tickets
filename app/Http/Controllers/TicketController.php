@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GetCalls;
+use App\Models\Call;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\EngineType;
@@ -11,6 +13,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
 
@@ -30,7 +33,7 @@ class TicketController extends Controller
         }
 
         $tickets = Ticket::when($req->id, function(Builder $q, $id) {
-                $q->where('id', 'LIKE', $id . '%');
+                $q->where('custom_id', 'LIKE', $id . '%');
             })->when($req->frame_id, function(Builder $q, $frame_id) {
                 $q->where('frame_id', 'LIKE', $frame_id . '%');
             })->when($req->plate, function(Builder $q, $plate) {
@@ -40,7 +43,7 @@ class TicketController extends Controller
             })->when($req->model, function(Builder $q, $model) {
                 $q->where('model', 'LIKE', $model . '%');
             })->when($req->engine_type, function(Builder $q, $engine_type) {
-                $q->where('engine_type_id', 'LIKE', $engine_type . '%');
+                $q->where('engine_type', 'LIKE', $engine_type . '%');
             })->when($req->subject, function(Builder $q, $subject) {
                 $q->where('subject', 'LIKE', $subject . '%');
             })->when($req->description, function(Builder $q, $description) {
@@ -99,14 +102,17 @@ class TicketController extends Controller
     public function create()
     {
         // $this->authorize('tickets.create');
+        // GET NEW CALLS
+        $inserted = GetCalls::dispatch();
 
         // $customers = Customer::where('is_active', 1)->get();
         $users = User::where('is_active', 1)->get();
 
+
         return view('tickets.create')->with([
-            'engine_types' => EngineType::all(),
             // 'customers' => $customers,
             'users' => $users,
+            'inserted' => $inserted,
         ]);
         
     }
@@ -158,6 +164,7 @@ class TicketController extends Controller
             'tests_done' => ['required', 'string'],
             'ask_for' => ['required', 'string', 'max:50'],
             'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
+            'calls' => ['nullable', 'array']
         ], $messages, $custom_attributes);
         // return $validator->errors();
 
@@ -166,14 +173,14 @@ class TicketController extends Controller
                 'error' => $validator->errors()
             ], 200);
         }
-
         // GET DATA TO ASSIGN
         $get_user = User::find($req->user_id);
         $get_customer = Customer::find($get_user->customer_id);
         $get_department = Department::find($req->department_id);
         $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
         $get_status = TicketStatus::find($req->status ?? 1);
-
+        $get_calls = $req->calls ? Call::find($req->calls) : null;
+        
         // CREATING TICKET
         $create_ticket = Ticket::create([
             'custom_id' => $get_department->code . '-' . now()->timestamp,
@@ -190,21 +197,27 @@ class TicketController extends Controller
             ]);
 
             
-            // ASSIGNING DATA
-                // ASSOCIATE STATUS
-                $create_ticket->status()->associate($get_status);
-                // ASSIGN USER
-                $create_ticket->user()->associate($get_user);
-                // ASSIGN CUSTOMER
-                $create_ticket->customer()->associate($get_customer);
-                // ASSIGN DEPARTMENT
-                $create_ticket->department()->associate($get_department);
-            
-                if($req->assigned_to) {
+        // ASSIGNING DATA
+            // ASSOCIATE STATUS
+            $create_ticket->status()->associate($get_status);
+            // ASSIGN USER
+            $create_ticket->user()->associate($get_user);
+            // ASSIGN CUSTOMER
+            $create_ticket->customer()->associate($get_customer);
+            // ASSIGN DEPARTMENT
+            $create_ticket->department()->associate($get_department);
+        
+            if($req->assigned_to) {
                 // ASSIGN USER ASSIGNED TO THIS TICKET
-                    $get_assigned_to->tickets()->associate($create_ticket);
+                $create_ticket->tickets()->associate($get_assigned_to);
+            }
+            if($req->calls) {
+                foreach ($get_calls as $call) {
+                    // ASSIGN CALLS TO THIS TICKET
+                    $create_ticket->calls()->save($call);
                 }
-
+            }
+            
             // SAVE ASSOCIATED DATA
             $create_ticket->save();
 
@@ -237,8 +250,13 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         // $this->authorize('tickets.update');
+        // GET NEW CALLS
+        $inserted = GetCalls::dispatch($ticket);
 
-        return view('tickets.edit', compact($ticket));
+        return view('tickets.edit')->with([
+            'ticket' => $ticket,
+            'inserted' => $inserted
+        ]);
     }
 
     /**

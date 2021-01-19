@@ -24,7 +24,7 @@ $factory->define(Ticket::class, function (Faker $faker) {
         'plate' => $faker->vehicleRegistration('[A-Z]{3}-[0-9]{4}'),
         'brand' => $faker->vehicleBrand,
         'model' => $faker->vehicleModel,
-        'engine_type_id' => EngineType::find(rand(1,3)),
+        'engine_type' => Str::random(5) . Str::random(5),
         'subject' => $faker->sentence(),
         'description' => $faker->randomHtml(2,2),
         'tests_done' => $faker->randomHtml(2,2),

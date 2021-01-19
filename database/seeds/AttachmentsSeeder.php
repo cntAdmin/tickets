@@ -14,7 +14,7 @@ class AttachmentsSeeder extends Seeder
     {
         factory(App\Models\Attachment::class, 50)->create()
             ->each(function($attachment) {
-                $attachment->tickets()->save(Ticket::find(rand(1,50)));
+                $attachment->tickets()->attach(Ticket::find(rand(1,50)));
             });
     }
 }

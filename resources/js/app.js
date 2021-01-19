@@ -7,6 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(require('vue-moment'));
 
 /**
  * The following block of code may be used to automatically register your
@@ -30,6 +31,7 @@ Vue.component('pagination', require('laravel-vue-pagination'));
     // VIEW TICKET 
     Vue.component('ticket-info', require('./components/TicketInfoComponent.vue').default);
     Vue.component('ticket-comment', require('./components/TicketCommentComponent.vue').default);
+    Vue.component('calls-modal', require('./components/CallsModalComponent.vue').default);
 
 
 /**

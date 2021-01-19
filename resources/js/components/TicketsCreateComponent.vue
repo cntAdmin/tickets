@@ -123,6 +123,12 @@
                             <input :class="[errors.subject ? 'is-invalid': ''] + ' form-control'" type="text" v-model="selected.subject"  required/>
                         </div>
                     </div>
+                    <div class="form-group col-12 col-md-6">
+                        <button type="button" :class="'btn btn-block text-white ' + (selected.calls.length >= 1 ? 'btn-danger' : 'btn-info') " @click="toggleModal"
+                            data-toggle="modal" data-target="#assignCall">{{ selected.calls.length >= 1 ? 'Llamadas seleccionada(s)' : 'Asignar Llamadas'}}</button>
+                    </div>
+                    <calls-modal :calls="calls" @selectedCalls="selectedCalls($event)"></calls-modal>
+
                 </div>
                 <div class="form-inline mt-2">
                     <div class="form-group col-12">
@@ -175,6 +181,7 @@ export default {
             users: {},
             customers: {},
             departments: {},
+            calls: {},
             selected: {
                 customer_id: '',
                 user_id: '',
@@ -187,6 +194,7 @@ export default {
                 ask_for: '',
                 description: '',
                 tests_done: '',
+                calls: [],
             },
             success: {
                 value: false,
@@ -211,7 +219,8 @@ export default {
                     'SourceCode', 'FullScreen', '|', 'Undo', 'Redo'
                 ]
             },
-
+            modal: false,
+            buttonText: 'Asignar llamada(s)'
         }
     },
     beforeMount() {
@@ -249,7 +258,6 @@ export default {
             }
         },
         handleSubmit(e) {
-            alert(this.$refs.description.ej2Instances.value)
             e.preventDefault();
             this.errors = {};
 
@@ -275,8 +283,10 @@ export default {
                 ask_for: this.selected.ask_for,
                 subject: this.selected.subject,
                 description: this.$refs.description.ej2Instances.value,
-                tests_done: this.$refs.tests_done.ej2Instances.value
+                tests_done: this.$refs.tests_done.ej2Instances.value,
+                calls: this.selected.calls
             }).then(res => {
+                console.log(res.data)
                 if(res.data.success) {
                     this.success.value = true;
                     this.success.message = res.data.success;
@@ -296,6 +306,18 @@ export default {
             this.error = true;
             this.errors = {};
         },
+        toggleModal() {
+            axios.get('/get_all_calls')
+            .then(res => {
+                this.calls = res.data.calls;
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        selectedCalls(event) {
+            this.selected.calls = event;
+            console.log(this.selected.calls);
+        }
     }, // END METHODS
 }
 </script>

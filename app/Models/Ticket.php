@@ -18,7 +18,7 @@ class Ticket extends Model
     ];
 
     protected $with = [
-        'comments', 'status', 'call'
+        'comments', 'status', 'calls'
     ];
 
     public function department()
@@ -58,7 +58,7 @@ class Ticket extends Model
 
     public function calls()
     {
-        return $this->belongsToMany(\App\Models\Mtcdr\Call::class, 'call_ticket', 'ticket_id', 'call_id');
+        return $this->hasMany(\App\Models\Call::class, 'ticket_id', 'id');
     }
 
 }

@@ -41,4 +41,5 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/get_all_customers', 'CustomerController@get_all_customers');
         Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
         Route::get('/get_all_engine_types', 'EngineTypeController@get_all_engine_types');
+        Route::get('/get_all_calls', 'CallController@get_all_calls');
 });

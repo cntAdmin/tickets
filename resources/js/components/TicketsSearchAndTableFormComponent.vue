@@ -87,6 +87,7 @@
                             <th scope="col">Cliente</th>
                             <th scope="col">Departamento</th>
                             <th scope="col">Asunto</th>
+                            <th scope="col">Fecha</th>
                             <th scope="col">Estado</th>
                         </tr>
                     </thead>
@@ -97,6 +98,7 @@
                             <td>{{ ticket.customer.comercial_name }}</td>
                             <td>{{ ticket.department.name }}</td>
                             <td>{{ ticket.subject }}</td>
+                            <td>{{ ticket.created_at | moment("LTS") }}</td>
                             <td>
                                 <a :href="'/ticket/' + ticket.id" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>
                                 <button :class="'btn btn-sm btn-' + setColor(ticket.status.name) " type="button" :title="ticket.status.name" disabled>
@@ -227,7 +229,7 @@ export default {
 
             return status_name;
         }
-    } // END METHODS
+    }, // END METHODS
 }
 </script>
 
