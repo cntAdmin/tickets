@@ -37,6 +37,10 @@ class CommentController extends Controller
      */
     public function store(Request $req, Ticket $ticket)
     {
+        $customAttributes = [
+            'comment' => 'Comentario'
+        ];
+
         $messages = [
             'required' => __(':attribute es un campo obligatorio.'),
             'numeric' => __(':attribute debe ser un id.'),
@@ -44,22 +48,23 @@ class CommentController extends Controller
             'string' => __(':attribute debe ser una cadena de caracteres.'),
         ];
         $validator = Validator::make($req->all(), [
-            'description' => ['required', 'string'],
-        ], $messages);
-
+            'comment' => ['required', 'string'],
+        ], $messages, $customAttributes);
+        
         if($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
             ]);
         }
-
         $create_comment = Comment::create([
-            'description' => $req->description
+            'description' => $req->comment
         ]);
-         
-        $ticket_assigned = $ticket->comments()->save($create_comment);
-        $user_assigned = auth()->user->comments()->save($create_comment);
 
+        
+        $ticket_assigned = $ticket->comments()->save($create_comment);
+        $user_assigned = $create_comment->user()->associate(auth()->user()->id);
+        $create_comment->save();
+        
         return $ticket_assigned && $user_assigned
             ? response()->json(['success' => __('Comentario creado correctamente.')])
             : response()->json([

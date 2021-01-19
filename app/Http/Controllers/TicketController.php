@@ -194,7 +194,8 @@ class TicketController extends Controller
             'tests_done' => $req->tests_done,
             'ask_for' => $req->ask_for,
             'knowledge_base' => $req->knowledge_base ? 1 : 0,
-            ]);
+            'created_by' => auth()->user()->id,
+        ]);
 
             
         // ASSIGNING DATA
@@ -236,6 +237,8 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
+        $inserted = GetCalls::dispatch();
+
         return view('tickets.view')->with([
             'ticket' => $ticket->load(['customer', 'user', 'department'])
             ]);
@@ -269,9 +272,7 @@ class TicketController extends Controller
     public function update(Request $req, Ticket $ticket)
     {
         // $this->authorize('tickets.update');
-
         $messages = [
-            'required' => __(''),
             'exists' => __(':attribute debe existir en la tabla :table'),
             'string' => __(':attribute debe ser de una cadena de texto'),
             'max' => __(':attribute debe ser inferior a :max caracteres'),
@@ -279,19 +280,19 @@ class TicketController extends Controller
         ];
         
         $validator = Validator::make($req->all(), [
-            'user_id' => ['required', 'numeric', 'exists:users,id' ],
-            'department_id' => ['required', 'numeric', 'exists:department,id' ],
+            'user_id' => ['nullable', 'numeric', 'exists:users,id' ],
+            'department_id' => ['nullable', 'numeric', 'exists:department,id' ],
             'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
-            'frame_id' => ['required_unless:plate', 'string', 'max:100'],
-            'plate' => ['required_unless:frame_id', 'string', 'max:100'],
+            'frame_id' => ['nullable', 'string', 'max:100'],
+            'plate' => ['nullable', 'string', 'max:100'],
             'brand' => ['nullable', 'string', 'max:100'],
             'model' => ['nullable', 'string', 'max:100'],
             'engine_type' => ['nullable', 'string'],
-            'subject' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'test_done' => ['required', 'string'],
-            'ask_for' => ['required', 'string', 'max:50'],
-            'knwoledge_base' => ['required', 'boolean'],
+            'subject' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'test_done' => ['nullable', 'string'],
+            'ask_for' => ['nullable', 'string', 'max:50'],
+            'knwoledge_base' => ['nullable', 'boolean'],
             'status' => ['nullable', 'string', 'max:100'],
         ], $messages);
 
@@ -300,32 +301,39 @@ class TicketController extends Controller
                 'error' => $validator->errors()
             ]);
         }
-
         $updated = $ticket->update([
-            'frame_id' => $req->frame_id,
-            'plate' => $req->plate,
-            'brand' => $req->brand,
-            'model' => $req->model,
-            'engine_type' => $req->engine_type,
-            'subject' => $req->subject,
-            'description' => $req->description,
-            'test_done' => $req->test_done,
-            'ask_for' => $req->ask_for,
-            'knwoledge_base' => $req->knwoledge_base,
-            'status' => $req->status ?? 'Abierto',
-        ]);
-
-        $get_user = User::find($req->user_id);
-        $get_customer = Customer::find($get_user->customer_id);
-        $get_department = Department::find($req->department_id);
+            'frame_id' => $req->frame_id ?? $ticket->frame_id,
+            'plate' => $req->plate ?? $ticket->plate,
+            'brand' => $req->brand ?? $ticket->brand,
+            'model' => $req->model ?? $ticket->model,
+            'engine_type' => $req->engine_type ?? $ticket->engine_type,
+            'subject' => $req->subject ?? $ticket->subject,
+            'description' => $req->description ?? $ticket->description,
+            'test_done' => $req->test_done ?? $ticket->test_done,
+            'ask_for' => $req->ask_for ?? $ticket->ask_for,
+            'knwoledge_base' => $req->knwoledge_base ?? $ticket->knwoledge_base,
+            'ticket_status_id' => $req->status  ?? $ticket->ticket_status_id,
+            ]);
+            
+        $get_user = $req->user_id ? User::find($req->user_id) : null;
+        $get_customer = $get_user ? Customer::find($get_user->customer_id) : null;
+        $get_department = $req->department_id ? Department::find($req->department_id) : null;
         $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
-
-        $get_user->tickets()->save($ticket);
-        $get_customer->tickets()->save($ticket);
-        $get_department->tickets()->save($ticket);
         
-        if($req->assigned_to) {
-            $get_assigned_to->tickets()->save($ticket);
+        $get_user ? $get_user->tickets()->save($ticket) : null;
+        $get_customer ? $get_customer->tickets()->save($ticket) : null;
+        $get_department ? $get_department->tickets()->save($ticket) : null;
+        $get_assigned_to ? $get_assigned_to->tickets()->save($ticket) : null;
+        
+        Call::where('ticket_id', $ticket->id)->each(function($call){
+            $call->update(['ticket_id' => null]);
+        });
+        
+        $get_calls = $req->calls ? Call::find(array_values($req->calls)) : [];
+    
+        foreach ($get_calls as $call) {
+            $call->ticket()->associate($ticket->id);
+            $call->save();
         }
 
         return $updated

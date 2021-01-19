@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Ticket;
 use Illuminate\Database\Seeder;
 
 class AttachmentsSeeder extends Seeder
@@ -13,8 +12,8 @@ class AttachmentsSeeder extends Seeder
     public function run()
     {
         factory(App\Models\Attachment::class, 50)->create()
-            ->each(function($attachment) {
-                $attachment->tickets()->attach(Ticket::find(rand(1,50)));
+            ->each(function($attachment){
+                $attachment->comments()->save(App\Models\Comment::find(rand(1,50)));
             });
     }
 }

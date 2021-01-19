@@ -24,9 +24,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('user', 'UserController');
     Route::resource('media', 'AttachmentController')->parameter('media', 'attachment');
     Route::resource('department', 'DepartmentController');
-    Route::resource('engineType', 'EngineTypeController');
     Route::resource('ticket', 'TicketController');
-    Route::resource('ticket.comments', 'CommentController');
+    Route::resource('ticket.comment', 'CommentController');
     Route::resource('customer', 'CustomerController');
     Route::resource('customer.ticket', 'CustomerTicketController');
 
@@ -40,6 +39,5 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/get_all_users', 'UserController@get_all_users');
         Route::get('/get_all_customers', 'CustomerController@get_all_customers');
         Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
-        Route::get('/get_all_engine_types', 'EngineTypeController@get_all_engine_types');
         Route::get('/get_all_calls', 'CallController@get_all_calls');
 });

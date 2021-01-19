@@ -123,11 +123,7 @@
                             <input :class="[errors.subject ? 'is-invalid': ''] + ' form-control'" type="text" v-model="selected.subject"  required/>
                         </div>
                     </div>
-                    <div class="form-group col-12 col-md-6">
-                        <button type="button" :class="'btn btn-block text-white ' + (selected.calls.length >= 1 ? 'btn-danger' : 'btn-info') " @click="toggleModal"
-                            data-toggle="modal" data-target="#assignCall">{{ selected.calls.length >= 1 ? 'Llamadas seleccionada(s)' : 'Asignar Llamadas'}}</button>
-                    </div>
-                    <calls-modal :calls="calls" @selectedCalls="selectedCalls($event)"></calls-modal>
+                    <calls-modal @selectedCalls="selectedCalls($event)"></calls-modal>
 
                 </div>
                 <div class="form-inline mt-2">
@@ -305,14 +301,6 @@ export default {
         remove_errors() {
             this.error = true;
             this.errors = {};
-        },
-        toggleModal() {
-            axios.get('/get_all_calls')
-            .then(res => {
-                this.calls = res.data.calls;
-            }).catch(err => {
-                console.log(err);
-            })
         },
         selectedCalls(event) {
             this.selected.calls = event;

@@ -86,7 +86,14 @@ class CallController extends Controller
     }
 
     public function get_all_calls(Request $req) {
-        $calls = Call::when($req->phone_number, function(Builder $q, $phone_number){
+        $calls = Call::when($req->ticket_id, function(Builder $q, $ticket_id){
+                $q->where(function($q2) use($ticket_id){
+                    $q2->whereNull('ticket_id')->orWhere('ticket_id', $ticket_id);
+                });
+            }, function($q){
+                $q->whereNull('ticket_id');
+            })->where('disposition', 'ANSWERED')
+            ->when($req->phone_number, function(Builder $q, $phone_number){
                 $q->where(function($q2) use ($phone_number){
                     $q2->where('src', 'LIKE', '%' . $phone_number . '%')->orWhere('dst', 'LIKE', '%' . $phone_number . '%');
                 });
@@ -94,7 +101,8 @@ class CallController extends Controller
                 $q->whereDate('start', $date);
             }, function($q){
                 $q->whereBetween('start', [Carbon::parse('first day of this month')->toDateString(), now()]);
-            })->where('disposition', 'ANSWERED')
+            })
+            ->orderBy('ticket_id', 'DESC')
             ->limit(15)->get();
 
 

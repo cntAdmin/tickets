@@ -10,9 +10,12 @@ class Attachment extends Model
         'name', 'path', 'deleted_by'
     ];
     
-    
     public function tickets()
     {
-        return $this->belongsToMany(\App\Models\Ticket::class, 'attachment_ticket', 'attachment_id', 'ticket_id');
+        return $this->morphedByMany(\app\Models\Ticket::class, 'attachable');
+    }
+    public function comments()
+    {
+        return $this->morphedByMany(\app\Models\Comment::class, 'attachable');
     }
 }

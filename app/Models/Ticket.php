@@ -18,7 +18,7 @@ class Ticket extends Model
     ];
 
     protected $with = [
-        'comments', 'status', 'calls'
+        'comments', 'status', 'calls', 'attachments'
     ];
 
     public function department()
@@ -43,7 +43,7 @@ class Ticket extends Model
 
     public function attachments()
     {
-        return $this->belongsToMany(\App\Models\Attachment::class, 'attachment_ticket', 'attachment_id', 'ticket_id');
+        return $this->morphToMany(\App\Models\Attachment::class, 'attachable');
     }
 
     public function comments()

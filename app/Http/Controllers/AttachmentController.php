@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Attachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class AttachmentController extends Controller
 {
@@ -46,7 +48,7 @@ class AttachmentController extends Controller
      */
     public function show(Attachment $attachment)
     {
-        //
+        return response()->download(public_path('storage/') . $attachment->path, $attachment->name, ['Content-Type: image/png']);
     }
 
     /**

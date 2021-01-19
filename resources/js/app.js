@@ -21,17 +21,20 @@ Vue.use(require('vue-moment'));
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('spinner', require('./components/Spinner.vue').default);
 
 // TICKETS
     Vue.component('tickets-card-counter', require('./components/TicketsCardCounterComponent.vue').default);
     Vue.component('tickets-search-and-table', require('./components/TicketsSearchAndTableFormComponent.vue').default);
     Vue.component('tickets-card', require('./components/TicketsCardComponent.vue').default);
     // CREATE TICKET
-    Vue.component('tickets-create', require('./components/TicketsCreateComponent.vue').default);
+        Vue.component('tickets-create', require('./components/TicketsCreateComponent.vue').default);
+        Vue.component('calls-modal', require('./components/CallsModalComponent.vue').default);
     // VIEW TICKET 
-    Vue.component('ticket-info', require('./components/TicketInfoComponent.vue').default);
-    Vue.component('ticket-comment', require('./components/TicketCommentComponent.vue').default);
-    Vue.component('calls-modal', require('./components/CallsModalComponent.vue').default);
+        Vue.component('ticket-view-info', require('./components/TicketViewInfoComponent.vue').default);
+        Vue.component('ticket-comment', require('./components/TicketCommentComponent.vue').default);
+        Vue.component('ticket-new-coment', require('./components/TicketNewCommentComponent.vue').default);
+        Vue.component('ticket-view-calls', require('./components/TicketViewCallsComponent.vue').default);
 
 
 /**

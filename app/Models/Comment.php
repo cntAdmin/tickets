@@ -11,7 +11,7 @@ class Comment extends Model
     ];
 
     protected $with = [
-        'user'
+        'user', 'attachments'
     ];
 
     public function user()
@@ -28,5 +28,11 @@ class Comment extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'deleted_by', 'id');
     }
+
+    public function attachments()
+    {
+        return $this->morphToMany(\App\Models\Attachment::class, 'attachable');
+    }
+
 
 }

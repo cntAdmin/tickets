@@ -1,5 +1,5 @@
 <template>
-    <div :class="'mt-3 d-flex justify-content-' + align('comment') ">
+    <div :class="'mt-3 row justify-content-' + align('comment') ">
         <div class="col-10">
             <h4 :class="'title text-' + align('text')">{{ username }}</h4>
             <p :class="'h6 text-' + align('text')">{{ timestamp }}</p>
@@ -8,6 +8,11 @@
                     <p v-html="comment.description"></p>
                 </div>
             </div>
+        </div>
+        <div class="col-auto mt-2" v-for="attachment in comment.attachments" :key="attachment.id">
+            <a :href="'/media/' + attachment.id" :alt="attachment.name" class="btn btn-sm btn-success" target="_self">
+                Descargar - {{ attachment.name }}
+            </a>
         </div>
     </div>
 
@@ -40,7 +45,14 @@ export default {
                 default:
                     break;
             }
-            console.log(this.user_role)
+        },
+        downloadImage(attachment_id) {
+            axios('/media/' + attachment_id)
+            .then(res => {
+                console.log('res.data', res.data);
+            }).catch(err => {
+                console.log('err', err);
+            });
         }
     }
 }

@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Models\Comment;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Attachment::class, function (Faker $faker) {
@@ -9,6 +10,6 @@ $factory->define(App\Models\Attachment::class, function (Faker $faker) {
 
     return [
         'name' => $attachment_name,
-        'path' => 'public/storage/media/' . $attachment_name . '.png',
+        'path' => '/media/' . $attachment_name,
     ];
 });
