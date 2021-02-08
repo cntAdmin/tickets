@@ -1,8 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-    <h4 class="title text-uppercase">
-        {{ __('Ticket') . ' (' . $ticket->custom_id . ')' }}
-    </h4>
     <ticket-view-info class="shadow" :ticket="{{ $ticket }}"></ticket-view-info>
     @if($ticket->calls->count() > 0) 
         <ticket-view-calls :calls="{{ $ticket->calls }}"></ticket-view-calls>

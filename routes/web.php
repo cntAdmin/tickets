@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // VUE GETTERS
         // TICKETS
-        Route::get('get_ticket_counter/{ticket_status?}', 'TicketController@get_ticket_counter');
+        Route::get('/get_ticket_counters', 'TicketController@get_ticket_counters');
         Route::get('/get_all_tickets', 'DepartmentController@get_all_departments');
         Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
         
@@ -40,4 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/get_all_customers', 'CustomerController@get_all_customers');
         Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
         Route::get('/get_all_calls', 'CallController@get_all_calls');
+
+        // DEPARTMENTS
+        
 });

@@ -28,11 +28,10 @@ class TicketController extends Controller
     {
         if(!$req->ajax()) {
             return view('tickets.index')->with([
-                'ticket_statuses' => TicketStatus::all()
+                'status' => $req->status ? $req->status : null
             ]);
         }
-
-        $tickets = Ticket::when($req->id, function(Builder $q, $id) {
+        $tickets = Ticket::when($req->ticket_id, function(Builder $q, $id) {
                 $q->where('custom_id', 'LIKE', $id . '%');
             })->when($req->frame_id, function(Builder $q, $frame_id) {
                 $q->where('frame_id', 'LIKE', $frame_id . '%');
@@ -57,7 +56,7 @@ class TicketController extends Controller
             },function ($q) {
                 $q->orderBy('created_at', 'DESC');
             })
-            // SI ESTE TICKET ESTADO BUSCA POR EL ID
+            // SI ESTE TICKET ESTADO BUSCA POR EL ID DEL ESTADO
             ->when($req->status, function(Builder $q, $status_id) {
                 $q->whereHas('status', function($q2) use ($status_id){
                     $q2->where('ticket_statuses.id', $status_id);
@@ -84,9 +83,6 @@ class TicketController extends Controller
             ->with(['user', 'customer', 'department', 'status'])
             ->withCount('comments')
             ->paginate();
-
-        // $customers = Customer::where('is_active', 1)->get();
-        $users = User::where('is_active', 1)->get();
 
         return response()->json([
             'tickets' => $tickets,
@@ -366,10 +362,17 @@ class TicketController extends Controller
         ]);
     }
 
-    public function get_ticket_counter(TicketStatus $ticketStatus = null) {
+    public function get_ticket_counters() {
+        $total_count = Ticket::all()->count();
+        $opened = Ticket::where('ticket_status_id', 1)->get()->count();
+        $closed = Ticket::where('ticket_status_id', 2)->get()->count();
+        $resolved = Ticket::where('ticket_status_id', 3)->get()->count();
 
-        return $ticketStatus
-            ? $ticketStatus->tickets()->count()
-            : Ticket::count();
+        return response()->json([
+            'total_count' => $total_count,
+            'opened' => $opened,
+            'closed' => $closed,
+            'resolved' => $resolved,
+        ]);
     }
 }

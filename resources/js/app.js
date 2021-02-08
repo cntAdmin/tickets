@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -22,20 +23,28 @@ Vue.use(require('vue-moment'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('spinner', require('./components/Spinner.vue').default);
+Vue.component('card-counter', require('./components/CardCounter').default);
+Vue.component('delete-modal', require('./components/DeleteModal').default);
 
 // TICKETS
-    Vue.component('tickets-card-counter', require('./components/TicketsCardCounterComponent.vue').default);
-    Vue.component('tickets-search-and-table', require('./components/TicketsSearchAndTableFormComponent.vue').default);
-    Vue.component('tickets-card', require('./components/TicketsCardComponent.vue').default);
+Vue.component('tickets', require('./components/tickets/Tickets').default);
+Vue.component('tickets-table', require('./components/tickets/TicketsTable').default);
+Vue.component('tickets-search-form', require('./components/tickets/TicketsSearchForm').default);
     // CREATE TICKET
-        Vue.component('tickets-create', require('./components/TicketsCreateComponent.vue').default);
-        Vue.component('calls-modal', require('./components/CallsModalComponent.vue').default);
+        Vue.component('tickets-create', require('./components/tickets/TicketsCreateComponent').default);
+        Vue.component('calls-modal', require('./components/CallsModalComponent').default);
     // VIEW TICKET 
-        Vue.component('ticket-view-info', require('./components/TicketViewInfoComponent.vue').default);
-        Vue.component('ticket-comment', require('./components/TicketCommentComponent.vue').default);
-        Vue.component('ticket-new-coment', require('./components/TicketNewCommentComponent.vue').default);
-        Vue.component('ticket-view-calls', require('./components/TicketViewCallsComponent.vue').default);
+        Vue.component('ticket-view-info', require('./components/tickets/TicketViewInfoComponent').default);
+        Vue.component('ticket-comment', require('./components/tickets/TicketCommentComponent').default);
+        Vue.component('ticket-new-coment', require('./components/tickets/TicketNewCommentComponent').default);
+        Vue.component('ticket-view-calls', require('./components/tickets/TicketViewCallsComponent').default);
 
+// DEPARTMENTS
+Vue.component('departments', require('./components/departments/Departments').default);
+Vue.component('departments-search-form', require('./components/departments/DepartmentsSearchForm').default);
+Vue.component('departments-table', require('./components/departments/DepartmentsTable').default);
+Vue.component('department-new', require('./components/departments/DepartmentNew').default);
+Vue.component('department-edit', require('./components/departments/DepartmentEdit').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
