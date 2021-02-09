@@ -45,6 +45,9 @@ Vue.component('departments-search-form', require('./components/departments/Depar
 Vue.component('departments-table', require('./components/departments/DepartmentsTable').default);
 Vue.component('department-new', require('./components/departments/DepartmentNew').default);
 Vue.component('department-edit', require('./components/departments/DepartmentEdit').default);
+Vue.component('department-assign-user', require('./components/departments/DepartmentAssignUser').default);
+Vue.component('department-assign-form', require('./components/departments/DepartmentAssignForm').default);
+Vue.component('department-assign-table', require('./components/departments/DepartmentAssignTable').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

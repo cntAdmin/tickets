@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -172,7 +173,11 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         $this->authorize('departments.destroy');
-        
+        $dep_users = User::where('department_id', $department->id)->each(function($user) {
+            $user->department()->dissociate();
+            $user->save();
+        });
+
         $deleted = $department->delete();
 
         return $deleted
@@ -182,5 +187,45 @@ class DepartmentController extends Controller
 
     public function get_all_departments() {
         return response()->json(\App\Models\Department::all());
+    }
+
+    public function get_department_users(Request $req) {
+        $users = User::whereNull('customer_id')
+            ->when($req->name, function(Builder $q, $name) {
+                $q->where('name', 'LIKE', '%' . $name . '%');
+            })->when($req->surname, function(Builder $q, $surname) {
+                $q->where('surname', 'LIKE', '%' . $surname . '%');
+            })->when($req->email, function(Builder $q, $email) {
+                $q->where('email', 'LIKE', '%' . $email . '%');
+            })->when($req->phone, function(Builder $q, $phone) {
+                $q->where('phone', 'LIKE', $phone . '%');
+        })->paginate();
+
+        return response()->json([
+            'success' => true,
+            'users' => $users
+        ]);
+    }
+
+    public function assign_user(Department $department, User $user) {
+        $user->department()->associate($department);
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'msg' => 'Usuario asignado correctamente',
+            'color' => 'success'
+        ]) ;
+    }
+
+    public function unassign_user(Department $department, User $user) {
+        $user->department()->dissociate($department);
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'msg' => 'Usuario desasignado correctamente',
+            'color' => 'danger'
+        ]) ;
     }
 }

@@ -70,7 +70,6 @@ export default {
                 status: data ? data.status : this.status,
                 }
             }).then(res => {
-                console.log(res.data)
                 this.tickets = res.data.tickets;
                 this.searching = false;
             }).catch(err => {

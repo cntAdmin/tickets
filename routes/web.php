@@ -42,5 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/get_all_calls', 'CallController@get_all_calls');
 
         // DEPARTMENTS
+        Route::get('/get_department_users', 'DepartmentController@get_department_users');
+        Route::get('/assign_user/{department}/user/{user}', 'DepartmentController@assign_user');
+        Route::get('/unassign_user/{department}/user/{user}', 'DepartmentController@unassign_user');
         
 });

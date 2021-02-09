@@ -21,14 +21,15 @@
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <div class="w-100">
-                                        <button type="button" class="btn btn-sm btn-success mr-2">
+                                        <button type="button" class="btn btn-sm btn-success mr-2" @click="openAssignModal(department)"
+                                            title="Añadir usuarios">
                                             <i class="fa fa-user-plus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-info text-white mr-2"
+                                        <button type="button" class="btn btn-sm btn-info text-white mr-2" title="Editar Departamento"
                                             @click="$emit('edit', department)">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-danger mr-2"
+                                        <button type="button" class="btn btn-sm btn-danger mr-2" title="Eliminar Departamento"
                                             @click="openDeleteModal(department)">
                                             <i class="fa fa-trash-alt"></i>
                                         </button>
@@ -41,6 +42,7 @@
             </div>
             <delete-modal v-show="deleteModal" @close="deleteModal = false" @getDeleted="getDeleted()"
                 title="departamento" :data="department" />
+            <department-assign-user v-show="assignModal" @close="assignModal = false" :department="department"/>
             <pagination :data="departments" @pagination-change-page="emit_pagination" :limit="3" size="small"
                 align="center">
                 <span slot="prev-nav">&lt; Anterior</span>
@@ -63,10 +65,15 @@ export default {
     data() {
         return {
             deleteModal: false,
+            assignModal: false,
             department: {},
         }
     },
     methods: {
+        openAssignModal(data) {
+            this.assignModal = true;
+            this.department = data; 
+        },
         openDeleteModal(data) {
             this.deleteModal = true;
             this.department = data; 
@@ -80,7 +87,6 @@ export default {
                     } else if(res.data.error) {
                         this.$emit('error', res.data.msg)
                     }
-                    console.log(res.data)
                 }).catch( err => {
                     console.log(err);
                 });

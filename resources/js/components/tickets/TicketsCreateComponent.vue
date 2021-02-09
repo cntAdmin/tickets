@@ -282,7 +282,6 @@ export default {
                 tests_done: this.$refs.tests_done.ej2Instances.value,
                 calls: this.selected.calls
             }).then(res => {
-                console.log(res.data)
                 if(res.data.success) {
                     this.success.value = true;
                     this.success.message = res.data.success;

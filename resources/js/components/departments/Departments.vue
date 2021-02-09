@@ -30,7 +30,7 @@
             </div>
         </div>
         <transition name="fade" v-if="is_new" mode="out-in">
-            <department-new @success="success" @error="error"/>
+            <department-new @success="success" @error="error" @close="closeAll" />
         </transition>
 
         <departments-search-form @search="getDepartments" />

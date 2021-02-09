@@ -38,7 +38,8 @@
                                     title="Minimo 3 caracteres" autofocus />
                             </div>
                         </div>
-                        <button class="btn btn-sm btn-secondary text-uppercase ml-3">Guardar Cambios</button>
+                        <button class="btn btn-sm btn-secondary text-uppercase ml-3">
+                          <i class="fa fa-plus"></i><span class="ml-3">Crear Departamento</span></button>
                     </div>
                 </form>
             </div>
@@ -63,7 +64,6 @@ export default {
         name: this.selected.name,
         code: this.selected.code
       }).then( res => {
-      console.log(res.data)
         if(res.data.success) {
           this.$emit('success', res.data.msg);
         } else if(res.data.error){
