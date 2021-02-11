@@ -79,6 +79,7 @@ export default {
                     this.success.value = true;
                     this.success.message = res.data.success;
                     this.$emit('load');
+                    this.$refs.comment.ej2Instances.value = '';
                 }else if(res.data.error) {
                     this.success = false;
                 }

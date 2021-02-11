@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewCommentMail;
 use App\Models\Comment;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
@@ -65,6 +67,11 @@ class CommentController extends Controller
         $user_assigned = $create_comment->user()->associate(auth()->user()->id);
         $create_comment->save();
         
+        if(!env('APP_DEBUG')) {
+            Mail::to(auth()->user())->send(new NewCommentMail);
+        }
+
+
         return $ticket_assigned && $user_assigned
             ? response()->json(['success' => __('Comentario creado correctamente.')])
             : response()->json([
