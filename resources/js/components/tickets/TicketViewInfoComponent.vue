@@ -231,6 +231,8 @@ export default {
   data() {
     return {
       ticket: {
+        user: {},
+        customer: {},
         brand: {},
         car_model: {}
       },
