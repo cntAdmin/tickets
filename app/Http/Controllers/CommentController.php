@@ -67,7 +67,7 @@ class CommentController extends Controller
         $user_assigned = $create_comment->user()->associate(auth()->user()->id);
         $create_comment->save();
         
-        if(!env('APP_DEBUG')) {
+        if(!env('APP_ENV')) {
             Mail::to(auth()->user())->send(new NewCommentMail);
         }
 
