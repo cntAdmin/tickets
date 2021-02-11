@@ -15,7 +15,7 @@
                     </button>
                 </div>
             </div>
-            <form @submit="handleSubmit" method="POST">
+            <form @submit.prevent="handleSubmit" method="POST">
                 <div class="form-inline">
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label class="sr-only" for="dateFrom">Cliente</label>
@@ -26,7 +26,7 @@
                             <select class="form-control" v-model="selected.customer_id" @change="get_all_users()" required>
                                 <option value="" disabled>-- SELECCIONE UN CLIENTE --</option>
                                 <option v-for="cs in customers" :key="cs.id" :value="cs.id">
-                                    {{ cs.comercial_name }}
+                                    {{ cs.comercial_name ? cs.comercial_name : comercial_fiscal_name }}
                                 </option>
                             </select>
                         </div>
@@ -162,16 +162,12 @@
 </template>
 
 <script>
-import { RichTextEditorPlugin, Toolbar, Image, Link, HtmlEditor, QuickToolbar } from "@syncfusion/ej2-vue-richtexteditor";
-
-Vue.use(RichTextEditorPlugin);
+    import { Toolbar, Image, Link, HtmlEditor, QuickToolbar } from "@syncfusion/ej2-vue-richtexteditor";
 
 export default {
     provide: {
-        richtexteditor:[Toolbar, Image, Link, HtmlEditor, QuickToolbar]
+        richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar]
     },
-    props: [
-    ],
     data() {
         return {
             users: {},
@@ -225,7 +221,7 @@ export default {
     },
     methods: {
         get_all_departments() {
-            axios.get('/get_all_departments')
+            axios.get('/api/get_all_departments')
             .then(res => {
                 this.departments = res.data;
                 this.selected.department_id = this.departments[0].id
@@ -234,7 +230,7 @@ export default {
             });
         },
         get_all_customers() {
-            axios.get('/get_all_customers')
+            axios.get('/api/get_all_customers')
             .then(res => {
                 this.customers = res.data;
             }).catch(err => {
@@ -243,7 +239,7 @@ export default {
         },
         get_all_users() {
             if(this.selected.customer_id !== '') {
-                axios.get('/get_all_users', { params: {
+                axios.get('/api/get_all_users', { params: {
                         customer_id: this.selected.customer_id
                     }
                 }).then(res => {
@@ -253,8 +249,7 @@ export default {
                 });
             }
         },
-        handleSubmit(e) {
-            e.preventDefault();
+        handleSubmit() {
             this.errors = {};
 
             if(this.selected.frame_id === "" && this.selected.plate === "" ) {
@@ -303,7 +298,6 @@ export default {
         },
         selectedCalls(event) {
             this.selected.calls = event;
-            console.log(this.selected.calls);
         }
     }, // END METHODS
 }

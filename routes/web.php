@@ -21,29 +21,31 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('user', 'UserController');
-    Route::resource('media', 'AttachmentController')->parameter('media', 'attachment');
-    Route::resource('department', 'DepartmentController');
-    Route::resource('ticket', 'TicketController');
-    Route::resource('ticket.comment', 'CommentController');
-    Route::resource('customer', 'CustomerController');
-    Route::resource('customer.ticket', 'CustomerTicketController');
+    Route::get('/{any}', 'SpaController@index')->where('any', '.*');
 
-    // VUE GETTERS
-        // TICKETS
-        Route::get('/get_ticket_counters', 'TicketController@get_ticket_counters');
-        Route::get('/get_all_tickets', 'DepartmentController@get_all_departments');
-        Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
+    // Route::resource('user', 'UserController');
+    // Route::resource('media', 'AttachmentController')->parameter('media', 'attachment');
+    // Route::resource('department', 'DepartmentController');
+    // Route::resource('ticket', 'TicketController');
+    // Route::resource('ticket.comment', 'CommentController');
+    // Route::resource('customer', 'CustomerController');
+    // Route::resource('customer.ticket', 'CustomerTicketController');
+
+    // // ? VUE GETTERS
+    //     // ? TICKETS
+    //     Route::get('/get_ticket_counters', 'TicketController@get_ticket_counters');
+    //     Route::get('/get_all_tickets', 'DepartmentController@get_all_departments');
+    //     Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
         
-        // CREATE
-        Route::get('/get_all_users', 'UserController@get_all_users');
-        Route::get('/get_all_customers', 'CustomerController@get_all_customers');
-        Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
-        Route::get('/get_all_calls', 'CallController@get_all_calls');
+    //     // ? CREATE
+    //     Route::get('/get_all_users', 'UserController@get_all_users');
+    //     Route::get('/get_all_customers', 'CustomerController@get_all_customers');
+    //     Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
+    //     Route::get('/get_all_calls', 'CallController@get_all_calls');
 
-        // DEPARTMENTS
-        Route::get('/get_department_users', 'DepartmentController@get_department_users');
-        Route::get('/assign_user/{department}/user/{user}', 'DepartmentController@assign_user');
-        Route::get('/unassign_user/{department}/user/{user}', 'DepartmentController@unassign_user');
+    //     // ? DEPARTMENTS
+    //     Route::get('/get_department_users', 'DepartmentController@get_department_users');
+    //     Route::get('/assign_user/{department}/user/{user}', 'DepartmentController@assign_user');
+    //     Route::get('/unassign_user/{department}/user/{user}', 'DepartmentController@unassign_user');
         
 });

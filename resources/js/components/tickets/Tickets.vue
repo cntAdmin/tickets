@@ -6,26 +6,30 @@
             <card-counter title="Cerrados" color="info" :count="closed" icon="times-circle" size="3" />
             <card-counter title="Resueltos" color="success" :count="resolved" icon="check-circle" size="3" />
         </div>
-
+        <div class="d-flex justify-content-center my-3">
+            <router-link class="btn btn-secondary btn-sm text-uppercase btn-block" :to="{name: 'ticket.create'}">
+                Crear Ticket
+            </router-link>
+        </div>
         <tickets-search-form @search="getTickets" />
 
-        <transition name="fade" v-if="searching" mode="out-in">
+        <div class="alert alert-dismissable alert-danger my-3" v-if="deleted.status">
+            {{ deleted.msg }}
+        </div>
+        <transition name="fade" v-else-if="searching" mode="out-in">
             <div class="row justify-content-center mt-5">
                 <spinner></spinner>
             </div>
         </transition>
 
         <transition name="fade" v-else-if="tickets.data" mode="out-in">
-            <tickets-table :tickets="tickets" @page="getTickets" :searched="searched"/>
+            <tickets-table :tickets="tickets" @page="getTickets" :searched="searched" @deleted="hasBeenDeleted"/>
         </transition>
     </div>
 </template>
 
 <script>
 export default {
-    props: [
-        'status'
-    ],
     data() {
         return {
             tickets: [],
@@ -34,19 +38,31 @@ export default {
             closed: 0,
             resolved: 0,
             searching: false,
-            searched: []
+            searched: {
+                page:1
+            },
+            deleted: {
+                status: false,
+                msg: ''
+            }
         }
     },
     mounted() {
         this.getCount();
-        if(this.status !== null) {
-            this.getTickets();
-        }
-        console.log(this.status)
+        this.getTickets();
     },
     methods:{
+        hasBeenDeleted(data) {
+            this.deleted.status = true;
+            this.deleted.msg = data;
+
+            setTimeout(() => {
+                this.getTickets()
+            }, 1500);
+
+        },
         getCount() {
-            axios.get('/get_ticket_counters/')
+            axios.get('/api/get_ticket_counters/')
                 .then(res => {
                     this.total_count = res.data.total_count;
                     this.opened = res.data.opened;
@@ -57,17 +73,17 @@ export default {
                 });
         },
         getTickets(data) {
-
+            this.closeAll();
             this.searching = true;
-            this.searched = data;
+            this.searched = data ? data : this.searched;
 
-            axios.get('/ticket', { params: {
+            axios.get('/api/ticket', { params: {
                 page: data ? data.page : null,
                 ticket_id: data ? data.ticket_id : null,
                 user: data ? data.user : null,
                 customer: data ? data.customer : null,
                 department: data ? data.department : null,
-                status: data ? data.status : this.status,
+                status: data ? data.status : this.$route.query.status,
                 }
             }).then(res => {
                 this.tickets = res.data.tickets;
@@ -76,12 +92,15 @@ export default {
                 console.log(err);
             })
         },
+        closeAll() {
+            this.deleted.status = false;
+        }
     }
 }
 </script>
 <style lang="css">
   .fade-enter-active, .fade-edit-form-leave-active {
-    transition: opacity .3s;
+    transition: opacity 1s;
   }
   .fade-edit-form-enter, .fade-edit-form-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;

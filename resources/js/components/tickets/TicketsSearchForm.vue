@@ -101,7 +101,7 @@ export default {
             this.$emit('search', this.selected);
         },
         get_all_ticket_statuses() {
-            axios.get('get_all_ticket_statuses')
+            axios.get('/api/get_all_ticket_statuses')
                 .then(res => {
                     this.ticket_statuses = res.data;
                 }).catch(err => {
@@ -109,7 +109,7 @@ export default {
                 });
         },
         get_all_departments() {
-            axios.get('get_all_departments')
+            axios.get('/api/get_all_departments')
                 .then(res => {
                     this.departments = res.data;
                 }).catch(err => {

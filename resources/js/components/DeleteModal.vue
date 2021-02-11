@@ -9,7 +9,7 @@
                         </h3>
                     </div>
                     <div class="modal-body">
-                        {{ data.name }} va a ser eliminado, haga click en Eliminar si lo desea.
+                        {{ data.name ? data.name : data.subject}} va a ser eliminado, haga click en Eliminar si lo desea.
                     </div>
                     <div class="modal-footer justify-content-center">
                         <slot name="footer ">

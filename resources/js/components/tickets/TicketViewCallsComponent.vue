@@ -14,7 +14,7 @@
                     <th scope="col">Duración</th>
                 </tr>
             </thead>
-            <tr v-for="call in calls" :key="call.id">
+            <tr v-for="(call, idx) in calls" :key="idx">
                 <td>{{ call.is_incoming ? 'Entrante' : 'Saliente' }}</td>
                 <td>{{ call.src }}</td>
                 <td>{{ call.dst }}</td>

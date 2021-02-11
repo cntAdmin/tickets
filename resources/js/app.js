@@ -4,11 +4,16 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+ import router from './components/router';
+ import {RichTextEditorPlugin} from "@syncfusion/ej2-vue-richtexteditor";
+ import { VueMoment } from "vue-moment";
+//  console.log(router)
+ require('./bootstrap');
+ 
+ window.Vue = require('vue');
 
-require('./bootstrap');
-
-window.Vue = require('vue');
-Vue.use(require('vue-moment'));
+ Vue.use(require('vue-moment'));
+ Vue.use(RichTextEditorPlugin);
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,6 +26,9 @@ Vue.use(require('vue-moment'));
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+Vue.component('App', require('./components/AppComponent').default);
+Vue.component('sidebar', require('./components/Sidebar').default);
+Vue.component('navbar', require('./components/Navbar').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('spinner', require('./components/Spinner.vue').default);
 Vue.component('card-counter', require('./components/CardCounter').default);
@@ -35,10 +43,11 @@ Vue.component('tickets-search-form', require('./components/tickets/TicketsSearch
         Vue.component('calls-modal', require('./components/CallsModalComponent').default);
     // VIEW TICKET 
         Vue.component('ticket-view-info', require('./components/tickets/TicketViewInfoComponent').default);
+        Vue.component('ticket-comments', require('./components/tickets/TicketCommentsComponent').default);
         Vue.component('ticket-comment', require('./components/tickets/TicketCommentComponent').default);
         Vue.component('ticket-new-coment', require('./components/tickets/TicketNewCommentComponent').default);
         Vue.component('ticket-view-calls', require('./components/tickets/TicketViewCallsComponent').default);
-
+        
 // DEPARTMENTS
 Vue.component('departments', require('./components/departments/Departments').default);
 Vue.component('departments-search-form', require('./components/departments/DepartmentsSearchForm').default);
@@ -57,4 +66,5 @@ Vue.component('department-assign-table', require('./components/departments/Depar
 
 const app = new Vue({
     el: '#app',
+    router,
 });

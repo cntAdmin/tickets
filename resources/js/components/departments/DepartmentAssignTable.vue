@@ -70,7 +70,7 @@ export default {
             this.$emit('page', this.searched)
         },
         assignUser(user) {
-            axios.get('/assign_user/' + this.department.id + '/user/' + user.id)
+            axios.get('/api/assign_user/' + this.department.id + '/user/' + user.id)
                 .then(res => {
                     if(res.data.success) {
                         this.is_success.status = true;
@@ -87,7 +87,7 @@ export default {
                 });
         },
         unAssignUser(user) {
-            axios.get('/unassign_user/' + this.department.id + '/user/' + user.id)
+            axios.get('/api/unassign_user/' + this.department.id + '/user/' + user.id)
                 .then(res => {
                     if(res.data.success) {
                         this.is_success.status = true;

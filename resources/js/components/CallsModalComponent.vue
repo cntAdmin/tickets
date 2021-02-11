@@ -1,7 +1,7 @@
 <template>
     <div class="form-group col-12 col-md-6">
-        <button type="button" :class="'btn btn-block text-white ' + (selected.calls.length >= 1 ? 'btn-danger' : 'btn-info')"
-            data-toggle="modal" data-target="#assignCall" @click="get_calls()">{{ selected.calls.length >= 1 ? 'Llamadas seleccionada(s)' : 'Asignar Llamadas'}}</button>
+        <button type="button" :class="'btn btn-block text-white ' + (Object.keys(selected.calls).length > 0 ? 'btn-danger' : 'btn-info')"
+            data-toggle="modal" data-target="#assignCall" @click="get_calls()">{{ Object.keys(selected.calls).length > 0 ? 'Llamadas seleccionada(s)' : 'Asignar Llamadas'}}</button>
 
     <div class="modal fade" id="assignCall">
         <div class="modal-dialog">
@@ -13,7 +13,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="searcher">
-                        <form>
+                        <form @submit.prevent="get_calls()">
                             <div class="form-group col-12">
                                 <label class="sr-only" for="dateFrom">Número Teléfono</label>
                                 <div class="input-group w-100">
@@ -35,11 +35,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="call in calls" :key="call.id" class="text-center">
+                            <tr v-for="(call, idx) in calls" :key="idx" class="text-center">
                                 <td>{{ call.src }}</td>
                                 <td>{{ call.dst }}</td>
                                 <td>{{ call.billsec}}</td>
-                                <td>
+                                <td> 
                                     <input type="checkbox" @click="selected_calls" :id="call.id" 
                                         v-if="call.ticket_id === ticket_id" checked
                                     />
@@ -62,16 +62,12 @@
 
 <script>
 export default {
-    props: {
-        ticket_id: {
-            default: null,
-            type: Number
-        }
-    },
+    props: ['ticketID'],
     data() {
         return {
             selected: {
                 calls: [],
+                phone: ''
             },
             calls:[]
         }
@@ -81,8 +77,8 @@ export default {
     },
     methods: {
         get_calls() {
-            axios.get('/get_all_calls', { params: {
-                    ticket_id: this.ticket_id,
+            axios.get('api//get_all_calls', { params: {
+                    ticket_id: this.ticketID,
                     phone_number: this.selected.phone
                 }
             })
@@ -92,10 +88,9 @@ export default {
                 console.log(err);
             })
         },
-
         selected_calls(e) {
             if(e.target.checked === false) {
-                for( var i = 0; i < this.selected.calls.length; i++){ 
+                for( var i = 0; i < Object.keys(this.selected.calls).length; i++){ 
                     if ( this.selected.calls[i] === e.target.id) { 
                         this.selected.calls.splice(i, 1); 
                     }

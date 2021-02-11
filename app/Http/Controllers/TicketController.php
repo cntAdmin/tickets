@@ -235,7 +235,8 @@ class TicketController extends Controller
     {
         $inserted = GetCalls::dispatch();
 
-        return view('tickets.view')->with([
+        return response()->json([
+            'success' => true,
             'ticket' => $ticket->load(['customer', 'user', 'department'])
             ]);
     }
@@ -356,9 +357,10 @@ class TicketController extends Controller
         $deleted = $ticket->delete();
 
         return $deleted
-            ? response()->json(['success' => __('Ticket eliminado correctamente.')])
+            ? response()->json(['success' => true, 'msg' => __('Ticket eliminado correctamente.')])
             : response()->json([
-                'error' => __('El Ticket no se ha podido eliminar, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
+                'error' => true,
+                'msg' => __('El Ticket no se ha podido eliminar, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
         ]);
     }
 

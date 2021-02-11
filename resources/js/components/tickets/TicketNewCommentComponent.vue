@@ -1,5 +1,5 @@
 <template>
-    <div class="row justify-content-center mt-3">
+    <div class="row justify-content-center my-3 mx-4">
         <div class="col-6 mt-2 text-center">
             <div v-show="success.value === true" class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ success.message }}
@@ -11,9 +11,9 @@
             </div>
         </div>
         <div :class="'col-10 ' + align()">
-            <form @submit="handleSubmit">
+            <form @submit.prevent="handleSubmit">
                 <div class="form-inline">
-                    <div class="form-group">
+                    <div class="form-group shadow">
                         <label class="sr-only" for="dateFrom">Comentario</label>
                         <div class="input-group w-100">
                             <div class="input-group-prepend">
@@ -25,7 +25,7 @@
                         </ejs-richtexteditor>
                     </div>
                 </div>
-                <input class="btn btn-success btn-sm mt-2" type="submit" value="Enviar Comentario">
+                <input class="btn btn-success btn-sm mt-3 shadow" type="submit" value="Enviar Comentario">
             </form>
         </div>
     </div>
@@ -72,19 +72,13 @@ export default {
     },
     methods: {
         handleSubmit(e) {
-            e.preventDefault();
-
-            axios.post('/ticket/' + this.ticket_id + '/comment', {
+            axios.post('/api/ticket/' + this.ticket_id + '/comment', {
                 comment: this.$refs.comment.ej2Instances.value,
             }).then(res => {
                 if(res.data.success) {
                     this.success.value = true;
                     this.success.message = res.data.success;
-
-                    setTimeout(() => {
-                        window.location.href = '/ticket/' + this.ticket_id
-                    }, 1500);
-
+                    this.$emit('load');
                 }else if(res.data.error) {
                     this.success = false;
                 }
@@ -93,7 +87,7 @@ export default {
             })
         },
         align() {
-            if(this.user_role[0] === "undefined" || this.user_role[0] === 'contact'){
+            if(this.user_role === "undefined" || this.user_role === 'contact'){
                 return 'ml-auto';
             }
             return 'mr-auto';

@@ -52,6 +52,10 @@
 
 <script>
 export default {
+    inheritAttrs: 'true',
+    props: [
+        'user_role'
+    ],
     data() {
         return {
             departments: [],
@@ -69,6 +73,9 @@ export default {
             }
         }
     },
+    mounted() {
+        console.log('this.user_role', this.user_role)
+    },
     methods: {
         getDepartments(data) {
             if(!data) return;
@@ -77,7 +84,7 @@ export default {
             this.searching = true;
             this.searched = data;
 
-            axios.get('/department', { params: {
+            axios.get('/api/department', { params: {
                     page: data.page,
                     name: data.name,
                     code: data.code

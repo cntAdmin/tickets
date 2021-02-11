@@ -54,7 +54,7 @@ export default {
             data = data ? data : [];
             this.searched = data;
 
-            axios.get('/get_department_users', {params: {
+            axios.get('/api/get_department_users', {params: {
                     page: data.page,
                     name: data.name,
                     surname: data.surname,

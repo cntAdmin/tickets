@@ -16,32 +16,48 @@
                     </thead>
                     <tbody>
                         <tr v-for="ticket in tickets.data" :key="ticket.id">
-                            <th scope="row"><a :href="'ticket/'+ ticket.id">{{ ticket.custom_id }}</a></th>
+                            <th scope="row">
+                                <router-link :to="{name : 'ticket.show', params: {ticketID: ticket.id }}"  class="btn btn-sm btn-link">
+                                    {{ ticket.custom_id }}
+                                </router-link>
+                            </th>
                             <td>{{ ticket.user.name }}</td>
                             <td>{{ ticket.customer.comercial_name }}</td>
                             <td>{{ ticket.department.name }}</td>
                             <td>{{ ticket.subject }}</td>
                             <td>{{ ticket.created_at | moment("LTS") }}</td>
                             <td>
-                                <a :href="'/ticket/' + ticket.id" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>
-                                <button :class="'btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
-                                    :title="ticket.status.name" disabled>
-                                    <i :class="'fa fa-' + setIcon(ticket.status.name) "></i>
-                                </button>
+                                <div class="d-flex justify-content-around">
+                                    <router-link :to="{name : 'ticket.show', params: {ticketID: ticket.id }}"  class="btn btn-sm btn-success">
+                                        <i class="fa fa-eye"></i>
+                                    </router-link>
+                                    <button :class="'btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
+                                        :title="ticket.status.name" disabled>
+                                        <i :class="'fa fa-' + setIcon(ticket.status.name) "></i>
+                                    </button>
 
-                                <!-- SI ESTADO ES ABIERTO -->
-                                <button v-if="ticket.status.id == 1 " class="btn btn-sm btn-primary" type="button"
-                                    title="Cambiar estado">
-                                    <i class="fa fa-exchange-alt"></i>
-                                </button>
-                                <button v-if="ticket.deleted_at" class="btn btn-sm btn-danger" type="button" title="Cambiar estado"
-                                    disabled>
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                                <button v-else-if="ticket.status.id == 1 " class="btn btn-sm btn-danger" type="button"
-                                    title="Cambiar estado">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+                                    <!-- SI ESTADO ES ABIERTO -->
+                                    <div class="dropdown" v-if="ticket.status.id == 1 ">
+                                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="statuses" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-exchange-alt"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="statuses">
+                                            <button type="button" class="dropdown-item" @click="setStatus(ticket, 1)">Abierto</button>
+                                            <button type="button" class="dropdown-item" @click="setStatus(ticket, 2)">Cerrado</button>
+                                            <button type="button" class="dropdown-item" @click="setStatus(ticket, 3)">Resuelto</button>
+                                        </div>
+                                    </div>
+
+                                    <button v-if="ticket.deleted_at" class="btn btn-sm btn-danger" type="button" title="Cambiar estado"
+                                        disabled>
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    <button v-else-if="ticket.status.id == 1 " class="btn btn-sm btn-danger" type="button"
+                                        title="Cambiar estado" @click="openDeleteModal(ticket)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -58,6 +74,7 @@
                 Haga una nueva búsqueda
             </div>
         </div>
+        <delete-modal v-show="showModal" :data="ticket" title="Ticket" @getDeleted="getDeleted"></delete-modal>
     </div>
 
 </template>
@@ -67,7 +84,34 @@ export default {
   props: [
     'tickets', 'searched'
   ],
+  data() {
+      return {
+          showModal: false,
+          ticket: {}
+      }
+  },
   methods: {
+    getDeleted(data) {
+        axios.delete('/api/ticket/' + this.ticket.id)
+            .then( res => {
+                if(res.data.success) {
+                    this.$emit('close');
+                    this.$emit('deleted', res.data.msg)
+                }
+                console.log(res.data)
+            }).catch( err => {
+
+            });
+    },
+    openDeleteModal(ticket) {
+        this.showModal = true;
+        this.ticket = ticket;
+    },
+    setStatus(ticket, id) {
+          axios.get('/api/ticket/' + ticket.id + '/status/' + id)
+          console.log(id)
+          console.log(ticket)
+      },
     setIcon(status_name) {
         switch (status_name) {
             case 'Abierto':
