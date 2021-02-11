@@ -15,19 +15,20 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('cif', 9);
+            $table->string('custom_id', 10)->nullable()->unique()->default('A12345BC');
+            $table->string('cif', 9)->nullable();
             $table->string('fiscal_name', 100);
             $table->string('comercial_name', 100);
             $table->string('phone', 20);
             $table->string('email')->unique();
-            $table->string('street');
-            $table->string('town');
-            $table->string('city');
-            $table->string('country');
-            $table->string('postcode');
-            $table->string('shop');
-            $table->boolean('is_active')->default(false);
-            $table->unsignedBigInteger('deleted_by')->nullable();
+            $table->string('street')->nullable();;
+            $table->string('city')->nullable();;
+            $table->string('province')->nullable();;
+            $table->string('country')->nullable();;
+            $table->string('postcode')->nullable();;
+            $table->string('shop')->nullable();;
+            $table->boolean('is_active')->default(true);
+            $table->unsignedBigInteger('deleted_by')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
         });

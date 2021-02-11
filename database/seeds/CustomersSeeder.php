@@ -1,6 +1,9 @@
 <?php
 
+use App\Imports\CustomersImport;
+use App\Models\Customer;
 use Illuminate\Database\Seeder;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomersSeeder extends Seeder
 {
@@ -11,9 +14,11 @@ class CustomersSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Customer::class, 100)->create()
-            ->each(function(\App\Models\Customer $customer){
-                $customer->users()->save(factory(\App\Models\User::class)->make());
-            });
+        Excel::import(new CustomersImport, 'imports/customers.csv');
+
+        Customer::all()->each(function($customer) {
+            $customer->users()->save(factory(\App\Models\User::class)->make());
+        });
+
     }
 }

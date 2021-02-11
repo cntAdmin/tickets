@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             TicketStatusSeeder::class,
             TicketSeeder::class,
             AttachmentsSeeder::class,
+            BrandSeeder::class,
+            CarModelsSeeder::class,
             ]);
     }
 }
