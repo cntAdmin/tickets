@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\GetCalls;
+use App\Models\Brand;
 use App\Models\Call;
+use App\Models\CarModel;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\EngineType;
@@ -127,8 +129,8 @@ class TicketController extends Controller
             'assigned_to' => __('Asignado a'),
             'frame_id' => __('Número de Bastidor'),
             'plate' => __('Matrícula'),
-            'brand' => __('Marca'),
-            'model' => __('Modelo'),
+            'brand_id' => __('Marca'),
+            'model_id' => __('Modelo'),
             'engine_type' => __('Tipo de Motor'),
             'subject' => __('Asunto'),
             'description' => __('Descripción'),
@@ -152,8 +154,8 @@ class TicketController extends Controller
             'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
-            'brand' => ['nullable', 'string', 'max:100'],
-            'model' => ['nullable', 'string', 'max:100'],
+            'brand_id' => ['nullable', 'numeric', 'exists:brands,id'],
+            'model_id' => ['nullable', 'numeric', 'exists:car_models,id'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
@@ -176,14 +178,15 @@ class TicketController extends Controller
         $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
         $get_status = TicketStatus::find($req->status ?? 1);
         $get_calls = $req->calls ? Call::find($req->calls) : null;
+        $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
+        $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
         
+        return $req->knowledge_base;
         // CREATING TICKET
         $create_ticket = Ticket::create([
             'custom_id' => $get_department->code . '-' . now()->timestamp,
             'frame_id' => $req->frame_id,
             'plate' => $req->plate,
-            'brand' => $req->brand,
-            'model' => $req->model,
             'engine_type' => $req->engine_type,
             'subject' => $req->subject,
             'description' => $req->description,
@@ -194,7 +197,7 @@ class TicketController extends Controller
         ]);
 
             
-        // ASSIGNING DATA
+        // ? ASSIGNING DATA
             // ASSOCIATE STATUS
             $create_ticket->status()->associate($get_status);
             // ASSIGN USER
@@ -214,8 +217,14 @@ class TicketController extends Controller
                     $create_ticket->calls()->save($call);
                 }
             }
+            if($req->brand_id) {
+                $create_ticket->brand()->associate($get_brand);
+            }
+            if($req->model_id) {
+                $ticket->model()->associate($get_car_model);
+            }
             
-            // SAVE ASSOCIATED DATA
+            // ? SAVE ASSOCIATED DATA
             $create_ticket->save();
 
         return $create_ticket
@@ -237,7 +246,7 @@ class TicketController extends Controller
 
         return response()->json([
             'success' => true,
-            'ticket' => $ticket->load(['customer', 'user', 'department'])
+            'ticket' => $ticket->load(['customer', 'user', 'department', 'brand', 'car_model'])
             ]);
     }
 
@@ -269,59 +278,101 @@ class TicketController extends Controller
     public function update(Request $req, Ticket $ticket)
     {
         // $this->authorize('tickets.update');
+        $custom_attributes = [
+            'user_id' => __('Usuario'),
+            'department_id' => __('Departamento'),
+            'assigned_to' => __('Asignado a'),
+            'frame_id' => __('Número de Bastidor'),
+            'plate' => __('Matrícula'),
+            'brand_id' => __('Marca'),
+            'model_id' => __('Modelo'),
+            'engine_type' => __('Tipo de Motor'),
+            'subject' => __('Asunto'),
+            'description' => __('Descripción'),
+            'test_done' => __('Pruebas realizadas'),
+            'ask_for' => __('Solicito'),
+            'status' => __('Estado'),
+        ];
+
+        // return $req->subject;
         $messages = [
-            'exists' => __(':attribute debe existir en la tabla :table'),
-            'string' => __(':attribute debe ser de una cadena de texto'),
-            'max' => __(':attribute debe ser inferior a :max caracteres'),
+            'required' => __(':attribute es un campo requerido.'),
+            'exists' => __(':attribute debe existir en la tabla :table.'),
+            'string' => __(':attribute debe ser de una cadena de texto.'),
+            'max' => __(':attribute debe ser inferior a :max caracteres.'),
             'boolean' => __(':attribute debe ser de tipo boleano (true/false).'),
         ];
         
         $validator = Validator::make($req->all(), [
-            'user_id' => ['nullable', 'numeric', 'exists:users,id' ],
-            'department_id' => ['nullable', 'numeric', 'exists:department,id' ],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'department_id' => ['required', 'numeric', 'exists:departments,id'],
             'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
-            'brand' => ['nullable', 'string', 'max:100'],
-            'model' => ['nullable', 'string', 'max:100'],
+            'brand_id' => ['nullable', 'numeric', 'exists:brands,id'],
+            'model_id' => ['nullable', 'numeric', 'exists:car_models,id'],
             'engine_type' => ['nullable', 'string'],
-            'subject' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-            'test_done' => ['nullable', 'string'],
-            'ask_for' => ['nullable', 'string', 'max:50'],
-            'knwoledge_base' => ['nullable', 'boolean'],
-            'status' => ['nullable', 'string', 'max:100'],
-        ], $messages);
+            'subject' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'tests_done' => ['required', 'string'],
+            'ask_for' => ['required', 'string', 'max:50'],
+            'calls' => ['nullable', 'array']
+        ], $messages, $custom_attributes);
 
         if($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
             ]);
         }
+        
         $updated = $ticket->update([
             'frame_id' => $req->frame_id ?? $ticket->frame_id,
             'plate' => $req->plate ?? $ticket->plate,
-            'brand' => $req->brand ?? $ticket->brand,
-            'model' => $req->model ?? $ticket->model,
             'engine_type' => $req->engine_type ?? $ticket->engine_type,
             'subject' => $req->subject ?? $ticket->subject,
             'description' => $req->description ?? $ticket->description,
-            'test_done' => $req->test_done ?? $ticket->test_done,
+            'tests_done' => $req->tests_done ?? $ticket->tests_done,
             'ask_for' => $req->ask_for ?? $ticket->ask_for,
             'knwoledge_base' => $req->knwoledge_base ?? $ticket->knwoledge_base,
             'ticket_status_id' => $req->status  ?? $ticket->ticket_status_id,
             ]);
-            
-        $get_user = $req->user_id ? User::find($req->user_id) : null;
-        $get_customer = $get_user ? Customer::find($get_user->customer_id) : null;
-        $get_department = $req->department_id ? Department::find($req->department_id) : null;
+
+        $get_user = User::find($req->user_id);
+        $get_customer = Customer::find($get_user->customer_id);
+        $get_department = Department::find($req->department_id);
         $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
+        $get_calls = $req->calls ? Call::find($req->calls) : null;
+        $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
+        $get_car_model = $req->model_id ? CarModel::find($req->model_id) : null;
+            
+        // ? ASSIGNING DATA
+            // ASSIGN USER
+            $ticket->user()->associate($get_user);
+            // ASSIGN CUSTOMER
+            $ticket->customer()->associate($get_customer);
+            // ASSIGN DEPARTMENT
+            $ticket->department()->associate($get_department);
         
-        $get_user ? $get_user->tickets()->save($ticket) : null;
-        $get_customer ? $get_customer->tickets()->save($ticket) : null;
-        $get_department ? $get_department->tickets()->save($ticket) : null;
-        $get_assigned_to ? $get_assigned_to->tickets()->save($ticket) : null;
-        
+            if($req->assigned_to) {
+                // ASSIGN USER ASSIGNED TO THIS TICKET
+                $ticket->tickets()->associate($get_assigned_to);
+            }
+            if($req->calls) {
+                foreach ($get_calls as $call) {
+                    // ASSIGN CALLS TO THIS TICKET
+                    $ticket->calls()->save($call);
+                }
+            }
+            if($req->brand_id) {
+                $ticket->brand()->associate($get_brand);
+            }
+            if($req->model_id) {
+                $ticket->car_model()->associate($get_car_model);
+            }
+            
+            // ? SAVE ASSOCIATED DATA
+            $ticket->save();
+
         Call::where('ticket_id', $ticket->id)->each(function($call){
             $call->update(['ticket_id' => null]);
         });

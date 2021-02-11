@@ -165,8 +165,11 @@ class UserController extends Controller
     public function get_all_users(Request $req) {
         $users = User::where('is_active', 1)->when($req->customer_id, function(Builder $q, $customer_id){
             $q->where('customer_id', $customer_id);
-        })->get();
+        })->get()->toArray();
 
-        return response()->json($users);
+        return response()->json([
+            'success' => true,
+            'users' => $users
+        ]);
     }
 }

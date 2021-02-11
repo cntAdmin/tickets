@@ -45,23 +45,15 @@
               <label class="sr-only" for="dateFrom">Cliente</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Cliente</div>
+                  <div class="input-group-text text-uppercase py-1">Cliente</div>
                 </div>
-                <select
-                  class="form-control"
-                  v-model="ticket.customer_id"
-                  @change="get_all_users()"
-                  required
-                >
-                  <option value="" disabled>-- SELECCIONE UN CLIENTE --</option>
-                  <option v-for="cs in customers" :key="cs.id" :value="cs.id">
-                    {{
-                      cs.comercial_name
-                        ? cs.comercial_name
-                        : comercial_fiscal_name
-                    }}
-                  </option>
-                </select>
+                <vue-select class="col-9 px-0 w-100" transition="vs__fade" :options="customers" label="comercial_name" itemid="id"
+                    @input="setCustomer" v-model="ticket.customer.comercial_name">
+                        <div slot="no-options">No hay opciones con esta busqueda</div>
+                        <template slot="option" slot-scope="option">
+                            {{ option.id }} - {{ option.comercial_name ? option.comercial_name : cs.fiscal_name }}
+                        </template>
+                </vue-select>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -70,7 +62,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Contacto</div>
                 </div>
-                <select class="form-control" v-model="ticket.user_id" required>
+                <select class="form-control" v-model="ticket.user.id" required>
                   <option value="" disabled>-- SELECCIONE UN USUARIO --</option>
                   <option v-for="user in users" :key="user.id" :value="user.id">
                     {{ user.name }}
@@ -154,13 +146,15 @@
               <label class="sr-only" for="dateFrom">Marca</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Marca</div>
+                  <div class="input-group-text text-uppercase py-1">Marca</div>
                 </div>
-                <input
-                  :class="[errors.brand ? 'is-invalid' : ''] + ' form-control'"
-                  type="text"
-                  v-model="ticket.brand"
-                />
+                <vue-select class="col-9 px-0 mx-0" transition="vs__fade" :options="brands" label="name" itemid="id"
+                    @input="setBrand" v-model="ticket.brand.name">
+                        <div slot="no-options">No hay opciones con esta busqueda</div>
+                        <template slot="option" slot-scope="option">
+                            {{ option.id }} - {{ option.name }}
+                        </template>
+                </vue-select>
               </div>
             </div>
             <div
@@ -169,13 +163,15 @@
               <label class="sr-only" for="dateFrom">Modelo</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Modelo</div>
+                  <div class="input-group-text text-uppercase py-1">Modelo</div>
                 </div>
-                <input
-                  :class="[errors.model ? 'is-invalid' : ''] + ' form-control'"
-                  type="text"
-                  v-model="ticket.model"
-                />
+                <vue-select class="col-9 px-0 mx-0" transition="vs__fade" :options="models" label="name" itemid="id"
+                    @input="setModel" v-model="ticket.car_model.name">
+                        <div slot="no-options">No hay opciones con esta busqueda</div>
+                        <template slot="option" slot-scope="option">
+                            {{ option.id }} - {{ option.name }}
+                        </template>
+                </vue-select>
               </div>
             </div>
             <div
@@ -236,7 +232,7 @@
                 :quickToolbarSettings="quickToolbarSettings"
                 :height="400"
                 :toolbarSettings="toolbarSettings"
-                >{{ ticket.description }}
+                >{{ticket.description}}
               </ejs-richtexteditor>
             </div>
           </div>
@@ -260,11 +256,8 @@
                 :quickToolbarSettings="quickToolbarSettings"
                 :height="400"
                 :toolbarSettings="toolbarSettings"
-              >
-                <pre>
-                            {{ ticket.tests_done }}
-                          </pre
                 >
+                {{ ticket.tests_done }}
               </ejs-richtexteditor>
             </div>
           </div>
@@ -295,11 +288,18 @@ export default {
   props: ["ticketID"],
   data() {
     return {
-      users: {},
-      customers: {},
+      users: [],
+      customers: [],
+      brands: [],
+      models: [],
       departments: {},
       calls: {},
-      ticket: {},
+      ticket: {
+        user: {},
+        customer: {},
+        brand: {},
+        car_model: {}
+      },
       selected: {
         customer_id: "",
         user_id: "",
@@ -376,8 +376,33 @@ export default {
     this.get_all_departments();
     this.get_all_customers();
     this.get_ticket(parseInt(this.ticketID));
+    this.get_all_brands();
   },
   methods: {
+    setCustomer(value) {
+      this.ticket.customer.id = value ? value.id : null;
+      this.get_all_users();
+    },
+    setModel(value) {
+      this.ticket.car_model.id = value ? value.id : null;
+    },
+    setBrand(value) {
+      this.ticket.brand.id = value ? value.id : null;
+      axios.get('/api/brand/' + this.ticket.brand.id + '/model')
+        .then( res => {
+            this.models = res.data.models
+        }).catch( err => {
+            console.log(err)
+      });
+
+    },
+    get_all_brands() {
+      axios.get('/api/get_all_brands')
+        .then( res => {
+          this.brands = res.data.brands
+
+        })
+    },
     get_all_departments() {
       axios
         .get("/api/get_all_departments")
@@ -400,15 +425,16 @@ export default {
         });
     },
     get_all_users() {
-      if (this.selected.customer_id !== "") {
+      if (this.ticket.customer.id !== "") {
         axios
           .get("/api/get_all_users", {
             params: {
-              customer_id: this.ticket.customer_id,
+              customer_id: this.ticket.customer.id,
             },
           })
-          .then((res) => {
-            this.users = res.data;
+          .then(res => {
+            console.log(res.data)
+            this.users = res.data.users;
           })
           .catch((err) => {
             console.log(err);
@@ -418,8 +444,9 @@ export default {
     get_ticket(ticketID) {
       axios
         .get("/api/ticket/" + ticketID)
-        .then((res) => {
+        .then(res => {
           this.ticket = res.data.ticket;
+          this.users[0] = res.data.ticket.user;
         })
         .catch((err) => {
           console.log(err);
@@ -428,7 +455,7 @@ export default {
     handleSubmit() {
       this.errors = {};
 
-      if (this.selected.frame_id === "" && this.selected.plate === "") {
+      if (this.ticket.frame_id === "" && this.ticket.plate === "") {
         this.error = true;
         this.errors["frame_id"] = [
           "Uno de los campos nº bastido o matrícula es obligatorio.",
@@ -440,15 +467,16 @@ export default {
       this.error = false;
       this.errors = {};
 
+      console.log(this.ticket.calls)
       axios
-        .put("/ticket/" + this.ticket.id, {
-          customer_id: this.ticket.customer_id,
-          user_id: this.ticket.user_id,
-          department_id: this.ticket.department_id,
+        .put("/api/ticket/" + this.ticket.id, {
+          customer_id: this.ticket.customer.id,
+          user_id: this.ticket.user.id,
+          department_id: this.ticket.department.id,
           frame_id: this.ticket.frame_id,
           plate: this.ticket.plate,
-          brand: this.ticket.brand,
-          model: this.ticket.model,
+          brand_id: this.ticket.brand.id,
+          model_id: this.ticket.car_model.id,
           engine_type: this.ticket.engine_type,
           ask_for: this.ticket.ask_for,
           subject: this.ticket.subject,
@@ -460,10 +488,10 @@ export default {
           if (res.data.success) {
             this.success.value = true;
             this.success.message = res.data.success;
-
             setTimeout(() => {
-              window.location.href = "/ticket";
-            }, 1500);
+              window.location.href = '/ticket/' + this.ticket.id;
+            }, 2000);
+
           } else if (res.data.error) {
             this.error = true;
             this.errors = res.data.error;

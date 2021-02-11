@@ -21,14 +21,15 @@
                         <label class="sr-only" for="dateFrom">Cliente</label>
                         <div class="input-group w-100">
                             <div class="input-group-prepend">
-                                <div class="input-group-text text-uppercase">Cliente</div>
+                                <div class="input-group-text text-uppercase py-1">Cliente</div>
                             </div>
-                            <select class="form-control" v-model="selected.customer_id" @change="get_all_users()" required>
-                                <option value="" disabled>-- SELECCIONE UN CLIENTE --</option>
-                                <option v-for="cs in customers" :key="cs.id" :value="cs.id">
-                                    {{ cs.comercial_name ? cs.comercial_name : comercial_fiscal_name }}
-                                </option>
-                            </select>
+                            <vue-select class="col-9 px-0 w-100" transition="vs__fade" :options="customers" label="comercial_name" itemid="id"
+                                @input="setCustomer">
+                                    <div slot="no-options">No hay opciones con esta busqueda</div>
+                                    <template slot="option" slot-scope="option">
+                                        {{ option.id }} - {{ option.comercial_name ? option.comercial_name : cs.fiscal_name }}
+                                    </template>
+                            </vue-select>
                         </div>
                     </div>
                     <div class="form-group col-12 col-md-6 col-lg-4">
@@ -89,9 +90,15 @@
                         <label class="sr-only" for="dateFrom">Marca</label>
                         <div class="input-group w-100">
                             <div class="input-group-prepend">
-                                <div class="input-group-text text-uppercase">Marca</div>
+                                <div class="input-group-text text-uppercase py-1">Marca</div>
                             </div>
-                            <input :class="[errors.brand ? 'is-invalid': ''] + ' form-control'" type="text" v-model="selected.brand"/>
+                            <vue-select class="col-9 px-0 mx-0" transition="vs__fade" :options="brands" label="name" itemid="id"
+                                @input="setBrand">
+                                    <div slot="no-options">No hay opciones con esta busqueda</div>
+                                    <template slot="option" slot-scope="option">
+                                        {{ option.id }} - {{ option.name }}
+                                    </template>
+                            </vue-select>
                         </div>
                     </div>
                     <div class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2">
@@ -100,7 +107,13 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text text-uppercase">Modelo</div>
                             </div>
-                            <input :class="[errors.model ? 'is-invalid': ''] + ' form-control'" type="text" v-model="selected.model"/>
+                            <vue-select class="col-9 px-0 mx-0" transition="vs__fade" :options="models" label="name" itemid="id"
+                                @input="setModel">
+                                    <div slot="no-options">No hay opciones con esta busqueda</div>
+                                    <template slot="option" slot-scope="option">
+                                        {{ option.id }} - {{ option.name }}
+                                    </template>
+                            </vue-select>
                         </div>
                     </div>
                     <div class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2">
@@ -171,7 +184,9 @@ export default {
     data() {
         return {
             users: {},
-            customers: {},
+            customers: [],
+            brands: [],
+            models: [],
             departments: {},
             calls: {},
             selected: {
@@ -180,8 +195,8 @@ export default {
                 department_id: '',
                 frame_id: '',
                 plate: '',
-                brand: '',
-                model: '',
+                brand_id: '',
+                model_id: '',
                 engine_type: '',
                 ask_for: '',
                 description: '',
@@ -218,8 +233,33 @@ export default {
     beforeMount() {
         this.get_all_departments();
         this.get_all_customers();
+        this.get_all_brands();
     },
     methods: {
+        setModel(value) {
+            this.selected.model_id = value ? value.id : null;
+        },
+        setBrand(value) {
+            this.selected.brand_id = value ? value.id : null;
+            axios.get('/api/brand/' + this.selected.brand_id + '/model')
+                .then( res => {
+                    this.models = res.data.models
+                }).catch( err => {
+                    console.log(err)
+                });
+        },
+        setCustomer(value) {
+            this.selected.customer_id = value ? value.id : null;
+            this.get_all_users();
+        },
+        get_all_brands() {
+            axios.get('/api/get_all_brands')
+                .then( res => {
+                    this.brands = res.data.brands
+                }).catch( err => {
+                    console.log(err);
+                });
+        },
         get_all_departments() {
             axios.get('/api/get_all_departments')
             .then(res => {
@@ -262,14 +302,14 @@ export default {
             this.error = false;
             this.errors = {};
 
-            axios.post('/ticket', {
+            axios.post('/api/ticket', {
                 customer_id: this.selected.customer_id,
                 user_id: this.selected.user_id,
                 department_id: this.selected.department_id,
                 frame_id: this.selected.frame_id,
                 plate: this.selected.plate,
-                brand: this.selected.brand,
-                model: this.selected.model,
+                brand_id: this.selected.brand_id,
+                model_id: this.selected.model_id,
                 engine_type: this.selected.engine_type,
                 ask_for: this.selected.ask_for,
                 subject: this.selected.subject,
@@ -277,6 +317,7 @@ export default {
                 tests_done: this.$refs.tests_done.ej2Instances.value,
                 calls: this.selected.calls
             }).then(res => {
+                console.log(res.data)
                 if(res.data.success) {
                     this.success.value = true;
                     this.success.message = res.data.success;
@@ -311,4 +352,7 @@ export default {
     @import "../../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
     @import "../../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
     @import "../../../../node_modules/@syncfusion/ej2-vue-richtexteditor/styles/material.css";
+</style>
+<style lang="scss">
+    @import "vue-select/src/scss/vue-select.scss";
 </style>

@@ -2,15 +2,16 @@
     <div class="w-100">
         <div class="card shadow mt-3" v-if="tickets.total > 0">
             <div class="card-body">
-                <table class="table table-hover table-striped shadow">
+                <table class="table table-hover table-striped shadow text-left">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Usuario</th>
+                            <!-- <th scope="col">Usuario</th> -->
                             <th scope="col">Cliente</th>
                             <th scope="col">Departamento</th>
                             <th scope="col">Asunto</th>
                             <th scope="col">Fecha</th>
+                            <th scope="col">Estado</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -21,24 +22,25 @@
                                     {{ ticket.custom_id }}
                                 </router-link>
                             </th>
-                            <td>{{ ticket.user.name }}</td>
+                            <!-- <td>{{ ticket.user.name }}</td> -->
                             <td>{{ ticket.customer.comercial_name }}</td>
                             <td>{{ ticket.department.name }}</td>
                             <td>{{ ticket.subject }}</td>
                             <td>{{ ticket.created_at | moment("LTS") }}</td>
                             <td>
-                                <div class="d-flex justify-content-around">
-                                    <router-link :to="{name : 'ticket.show', params: {ticketID: ticket.id }}"  class="btn btn-sm btn-success">
+                                <button :class="'mx-1 btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
+                                    :title="ticket.status.name" disabled>
+                                    <i :class="'fa fa-' + setIcon(ticket.status.name) "></i>
+                                </button>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <router-link :to="{name : 'ticket.show', params: {ticketID: ticket.id }}"  class="btn btn-sm btn-success mx-1">
                                         <i class="fa fa-eye"></i>
                                     </router-link>
-                                    <button :class="'btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
-                                        :title="ticket.status.name" disabled>
-                                        <i :class="'fa fa-' + setIcon(ticket.status.name) "></i>
-                                    </button>
-
                                     <!-- SI ESTADO ES ABIERTO -->
                                     <div class="dropdown" v-if="ticket.status.id == 1 ">
-                                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="statuses" data-toggle="dropdown"
+                                        <button class="btn btn-sm btn-primary dropdown-toggle mx-1" type="button" id="statuses" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-exchange-alt"></i>
                                         </button>
@@ -48,12 +50,11 @@
                                             <button type="button" class="dropdown-item" @click="setStatus(ticket, 3)">Resuelto</button>
                                         </div>
                                     </div>
-
-                                    <button v-if="ticket.deleted_at" class="btn btn-sm btn-danger" type="button" title="Cambiar estado"
+                                    <button v-if="ticket.deleted_at" class="btn btn-sm btn-danger mx-1" type="button" title="Cambiar estado"
                                         disabled>
                                         <i class="fa fa-trash"></i>
                                     </button>
-                                    <button v-else-if="ticket.status.id == 1 " class="btn btn-sm btn-danger" type="button"
+                                    <button v-else-if="ticket.status.id == 1 " class="btn btn-sm btn-danger mx-1" type="button"
                                         title="Cambiar estado" @click="openDeleteModal(ticket)">
                                         <i class="fa fa-trash"></i>
                                     </button>
@@ -109,9 +110,13 @@ export default {
     },
     setStatus(ticket, id) {
           axios.get('/api/ticket/' + ticket.id + '/status/' + id)
-          console.log(id)
-          console.log(ticket)
-      },
+            .then( res => {
+                console.log(res.data)
+            }).catch( err => {
+                console.log(err)
+            });
+        this.emit_pagination(1);
+    },
     setIcon(status_name) {
         switch (status_name) {
             case 'Abierto':

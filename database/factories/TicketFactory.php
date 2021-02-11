@@ -2,9 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Customer;
 use App\Models\Department;
-use App\Models\EngineType;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\User;
@@ -22,8 +20,6 @@ $factory->define(Ticket::class, function (Faker $faker) {
         'department_id' => $dep->id,
         'frame_id' => $faker->vin,
         'plate' => $faker->vehicleRegistration('[A-Z]{3}-[0-9]{4}'),
-        'brand' => $faker->vehicleBrand,
-        'model' => $faker->vehicleModel,
         'engine_type' => Str::random(5) . Str::random(5),
         'subject' => $faker->sentence(),
         'description' => $faker->randomHtml(2,2),

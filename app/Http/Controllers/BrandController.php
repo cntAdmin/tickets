@@ -82,4 +82,10 @@ class BrandController extends Controller
     {
         //
     }
+
+    public function get_all_brands() {
+        return response()->json([
+            'brands' => Brand::all()->toArray()
+        ]);
+    }
 }

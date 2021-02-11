@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div class="card shadow w-100">
+    <div class="w-100">
+        <div class="card shadow">
             <div class="card-body">
                 <form @submit.prevent="handleSubmit">
                     <div class="form-inline">

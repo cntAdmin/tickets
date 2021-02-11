@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
             DepartmentsSeeder::class,
             CustomersSeeder::class,
             UsersSeeder::class,
+            BrandSeeder::class,
+            CarModelsSeeder::class,
             TicketStatusSeeder::class,
             TicketSeeder::class,
             AttachmentsSeeder::class,
-            BrandSeeder::class,
-            CarModelsSeeder::class,
             ]);
     }
 }

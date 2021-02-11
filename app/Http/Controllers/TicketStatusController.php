@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ticket;
 use App\Models\TicketStatus;
 use Illuminate\Http\Request;
 
@@ -87,4 +88,13 @@ class TicketStatusController extends Controller
         return response()->json(\App\Models\TicketStatus::all());
     }
 
+    public function change_status(Ticket $ticket, TicketStatus $ticketStatus) {
+        $ticket->status()->associate($ticketStatus);
+        $ticket->save();
+
+        return response()->json([
+            'success' => true,
+            'ticket' => $ticket
+        ]);
+    }
 }

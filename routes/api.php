@@ -33,17 +33,23 @@ Route::group(['middleware' => ['auth:web']], function () {
 
             return response()->json([ 'user_role' => $get_user->getRoleNames()[0] ]);
         });
+        Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
         
         // ? CREATE
         Route::get('/get_all_users', 'UserController@get_all_users');
         Route::get('/get_all_customers', 'CustomerController@get_all_customers');
         Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
         Route::get('/get_all_calls', 'CallController@get_all_calls');
-
+            // ? BRANDS
+            Route::get('/get_all_brands', 'BrandController@get_all_brands');
+            Route::get('/brand/{brand}/model', 'CarModelController@get_brand_models');
         // ? DEPARTMENTS
         Route::get('/get_department_users', 'DepartmentController@get_department_users');
         Route::get('/assign_user/{department}/user/{user}', 'DepartmentController@assign_user');
         Route::get('/unassign_user/{department}/user/{user}', 'DepartmentController@unassign_user');
+
+
+
     });
 
 

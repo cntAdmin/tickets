@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\TicketStatus;
 use Illuminate\Database\Seeder;
 
 class TicketSeeder extends Seeder
@@ -14,7 +13,12 @@ class TicketSeeder extends Seeder
     {
         factory(\App\Models\Ticket::class, 50)->create()
             ->each(function(\App\Models\Ticket $ticket) {
+                $brand = \App\Models\Brand::inRandomOrder()->first();
+                $model = $brand->models->first();
                 $ticket->comments()->save(factory(\App\Models\Comment::class)->make());
+                $ticket->brand()->associate($brand);
+                $ticket->car_model()->associate($model);
+                $ticket->save();
             });
     }
 }

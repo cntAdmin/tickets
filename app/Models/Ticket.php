@@ -61,4 +61,13 @@ class Ticket extends Model
         return $this->hasMany(\App\Models\Call::class, 'ticket_id', 'id');
     }
 
+    public function brand()
+    {
+        return $this->belongsTo(\App\Models\Brand::class, 'brand_id', 'id');
+    }
+
+    public function car_model()
+    {
+        return $this->belongsTo(\App\Models\CarModel::class, 'car_model_id', 'id');
+    }
 }

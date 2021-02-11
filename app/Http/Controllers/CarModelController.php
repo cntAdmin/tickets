@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\CarModel;
 use Illuminate\Http\Request;
 
@@ -81,5 +82,11 @@ class CarModelController extends Controller
     public function destroy(CarModel $carModel)
     {
         //
+    }
+
+    public function get_brand_models(Brand $brand) {
+        return response()->json([
+            'models' => $brand->models->toArray()
+        ]);
     }
 }

@@ -252,6 +252,7 @@ class CustomerController extends Controller
             \App\Models\Customer::where('is_active', 1)
                 ->orderBy('comercial_name')
                 ->get()
+                ->toArray()
         );
     }
 }

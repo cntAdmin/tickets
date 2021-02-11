@@ -132,7 +132,7 @@
             <input
               class="form-control"
               type="text"
-              v-model="ticket.brand"
+              v-model="ticket.brand.name"
               disabled
             />
           </div>
@@ -148,7 +148,7 @@
             <input
               class="form-control"
               type="text"
-              v-model="ticket.model"
+              v-model="ticket.car_model.name"
               disabled
             />
           </div>
@@ -230,7 +230,10 @@ export default {
   props: ["ticketID", 'user_role'],
   data() {
     return {
-      ticket: {},
+      ticket: {
+        brand: {},
+        car_model: {}
+      },
       calls: [],
       selected: {
         calls: [],
