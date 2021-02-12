@@ -39,7 +39,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected $appends = ['active_status', 'fullname'];
 
+    public function getActiveStatusAttribute() {
+        return $this->attributes['is_active'] == 1 ? 'Activo' : 'Inactivo';
+    }
+
+    public function getFullnameAttribute() {
+        return "{$this->attributes['name']} {$this->attributes['surname']}";
+    }
+    
     public function customer()
     {
         return $this->belongsTo(\App\Models\Customer::class, 'customer_id', 'id')->withCount('tickets');

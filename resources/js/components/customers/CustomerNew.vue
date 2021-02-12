@@ -223,7 +223,6 @@ export default {
             shop: this.selected.shop,
             is_active: this.selected.isActive,
           }).then( res => {
-              console.log(res.data)
               if(res.data.success) {
                   this.$emit('created', res.data.msg);
               }

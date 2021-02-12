@@ -41,15 +41,15 @@
 Vue.component('tickets', require('./components/tickets/Tickets').default);
 Vue.component('tickets-table', require('./components/tickets/TicketsTable').default);
 Vue.component('tickets-search-form', require('./components/tickets/TicketsSearchForm').default);
-    // CREATE TICKET
-        Vue.component('tickets-create', require('./components/tickets/TicketsCreateComponent').default);
-        Vue.component('calls-modal', require('./components/CallsModalComponent').default);
-    // VIEW TICKET 
-        Vue.component('ticket-view-info', require('./components/tickets/TicketViewInfoComponent').default);
-        Vue.component('ticket-comments', require('./components/tickets/TicketCommentsComponent').default);
-        Vue.component('ticket-comment', require('./components/tickets/TicketCommentComponent').default);
-        Vue.component('ticket-new-coment', require('./components/tickets/TicketNewCommentComponent').default);
-        Vue.component('ticket-view-calls', require('./components/tickets/TicketViewCallsComponent').default);
+// CREATE TICKET
+    Vue.component('tickets-create', require('./components/tickets/TicketsCreateComponent').default);
+    Vue.component('calls-modal', require('./components/CallsModalComponent').default);
+// VIEW TICKET 
+    Vue.component('ticket-view-info', require('./components/tickets/TicketViewInfoComponent').default);
+    Vue.component('ticket-comments', require('./components/tickets/TicketCommentsComponent').default);
+    Vue.component('ticket-comment', require('./components/tickets/TicketCommentComponent').default);
+    Vue.component('ticket-new-coment', require('./components/tickets/TicketNewCommentComponent').default);
+    Vue.component('ticket-view-calls', require('./components/tickets/TicketViewCallsComponent').default);
         
 // DEPARTMENTS
 Vue.component('departments', require('./components/departments/Departments').default);
@@ -71,6 +71,10 @@ Vue.component('customer-edit', require('./components/customers/CustomerEdit').de
 
 // USERS
 Vue.component('users', require('./components/users/Users').default);
+Vue.component('users-search-form', require('./components/users/UsersSearchForm').default);
+Vue.component('users-table', require('./components/users/UsersTable').default);
+Vue.component('user-new', require('./components/users/UserNew').default);
+Vue.component('user-edit', require('./components/users/UserEdit').default);
 
 
 /**

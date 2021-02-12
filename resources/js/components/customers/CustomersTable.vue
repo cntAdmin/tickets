@@ -22,7 +22,7 @@
                             <td>{{ cs.comercial_name }}</td>
                             <td>{{ cs.email }}</td>
                             <td>
-                                <button v-if="cs.is_active" class="btn btn-sm btn-success" disabled>
+                                <button v-if="cs.is_active" class="btn btn-sm btn-success" :title="cs.active_status" disabled>
                                     <i class="fa fa-check"></i>
                                 </button>
                                 <button v-else class="btn btn-sm btn-danger" :title="cs.active_status" disabled>
@@ -82,7 +82,6 @@ export default {
         getDeleted(){
             axios.delete('/api/customer/' + this.customer.id)
                 .then( res => {
-                    console.log(res.data)
                     if(res.data.success) {
                         this.$emit('deleted', res.data.msg)
                     }

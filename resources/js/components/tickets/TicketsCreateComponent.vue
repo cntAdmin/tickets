@@ -273,7 +273,7 @@ export default {
         get_all_departments() {
             axios.get('/api/get_all_departments')
             .then(res => {
-                this.departments = res.data;
+                this.departments = res.data.departments;
                 this.selected.department_id = this.departments[0].id
             }).catch(err => {
                 console.log(err)

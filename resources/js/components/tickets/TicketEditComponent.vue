@@ -409,7 +409,7 @@ export default {
       axios
         .get("/api/get_all_departments")
         .then((res) => {
-          this.departments = res.data;
+          this.departments = res.data.departments;
           this.ticket.department_id = this.departments[0].id;
         })
         .catch((err) => {

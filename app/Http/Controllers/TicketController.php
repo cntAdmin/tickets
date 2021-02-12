@@ -65,19 +65,26 @@ class TicketController extends Controller
                 });
             })
             // SI ESTE TICKET TIENE USUARIOS BUSCA POR EL NOMBRE
-            ->when($req->user, function(Builder $q, $user_name){
+            ->when($req->user_name, function(Builder $q, $user_name){
                 $q->whereHas('user', function($q2) use ($user_name){
                     $q2->where('users.name', 'LIKE', $user_name . '%');
                 });
             })
             // SI ESTE TICKET TIENE UN CLIENTE BUSCA POR EL ID
-            ->when($req->customer, function(Builder $q, $customer_id){
-                $q->whereHas('customer', function($q2) use ($customer_id){
-                    $q2->where('customers.id', 'LIKE', $customer_id . '%');
+            ->when($req->customer_custom_id, function(Builder $q, $custom_id){
+                $q->whereHas('customer', function($q2) use ($custom_id){
+                    $q2->where('customers.custom_id', 'LIKE', $custom_id . '%');
+                });
+            })
+            // SI ESTE TICKET TIENE UN CLIENTE BUSCA POR EL ID
+            ->when($req->customer_name, function(Builder $q, $customer_name){
+                $q->whereHas('customer', function($q2) use ($customer_name){
+                    $q2->where('customers.comercial_name', 'LIKE', $customer_name . '%')
+                        ->orWhere('customers.fiscal_name', 'LIKE', $customer_name . '%');
                 });
             })
             // SI ESTE TICKET TIENE UN DEPARTAMENTO BUSCA POR EL ID
-            ->when($req->department, function(Builder $q, $department_id){
+            ->when($req->department_id, function(Builder $q, $department_id){
                 $q->whereHas('department', function($q2) use ($department_id){
                     $q2->where('departments.id', $department_id);
                 });

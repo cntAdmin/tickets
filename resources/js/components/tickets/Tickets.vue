@@ -82,9 +82,10 @@ export default {
             axios.get('/api/ticket', { params: {
                 page: data ? data.page : null,
                 ticket_id: data ? data.ticket_id : null,
-                user: data ? data.user : null,
-                customer: data ? data.customer : null,
-                department: data ? data.department : null,
+                user_name: data ? data.user_name : null,
+                customer_custom_id: data ? data.customer_custom_id : null,
+                customer_name: data ? data.customer_name : null,
+                department_id: data ? data.department_id : null,
                 status: data ? data.status : this.$route.query.status,
                 }
             }).then(res => {

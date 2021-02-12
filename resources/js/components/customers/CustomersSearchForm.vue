@@ -79,6 +79,7 @@ export default {
     data() {
         return {
             selected: {
+                page:1,
                 cif: '',
                 customID: '',
                 comercialName: '',
@@ -90,7 +91,6 @@ export default {
     },
     methods: {
         handleSubmit() {
-            this.selected.page = 1;
             this.$emit('search', this.selected)
         }
     }

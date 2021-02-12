@@ -186,7 +186,10 @@ class DepartmentController extends Controller
     }
 
     public function get_all_departments() {
-        return response()->json(\App\Models\Department::all());
+        return response()->json([
+            'success' => true,
+            'departments' => \App\Models\Department::all()->toArray()
+        ]);
     }
 
     public function get_department_users(Request $req) {

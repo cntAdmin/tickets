@@ -35,14 +35,11 @@ export default {
           case 'Ticket':
             return this.data.subject ? this.data.subject : this.data.custom_id;
             break;
-          case 'Departamento':
-            return this.data.name ? this.data.name : this.data.code;
-            break;
         
           default:
+            return this.data.name
             break;
         }
-        return "AAA";
       }
     }
 }
