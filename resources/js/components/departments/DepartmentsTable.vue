@@ -41,7 +41,7 @@
                 </table>
             </div>
             <delete-modal v-show="deleteModal" @close="deleteModal = false" @getDeleted="getDeleted()"
-                title="departamento" :data="department" />
+                title="Departamento" :data="department" />
             <department-assign-user v-show="assignModal" @close="assignModal = false" :department="department"/>
             <pagination :data="departments" @pagination-change-page="emit_pagination" :limit="3" size="small"
                 align="center">

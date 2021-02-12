@@ -75,7 +75,7 @@
                 Haga una nueva búsqueda
             </div>
         </div>
-        <delete-modal v-show="showModal" :data="ticket" title="Ticket" @getDeleted="getDeleted"></delete-modal>
+        <delete-modal v-show="showModal" :data="ticket" title="Ticket" @getDeleted="getDeleted" @close="showModal = false"></delete-modal>
     </div>
 
 </template>

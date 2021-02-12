@@ -74,20 +74,19 @@ export default {
         }
     },
     mounted() {
-        console.log('this.user_role', this.user_role)
+        this.getDepartments()
     },
     methods: {
         getDepartments(data) {
-            if(!data) return;
 
             this.closeAll();
             this.searching = true;
-            this.searched = data;
+            this.searched = data ? data : this.searched;
 
             axios.get('/api/department', { params: {
-                    page: data.page,
-                    name: data.name,
-                    code: data.code
+                    page: data ? data.page : 1,
+                    name: data ? data.name : null,
+                    code: data ? data.code : null
                 }
             }).then( res => {
                 if(res.data.success) {

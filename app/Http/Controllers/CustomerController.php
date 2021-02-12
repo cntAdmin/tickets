@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
-
+use Illuminate\Support\Str;
 class CustomerController extends Controller
 {
     /**
@@ -74,73 +74,88 @@ class CustomerController extends Controller
      */
     public function store(Request $req)
     {
-        $this->authorize('customers.create');
-
+        // $this->authorize('customers.create');
+        $attributes = [
+            'cif' => 'CIF',
+            'fiscal_name' => 'Nombre Fiscal',
+            'comercial_name' => 'Nombre Comercial',
+            'phone' => 'Teléfono',
+            'email' => 'Email',
+            'street' => 'Dirección',
+            'city' => 'Ciudad',
+            'province' => 'Provincia',
+            'country' => 'País',
+            'postcode' => 'Código Postal',
+            'shop' => 'Tienda',
+            'is_active' => 'Activo'
+        ];
         $messages = [
-            'required' => __(':attibute es obligatorio.'),
-            'string' => __(':attibute debe ser una cadena de texto.'),
+            'required' => __(':attribute es obligatorio.'),
+            'string' => __(':attribute debe ser una cadena de texto.'),
             'max' => __(':attribute debe ser inferior a :max caracteres.'),
             'email' => __(':attribute debe ser de tipo email.'),
             'boolean' => __(':attribute debe ser tipo boleano (true/false)'),
         ];
 
         $validator = Validator::make($req->all(), [
-            'cif' => ['required', 'string', 'max:9', 'unique:customers,cif'],
-            'fiscal_name' => ['required', 'string', 'max:255'],
+            'cif' => ['nullable', 'string', 'max:9', 'unique:customers,cif'],
+            'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,cif'],
+            'fiscal_name' => ['nullable', 'string', 'max:255'],
             'comercial_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:6','max:15'],
             'email' => ['required', 'email'],
             'street' => ['nullable', 'string', 'max:255'],
-            'town' => ['nullable', 'string', 'max:255'],
             'city' => ['nullable', 'string', 'max:255'],
+            'province' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
             'postcode' => ['nullable', 'string', 'max:255'],
             'shop' => ['required','string', 'max:255'],
-            'is_active' => ['required', 'boolean'],
-        ], $messages);
+            'is_active' => ['nullable', 'boolean'],
+        ], $messages, $attributes);
 
         if($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors()
+                'error' => true,
+                'errors' => $validator->errors()
             ]);
         }
 
         $create_customer = Customer::create([
             'cif' => $req->cif,
+            'custom_id' => $req->custom_id ?? Str::random(10),
             'fiscal_name' => $req->fiscal_name,
             'comercial_name' => $req->comercial_name,
             'phone' => $req->phone,
             'email' => $req->email,
             'street' => $req->street,
-            'town' => $req->town,
             'city' => $req->city,
+            'province' => $req->province,
             'country' => $req->country,
             'postcode' => $req->postcode,
             'shop' => $req->shop,
-            'is_active' => $req->is_active ? 1 : 0,
+            'is_active' => 1,
         ]);
 
         $create_user = $create_customer->users()->create([
             'name' => $req->comercial_name,
+            'surname' => '',
+            'username' => 'cliente_'.rand(1,9999999),
             'phone' => $req->phone,
             'email' => $req->email,
             'email_verified_at' => now(),
-            'password' => Hash::make(str_random(1)),
+            'password' => Hash::make(Str::random(10)),
             'is_active' => true
         ]);
 
         $create_user->assignRole('customer');
 
-        /**
-         * 
-         * ¡¡¡PROBAR EL USO DE SEND RESET LINK A VER SI FUNCIONA!!!
-         * 
-         */
-        $create_user->sendResetLinkEmail();
+        if(env('APP_ENV') !== 'local') {
+            $create_user->sendResetLinkEmail($req);
+        }
 
         return $create_user &&  $create_customer
-            ? response()->json(['success' => __('Cliente cread correctamente, también se le ha creado un usuario y se le ha mandado un email para restablecer la contraseña.')])
-            : response()->json(['error' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
+            ? response()->json(['success' => true, 'msg' => __('Cliente creado correctamente, también se le ha creado un usuario y se le ha mandado un email para restablecer la contraseña.')])
+            : response()->json(['error' =>  true, 'msg' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
     }
 
     /**
@@ -151,7 +166,10 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return response()->json([
+            'success' => true,
+            'customer' => $customer
+        ]);
     }
 
     /**
@@ -178,28 +196,43 @@ class CustomerController extends Controller
     {
         $this->authorize('customers.update');
 
+        $attributes = [
+            'cif' => 'CIF',
+            'fiscal_name' => 'Nombre Fiscal',
+            'comercial_name' => 'Nombre Comercial',
+            'phone' => 'Teléfono',
+            'email' => 'Email',
+            'street' => 'Dirección',
+            'city' => 'Ciudad',
+            'province' => 'Provincia',
+            'country' => 'País',
+            'postcode' => 'Código Postal',
+            'shop' => 'Tienda',
+            'is_active' => 'Activo'
+        ];
         $messages = [
-            'required' => __(':attibute es obligatorio.'),
-            'string' => __(':attibute debe ser una cadena de texto.'),
+            'required' => __(':attribute es obligatorio.'),
+            'string' => __(':attribute debe ser una cadena de texto.'),
             'max' => __(':attribute debe ser inferior a :max caracteres.'),
             'email' => __(':attribute debe ser de tipo email.'),
             'boolean' => __(':attribute debe ser tipo boleano (true/false)'),
         ];
 
         $validator = Validator::make($req->all(), [
-            'cif' => ['required', 'string', 'max:9', 'unique:customers,cif'],
-            'fiscal_name' => ['required', 'string', 'max:255'],
+            'cif' => ['nullable', 'string', 'max:9', 'unique:customers,cif'],
+            'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,cif'],
+            'fiscal_name' => ['nullable', 'string', 'max:255'],
             'comercial_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:6','max:15'],
             'email' => ['required', 'email'],
             'street' => ['nullable', 'string', 'max:255'],
-            'town' => ['nullable', 'string', 'max:255'],
             'city' => ['nullable', 'string', 'max:255'],
+            'province' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
             'postcode' => ['nullable', 'string', 'max:255'],
             'shop' => ['required','string', 'max:255'],
-            'is_active' => ['required', 'boolean'],
-        ], $messages);
+            'is_active' => ['nullable', 'boolean'],
+        ], $messages, $attributes);
 
         if($validator->fails()) {
             return response()->json([
@@ -222,8 +255,8 @@ class CustomerController extends Controller
         ]);
 
         return $updated
-            ? response()->json(['success' => __('Cliente actualizado correctamente.')])
-            : response()->json(['error' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
+            ? response()->json(['success' => true, 'msg' => __('Cliente actualizado correctamente.')])
+            : response()->json(['error' => true, 'msg' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
     }
 
     /**
@@ -254,5 +287,15 @@ class CustomerController extends Controller
                 ->get()
                 ->toArray()
         );
+    }
+
+    public function get_customers_count() {
+        $active = Customer::where('is_active', 1)->get()->count();
+        $inactive = Customer::where('is_active', 0)->get()->count();
+
+        return response()->json([
+            'active' => $active,
+            'inactive' => $inactive
+        ]);
     }
 }

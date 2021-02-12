@@ -15,15 +15,18 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('department_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onUpdate('cascade');
+            $table->foreignId('department_id')->nullable()->constrained()->onUpdate('cascade');
             $table->string('name');
             $table->string('surname');
+            $table->string('username')->unique();
             $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(false);
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -9,12 +9,12 @@
                         </h3>
                     </div>
                     <div class="modal-body">
-                        {{ data.name ? data.name : data.subject}} va a ser eliminado, haga click en Eliminar si lo desea.
+                        {{ name }} va a ser eliminado, haga click en Eliminar si lo desea.
                     </div>
                     <div class="modal-footer justify-content-center">
                         <slot name="footer ">
                             <button class="btn btn-sm btn-secondary text-uppercase" @click="$emit('close')">Cancelar</button>
-                            <button class="btn btn-sm btn-danger text-uppercase" @click="$emit('getDeleted')">Eliminar Bono</button>
+                            <button class="btn btn-sm btn-danger text-uppercase" @click="$emit('getDeleted')">Eliminar {{title}}</button>
                         </slot>
                     </div>
                 </div>
@@ -25,7 +25,26 @@
 
 <script>
 export default {
-    props: ['data','title']
+    props: ['data','title'],
+    computed: {
+      name() {
+        switch (this.title) {
+          case 'Cliente':
+            return this.data.comercial_name ? this.data.comercial_name : this.data.fiscal_name;
+            break;
+          case 'Ticket':
+            return this.data.subject ? this.data.subject : this.data.custom_id;
+            break;
+          case 'Departamento':
+            return this.data.name ? this.data.name : this.data.code;
+            break;
+        
+          default:
+            break;
+        }
+        return "AAA";
+      }
+    }
 }
 </script>
 <style>

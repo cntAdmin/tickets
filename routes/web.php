@@ -20,6 +20,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/{any}', 'SpaController@index')->where('any', '.*');
 

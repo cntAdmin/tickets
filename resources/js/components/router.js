@@ -8,6 +8,7 @@ import TicketsCreate from "./tickets/TicketsCreateComponent";
 import TicketEdit from "./tickets/TicketEditComponent";
 import Departments from "./departments/Departments";
 import Customers from "./customers/Customers";
+import Users from "./users/Users";
 
 Vue.use(VueRouter);
 
@@ -30,7 +31,7 @@ const router = new VueRouter({
             component: Tickets
         },
             {
-                path: '/ticket/create',
+                path: '/ticket/create/:customer_id?',
                 name: 'ticket.create', 
                 component: TicketsCreate
             },
@@ -55,7 +56,12 @@ const router = new VueRouter({
             path: '/customer',
             name: 'customer.index', 
             component: Customers
-        }
+        },
+        {
+            path: '/users',
+            name: 'users.index', 
+            component: Users
+        },
     ],
 });
 export default router;

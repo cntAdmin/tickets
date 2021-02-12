@@ -7,11 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     protected $fillable = [
-        'cif', 'fiscal_name', 'comercial_name', 'phone', 'email', 'street', 'town', 'city', 'country', 'postcode', 'shop', 'is_active'
-    ];
-
-    protected $casts = [
-        'is_active' => 'boolean'
+        'cif', 'custom_id', 'fiscal_name', 'comercial_name', 'phone', 'email', 'street', 'city', 'province', 'country', 'postcode',
+        'shop', 'is_active'
     ];
 
     public function users()

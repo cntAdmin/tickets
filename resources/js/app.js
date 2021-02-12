@@ -61,6 +61,18 @@ Vue.component('department-assign-user', require('./components/departments/Depart
 Vue.component('department-assign-form', require('./components/departments/DepartmentAssignForm').default);
 Vue.component('department-assign-table', require('./components/departments/DepartmentAssignTable').default);
 
+
+// CUSTOMERS
+Vue.component('customers', require('./components/customers/Customers').default);
+Vue.component('customers-search-form', require('./components/customers/CustomersSearchForm').default);
+Vue.component('customers-table', require('./components/customers/CustomersTable').default);
+Vue.component('customer-new', require('./components/customers/CustomerNew').default);
+Vue.component('customer-edit', require('./components/customers/CustomerEdit').default);
+
+// USERS
+Vue.component('users', require('./components/users/Users').default);
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

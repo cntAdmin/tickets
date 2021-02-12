@@ -1,7 +1,7 @@
 <template>
     <div class="row my-3">
         <div class="card shadow w-100 border-secondary">
-                    <div class="card-header">
+          <div class="card-header">
             <div class="d-flex justify-content-between">
               <div class="mr-auto">
                   <h3 class="text-uppercase">Nuevo Departamento</h3>
@@ -35,7 +35,7 @@
                                     <div class="input-group-text text-uppercase">Código</div>
                                 </div>
                                 <input type="text" v-model="selected.code" class="form-control"
-                                    title="Minimo 3 caracteres" autofocus />
+                                    title="Minimo 3 caracteres" />
                             </div>
                         </div>
                         <button class="btn btn-sm btn-secondary text-uppercase ml-3">

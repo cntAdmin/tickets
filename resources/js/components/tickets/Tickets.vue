@@ -11,6 +11,7 @@
                 Crear Ticket
             </router-link>
         </div>
+        
         <tickets-search-form @search="getTickets" />
 
         <div class="alert alert-dismissable alert-danger my-3" v-if="deleted.status">

@@ -52,6 +52,13 @@
                     </li>
                     <li class="nav-item mt-2">
                         <div class="shadow-sm">
+                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'users.index'}">
+                                Usuarios / Contactos
+                            </router-link>
+                        </div>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <div class="shadow-sm">
                             <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'home'}">
                                 Media
                             </router-link>

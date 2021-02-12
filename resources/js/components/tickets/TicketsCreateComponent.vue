@@ -24,7 +24,7 @@
                                 <div class="input-group-text text-uppercase py-1">Cliente</div>
                             </div>
                             <vue-select class="col-9 px-0 w-100" transition="vs__fade" :options="customers" label="comercial_name" itemid="id"
-                                @input="setCustomer">
+                                @input="setCustomer" v-model="customer.comercial_name">
                                     <div slot="no-options">No hay opciones con esta busqueda</div>
                                     <template slot="option" slot-scope="option">
                                         {{ option.custom_id }} - {{ option.comercial_name ? option.comercial_name : cs.fiscal_name }}
@@ -181,10 +181,12 @@ export default {
     provide: {
         richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar]
     },
+    props:['customer_id'],
     data() {
         return {
             users: [],
             customers: [],
+            customer: {},
             brands: [],
             models: [],
             departments: {},
@@ -234,6 +236,14 @@ export default {
         this.get_all_departments();
         this.get_all_customers();
         this.get_all_brands();
+        if(this.$route.params.customer_id) {
+            axios.get('/api/customer/' + this.$route.params.customer_id)
+                .then( res => {
+                    console.log(res.data);
+                    this.customer = res.data.customer;
+                    this.get_all_users();
+                });
+        }
     },
     methods: {
         setModel(value) {
@@ -278,11 +288,12 @@ export default {
             });
         },
         get_all_users() {
-            if(this.selected.customer_id !== '') {
+            if(this.selected.customer_id !== '' || this.$route.params.customer_id) {
                 axios.get('/api/get_all_users', { params: {
-                        customer_id: this.selected.customer_id
+                        customer_id: this.$route.params.customer_id ? this.customer.id : this.selected.customer_id
                     }
                 }).then(res => {
+                    console.log(res.data)
                     this.users = res.data.users;
                 }).catch(err => {
                     console.log(err)
@@ -317,7 +328,6 @@ export default {
                 tests_done: this.$refs.tests_done.ej2Instances.value,
                 calls: this.selected.calls
             }).then(res => {
-                console.log(res.data)
                 if(res.data.success) {
                     this.success.value = true;
                     this.success.message = res.data.success;

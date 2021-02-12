@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::group(['middleware' => ['auth:web']], function () {
     
     Route::resource('user', 'UserController');
@@ -48,6 +49,8 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/assign_user/{department}/user/{user}', 'DepartmentController@assign_user');
         Route::get('/unassign_user/{department}/user/{user}', 'DepartmentController@unassign_user');
 
+        // ? CUSTOMERS
+        Route::get('/get_customers_count', 'CustomerController@get_customers_count');
 
 
     });

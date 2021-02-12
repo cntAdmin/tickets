@@ -67,15 +67,15 @@ class CommentController extends Controller
         $user_assigned = $create_comment->user()->associate(auth()->user()->id);
         $create_comment->save();
         
-        if(!env('APP_ENV')) {
+        if(env('APP_ENV') !== 'local') {
             Mail::to(auth()->user())->send(new NewCommentMail);
         }
 
-
         return $ticket_assigned && $user_assigned
-            ? response()->json(['success' => __('Comentario creado correctamente.') ])
+            ? response()->json(['success' => true, 'msg' => __('Comentario creado correctamente.') ])
             : response()->json([
-                'error' => __('El comentario no se ha podido crear, por favor intentelo de nuevo mas tarde o contacte con el administrador.')
+                'error' => true,
+                'msg' =>  __('El comentario no se ha podido crear, por favor intentelo de nuevo mas tarde o contacte con el administrador.')
             ]);
 
         
