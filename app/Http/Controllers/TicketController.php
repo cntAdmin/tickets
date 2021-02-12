@@ -228,7 +228,7 @@ class TicketController extends Controller
                 $create_ticket->brand()->associate($get_brand);
             }
             if($req->model_id) {
-                $ticket->model()->associate($get_car_model);
+                $create_ticket->model()->associate($get_model);
             }
             
             // ? SAVE ASSOCIATED DATA
