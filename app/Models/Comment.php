@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'description'
     ];
@@ -23,7 +26,7 @@ class Comment extends Model
     {
         return $this->belongsTo(\App\Models\Ticket::class, 'ticket_id', 'id');
     }
-
+    
     public function deleted_by()
     {
         return $this->belongsTo(\App\Models\User::class, 'deleted_by', 'id');

@@ -73,7 +73,7 @@ class CommentController extends Controller
 
 
         return $ticket_assigned && $user_assigned
-            ? response()->json(['success' => __('Comentario creado correctamente.')])
+            ? response()->json(['success' => __('Comentario creado correctamente.') ])
             : response()->json([
                 'error' => __('El comentario no se ha podido crear, por favor intentelo de nuevo mas tarde o contacte con el administrador.')
             ]);
@@ -121,13 +121,14 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Ticket $ticket, Comment $comment)
     {
-        $this->authorize('comments.destroy');
+        // $this->authorize('comments.destroy');
 
         $comment->update([
             'deleted_by' => auth()->user()->id
         ]);
+
         $deleted = $comment->delete();
 
         return $deleted

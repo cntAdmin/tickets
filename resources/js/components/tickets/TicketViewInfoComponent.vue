@@ -218,7 +218,7 @@
       </div>
     </div>
     <ticket-view-calls v-if="calls ? calls.length > 0 : 0" :calls="calls"></ticket-view-calls>
-    <ticket-comments v-if="ticket.comments ? ticket.comments.length > 0 : 0" :comments="ticket.comments"></ticket-comments>
+    <ticket-comments v-if="ticket.comments ? ticket.comments.length > 0 : 0" :comments="ticket.comments" :user="user"></ticket-comments>
 
     <ticket-new-coment :ticket_id='ticketID' @load="get_ticket(ticketID)"></ticket-new-coment>
 
@@ -227,7 +227,7 @@
 
 <script>
 export default {
-  props: ["ticketID", 'user_role'],
+  props: ["ticketID", 'user_role', 'user'],
   data() {
     return {
       ticket: {

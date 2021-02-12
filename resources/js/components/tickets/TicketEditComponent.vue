@@ -9,13 +9,15 @@
             </h4>
           </div>
           <div class="ml-auto" v-show="ticket">
-            <router-link
-              class="btn btn-sm btn-secondary"
-              :to="{ name: 'ticket.show', params: {ticketID: ticketID} }"
-            >
-              Volver
-            </router-link>
-          </div>
+              <button form="edit_ticket_form" type="submit" class="btn btn-sm btn-success mx-3">Guardar Ticket</button>
+
+              <router-link
+                class="btn btn-sm btn-secondary"
+                :to="{ name: 'ticket.show', params: {ticketID: ticketID} }"
+              >
+                Volver
+              </router-link>
+            </div>
         </div>
       </div>
 
@@ -39,7 +41,7 @@
             </button>
           </div>
         </div>
-        <form @submit.prevent="handleSubmit" method="POST">
+        <form id="edit_ticket_form" @submit.prevent="handleSubmit" method="POST">
           <div class="form-inline">
             <div class="form-group col-12 col-md-6 col-lg-4">
               <label class="sr-only" for="dateFrom">Cliente</label>
@@ -51,7 +53,7 @@
                     @input="setCustomer" v-model="ticket.customer.comercial_name">
                         <div slot="no-options">No hay opciones con esta busqueda</div>
                         <template slot="option" slot-scope="option">
-                            {{ option.id }} - {{ option.comercial_name ? option.comercial_name : cs.fiscal_name }}
+                            {{ option.custom_id }} - {{ option.comercial_name ? option.comercial_name : cs.fiscal_name }}
                         </template>
                 </vue-select>
               </div>
@@ -262,8 +264,8 @@
             </div>
           </div>
           <div class="form-inline mt-4">
-            <button type="submit" class="btn btn-success btn-block mx-3">
-              Enviar Ticket
+            <button form="edit_ticket_form" type="submit" class="btn btn-sm btn-success btn-block mx-3">
+              Guardar Ticket
             </button>
           </div>
         </form>
@@ -447,6 +449,9 @@ export default {
         .then(res => {
           this.ticket = res.data.ticket;
           this.users[0] = res.data.ticket.user;
+          this.$refs.description.ej2Instances.value =  this.ticket.description;
+          this.$refs.tests_done.ej2Instances.value =  this.ticket.tests_done;
+
         })
         .catch((err) => {
           console.log(err);

@@ -18,7 +18,7 @@
                     <tbody>
                         <tr v-for="ticket in tickets.data" :key="ticket.id">
                             <th scope="row">
-                                <router-link :to="{name : 'ticket.show', params: {ticketID: ticket.id }}"  class="btn btn-sm btn-link">
+                                <router-link :to="{name : 'ticket.show', params: {ticketID: ticket.id }}"  class="btn btn-sm btn-link text-uppercase">
                                     {{ ticket.custom_id }}
                                 </router-link>
                             </th>

@@ -7,7 +7,7 @@
             </div>
             <div class="ml-auto col-10 m-4">
                 <main class="p-2">
-                    <App user_role="{{ auth()->user()->getRoleNames()[0] }}"></App>
+                    <App user_role="{{ auth()->user()->getRoleNames()[0] }}" :user="{{ auth()->user() }}"></App>
                 </main>
             </div>
         </div>

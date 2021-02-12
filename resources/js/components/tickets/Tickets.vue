@@ -30,6 +30,7 @@
 
 <script>
 export default {
+    props: ['user'],
     data() {
         return {
             tickets: [],
