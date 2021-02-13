@@ -94,7 +94,7 @@ class UserController extends Controller
             'email' => ['nullable', 'sometimes', 'email'],
             'phone' => ['required', 'numeric'],
             'password' => ['required', 'string', 'confirmed'],
-            'is_active' => ['boolean'],
+            'is_active' => ['nullable', 'boolean'],
         ], $messages, $this->attributes);
 
         if($validator->fails()) {
@@ -176,13 +176,15 @@ class UserController extends Controller
 
         // Validación de datos
         $validator = Validator::make($req->all(), [
-            'department_id' => ['nullable', 'exists:departments,id'],
+            // 'customer_id' => ['required_without:department_id', 'nullable', 'exists:customers,id'],
+            // 'department_id' => ['required_without:customer_id', 'nullable', 'exists:departments,id'],
             'name' => ['required', 'string', 'max:100'],
             'surname' => ['nullable', 'string', 'max: 100'],
-            'email' => ['required', 'sometimes', 'email', 'unique:users,email,' . $user],
+            'username' => ['required', 'max:100', 'unique:users,username,' . $user->id],
+            'email' => ['nullable', 'sometimes', 'email'],
             'phone' => ['required', 'numeric'],
-            'password' => ['required', 'string', 'confirmed'],
-            'is_active' => ['boolean'],
+            'password' => ['nullable', 'string', 'confirmed'],
+            'is_active' => ['nullable', 'boolean'],
         ], $messages, $this->attributes);
 
         if($validator->fails()) {
@@ -190,15 +192,15 @@ class UserController extends Controller
                 'error' => $validator->errors()
             ]);
         }
-
         // Actualización del usuario
         $user->update([
-            'name' => $req->name,
-            'surname' => $req->surname,
-            'email' => $req->email,
-            'phone' => $req->phone,
-            'password' => Hash::make($req->password),
-            'is_active' => $req->is_active ? true : false,
+            'name' => $req->name ? $req->name : $user->name,
+            'surname' => $req->surname ? $req->surname : $user->surname,
+            'username' => $req->username ? $req->username : $user->username,
+            'email' => $req->email ? $req->email : $user->email,
+            'phone' => $req->phone ? $req->phone : $user->phone,
+            'password' => $req->password ? Hash::make($req->password) :  $user->password,
+            'is_active' => $req->is_active ? 1 : 0,
         ]);
 
         // Busqueda del departamento en caso de venir completado y asignarselo al usuario
@@ -208,7 +210,8 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'success' => 'El usuario se ha actualizado correctamente'
+            'success' => true,
+            'msg' => 'El usuario se ha actualizado correctamente'
         ]);
     }
 

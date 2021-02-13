@@ -39,7 +39,13 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Cliente</div>
                 </div>
-<!-- ? PONER CLIENTE VUE SELECT -->
+                <vue-select class="col-9 px-0 w-100" transition="vs__fade" :options="customers" label="comercial_name" itemid="id"
+                    @input="setCustomer">
+                        <div slot="no-options">No hay opciones con esta busqueda</div>
+                        <template slot="option" slot-scope="option">
+                            {{ option.custom_id }} - {{ option.comercial_name ? option.comercial_name : cs.fiscal_name }}
+                        </template>
+                </vue-select>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4" v-else>

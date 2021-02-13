@@ -188,6 +188,7 @@
 <script>
 export default {
   props:['customer'],
+  mounted() {console.log('customer', customer)},
   methods: {
       handleSubmit() {
         axios.put('/api/customer/'+ this.customer.id, {

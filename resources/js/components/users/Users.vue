@@ -26,7 +26,7 @@
           <user-new @close="closeAll()" @created="succeeded"></user-new>
         </transition>
         <transition name="fade" v-else-if="is_edit" mode="out-in">
-          <user-edit :customer="customer" @close="closeAll()" @updated="succeeded"></user-edit>
+          <user-edit :user="user" @close="closeAll()" @updated="succeeded"></user-edit>
         </transition>
         <transition name="fade" v-else-if="searching" mode="out-in">
             <div class="row justify-content-center mt-5">
@@ -82,7 +82,7 @@ export default {
     editUser(data) {
       this.closeAll();
       this.is_edit = true;
-      this.customer = data;
+      this.user = data;
     },
     getUsers(data) {
       this.closeAll();
