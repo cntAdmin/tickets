@@ -226,7 +226,6 @@ export default {
       this.user.customer_id = value ? value.id : null;
     },
     handleSubmit() {
-      console.log('this.user.is_active', this.user.is_active)
       axios
         .put("/api/user/" + this.user.id, {
           customer_id: this.user.customer_id,
