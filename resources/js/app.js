@@ -6,7 +6,7 @@
 
  import router from './components/router';
  import {RichTextEditorPlugin} from "@syncfusion/ej2-vue-richtexteditor";
- import { VueMoment } from "vue-moment";
+ import {VueMoment} from "vue-moment";
  import vSelect from 'vue-select';
 
 //  console.log(router)
@@ -14,10 +14,16 @@
  
  window.Vue = require('vue');
 
- Vue.use(require('vue-moment'));
- Vue.use(RichTextEditorPlugin);
- 
- /**
+ const moment = require('moment')
+ require('moment/locale/es')
+  
+ Vue.use(require('vue-moment'), {
+     moment
+ })
+Vue.use(RichTextEditorPlugin);
+
+
+  /**
   * The following block of code may be used to automatically register your
   * Vue components. It will recursively scan this directory for the Vue
   * components and automatically register them with their "basename".

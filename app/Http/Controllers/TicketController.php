@@ -282,7 +282,7 @@ class TicketController extends Controller
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $req, Ticket $ticket)
+    public function update_ticket(Request $req, Ticket $ticket)
     {
         // $this->authorize('tickets.update');
         $custom_attributes = [

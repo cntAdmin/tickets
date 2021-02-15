@@ -39,15 +39,15 @@
                                         <i class="fa fa-eye"></i>
                                     </router-link>
                                     <!-- SI ESTADO ES ABIERTO -->
-                                    <div class="dropdown" v-if="ticket.status.id == 1 ">
+                                    <div class="dropdown">
                                         <button class="btn btn-sm btn-primary dropdown-toggle mx-1" type="button" id="statuses" data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-exchange-alt"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="statuses">
-                                            <button type="button" class="dropdown-item" @click="setStatus(ticket, 1)">Abierto</button>
-                                            <button type="button" class="dropdown-item" @click="setStatus(ticket, 2)">Cerrado</button>
-                                            <button type="button" class="dropdown-item" @click="setStatus(ticket, 3)">Resuelto</button>
+                                            <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, 1)">Abierto</button>
+                                            <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, 2)">Cerrado</button>
+                                            <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, 3)">Resuelto</button>
                                         </div>
                                     </div>
                                     <button v-if="ticket.deleted_at" class="btn btn-sm btn-danger mx-1" type="button" title="Cambiar estado"
@@ -92,7 +92,7 @@ export default {
       }
   },
   methods: {
-    getDeleted(data) {
+    getDeleted() {
         axios.delete('/api/ticket/' + this.ticket.id)
             .then( res => {
                 if(res.data.success) {
@@ -111,11 +111,11 @@ export default {
     setStatus(ticket, id) {
           axios.get('/api/ticket/' + ticket.id + '/status/' + id)
             .then( res => {
+                this.emit_pagination(1);
                 console.log(res.data)
             }).catch( err => {
                 console.log(err)
             });
-        this.emit_pagination(1);
     },
     setIcon(status_name) {
         switch (status_name) {

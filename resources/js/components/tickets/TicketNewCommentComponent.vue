@@ -24,7 +24,7 @@
                             :toolbarSettings="toolbarSettings">
                         </ejs-richtexteditor>
                     </div>
-                    <div class="form-group col-12 mt-3">
+                    <div class="form-group mt-3 w-100">
                         <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
                         <div class="input-group w-100">
                             <div class="input-group-prepend">
