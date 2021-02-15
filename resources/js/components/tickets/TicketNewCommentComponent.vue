@@ -89,8 +89,10 @@ export default {
 
         handleSubmit() {
             const formData = new FormData();
-            for (const i of Object.keys(this.files)) {
-                formData.append(`files[${i}]`, this.files[i])
+            if(this.files) {
+                for (const i of Object.keys(this.files)) {
+                    formData.append(`files[${i}]`, this.files[i])
+                }
             }
             formData.append('comment', this.$refs.comment.ej2Instances.value );
 
@@ -105,6 +107,12 @@ export default {
                     this.success.message = res.data.msg;
                     this.$emit('load');
                     this.$refs.comment.ej2Instances.value = '';
+                    this.files = null,
+
+                    setTimeout(() => {
+                        this.success.value = false;
+                        this.success.message = '';
+                    }, 2000);
                 }else if(res.data.error) {
                     this.success = false;
                 }

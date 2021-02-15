@@ -27,7 +27,7 @@
       <div class="row justify-content-center">
         <div class="col-6 text-center">
           <div
-            v-show="success.value === true"
+            v-show="success.status === true"
             class="alert alert-success alert-dismissible fade show"
             role="alert"
           >
@@ -218,7 +218,9 @@
       </div>
     </div>
     <ticket-view-calls v-if="calls ? calls.length > 0 : 0" :calls="calls"></ticket-view-calls>
-    <ticket-comments v-if="ticket.comments ? ticket.comments.length > 0 : 0" :comments="ticket.comments" :user="user"></ticket-comments>
+    <ticket-comments v-if="ticket.comments ? ticket.comments.length > 0 : 0" :comments="ticket.comments" :user="user"
+        @succeeded="succeeded">
+    </ticket-comments>
 
     <ticket-new-coment :ticket_id='ticketID' @load="get_ticket(ticketID)"></ticket-new-coment>
 
@@ -251,6 +253,11 @@ export default {
     this.getCalls();
   },
   methods: {
+    succeeded(data) {
+      $('html, body').animate({scrollTop:0}, 'slow');
+      this.success.status = true;
+      this.success.message = data;
+    },
     get_ticket(ticket_id) {
       axios
         .get("/api/ticket/" + ticket_id)
@@ -279,7 +286,7 @@ export default {
         })
         .then((res) => {
           if (res.data.success) {
-            this.success.value = true;
+            this.success.status = true;
             this.success.message = res.data.msg;
             setTimeout(() => {
               window.location.href = "/ticket/" + parseInt(this.ticketID);

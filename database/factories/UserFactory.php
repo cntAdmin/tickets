@@ -21,7 +21,7 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->firstName,
         'surname' => $faker->lastName,
-        'username' => $faker->unique()->lastName,
+        'username' => $faker->unique()->userName,
         'phone' => $faker->phoneNumber,
         'email' => $faker->safeEmail,
         'email_verified_at' => now(),

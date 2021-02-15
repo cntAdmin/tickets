@@ -70,14 +70,15 @@ class CommentController extends Controller
         $ticket_assigned = $ticket->comments()->save($create_comment);
         $user_assigned = $create_comment->user()->associate(auth()->user()->id);
 
-        foreach ($req->file('files') as $file) {
-            $stored_file = Storage::disk('public')->put('media', $file);
-            $attachment = Attachment::create([
-                'name' => $file->getClientOriginalName(),
-                'path' => $stored_file
-            ]);
-            
-            $create_comment->attachments()->save($attachment);
+        if($req->file('files')) {
+            foreach ($req->file('files') as $file) {
+                $stored_file = Storage::disk('public')->put('media', $file);
+                $attachment = Attachment::create([
+                    'name' => $file->getClientOriginalName(),
+                    'path' => $stored_file
+                    ]);
+                $create_comment->attachments()->save($attachment);
+            }
         }
 
         $create_comment->save();
@@ -144,12 +145,16 @@ class CommentController extends Controller
             'deleted_by' => auth()->user()->id
         ]);
 
+        $comment->attachments()->each(function($attachment) {
+            Storage::delete($attachment->path);
+        });
+
         $deleted = $comment->delete();
 
         return $deleted
-            ? response()->json(['success' => 'Commentario eliminado correctamente.'])
+            ? response()->json(['success' => true, 'msg' => 'Commentario eliminado correctamente.'])
             : response()->json([
-                'error' => 'El comentario no se ha podido borrar, pruebe de nuevo mas tarde o contacte con el administrador.'
+                'error' => true, 'msg' => 'El comentario no se ha podido borrar, pruebe de nuevo mas tarde o contacte con el administrador.'
             ]);
     }
 }

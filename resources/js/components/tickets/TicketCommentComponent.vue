@@ -42,9 +42,10 @@ export default {
             this.showDeleteModal = true;
         },
         deleteComment() {
+            this.showDeleteModal = false;
             axios.delete('/api/ticket/' + this.comment.ticket_id + '/comment/' + this.comment.id)
                 .then( res => {
-                    console.log( res.data )
+                    this.$emit('succeeded', res.data.msg)
                 }).catch( err => {
                     console.log( err )
                 });

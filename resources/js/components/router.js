@@ -10,6 +10,7 @@ import Departments from "./departments/Departments";
 import Customers from "./customers/Customers";
 import Users from "./users/Users";
 import Faqs from "./faqs/Faqs";
+import FileManager from './media/FileManager';
 
 Vue.use(VueRouter);
 
@@ -67,6 +68,11 @@ const router = new VueRouter({
             path: '/faqs',
             name: 'faqs.index', 
             component: Faqs
+        },
+        {
+            path: '/file-manager',
+            name: 'file_manager.index', 
+            component: FileManager
         },
     ],
 });

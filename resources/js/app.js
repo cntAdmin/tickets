@@ -6,13 +6,16 @@
 
  import router from './components/router';
  import {RichTextEditorPlugin} from "@syncfusion/ej2-vue-richtexteditor";
- import {VueMoment} from "vue-moment";
  import vSelect from 'vue-select';
+ import Vuex from 'vuex';
+ import FileManager from 'laravel-file-manager';
+ 
 
 //  console.log(router)
  require('./bootstrap');
  
  window.Vue = require('vue');
+ Vue.use(Vuex);
 
  const moment = require('moment')
  require('moment/locale/es')
@@ -21,6 +24,9 @@
      moment
  })
 Vue.use(RichTextEditorPlugin);
+
+const store = new Vuex.Store();
+Vue.use(FileManager, {store})
 
 
   /**
@@ -90,6 +96,7 @@ Vue.component('user-edit', require('./components/users/UserEdit').default);
  */
 
 const app = new Vue({
+    store,
     el: '#app',
     router,
 });

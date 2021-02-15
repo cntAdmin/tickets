@@ -1,6 +1,6 @@
 <template>
   <div class="mx-3">
-    <div class="row">
+    <div class="row justify-content-center">
       <card-counter
         title="Total"
         color="primary"

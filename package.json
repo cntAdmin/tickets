@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@syncfusion/ej2-vue-richtexteditor": "^18.4.34",
+        "laravel-file-manager": "^2.5.2",
         "laravel-vue-pagination": "^2.3.1",
         "vue-moment": "^4.1.0",
         "vue-router": "^3.5.1",
