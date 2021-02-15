@@ -9,6 +9,7 @@ import TicketEdit from "./tickets/TicketEditComponent";
 import Departments from "./departments/Departments";
 import Customers from "./customers/Customers";
 import Users from "./users/Users";
+import Faqs from "./faqs/Faqs";
 
 Vue.use(VueRouter);
 
@@ -61,6 +62,11 @@ const router = new VueRouter({
             path: '/users',
             name: 'users.index', 
             component: Users
+        },
+        {
+            path: '/faqs',
+            name: 'faqs.index', 
+            component: Faqs
         },
     ],
 });

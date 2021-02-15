@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::resource('ticket.comment', 'CommentController');
     Route::resource('customer', 'CustomerController');
     Route::resource('customer.ticket', 'CustomerTicketController');
+    Route::resource('faqs', 'FaqController');
 
     // ? GENERICS
     Route::get('/get_all_customers', 'CustomerController@get_all_customers');
@@ -44,7 +45,6 @@ Route::group(['middleware' => ['auth:web']], function () {
             return response()->json([ 'user_role' => $get_user->getRoleNames()[0] ]);
         });
         Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
-        Route::post('/update-ticket/{ticket}', 'TicketController@update_ticket');
         
         // ? BRANDS
         Route::get('/brand/{brand}/model', 'CarModelController@get_brand_models');
