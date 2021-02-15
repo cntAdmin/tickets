@@ -10,6 +10,6 @@ $factory->define(App\Models\Attachment::class, function (Faker $faker) {
 
     return [
         'name' => $attachment_name,
-        'path' => '/media/' . $attachment_name,
+        'path' => 'media/' . $attachment_name,
     ];
 });

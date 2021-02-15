@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewCommentMail;
+use App\Models\Attachment;
 use App\Models\Comment;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
@@ -40,7 +42,8 @@ class CommentController extends Controller
     public function store(Request $req, Ticket $ticket)
     {
         $customAttributes = [
-            'comment' => 'Comentario'
+            'comment' => 'Comentario',
+            'files' => 'Ficheros'
         ];
 
         $messages = [
@@ -48,11 +51,13 @@ class CommentController extends Controller
             'numeric' => __(':attribute debe ser un id.'),
             'exists' => __(':attribute debe ser un id válido de la tabla "tickets".'),
             'string' => __(':attribute debe ser una cadena de caracteres.'),
+            'array' => __(':attribute debe ser un array de ficheros.'),
+            'size' => __(':attribute tiene un tamaño máximo de 25MB.'),
         ];
         $validator = Validator::make($req->all(), [
             'comment' => ['required', 'string'],
+            'files' => ['array', 'nullable', 'max:25600']
         ], $messages, $customAttributes);
-        
         if($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
@@ -61,12 +66,22 @@ class CommentController extends Controller
         $create_comment = Comment::create([
             'description' => $req->comment
         ]);
-
         
         $ticket_assigned = $ticket->comments()->save($create_comment);
         $user_assigned = $create_comment->user()->associate(auth()->user()->id);
+
+        foreach ($req->file('files') as $file) {
+            $stored_file = Storage::disk('public')->put('media', $file);
+            $attachment = Attachment::create([
+                'name' => $file->getClientOriginalName(),
+                'path' => $stored_file
+            ]);
+            
+            $create_comment->attachments()->save($attachment);
+        }
+
         $create_comment->save();
-        
+
         if(env('APP_ENV') !== 'local') {
             Mail::to(auth()->user())->send(new NewCommentMail);
         }

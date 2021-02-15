@@ -1,7 +1,7 @@
 <template>
       <div :class="'mt-3 row justify-content-' + align('comment') ">
         <div class="col-10">
-            <h4 :class="'title text-' + align('text')">{{ comment.user.name }}</h4>
+            <h4 :class="'title text-' + align('text')">{{ comment.user.name ? comment.user.name : comment.user.username }}</h4>
             <p :class="'h6 text-' + align('text')">{{ comment.created_at | moment("from", "now") }}</p>
             <div class="card mt-1 shadow">
                 <div class="card-body"> 
@@ -14,8 +14,8 @@
             </div>
         </div>
         <div class="col-auto mt-3" v-for="attachment in comment.attachments" :key="attachment.id">
-            <a :href="'/media/' + attachment.id" :alt="attachment.name" class="btn btn-sm btn-success shadow" target="_self">
-                Descargar - {{ attachment.name }}
+            <a :href="`/api/download/comment/${comment.id}/file/${attachment.id}`" class="btn btn-sm btn-success shadow font-weight-bold">
+                {{ attachment.name ? attachment.name : attachment.path }}
             </a>
         </div>
         <delete-modal v-show="showDeleteModal" title="Comentario" :data="comment" @close="showDeleteModal = false"

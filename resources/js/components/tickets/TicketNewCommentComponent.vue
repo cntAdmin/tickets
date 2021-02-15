@@ -11,7 +11,7 @@
             </div>
         </div>
         <div :class="'col-10 ' + align()">
-            <form @submit.prevent="handleSubmit">
+            <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
                 <div class="form-inline">
                     <div class="form-group shadow">
                         <label class="sr-only" for="dateFrom">Comentario</label>
@@ -24,6 +24,17 @@
                             :toolbarSettings="toolbarSettings">
                         </ejs-richtexteditor>
                     </div>
+                    <div class="form-group col-12 mt-3">
+                        <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
+                        <div class="input-group w-100">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text text-uppercase">Ficheros adjuntos</div>
+                            </div>
+                            <input class="form-control" type="file" @change="uploadFile" multiple>
+                        </div>
+                    </div>
+
+
                 </div>
                 <input class="btn btn-success btn-sm mt-3 shadow" type="submit" value="Enviar Comentario">
             </form>
@@ -63,6 +74,7 @@ export default {
                     'SourceCode', 'FullScreen', '|', 'Undo', 'Redo'
                 ]
             },
+            files: null,
             success: {
                 value: false,
                 message: ''
@@ -71,13 +83,26 @@ export default {
         }
     },
     methods: {
-        handleSubmit(e) {
-            axios.post('/api/ticket/' + this.ticket_id + '/comment', {
-                comment: this.$refs.comment.ej2Instances.value,
+        uploadFile (e) {
+            this.files = e.target.files
+        },
+
+        handleSubmit() {
+            const formData = new FormData();
+            for (const i of Object.keys(this.files)) {
+                formData.append(`files[${i}]`, this.files[i])
+            }
+            formData.append('comment', this.$refs.comment.ej2Instances.value );
+
+            axios.post('/api/ticket/' + this.ticket_id + '/comment', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
             }).then(res => {
+                console.log(res.data)
                 if(res.data.success) {
                     this.success.value = true;
-                    this.success.message = res.data.success;
+                    this.success.message = res.data.msg;
                     this.$emit('load');
                     this.$refs.comment.ej2Instances.value = '';
                 }else if(res.data.error) {

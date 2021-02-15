@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
     Route::get('/get_all_brands', 'BrandController@get_all_brands');
     Route::get('/get_all_roles', 'RoleController@get_all_roles');
+    Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download');
 
     // ? VUE GETTERS
         // ? TICKETS

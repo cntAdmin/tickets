@@ -280,7 +280,7 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.success.value = true;
-            this.success.message = res.data.success;
+            this.success.message = res.data.msg;
             setTimeout(() => {
               window.location.href = "/ticket/" + parseInt(this.ticketID);
             }, 1500);

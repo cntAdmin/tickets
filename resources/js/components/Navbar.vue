@@ -29,12 +29,12 @@
                         </a>
                         
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <button class="dropdown-item btn-link" href="#" onclick="event.preventDefault();  
+                            <button class="dropdown-item btn-link" onclick="event.preventDefault();  
                                 document.getElementById('logout-form').submit();">
                                 Logout
                             </button>
 
-                            <form id="logout-form" action="logout" method="POST" class="d-none">
+                            <form id="logout-form" action="/logout" method="POST" class="d-none">
                                 <input type="hidden" name="_token" :value="csrf">
                             </form>
                         </div>

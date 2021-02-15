@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attachment;
+use App\Models\Comment;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -83,5 +85,16 @@ class AttachmentController extends Controller
     public function destroy(Attachment $attachment)
     {
         //
+    }
+
+    public function download(Comment $comment, Attachment $attachment) {
+        // $this->authorize('downloads.comment.files', $comment);
+
+        if($comment->ticket->whereHas('comments', function(Builder $q) {
+            $q->where('comments.user_id', auth()->user()->id);
+        })->exists()) {
+            return Storage::download($attachment->path, $attachment->name);
+        }
+
     }
 }
