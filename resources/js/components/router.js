@@ -11,7 +11,7 @@ import Customers from "./customers/Customers";
 import Users from "./users/Users";
 import Faqs from "./faqs/Faqs";
 import FileManager from './file-manager/FileManager';
-import Blog from './blog/Blog';
+import Post from './posts/Post';
 
 Vue.use(VueRouter);
 
@@ -76,14 +76,20 @@ const router = new VueRouter({
             component: FileManager
         },
         {
-            path: '/blog',
-            name: 'blog.index',
-            component: Blog
+            path: '/post',
+            name: 'post.index',
+            component: Post
         },
             {
-                path: '/blog/create',
-                name: 'blog.create',
-                component: Blog
+                path: '/post/create',
+                name: 'post.create',
+                component: Post
+            },
+            {
+                path: '/post/:post',
+                name: 'post.show',
+                component: Post,
+                props: true
             },
     ],
 });

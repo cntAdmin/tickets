@@ -66,7 +66,7 @@
                     </li>
                     <li class="nav-item mt-2">
                         <div class="shadow-sm">
-                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'blog.index'}">
+                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'post.index'}">
                                 Blog <small class="ml-3 bg-dark text-white">todo</small>
                             </router-link>
                         </div>

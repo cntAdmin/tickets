@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::resource('customer', 'CustomerController');
     Route::resource('customer.ticket', 'CustomerTicketController');
     Route::resource('faqs', 'FaqController');
+    Route::resource('post', 'PostController');
     
     // ? GENERICS
     Route::get('/get_all_customers', 'CustomerController@get_all_customers');
@@ -65,6 +66,9 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::post('/deleteSelectedFiles', 'AttachmentController@deleteSelected');
         Route::get('/get_files_counters', 'AttachmentController@get_files_counters');
         
+        // ? BLOGS
+        Route::get('/get_posts_counters', 'PostController@get_posts_counters');
+        Route::get('/toggle_featured_post/{post}', 'PostController@toggle_featured_post');
     });
 
 

@@ -94,6 +94,10 @@ Vue.component('file-manager', require('./components/file-manager/FileManager').d
 Vue.component('files-search-form', require('./components/file-manager/FilesSearchForm').default);
 Vue.component('files-table', require('./components/file-manager/FilesTable').default);
 
+// POSTS
+Vue.component('posts-search-form', require('./components/posts/PostsSearchForm').default);
+Vue.component('posts-table', require('./components/posts/PostsTable').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

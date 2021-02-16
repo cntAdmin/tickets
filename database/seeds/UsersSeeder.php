@@ -96,22 +96,22 @@ class UsersSeeder extends Seeder
         $users->each(function (\App\Models\User $user, $idx) {
                 // Asignamos un rol por usuario
                 switch ($idx) {
-                    case '1': // Super
+                    case '0': // Super
                         $user->assignRole(Role::find(1));
                         break;
-                    case '2': // Admin
+                    case '1': // Admin
                         $user->assignRole(Role::find(2));
                         break;
-                    case '3': // Department
+                    case '2': // Department
                         $user->assignRole(Role::find(3));
                         break;
-                    case '4': // Staff
+                    case '3': // Staff
                         $user->assignRole(Role::find(4));
                         break;
-                    case '5': // Customer (admin de customers)
+                    case '4': // Customer (admin de customers)
                         $user->assignRole(Role::find(5));
                         break;
-                    case '6': // Contact
+                    case '5': // Contact
                         $user->assignRole(Role::find(6));
                         break;
                 }

@@ -1,0 +1,18 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Models\Post;
+use Faker\Generator as Faker;
+
+$factory->define(Post::class, function (Faker $faker) {
+    $html = '<div class="d-flex justify-content-center><h2>' . $faker->words(3, true) . '</h2><p>' . $faker->paragraphs(3, true) . '</p></div>';
+    return [
+        'title' => $faker->text(100),
+        'description' => $html,
+        'likes' => rand(1,100),
+        'dislikes' => rand(1,100),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ];
+});
