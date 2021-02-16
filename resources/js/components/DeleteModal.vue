@@ -1,48 +1,60 @@
 <template>
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <h3 class="text-center">
-                            ¿Seguro que deseas eliminar este {{ title }}?
-                        </h3>
-                    </div>
-                    <div class="modal-body">
-                        {{ name }} va a ser eliminado, haga click en Eliminar si lo desea.
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <slot name="footer ">
-                            <button class="btn btn-sm btn-secondary text-uppercase" @click="$emit('close')">Cancelar</button>
-                            <button class="btn btn-sm btn-danger text-uppercase" @click="$emit('getDeleted')">Eliminar {{title}}</button>
-                        </slot>
-                    </div>
-                </div>
-            </div>
+  <transition name="modal">
+    <div class="modal-mask" @click="$emit('close')">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-header">
+            <h3 class="text-center">
+              ¿Seguro que deseas eliminar este {{ title }}?
+            </h3>
+          </div>
+          <div class="modal-body">
+            {{ name }} va a ser eliminado, haga click en Eliminar si lo desea.
+          </div>
+          <div class="modal-footer justify-content-center">
+            <slot name="footer ">
+              <button
+                class="btn btn-sm btn-secondary text-uppercase"
+                @click="$emit('close')"
+              >
+                Cancelar
+              </button>
+              <button
+                class="btn btn-sm btn-danger text-uppercase"
+                @click="$emit('getDeleted')"
+              >
+                Eliminar {{ title }}
+              </button>
+            </slot>
+          </div>
         </div>
-    </transition>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
 export default {
-    props: ['data','title'],
-    computed: {
-      name() {
-        switch (this.title) {
-          case 'Cliente':
-            return this.data.comercial_name ? this.data.comercial_name : this.data.fiscal_name;
-            break;
-          case 'Ticket':
-            return this.data.subject ? this.data.subject : this.data.custom_id;
-            break;
-        
-          default:
-            return this.data.name
-            break;
-        }
+  props: ["data", "title"],
+  computed: {
+    name() {
+      switch (this.title) {
+        case "Cliente":
+          return this.data.comercial_name
+            ? this.data.comercial_name
+            : this.data.fiscal_name;
+          break;
+        case "Ticket":
+          return this.data.subject ? this.data.subject : this.data.custom_id;
+          break;
+
+        default:
+          return this.data.name;
+          break;
       }
-    }
-}
+    },
+  },
+};
 </script>
 <style>
 .modal-mask {
@@ -52,9 +64,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(0, 0, 0, 0.1);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
@@ -68,14 +80,14 @@ export default {
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .11);
-  transition: all .3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.11);
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
 .modal-header h3 {
   margin-top: 0;
-  color: #E02D1A;
+  color: #e02d1a;
 }
 
 .modal-body {
@@ -108,5 +120,4 @@ export default {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-
 </style>

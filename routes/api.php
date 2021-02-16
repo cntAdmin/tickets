@@ -17,14 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:web']], function () {
     
     Route::resource('user', 'UserController');
-    Route::resource('media', 'AttachmentController')->parameter('media', 'attachment');
+    Route::resource('file-manager', 'AttachmentController')->parameter('file-manager', 'attachment');
     Route::resource('department', 'DepartmentController');
     Route::resource('ticket', 'TicketController');
     Route::resource('ticket.comment', 'CommentController');
     Route::resource('customer', 'CustomerController');
     Route::resource('customer.ticket', 'CustomerTicketController');
     Route::resource('faqs', 'FaqController');
-
+    
     // ? GENERICS
     Route::get('/get_all_customers', 'CustomerController@get_all_customers');
     Route::get('/get_all_users', 'UserController@get_all_users');
@@ -60,6 +60,10 @@ Route::group(['middleware' => ['auth:web']], function () {
         // ? USERS
         Route::get('/get_users_counters', 'UserController@get_users_counters');
 
+        // ? FILE MANAGER
+        Route::post('/deleteAllFiles', 'AttachmentController@deleteAll');
+        Route::post('/deleteSelectedFiles', 'AttachmentController@deleteSelected');
+        
     });
 
 

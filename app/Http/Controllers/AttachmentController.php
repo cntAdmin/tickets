@@ -11,14 +11,23 @@ use Illuminate\Support\Facades\Storage;
 
 class AttachmentController extends Controller
 {
+
+    /**
+     * * Estructura de directorios YYYY/MM/DD/ticket_id
+     */
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        //
+        $files = Attachment::getAttachments($req)->paginate();
+
+        return response()->json([
+            'success' => true,
+            'files' => $files
+        ]);
     }
 
     /**
@@ -78,12 +87,13 @@ class AttachmentController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * * BORRAR TODOS QUE NO ESTEN CON FAQS ACTIVADO
      * @param  \App\Models\Attachment  $attachment
      * @return \Illuminate\Http\Response
      */
     public function destroy(Attachment $attachment)
     {
+        return $attachment;
         //
     }
 
@@ -95,6 +105,34 @@ class AttachmentController extends Controller
         })->exists()) {
             return Storage::download($attachment->path, $attachment->name);
         }
+    }
 
+    public function deleteAll(Request $req) {
+        // getAttachments(Request $req, $type = null)
+        $filesDeleted = Attachment::getAttachments($req, 'toDelete')->delete();
+
+        return response()->json([
+            'success' => true,
+            'msg' => $filesDeleted . ' ' . __('Ficheros eliminados correctamente')
+        ]);
+    }
+
+    public function deleteSelected(Request $req) {
+        $files = Attachment::whereIn('id', $req->selected)
+            ->whereHas('comments.ticket', function(Builder $q) {
+                $q->where('tickets.knowledge_base', 0);
+            });
+        if($files->count() > 0) {
+            $files->delete();
+            return response()->json([
+                'success' => true,
+                'msg' => $files . ' ' . __('Ficheros eliminados correctamente')
+            ]);
+        }
+        return response()->json([
+            'error' => true,
+            'msg' => __('Los ficheros seleccionados estan en FAQS, por favor, si desea eliminarlos quitelos del ticket relacionado')
+        ]);
+        return $files;
     }
 }

@@ -17,8 +17,6 @@ class CreateAttachmentsTable extends Migration
             $table->id();
             $table->string('name')->nullable(false)->default('name test');
             $table->string('path')->nullable(false)->default('this/is/the/path.io');
-            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

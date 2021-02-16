@@ -47,6 +47,7 @@ Vue.use(FileManager, {store})
  Vue.component('spinner', require('./components/Spinner.vue').default);
  Vue.component('card-counter', require('./components/CardCounter').default);
  Vue.component('delete-modal', require('./components/DeleteModal').default);
+ Vue.component('image-modal', require('./components/ImageModal').default);
  Vue.component('vue-select', vSelect)
 
 // TICKETS
@@ -87,6 +88,11 @@ Vue.component('users-search-form', require('./components/users/UsersSearchForm')
 Vue.component('users-table', require('./components/users/UsersTable').default);
 Vue.component('user-new', require('./components/users/UserNew').default);
 Vue.component('user-edit', require('./components/users/UserEdit').default);
+
+// FILE MANAGER
+Vue.component('file-manager', require('./components/file-manager/FileManager').default);
+Vue.component('files-search-form', require('./components/file-manager/FilesSearchForm').default);
+Vue.component('files-table', require('./components/file-manager/FilesTable').default);
 
 
 /**
