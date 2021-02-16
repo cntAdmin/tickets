@@ -135,4 +135,15 @@ class AttachmentController extends Controller
         ]);
         return $files;
     }
+
+    public function get_files_counters() {
+        $inFaqs = Attachment::whereHas('comments.ticket', function(Builder $q) {
+            $q->where('tickets.knowledge_base', 1);
+        })->count();
+
+        return response()->json([
+            'success' => true,
+            'inFaqs' => $inFaqs
+        ]);
+    }
 }

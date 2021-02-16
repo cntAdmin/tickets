@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         // ? FILE MANAGER
         Route::post('/deleteAllFiles', 'AttachmentController@deleteAll');
         Route::post('/deleteSelectedFiles', 'AttachmentController@deleteSelected');
+        Route::get('/get_files_counters', 'AttachmentController@get_files_counters');
         
     });
 

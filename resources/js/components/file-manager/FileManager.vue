@@ -62,9 +62,6 @@ export default {
       },
     };
   },
-  mounted(){
-    this.getFiles();
-  },
   methods: {
     hasBeenDeleted(data) {
       this.deleted.status = true;
@@ -77,7 +74,7 @@ export default {
     getFiles(data) {
       this.searching = true;
       this.searched = data ? data : this.searched;
-
+      this.getCounters();
       axios
         .get("/api/file-manager", {
           params: {
@@ -95,6 +92,12 @@ export default {
           console.log(err);
         });
     },
+    getCounters() {
+      axios.get('/api/get_files_counters')
+        .then( res => {
+          this.inFaqs = res.data.inFaqs ? res.data.inFaqs : 0;
+        })
+    }
   },
 };
 </script>
