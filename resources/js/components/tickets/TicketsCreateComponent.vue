@@ -96,7 +96,7 @@
                                 @input="setBrand">
                                     <div slot="no-options">No hay opciones con esta busqueda</div>
                                     <template slot="option" slot-scope="option">
-                                        {{ option.id }} - {{ option.name }}
+                                        {{ option.name }}
                                     </template>
                             </vue-select>
                         </div>
@@ -111,7 +111,7 @@
                                 @input="setModel">
                                     <div slot="no-options">No hay opciones con esta busqueda</div>
                                     <template slot="option" slot-scope="option">
-                                        {{ option.id }} - {{ option.name }}
+                                        {{ option.name }}
                                     </template>
                             </vue-select>
                         </div>
@@ -312,6 +312,7 @@ export default {
             this.success.value = false;
             this.error = false;
             this.errors = {};
+            console.log(this.selected);
 
             axios.post('/api/ticket', {
                 customer_id: this.selected.customer_id,
@@ -328,12 +329,14 @@ export default {
                 tests_done: this.$refs.tests_done.ej2Instances.value,
                 calls: this.selected.calls
             }).then(res => {
+                console.log(res.data);
                 if(res.data.success) {
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
                     this.success.value = true;
                     this.success.message = res.data.success;
 
                     setTimeout(() => {
-                        window.location.href = '/ticket';
+                        this.$router.push('/ticket');
                     }, 1500);
                 } else if (res.data.error) {
                     this.error = true;

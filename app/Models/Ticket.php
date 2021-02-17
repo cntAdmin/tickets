@@ -95,12 +95,14 @@ class Ticket extends Model
             $q->where('description', 'LIKE', $description . '%');
         })->when($req->tests_done, function(Builder $q, $tests_done) {
             $q->where('tests_done', 'LIKE', $tests_done . '%');
-        })->when($req->knowledge_base, function(Builder $q, $knowledge_base) {
-            $q->where('knowledge_base', $knowledge_base);
+        })->when($req->date_from, function(Builder $q, $date_from) {
+            $q->whereDate('tickets.created_at', '>=', $date_from);
+        })->when($req->date_to, function(Builder $q, $date_to) {
+            $q->whereDate('tickets.created_at', '<=', $date_to);
         })->when($req->order_by, function(Builder $q, $order_by) {
             $q->orderBy($order_by->field, $order_by->value);
         },function ($q) {
-            $q->orderBy('created_at', 'DESC');
+            $q->orderBy('tickets.created_at', 'DESC');
         })
         // SI ESTE TICKET ESTADO BUSCA POR EL ID DEL ESTADO
         ->when($req->status, function(Builder $q, $status_id) {
@@ -134,7 +136,7 @@ class Ticket extends Model
             });
         })
         ->with(['user', 'customer', 'department', 'status'])
-        ->withCount('comments')
+        ->withCount(['comments', 'calls'])
         ->paginate();
     } 
 }

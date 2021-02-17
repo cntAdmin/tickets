@@ -37,6 +37,7 @@ class TicketController extends Controller
         $tickets = Ticket::getTickets($req);
 
         return response()->json([
+            'success' => true,
             'tickets' => $tickets,
         ]);
 
@@ -73,6 +74,7 @@ class TicketController extends Controller
      */
     public function store(Request $req)
     {
+
         $custom_attributes = [
             'user_id' => __('Usuario'),
             'department_id' => __('Departamento'),
@@ -131,11 +133,11 @@ class TicketController extends Controller
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
 
-        $lastID = Ticket::latest()->id;
-        
+        $lastID = Ticket::latest()->first()->id;
+
         // CREATING TICKET
         $create_ticket = Ticket::create([
-            'custom_id' => $get_department->code . now()->year . '-' . $lastID + 1,
+            'custom_id' => $get_department->code . now()->year . '-' . str_pad(($lastID + 1), 5, '0', STR_PAD_LEFT),
             'frame_id' => $req->frame_id,
             'plate' => $req->plate,
             'engine_type' => $req->engine_type,
@@ -146,37 +148,36 @@ class TicketController extends Controller
             'knowledge_base' => $req->knowledge_base ? 1 : 0,
             'created_by' => auth()->user()->id,
         ]);
-
-            
-        // ? ASSIGNING DATA
-            // ASSOCIATE STATUS
-            $create_ticket->status()->associate($get_status);
-            // ASSIGN USER
-            $create_ticket->user()->associate($get_user);
-            // ASSIGN CUSTOMER
-            $create_ticket->customer()->associate($get_customer);
-            // ASSIGN DEPARTMENT
-            $create_ticket->department()->associate($get_department);
         
-            if($req->assigned_to) {
-                // ASSIGN USER ASSIGNED TO THIS TICKET
-                $create_ticket->tickets()->associate($get_assigned_to);
+        // ? ASSIGNING DATA
+        // ASSOCIATE STATUS
+        $create_ticket->status()->associate($get_status);
+        // ASSIGN USER
+        $create_ticket->user()->associate($get_user);
+        // ASSIGN CUSTOMER
+        $create_ticket->customer()->associate($get_customer);
+        // ASSIGN DEPARTMENT
+        $create_ticket->department()->associate($get_department);
+        
+        if($req->assigned_to) {
+            // ASSIGN USER ASSIGNED TO THIS TICKET
+            $create_ticket->tickets()->associate($get_assigned_to);
+        }
+        if($req->calls) {
+            foreach ($get_calls as $call) {
+                // ASSIGN CALLS TO THIS TICKET
+                $create_ticket->calls()->save($call);
             }
-            if($req->calls) {
-                foreach ($get_calls as $call) {
-                    // ASSIGN CALLS TO THIS TICKET
-                    $create_ticket->calls()->save($call);
-                }
-            }
-            if($req->brand_id) {
-                $create_ticket->brand()->associate($get_brand);
-            }
-            if($req->model_id) {
-                $create_ticket->model()->associate($get_model);
-            }
-            
-            // ? SAVE ASSOCIATED DATA
-            $create_ticket->save();
+        }
+        if($req->brand_id) {
+            $create_ticket->brand()->associate($get_brand);
+        }
+        if($req->model_id) {
+            $create_ticket->car_model()->associate($get_model);
+        }
+       
+        // ? SAVE ASSOCIATED DATA
+        $create_ticket->save();
 
         return $create_ticket
             ? response()->json(['success' => __('Ticket creado correctamente.')], 200)

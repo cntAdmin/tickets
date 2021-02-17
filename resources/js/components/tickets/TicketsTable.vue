@@ -11,6 +11,7 @@
                             <th scope="col">Departamento</th>
                             <th scope="col">Asunto</th>
                             <th class="text-center" scope="col">Fecha</th>
+                            <th class="text-center" scope="col">Llamadas</th>
                             <th scope="col">Estado</th>
                             <th class="text-center" scope="col">Acciones</th>
                         </tr>
@@ -26,7 +27,8 @@
                             <td>{{ ticket.customer.comercial_name }}</td>
                             <td>{{ ticket.department.name }}</td>
                             <td>{{ ticket.subject }}</td>
-                            <td>{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
+                            <td class="text-center">{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
+                            <td>{{ ticket.calls_count }}</td>
                             <td>
                                 <button :class="'mx-1 btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
                                     :title="ticket.status.name" disabled>

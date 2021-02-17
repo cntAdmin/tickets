@@ -87,6 +87,8 @@ export default {
                 customer_name: data ? data.customer_name : null,
                 department_id: data ? data.department_id : null,
                 status: data ? data.status : this.$route.query.status,
+                date_from: data ? data.date_from : null,
+                date_to: data ? data.date_to : null,
                 }
             }).then(res => {
                 this.tickets = res.data.tickets;
