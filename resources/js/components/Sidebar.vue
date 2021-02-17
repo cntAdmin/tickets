@@ -7,6 +7,10 @@
             </button>
             <div class="accordion navbar-collapse mt-2 d-none d-md-block" id="sidebar_navbar">
                 <ul class="navbar-nav">
+                    <div class="navbar-header">
+                        Administración
+                    </div>
+                    <div class="dropdown-divider"></div>
                     <li class="nav-item w-100">
                         <div class="d-flex align-items-center shadow-sm w-100" data-toggle="collapse"
                             data-target="#tickets_sidebar" aria-expanded="true" aria-controls="tickets_sidebar">
