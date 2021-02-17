@@ -38,23 +38,16 @@
 
       <div class="card-body">
         <div
-          v-show="success.value"
+          v-if="success.status"
           class="alert alert-success alert-dismissible fade show text-center"
         >
-          {{ success.message }}
+          {{ success.msg }}
         </div>
         <div
-          v-show="error"
+          v-if="error.status"
           class="alert alert-danger alert-dismissible fade show"
         >
-          <div v-for="(error, title) in errors" :key="title">
-            <p v-for="(err, idx) in error" :key="idx">
-              {{ err }}
-            </p>
-            <button type="button" class="close" @click="remove_errors()">
-              <span>&times;</span>
-            </button>
-          </div>
+          <form-errors :errors="error.errors"></form-errors>
         </div>
         <form
           id="edit_ticket_form"
@@ -134,7 +127,7 @@
                 </div>
                 <input
                   :class="
-                    [errors.frame_id ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.frame_id ? 'is-invalid' : ''] + ' form-control'
                   "
                   type="text"
                   v-model="ticket.frame_id"
@@ -150,7 +143,7 @@
                   <div class="input-group-text text-uppercase">Matrícula</div>
                 </div>
                 <input
-                  :class="[errors.plate ? 'is-invalid' : ''] + ' form-control'"
+                  :class="[error.errors.plate ? 'is-invalid' : ''] + ' form-control'"
                   type="text"
                   v-model="ticket.plate"
                 />
@@ -168,7 +161,7 @@
                 </div>
                 <input
                   :class="
-                    [errors.engine_type ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.engine_type ? 'is-invalid' : ''] + ' form-control'
                   "
                   type="text"
                   v-model="ticket.engine_type"
@@ -233,7 +226,7 @@
                 </div>
                 <input
                   :class="
-                    [errors.ask_for ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.ask_for ? 'is-invalid' : ''] + ' form-control'
                   "
                   type="text"
                   v-model="ticket.ask_for"
@@ -251,7 +244,7 @@
                 </div>
                 <input
                   :class="
-                    [errors.subject ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.subject ? 'is-invalid' : ''] + ' form-control'
                   "
                   type="text"
                   v-model="ticket.subject"
@@ -268,7 +261,7 @@
                 <div class="input-group-prepend">
                   <div
                     :class="
-                      [errors.description ? 'bg-danger text-white' : ''] +
+                      [error.errors.description ? 'bg-danger text-white' : ''] +
                       ' input-group-text text-uppercase'
                     "
                   >
@@ -281,7 +274,7 @@
                 :quickToolbarSettings="quickToolbarSettings"
                 :height="400"
                 :toolbarSettings="toolbarSettings"
-                >
+              >
               </ejs-richtexteditor>
             </div>
           </div>
@@ -292,7 +285,7 @@
                 <div class="input-group-prepend">
                   <div
                     :class="
-                      [errors.tests_done ? 'bg-danger text-white' : ''] +
+                      [error.errors.tests_done ? 'bg-danger text-white' : ''] +
                       ' input-group-text text-uppercase'
                     "
                   >
@@ -352,26 +345,14 @@ export default {
         brand: {},
         car_model: {},
       },
-      selected: {
-        customer_id: "",
-        user_id: "",
-        department_id: "",
-        frame_id: "",
-        plate: "",
-        brand: "",
-        model: "",
-        engine_type: "",
-        ask_for: "",
-        description: "",
-        tests_done: "",
-        calls: [],
-      },
       success: {
-        value: false,
-        message: "",
+        status: false,
+        msg: "",
       },
-      error: false,
-      errors: {},
+      error: {
+        status: false,
+        errors: [],
+      },
       quickToolbarSettings: {
         image: [
           "Replace",
@@ -506,21 +487,22 @@ export default {
         });
     },
     handleSubmit() {
-      this.errors = {};
+      this.error.errors = [];
 
       if (this.ticket.frame_id === "" && this.ticket.plate === "") {
-        this.error = true;
-        this.errors["frame_id"] = [
+        this.error.status = true;
+        this.error.errors["frame_id"] = [
           "Uno de los campos nº bastido o matrícula es obligatorio.",
         ];
-        this.errors["plate"] = [""];
-        return this.errors;
+        this.error.errors["plate"] = [""];
+        return this.error;
       }
       this.success.value = false;
-      this.error = false;
-      this.errors = {};
+      this.error = {
+        status: false,
+        errors: []
+      };
 
-      console.log(this.ticket.calls);
       axios
         .put("/api/ticket/" + this.ticket.id, {
           customer_id: this.ticket.customer.id,
@@ -544,11 +526,13 @@ export default {
             this.success.value = true;
             this.success.message = res.data.success;
             setTimeout(() => {
-              window.location.href = "/ticket/" + this.ticket.id;
+              this.$router.push(`/admin/ticket${this.ticket.id}`);
             }, 2000);
           } else if (res.data.error) {
-            this.error = true;
-            this.errors = res.data.error;
+            this.error = {
+              status: true,
+              errors: res.data.errors,
+            };
           }
         })
         .catch((err) => {
@@ -556,8 +540,10 @@ export default {
         });
     },
     remove_errors() {
-      this.error = true;
-      this.errors = {};
+      this.error = {
+        status: false,
+        errors: []
+      }
     },
     selectedCalls(event) {
       this.ticket.calls = event;
