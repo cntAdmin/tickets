@@ -10,9 +10,9 @@
                             <th scope="col">Cliente</th>
                             <th scope="col">Departamento</th>
                             <th scope="col">Asunto</th>
-                            <th scope="col">Fecha</th>
+                            <th class="text-center" scope="col">Fecha</th>
                             <th scope="col">Estado</th>
-                            <th scope="col">Acciones</th>
+                            <th class="text-center" scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,7 +26,7 @@
                             <td>{{ ticket.customer.comercial_name }}</td>
                             <td>{{ ticket.department.name }}</td>
                             <td>{{ ticket.subject }}</td>
-                            <td>{{ ticket.created_at | moment("LTS") }}</td>
+                            <td>{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
                             <td>
                                 <button :class="'mx-1 btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
                                     :title="ticket.status.name" disabled>

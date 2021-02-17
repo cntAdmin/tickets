@@ -30,7 +30,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="selected.title"
+                  v-model="post.title"
                   autofocus
                 />
               </div>
@@ -41,7 +41,7 @@
                 <div class="input-group">
                   <span class="mr-3 mt-1">Añadir a Destacados</span>
                   <label class="switch">
-                    <input type="checkbox" v-model="selected.featured" />
+                    <input type="checkbox" v-model="post.featured" />
                     <span class="slider round"></span>
                   </label>
                 </div>
@@ -81,9 +81,9 @@
           <div class="form-inline mt-4">
             <button
               type="submit"
-              class="btn btn-sm btn-secondary btn-block mx-3 text-uppercase font-weight-bold"
+              class="btn btn-sm btn-success btn-block mx-3 text-uppercase font-weight-bold"
             >
-              Crear Post
+              Guardar Post
             </button>
           </div>
         </form>
@@ -158,6 +158,7 @@ export default {
       },
       enableResize: true,
       files: [],
+      post: {},
       selected: {
         title: "",
         featured: false,
@@ -167,6 +168,15 @@ export default {
         msg: "",
       },
     };
+  },
+  beforeMount(){
+      axios.get(`/api/post/${this.$route.params.post}`)
+        .then( res => {
+            if(res.data.success) {
+                this.post = res.data.post;
+                this.$refs.description.ej2Instances.value = this.post.description;
+            }
+        })
   },
   methods: {
     uploadFile(e) {
@@ -179,27 +189,28 @@ export default {
           formData.append(`files[${i}]`, this.files[i]);
         }
       }
-      formData.append("title", this.selected.title);
+      formData.append("title", this.post.title);
       formData.append("description", this.$refs.description.ej2Instances.value);
-      formData.append("featured", this.selected.featured);
-      console.log(this.files);
+      formData.append("featured", this.post.featured);
+      
       axios
-        .post("/api/post", formData, {
+        .post(`/api/edit_post/${this.post.id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
+            console.log(res.data)
           if(res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,
               msg: res.data.msg,
             };
+            setTimeout(() => {
+                this.$router.push('/post');
+            }, 2000);
           }
-          setTimeout(() => {
-            this.$router.push('/post');
-          }, 2000);
         })
         .catch((err) => console.log(err));
     },
@@ -207,6 +218,15 @@ export default {
 };
 </script>
 <style scoped>
+@import "../../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../../../node_modules/@syncfusion/ej2-lists/styles/material.css";
+@import "../../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../../../../node_modules/@syncfusion/ej2-vue-richtexteditor/styles/material.css";
+
 switch {
   position: relative;
   display: inline-block;

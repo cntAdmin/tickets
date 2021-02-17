@@ -13,6 +13,7 @@ import Faqs from "./faqs/Faqs";
 import FileManager from './file-manager/FileManager';
 import Post from './posts/Post';
 import PostCreate from './posts/PostCreate';
+import PostEdit from './posts/PostEdit';
 
 Vue.use(VueRouter);
 
@@ -89,7 +90,7 @@ const router = new VueRouter({
             {
                 path: '/post/:post',
                 name: 'post.show',
-                component: Post,
+                component: PostEdit,
                 props: true
             },
     ],

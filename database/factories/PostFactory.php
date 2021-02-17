@@ -6,7 +6,7 @@ use App\Models\Post;
 use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
-    $html = '<div class="d-flex justify-content-center><h2>' . $faker->words(3, true) . '</h2><p>' . $faker->paragraphs(3, true) . '</p></div>';
+    $html = '<h2>' . $faker->words(3, true) . '</h2><p>' . $faker->paragraphs(3, true) . '</p>';
     return [
         'title' => $faker->text(100),
         'description' => $html,

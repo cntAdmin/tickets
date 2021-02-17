@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,8 +71,10 @@ Route::group(['middleware' => ['auth:web']], function () {
         // ? BLOGS
         Route::get('/get_posts_counters', 'PostController@get_posts_counters');
         Route::get('/toggle_featured_post/{post}', 'PostController@toggle_featured_post');
-    });
+        Route::post('/edit_post/{post}', 'PostController@edit_post');
 
+        
+    });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 $factory->define(App\Models\Attachment::class, function (Faker $faker) {
     if(!file_exists('/public/storage/media')){
-        File::makeDirectory('/public/storage/media', $mode = 0777, true, true);
+        File::makeDirectory('/public/storage/media', 0777, true, true);
     }
 
     $attachment_name = $faker->image('/public/storage/media', '500', '500', 'cats', false);

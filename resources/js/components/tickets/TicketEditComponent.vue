@@ -281,7 +281,7 @@
                 :quickToolbarSettings="quickToolbarSettings"
                 :height="400"
                 :toolbarSettings="toolbarSettings"
-                >{{ ticket.description }}
+                >
               </ejs-richtexteditor>
             </div>
           </div>
@@ -306,7 +306,6 @@
                 :height="400"
                 :toolbarSettings="toolbarSettings"
               >
-                {{ ticket.tests_done }}
               </ejs-richtexteditor>
             </div>
           </div>

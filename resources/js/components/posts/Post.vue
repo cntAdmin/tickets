@@ -24,7 +24,8 @@
         </transition>
 
         <transition name="fade" v-else-if="posts.data" mode="out-in">
-            <posts-table :posts="posts" @page="getPosts" :searched="searched" @deleted="hasBeenDeleted"></posts-table>
+            <posts-table :posts="posts" @page="getPosts" :searched="searched" @deleted="hasBeenDeleted"
+                @getCount="getCounters"></posts-table>
         </transition>
     </div>
 </template>
@@ -48,6 +49,9 @@ export default {
             }
         }
     },
+    activated() {
+        this.getPosts();
+    },
     methods: {
         hasBeenDeleted(data) {
             this.deleted = {
@@ -57,6 +61,8 @@ export default {
         },
         getPosts(data){
             this.searching = true;
+            this.searched = data ? data : this.searched;
+
             this.getCounters();
             axios.get('/api/post', { params: {
                     page: data ? data.page : 1,
@@ -65,8 +71,10 @@ export default {
                     date_to: data ? data.date_to : null
                 }
             }).then( res => {
-                this.searching = false;
-                this.posts = res.data.posts;
+                if(res.data.success) {
+                    this.searching = false;
+                    this.posts = res.data.posts;
+                }
             }).catch( err => {
                 console.log(err);
             })

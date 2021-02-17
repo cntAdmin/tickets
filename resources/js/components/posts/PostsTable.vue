@@ -66,7 +66,8 @@ export default {
   },
   methods: {
     handleCheckbox(post_id) {
-      axios.get('/api/toggle_featured_post/' + post_id);
+      axios.get('/api/toggle_featured_post/' + post_id).then(res => this.$emit('getCount'));
+      ;
     },
     emit_pagination(page) {
       this.searched.page = page;
