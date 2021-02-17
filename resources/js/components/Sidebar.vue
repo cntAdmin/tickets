@@ -8,7 +8,7 @@
             <div class="accordion navbar-collapse mt-2 d-none d-md-block" id="sidebar_navbar">
                 <ul class="navbar-nav">
                     <div class="navbar-header">
-                        Administración
+                        <h6 class="text-uppercase text-center">Panel</h6>
                     </div>
                     <div class="dropdown-divider"></div>
                     <li class="nav-item w-100">
@@ -29,7 +29,7 @@
                             <router-link class="btn btn-toolbar btn-block mt-2" :to="{ name: 'ticket.index' }">
                                 <span class="ml-2">Todos los Tickets</span>
                             </router-link>
-                            <router-link class="btn btn-toolbar btn-block mt-2" :to="{ name: 'ticket.index', query: {'status':1} }">
+                            <router-link class="btn btn-toolbar btn-block mt-2" :to="{ name: 'ticket.index', query: {'status': 1} }">
                                 <span class="ml-2">Tickets Abiertos</span>
                             </router-link>
                             <router-link class="btn btn-toolbar btn-block mt-2" :to="{ name: 'ticket.index', query: {'status':2} }">
@@ -41,44 +41,9 @@
                         </div>
                     </li>
                     <li class="nav-item mt-2">
-                        <div class="shadow-sm collapsed" data-toggle="collapse" aria-expanded="false">
-                            <router-link id="departments" class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'department.index'}">
-                                Departamentos
-                            </router-link>
-                        </div>
-                    </li>
-                    <li class="nav-item mt-2">
                         <div class="shadow-sm">
-                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'customer.index'}">
-                                Clientes
-                            </router-link>
-                        </div>
-                    </li>
-                    <li class="nav-item mt-2">
-                        <div class="shadow-sm">
-                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'users.index'}">
-                                Usuarios / Contactos
-                            </router-link>
-                        </div>
-                    </li>
-                    <!-- <li class="nav-item mt-2">
-                        <div class="shadow-sm">
-                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'faqs.index'}">
-                                FAQ's
-                            </router-link>
-                        </div>
-                    </li> -->
-                    <li class="nav-item mt-2">
-                        <div class="shadow-sm">
-                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'post.index'}">
+                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'users-blog.index'}">
                                 Blog
-                            </router-link>
-                        </div>
-                    </li>
-                    <li class="nav-item mt-2">
-                        <div class="shadow-sm">
-                            <router-link class="btn btn-toolbar text-uppercase font-weight-bold" :to="{ name: 'file_manager.index'}">
-                                Media
                             </router-link>
                         </div>
                     </li>
@@ -90,6 +55,10 @@
 
 <script>
 export default {
+    props: ['user_role'],
+    mounted() {
+        console.log(this.user_role);
+    }
 
 }
 </script>

@@ -41,6 +41,7 @@ Vue.use(FileManager, {store})
  // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
  
  Vue.component('App', require('./components/AppComponent').default);
+ Vue.component('admin-sidebar', require('./components/AdminSidebar').default);
  Vue.component('sidebar', require('./components/Sidebar').default);
  Vue.component('navbar', require('./components/Navbar').default);
  Vue.component('pagination', require('laravel-vue-pagination'));
@@ -48,6 +49,7 @@ Vue.use(FileManager, {store})
  Vue.component('card-counter', require('./components/CardCounter').default);
  Vue.component('delete-modal', require('./components/DeleteModal').default);
  Vue.component('image-modal', require('./components/ImageModal').default);
+ Vue.component('form-errors', require('./components/FormErrors').default);
  Vue.component('vue-select', vSelect)
 
 // TICKETS

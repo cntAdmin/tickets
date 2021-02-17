@@ -131,6 +131,12 @@ class Ticket extends Model
             $q->whereHas('customer', function($q2) use ($custom_id){
                 $q2->where('customers.custom_id', 'LIKE', $custom_id . '%');
             });
+        }, function(Builder $q){
+            if(!auth()->user()->hasRole(['superadmin', 'admin', 'staff'])) {
+                $q->whereHas('customer', function($q2) {
+                    $q2->where('customers.id', auth()->user()->customer_id);
+                });
+            }
         })
         // SI ESTE TICKET TIENE UN CLIENTE BUSCA POR EL ID
         ->when($req->customer_name, function(Builder $q, $customer_name){

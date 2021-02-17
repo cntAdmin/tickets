@@ -16,13 +16,14 @@ class PermissionsRolesSeeder extends Seeder
         // ROL ADMIN
         $admin_role = Role::find(2);
         $admin_role->givePermissionTo([
+            'brands.view', 'brands.create', 'brands.update', 'brands.destroy',
+            'car_models.view', 'car_models.create', 'car_models.update', 'car_models.destroy',
             'users.view', 'users.create', 'users.update', 'users.destroy',
             'departments.view', 'departments.create', 'departments.update', 'departments.destroy',
             'customers.view', 'customers.create', 'customers.update', 'customers.destroy',
             'contacts.view', 'contacts.create', 'contacts.update', 'contacts.destroy',
             'tickets.view', 'tickets.create', 'tickets.update', 'tickets.destroy',
-            'engine_types.view', 'engine_types.create', 'engine_types.update', 'engine_types.destroy',
-        ]);
+       ]);
 
         // ROL DEPARTMENT
         $department_role = Role::find(3);
@@ -32,8 +33,7 @@ class PermissionsRolesSeeder extends Seeder
             'customers.view', 'customers.create', 'customers.update', 'customers.destroy',
             'contacts.view', 'contacts.create', 'contacts.update', 'contacts.destroy',
             'tickets.view', 'tickets.create', 'tickets.update', 'tickets.destroy',
-            'engine_types.view', 'engine_types.create', 'engine_types.update', 'engine_types.destroy',
-        ]);
+       ]);
 
         // ROL STAFF
         $staff_role = Role::find(4);
@@ -43,8 +43,7 @@ class PermissionsRolesSeeder extends Seeder
             'customers.view', 'customers.create', 'customers.update', 'customers.destroy',
             'contacts.view', 'contacts.create', 'contacts.update', 'contacts.destroy',
             'tickets.view', 'tickets.create', 'tickets.update', 'tickets.destroy',
-            'engine_types.view', 'engine_types.create', 'engine_types.update', 'engine_types.destroy',
-        ]);
+       ]);
         
         // ROL CUSTOMER
         $customer_role = Role::find(5);

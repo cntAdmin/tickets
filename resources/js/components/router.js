@@ -30,69 +30,72 @@ const router = new VueRouter({
             name: 'home', 
             component: Tickets
         },
+        // * ADMIN ROUTES
         {
-            path: '/ticket',
+            path: '/admin/ticket',
             name: 'ticket.index', 
             component: Tickets
         },
             {
-                path: '/ticket/create/:customer_id?',
+                path: '/admin/ticket/create/:customer_id?',
                 name: 'ticket.create', 
                 component: TicketsCreate
             },
             {
-                path: '/ticket/:ticketID',
+                path: '/admin/ticket/:ticketID',
                 name: 'ticket.show', 
                 component: TicketViewInfo,
                 props: true
             },
             {
-                path: '/ticket/:ticketID/edit',
+                path: '/admin/ticket/:ticketID/edit',
                 name: 'ticket.edit', 
                 component: TicketEdit,
                 props: true
             },
         {
-            path: '/department',
+            path: '/admin/department',
             name: 'department.index', 
             component: Departments
         },
         {
-            path: '/customer',
+            path: '/admin/customer',
             name: 'customer.index', 
             component: Customers
         },
         {
-            path: '/users',
+            path: '/admin/users',
             name: 'users.index', 
             component: Users
         },
         {
-            path: '/faqs',
+            path: '/admin/faqs',
             name: 'faqs.index', 
             component: Faqs
         },
         {
-            path: '/file-manager',
+            path: '/admin/file-manager',
             name: 'file_manager.index', 
             component: FileManager
         },
         {
-            path: '/post',
+            path: '/admin/post',
             name: 'post.index',
             component: Post
         },
             {
-                path: '/post/create',
+                path: '/admin/post/create',
                 name: 'post.create',
                 component: PostCreate
             },
             {
-                path: '/post/:post',
+                path: '/admin/post/:post',
                 name: 'post.show',
                 component: PostEdit,
                 props: true
             },
+        // * ADMIN ROUTES
+
     ],
 });
 export default router;
