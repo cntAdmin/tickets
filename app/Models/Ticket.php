@@ -99,6 +99,16 @@ class Ticket extends Model
             $q->whereDate('tickets.created_at', '>=', $date_from);
         })->when($req->date_to, function(Builder $q, $date_to) {
             $q->whereDate('tickets.created_at', '<=', $date_to);
+        })->when($req->knowledge_base, function(Builder $q, $knowledge_base) {
+            switch ($knowledge_base) {
+                case '1':
+                    $q->where('knowledge_base', 1);
+                    break;
+                
+                default:
+                    $q->where('knowledge_base', 0);
+                break;
+            }
         })->when($req->order_by, function(Builder $q, $order_by) {
             $q->orderBy($order_by->field, $order_by->value);
         },function ($q) {

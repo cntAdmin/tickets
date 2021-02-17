@@ -89,6 +89,7 @@ export default {
                 status: data ? data.status : this.$route.query.status,
                 date_from: data ? data.date_from : null,
                 date_to: data ? data.date_to : null,
+                knowledge_base: data ? data.knowledge_base : null
                 }
             }).then(res => {
                 this.tickets = res.data.tickets;

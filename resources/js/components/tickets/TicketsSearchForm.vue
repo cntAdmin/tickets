@@ -92,6 +92,19 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group col-12 col-md-6 col-lg-4">
+                            <label class="sr-only" for="dateFrom">Publicado</label>
+                            <div class="input-group w-100">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text text-uppercase">Publicado</div>
+                                </div>
+                                <select v-model="selected.knowledge_base" class="form-control">
+                                    <option value="">-- Todos --</option>
+                                    <option value="1">Publicado</option>
+                                    <option value="2">No Publicado</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-center mt-3">
                         <button class="btn btn-sm btn-block btn-success text-uppercase">Buscar</button>
@@ -119,6 +132,7 @@ export default {
                 status: '',
                 date_from: '',
                 date_to: '',
+                knowledge_base: ''
             },
         }
     },

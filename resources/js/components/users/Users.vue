@@ -14,7 +14,9 @@
           </button>
         </div>
 
-        <users-search-form @search="getUsers"></users-search-form>
+        <transition name="fade" v-if="!is_new && !is_edit" mode="out-in">
+          <users-search-form @search="getUsers"></users-search-form>
+        </transition>
 
         <div class="alert alert-dismissable alert-danger my-3 text-center" v-if="deleted.status">
             {{ deleted.msg }}
@@ -67,7 +69,7 @@ export default {
       searching: false
     }
   },
-  mounted() {
+  activated() {
     this.getUsers();
   },
   methods: {
