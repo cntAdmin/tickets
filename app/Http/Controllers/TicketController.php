@@ -130,11 +130,12 @@ class TicketController extends Controller
         $get_calls = $req->calls ? Call::find($req->calls) : null;
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
+
+        $lastID = Ticket::latest()->id;
         
-        return $req->knowledge_base;
         // CREATING TICKET
         $create_ticket = Ticket::create([
-            'custom_id' => $get_department->code . '-' . now()->timestamp,
+            'custom_id' => $get_department->code . now()->year . '-' . $lastID + 1,
             'frame_id' => $req->frame_id,
             'plate' => $req->plate,
             'engine_type' => $req->engine_type,

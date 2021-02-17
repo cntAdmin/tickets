@@ -74,10 +74,11 @@ class Ticket extends Model
     }
 
     public static function getTickets(Request $req, $type = 'tickets') {
+
         return Ticket::when($type == 'faqs', function(Builder $q, $faqs){
             $q->where('knowledge_base', 1);
         })->when($req->ticket_id, function(Builder $q, $id) {
-            $q->where('custom_id', 'LIKE', $id . '%');
+            $q->where('custom_id', 'LIKE', '%' . $id . '%');
         })->when($req->frame_id, function(Builder $q, $frame_id) {
             $q->where('frame_id', 'LIKE', $frame_id . '%');
         })->when($req->plate, function(Builder $q, $plate) {
