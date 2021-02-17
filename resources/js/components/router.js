@@ -12,6 +12,7 @@ import Users from "./users/Users";
 import Faqs from "./faqs/Faqs";
 import FileManager from './file-manager/FileManager';
 import Post from './posts/Post';
+import PostCreate from './posts/PostCreate';
 
 Vue.use(VueRouter);
 
@@ -83,7 +84,7 @@ const router = new VueRouter({
             {
                 path: '/post/create',
                 name: 'post.create',
-                component: Post
+                component: PostCreate
             },
             {
                 path: '/post/:post',

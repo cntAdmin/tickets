@@ -8,7 +8,7 @@
 
         <div class="d-flex justify-content-center my-3">
             <router-link class="btn btn-secondary btn-sm text-uppercase btn-block" :to="{name: 'post.create'}">
-                Crear Nueva Entrada
+                Crear Nuevo Post
             </router-link>
         </div>
 

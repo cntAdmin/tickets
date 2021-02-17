@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\Brand;
 use App\Models\CarModel;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -12,7 +11,7 @@ class CarModelsImport implements ToModel, WithHeadingRow
     /**
     * @param array $row
     *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @return \Illuminate\Database\Eloquent\Model
     */
     public function model(array $row)
     {

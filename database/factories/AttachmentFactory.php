@@ -2,11 +2,15 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Comment;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\File;
 
 $factory->define(App\Models\Attachment::class, function (Faker $faker) {
-    $attachment_name = $faker->image('public/storage/media', '500', '500', 'cats', false);
+    if(!file_exists('/public/storage/media')){
+        File::makeDirectory('/public/storage/media', $mode = 0777, true, true);
+    }
+
+    $attachment_name = $faker->image('/public/storage/media', '500', '500', 'cats', false);
 
     return [
         'name' => $attachment_name,

@@ -11,22 +11,28 @@
           <div class="ml-auto" v-show="ticket">
             <div class="form-inline">
               <div class="input-group">
-                  <span class="mr-3 mt-1">Añadir a FAQ's</span>
+                <span class="mr-3 mt-1">Añadir a FAQ's</span>
                 <label class="switch">
-                  <input type="checkbox" v-model="ticket.knowledge_base"/>
+                  <input type="checkbox" v-model="ticket.knowledge_base" />
                   <span class="slider round"></span>
                 </label>
               </div>
-              <button form="edit_ticket_form" type="submit" class="btn btn-sm btn-success mx-3">Guardar Ticket</button>
+              <button
+                form="edit_ticket_form"
+                type="submit"
+                class="btn btn-sm btn-success mx-3"
+              >
+                Guardar Ticket
+              </button>
 
               <router-link
                 class="btn btn-sm btn-secondary"
-                :to="{ name: 'ticket.show', params: {ticketID: ticketID} }"
+                :to="{ name: 'ticket.show', params: { ticketID: ticketID } }"
               >
                 Volver
               </router-link>
             </div>
-            </div>
+          </div>
         </div>
       </div>
 
@@ -50,20 +56,38 @@
             </button>
           </div>
         </div>
-        <form id="edit_ticket_form" @submit.prevent="handleSubmit" method="POST">
+        <form
+          id="edit_ticket_form"
+          @submit.prevent="handleSubmit"
+          method="POST"
+        >
           <div class="form-inline">
             <div class="form-group col-12 col-md-6 col-lg-4">
               <label class="sr-only" for="dateFrom">Cliente</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase py-1">Cliente</div>
+                  <div class="input-group-text text-uppercase py-1">
+                    Cliente
+                  </div>
                 </div>
-                <vue-select class="col-9 px-0 w-100" transition="vs__fade" :options="customers" label="comercial_name" itemid="id"
-                    @input="setCustomer" v-model="ticket.customer.comercial_name">
-                        <div slot="no-options">No hay opciones con esta busqueda</div>
-                        <template slot="option" slot-scope="option">
-                            {{ option.custom_id }} - {{ option.comercial_name ? option.comercial_name : cs.fiscal_name }}
-                        </template>
+                <vue-select
+                  class="col-9 px-0 w-100"
+                  transition="vs__fade"
+                  :options="customers"
+                  label="comercial_name"
+                  itemid="id"
+                  @input="setCustomer"
+                  v-model="ticket.customer.comercial_name"
+                >
+                  <div slot="no-options">No hay opciones con esta busqueda</div>
+                  <template slot="option" slot-scope="option">
+                    {{ option.custom_id }} -
+                    {{
+                      option.comercial_name
+                        ? option.comercial_name
+                        : cs.fiscal_name
+                    }}
+                  </template>
                 </vue-select>
               </div>
             </div>
@@ -159,12 +183,19 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase py-1">Marca</div>
                 </div>
-                <vue-select class="col-9 px-0 mx-0" transition="vs__fade" :options="brands" label="name" itemid="id"
-                    @input="setBrand" v-model="ticket.brand.name">
-                        <div slot="no-options">No hay opciones con esta busqueda</div>
-                        <template slot="option" slot-scope="option">
-                            {{ option.id }} - {{ option.name }}
-                        </template>
+                <vue-select
+                  class="col-9 px-0 mx-0"
+                  transition="vs__fade"
+                  :options="brands"
+                  label="name"
+                  itemid="id"
+                  @input="setBrand"
+                  v-model="ticket.brand.name"
+                >
+                  <div slot="no-options">No hay opciones con esta busqueda</div>
+                  <template slot="option" slot-scope="option">
+                    {{ option.id }} - {{ option.name }}
+                  </template>
                 </vue-select>
               </div>
             </div>
@@ -176,12 +207,19 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase py-1">Modelo</div>
                 </div>
-                <vue-select class="col-9 px-0 mx-0" transition="vs__fade" :options="models" label="name" itemid="id"
-                    @input="setModel" v-model="ticket.car_model.name">
-                        <div slot="no-options">No hay opciones con esta busqueda</div>
-                        <template slot="option" slot-scope="option">
-                            {{ option.id }} - {{ option.name }}
-                        </template>
+                <vue-select
+                  class="col-9 px-0 mx-0"
+                  transition="vs__fade"
+                  :options="models"
+                  label="name"
+                  itemid="id"
+                  @input="setModel"
+                  v-model="ticket.car_model.name"
+                >
+                  <div slot="no-options">No hay opciones con esta busqueda</div>
+                  <template slot="option" slot-scope="option">
+                    {{ option.id }} - {{ option.name }}
+                  </template>
                 </vue-select>
               </div>
             </div>
@@ -243,7 +281,7 @@
                 :quickToolbarSettings="quickToolbarSettings"
                 :height="400"
                 :toolbarSettings="toolbarSettings"
-                >{{ticket.description}}
+                >{{ ticket.description }}
               </ejs-richtexteditor>
             </div>
           </div>
@@ -267,13 +305,17 @@
                 :quickToolbarSettings="quickToolbarSettings"
                 :height="400"
                 :toolbarSettings="toolbarSettings"
-                >
+              >
                 {{ ticket.tests_done }}
               </ejs-richtexteditor>
             </div>
           </div>
           <div class="form-inline mt-4">
-            <button form="edit_ticket_form" type="submit" class="btn btn-sm btn-success btn-block mx-3">
+            <button
+              form="edit_ticket_form"
+              type="submit"
+              class="btn btn-sm btn-success btn-block mx-3"
+            >
               Guardar Ticket
             </button>
           </div>
@@ -309,7 +351,7 @@ export default {
         user: {},
         customer: {},
         brand: {},
-        car_model: {}
+        car_model: {},
       },
       selected: {
         customer_id: "",
@@ -399,20 +441,19 @@ export default {
     },
     setBrand(value) {
       this.ticket.brand.id = value ? value.id : null;
-      axios.get('/api/brand/' + this.ticket.brand.id + '/model')
-        .then( res => {
-            this.models = res.data.models
-        }).catch( err => {
-            console.log(err)
-      });
-
+      axios
+        .get("/api/brand/" + this.ticket.brand.id + "/model")
+        .then((res) => {
+          this.models = res.data.models;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     get_all_brands() {
-      axios.get('/api/get_all_brands')
-        .then( res => {
-          this.brands = res.data.brands
-
-        })
+      axios.get("/api/get_all_brands").then((res) => {
+        this.brands = res.data.brands;
+      });
     },
     get_all_departments() {
       axios
@@ -443,8 +484,8 @@ export default {
               customer_id: this.ticket.customer.id,
             },
           })
-          .then(res => {
-            console.log(res.data)
+          .then((res) => {
+            console.log(res.data);
             this.users = res.data.users;
           })
           .catch((err) => {
@@ -455,12 +496,11 @@ export default {
     get_ticket(ticketID) {
       axios
         .get("/api/ticket/" + ticketID)
-        .then(res => {
+        .then((res) => {
           this.ticket = res.data.ticket;
           this.users[0] = res.data.ticket.user;
-          this.$refs.description.ej2Instances.value =  this.ticket.description;
-          this.$refs.tests_done.ej2Instances.value =  this.ticket.tests_done;
-
+          this.$refs.description.ej2Instances.value = this.ticket.description;
+          this.$refs.tests_done.ej2Instances.value = this.ticket.tests_done;
         })
         .catch((err) => {
           console.log(err);
@@ -481,7 +521,7 @@ export default {
       this.error = false;
       this.errors = {};
 
-      console.log(this.ticket.calls)
+      console.log(this.ticket.calls);
       axios
         .put("/api/ticket/" + this.ticket.id, {
           customer_id: this.ticket.customer.id,
@@ -500,14 +540,13 @@ export default {
         })
         .then((res) => {
           if (res.data.success) {
-            $('html, body').animate({scrollTop:0}, 'slow');
+            $("html, body").animate({ scrollTop: 0 }, "slow");
 
             this.success.value = true;
             this.success.message = res.data.success;
             setTimeout(() => {
-              window.location.href = '/ticket/' + this.ticket.id;
+              window.location.href = "/ticket/" + this.ticket.id;
             }, 2000);
-
           } else if (res.data.error) {
             this.error = true;
             this.errors = res.data.error;
@@ -544,7 +583,7 @@ switch {
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -558,8 +597,8 @@ switch {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -570,16 +609,16 @@ switch {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
