@@ -11,6 +11,34 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 class CustomerController extends Controller
 {
+    private $messages;
+    private $attributes;
+
+    public function __construct()
+    {
+        $this->messages = [
+            'required' => __(':attribute es obligatorio.'),
+            'string' => __(':attribute debe ser una cadena de texto.'),
+            'max' => __(':attribute debe ser inferior a :max caracteres.'),
+            'email' => __(':attribute debe ser de tipo email.'),
+            'boolean' => __(':attribute debe ser tipo boleano (true/false)'),
+        ];
+        $this->attributes = [
+            'cif' => 'CIF',
+            'fiscal_name' => 'Nombre Fiscal',
+            'comercial_name' => 'Nombre Comercial',
+            'phone' => 'Teléfono',
+            'email' => 'Email',
+            'street' => 'Dirección',
+            'city' => 'Ciudad',
+            'province' => 'Provincia',
+            'country' => 'País',
+            'postcode' => 'Código Postal',
+            'shop' => 'Tienda',
+            'is_active' => 'Activo'
+        ];
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -75,31 +103,9 @@ class CustomerController extends Controller
     public function store(Request $req)
     {
         // $this->authorize('customers.create');
-        $attributes = [
-            'cif' => 'CIF',
-            'fiscal_name' => 'Nombre Fiscal',
-            'comercial_name' => 'Nombre Comercial',
-            'phone' => 'Teléfono',
-            'email' => 'Email',
-            'street' => 'Dirección',
-            'city' => 'Ciudad',
-            'province' => 'Provincia',
-            'country' => 'País',
-            'postcode' => 'Código Postal',
-            'shop' => 'Tienda',
-            'is_active' => 'Activo'
-        ];
-        $messages = [
-            'required' => __(':attribute es obligatorio.'),
-            'string' => __(':attribute debe ser una cadena de texto.'),
-            'max' => __(':attribute debe ser inferior a :max caracteres.'),
-            'email' => __(':attribute debe ser de tipo email.'),
-            'boolean' => __(':attribute debe ser tipo boleano (true/false)'),
-        ];
-
         $validator = Validator::make($req->all(), [
             'cif' => ['nullable', 'string', 'max:9', 'unique:customers,cif'],
-            'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,cif'],
+            'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,custom_id'],
             'fiscal_name' => ['nullable', 'string', 'max:255'],
             'comercial_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:6','max:15'],
@@ -111,7 +117,7 @@ class CustomerController extends Controller
             'postcode' => ['nullable', 'string', 'max:255'],
             'shop' => ['required','string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
-        ], $messages, $attributes);
+        ], $this->messages, $this->attributes);
 
         if($validator->fails()) {
             return response()->json([
@@ -194,33 +200,11 @@ class CustomerController extends Controller
      */
     public function update(Request $req, Customer $customer)
     {
-        $this->authorize('customers.update');
-
-        $attributes = [
-            'cif' => 'CIF',
-            'fiscal_name' => 'Nombre Fiscal',
-            'comercial_name' => 'Nombre Comercial',
-            'phone' => 'Teléfono',
-            'email' => 'Email',
-            'street' => 'Dirección',
-            'city' => 'Ciudad',
-            'province' => 'Provincia',
-            'country' => 'País',
-            'postcode' => 'Código Postal',
-            'shop' => 'Tienda',
-            'is_active' => 'Activo'
-        ];
-        $messages = [
-            'required' => __(':attribute es obligatorio.'),
-            'string' => __(':attribute debe ser una cadena de texto.'),
-            'max' => __(':attribute debe ser inferior a :max caracteres.'),
-            'email' => __(':attribute debe ser de tipo email.'),
-            'boolean' => __(':attribute debe ser tipo boleano (true/false)'),
-        ];
+        // $this->authorize('customers.update');
 
         $validator = Validator::make($req->all(), [
-            'cif' => ['nullable', 'string', 'max:9', 'unique:customers,cif'],
-            'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,cif'],
+            'cif' => ['nullable', 'string', 'max:9', 'unique:customers,cif,' . $customer->id],
+            'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,custom_id,' . $customer->id],
             'fiscal_name' => ['nullable', 'string', 'max:255'],
             'comercial_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:6','max:15'],
@@ -232,7 +216,7 @@ class CustomerController extends Controller
             'postcode' => ['nullable', 'string', 'max:255'],
             'shop' => ['required','string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
-        ], $messages, $attributes);
+        ], $this->messages, $this->attributes);
 
         if($validator->fails()) {
             return response()->json([
@@ -267,20 +251,20 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $this->authorize('customers.destroy');
-        
+        // $this->authorize('customers.destroy');
+
         $customer->update([
             'deleted_by' => auth()->user()->id
         ]);
-
+        
         $deleted = $customer->delete();
 
         return $deleted 
-            ? response()->json(['success' => __('Cliente eliminado correctamente.')])
-            : response()->json(['error' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
+            ? response()->json(['success' => true, 'msg' => __('Cliente eliminado correctamente.')])
+            : response()->json(['error' => true, 'msg' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
     }
 
-    public function get_all_customers(Request $req) {
+    public function get_all_customers() {
         return response()->json(
             \App\Models\Customer::where('is_active', 1)
                 ->orderBy('comercial_name')

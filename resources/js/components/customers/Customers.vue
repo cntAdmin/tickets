@@ -81,9 +81,11 @@ export default {
       this.closeAll();
       this.success.status = true;
       this.success.msg = data;
+
       setTimeout(() => {
         this.getCustomers();
-      }, 1500);
+      }, 2000);
+      
     },
     getCustomers(data) {
       this.closeAll();

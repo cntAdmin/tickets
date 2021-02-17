@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
         'cif', 'custom_id', 'fiscal_name', 'comercial_name', 'phone', 'email', 'street', 'city', 'province', 'country', 'postcode',
-        'shop', 'is_active'
+        'shop', 'is_active', 'deleted_by'
     ];
     protected $appends = ['active_status'];
 
