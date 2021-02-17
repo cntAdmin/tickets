@@ -12,6 +12,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'description' => $html,
         'likes' => rand(1,100),
         'dislikes' => rand(1,100),
+        'featured' => rand(0,1),
         'created_at' => now(),
         'updated_at' => now(),
     ];
