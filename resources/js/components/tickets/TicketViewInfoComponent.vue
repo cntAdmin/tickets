@@ -7,19 +7,29 @@
             Ticket ({{ ticket.custom_id }})
           </h4>
         </div>
+
         <div class="ml-auto" v-show="ticket">
-          <router-link
-            class="btn btn-sm btn-primary"
-            :to="{ name: 'ticket.edit', params: { ticketID: ticketID } }"
-          >
-            Editar Ticket
-          </router-link>
-          <router-link
-            class="btn btn-sm btn-secondary"
-            :to="{ name: 'ticket.index' }"
-          >
-            Volver
-          </router-link>
+          <div class="form-inline">
+            <div class="input-group">
+              <span class="mr-3 mt-1">Añadir a FAQ's</span>
+              <label class="switch">
+                <input type="checkbox" v-model="ticket.knowledge_base" @click="toggleFaqs"/>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <router-link
+              class="btn btn-sm btn-primary mx-3"
+              :to="{ name: 'ticket.edit', params: { ticketID: ticketID } }"
+            >
+              Editar Ticket
+            </router-link>
+            <router-link
+              class="btn btn-sm btn-secondary"
+              :to="{ name: 'ticket.index' }"
+            >
+              Volver
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -27,17 +37,17 @@
       <div class="row justify-content-center">
         <div class="col-6 text-center">
           <div
-            v-show="success.status === true"
+            v-if="success.status === true"
             class="alert alert-success alert-dismissible fade show"
             role="alert"
           >
-            {{ success.message }}
+            {{ success.msg }}
 
             <button
               type="button"
               class="close"
-              data-dismiss="alert"
               aria-label="Close"
+              @click="success.status = false"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -52,7 +62,16 @@
             <div class="input-group-prepend">
               <div class="input-group-text text-uppercase">Cliente</div>
             </div>
-            <input type="text" class="form-control" :value="ticket.customer ? ticket.customer.comercial_name : 'Sin cliente asignado'" disabled />
+            <input
+              type="text"
+              class="form-control"
+              :value="
+                ticket.customer
+                  ? ticket.customer.comercial_name
+                  : 'Sin cliente asignado'
+              "
+              disabled
+            />
           </div>
         </div>
         <div class="form-group col-12 col-md-6 col-lg-4">
@@ -61,7 +80,12 @@
             <div class="input-group-prepend">
               <div class="input-group-text text-uppercase">Contacto</div>
             </div>
-            <input type="text" class="form-control" :value="ticket.user ? ticket.user.name : 'Sin cliente asignado'" disabled />
+            <input
+              type="text"
+              class="form-control"
+              :value="ticket.user ? ticket.user.name : 'Sin cliente asignado'"
+              disabled
+            />
           </div>
         </div>
         <div class="form-group col-12 col-md-6 col-lg-4">
@@ -70,7 +94,16 @@
             <div class="input-group-prepend">
               <div class="input-group-text text-uppercase">Departamentos</div>
             </div>
-            <input type="text" class="form-control" :value="ticket.department ? ticket.department.name : 'Sin cliente asignado'" disabled/>
+            <input
+              type="text"
+              class="form-control"
+              :value="
+                ticket.department
+                  ? ticket.department.name
+                  : 'Sin cliente asignado'
+              "
+              disabled
+            />
           </div>
         </div>
         <div
@@ -217,34 +250,47 @@
         </div>
       </div>
     </div>
-    <ticket-view-calls v-if="calls ? calls.length > 0 : 0" :calls="calls"></ticket-view-calls>
-    <ticket-comments v-if="ticket.comments ? ticket.comments.length > 0 : 0" :comments="ticket.comments" :user="user"
-        @succeeded="succeeded">
+    <ticket-view-calls
+      v-if="calls ? calls.length > 0 : 0"
+      :calls="calls"
+    ></ticket-view-calls>
+    <ticket-comments
+      v-if="ticket.comments ? ticket.comments.length > 0 : 0"
+      :comments="ticket.comments"
+      :user="user"
+      @succeeded="succeeded"
+    >
     </ticket-comments>
 
-    <ticket-new-coment :ticket_id='ticketID' @load="get_ticket(ticketID)"></ticket-new-coment>
-
+    <ticket-new-coment
+      :ticket_id="ticketID"
+      @load="get_ticket(ticketID)"
+    ></ticket-new-coment>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["ticketID", 'user_role', 'user'],
+  props: ["ticketID", "user_role", "user"],
   data() {
     return {
       ticket: {
         user: {},
         customer: {},
         brand: {},
-        car_model: {}
+        car_model: {},
       },
       calls: [],
       selected: {
         calls: [],
       },
       success: {
-        value: false,
-        message: "",
+        status: false,
+        msg: "",
+      },
+      error: {
+        status: false,
+        msg: "",
       },
     };
   },
@@ -253,8 +299,31 @@ export default {
     this.getCalls();
   },
   methods: {
+    closeAll() {
+      this.success.status = false;
+      this.error.status = false;
+    },
+    toggleFaqs() {
+      this.closeAll();
+      console.log(this.success.status)
+      axios.get(`/api/toogle_faqs_ticket/${this.ticket.id}`)
+        .then( res => {
+          if(res.data.success) {
+            this.success = {
+              status: true,
+              msg: res.data.msg
+            }
+            console.log(this.success.status)
+          } else if(res.data.error) {
+            this.error = {
+              status: true,
+              msg: res.data.msg
+            }
+          }
+        })
+    },
     succeeded(data) {
-      $('html, body').animate({scrollTop:0}, 'slow');
+      $("html, body").animate({ scrollTop: 0 }, "slow");
       this.success.status = true;
       this.success.message = data;
     },
@@ -269,12 +338,14 @@ export default {
         });
     },
     getCalls() {
-        axios.get('/api/get_all_calls')
-            .then( res => {
-                this.calls = res.data.calls;
-            }).catch( err => {
-                console.log(err)
-            })
+      axios
+        .get("/api/get_all_calls")
+        .then((res) => {
+          this.calls = res.data.calls;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     selectedCalls(event) {
       this.selected.calls = event;

@@ -28,7 +28,7 @@
                             <td>{{ ticket.department.name }}</td>
                             <td>{{ ticket.subject }}</td>
                             <td class="text-center">{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
-                            <td>{{ ticket.calls_count }}</td>
+                            <td class="text-center">{{ ticket.calls_count }}</td>
                             <td>
                                 <button :class="'mx-1 btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
                                     :title="ticket.status.name" disabled>

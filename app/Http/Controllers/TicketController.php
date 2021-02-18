@@ -382,4 +382,13 @@ class TicketController extends Controller
             'resolved' => $resolved,
         ]);
     }
+
+    public function toogle_faqs_ticket(Ticket $ticket) {
+        $updated = $ticket->update([
+            'knowledge_base' => !$ticket->knowledge_base
+        ]);
+        return $updated
+            ? response()->json(['success' => true, 'msg' => ($ticket->knowledge_base ? 'Añadido a FAQs' : 'Quitado de FAQs')])
+            : response()->json(['error' => true, 'msg' => __('No se ha podido modificar el estado de este ticket') ]);
+    }
 }

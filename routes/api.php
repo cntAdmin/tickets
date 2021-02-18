@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth:web']], function () {
             return response()->json([ 'user_role' => $get_user->getRoleNames()[0] ]);
         });
         Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
+        Route::get('/toogle_faqs_ticket/{ticket}', 'TicketController@toogle_faqs_ticket');
         
         // ? BRANDS
         Route::get('/brand/{brand}/model', 'CarModelController@get_brand_models');

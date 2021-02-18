@@ -215,5 +215,7 @@ class PostController extends Controller
 
         return $post
             ? response()->json(['success' => true, 'msg' => 'Post editado correctamente'])
-            : response()->json(['error' => true, 'msg' => 'El post no se ha podido editar correctamente']);    }
+            : response()->json(['error' => true, 'msg' => 'El post no se ha podido editar correctamente']);
+    }
+
 }
