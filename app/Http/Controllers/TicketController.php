@@ -8,16 +8,11 @@ use App\Models\Call;
 use App\Models\CarModel;
 use App\Models\Customer;
 use App\Models\Department;
-use App\Models\EngineType;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\User;
-use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
-use Throwable;
 
 class TicketController extends Controller
 {
