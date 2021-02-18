@@ -177,6 +177,8 @@ export default {
         console.log(res.data)
           if(res.data.success) {
               this.$emit('created', res.data.msg);
+          }else if(res.data.error) {
+              this.$emit('error', res.data.errors);
           }
       }).catch(err => {
           console.log(err)
@@ -199,7 +201,6 @@ export default {
         .then(res => {
           this.departments = res.data.departments;
         })
-
     }
   }
 }

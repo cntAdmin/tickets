@@ -21,14 +21,17 @@
         <div class="alert alert-dismissable alert-danger my-3 text-center" v-if="deleted.status">
             {{ deleted.msg }}
         </div>
-        <div class="alert alert-dismissable alert-success my-3 text-center" v-else-if="success.status">
+        <div class="alert alert-dismissable alert-success my-3 text-center" v-if="success.status">
             {{ success.msg }}
         </div>
-        <transition name="fade" v-else-if="is_new" mode="out-in">
-          <user-new @close="closeAll()" @created="succeeded"></user-new>
+        <div v-if="error.status">
+          <form-errors :errors="error.errors" @close="closeAll()"></form-errors>
+        </div>
+        <transition name="fade" v-if="is_new" mode="out-in">
+          <user-new @close="closeAll()" @created="succeeded" @error="showErrors"></user-new>
         </transition>
         <transition name="fade" v-else-if="is_edit" mode="out-in">
-          <user-edit :user="user" @close="closeAll()" @updated="succeeded"></user-edit>
+          <user-edit :user="user" @close="closeAll()" @updated="succeeded" @error="showErrors"></user-edit>
         </transition>
         <transition name="fade" v-else-if="searching" mode="out-in">
             <div class="row justify-content-center mt-5">
@@ -59,6 +62,10 @@ export default {
         status: false,
         msg: ''
       },
+      error: {
+        status: false,
+        errors: []
+      },
       admin_count: 0,
       staff_count: 0,
       department_count: 0,
@@ -73,6 +80,12 @@ export default {
     this.getUsers();
   },
   methods: {
+    showErrors(data) {
+      this.error = {
+        status: true,
+        errors: data
+      }
+    },
     succeeded(data) {
       this.closeAll();
       this.success.status = true;
@@ -87,7 +100,6 @@ export default {
       this.user = data;
     },
     getUsers(data) {
-      this.closeAll();
       this.getCounters();
       this.searching = true;
       this.searched = data ? data : this.searched;
@@ -123,6 +135,8 @@ export default {
       this.searching = false;
       this.success.status = false;
       this.deleted.status = false;
+      this.error.status = false;
+      this.getUsers();
     }
   }
 }

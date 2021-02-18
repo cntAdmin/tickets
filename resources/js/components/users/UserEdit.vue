@@ -243,9 +243,10 @@ export default {
           console.log(res.data);
           if (res.data.success) {
             this.$emit("updated", res.data.msg);
+          }else if (res.data.error) {
+            this.$emit("error", res.data.errors);
           }
-        })
-        .catch((err) => {
+        }).catch((err) => {
           console.log(err);
         });
     },

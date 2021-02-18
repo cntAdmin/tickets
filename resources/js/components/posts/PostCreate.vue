@@ -18,6 +18,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <div v-show="error.status">
+          <form-errors :errors="error.errors" @close="closeAll"></form-errors>
+        </div>
 
         <form @submit.prevent="handleSubmit">
           <div class="form-inline">
@@ -166,9 +169,18 @@ export default {
         status: false,
         msg: "",
       },
+      error: {
+        status: false,
+        errors: [],
+      },
     };
   },
   methods: {
+    closeAll() {
+      this.success.status = false;
+      this.error.status = false;
+    },
+
     uploadFile(e) {
       this.files = e.target.files;
     },
@@ -190,16 +202,21 @@ export default {
           },
         })
         .then((res) => {
-          if(res.data.success) {
+          if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,
               msg: res.data.msg,
             };
+            setTimeout(() => {
+              this.$router.push("/post");
+            }, 2000);
+          } else if (res.data.error) {
+            this.error = {
+              status: true,
+              errors: res.data.errors,
+            };
           }
-          setTimeout(() => {
-            this.$router.push('/post');
-          }, 2000);
         })
         .catch((err) => console.log(err));
     },

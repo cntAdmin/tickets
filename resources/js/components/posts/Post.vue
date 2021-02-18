@@ -13,7 +13,9 @@
         </div>
 
         <posts-search-form @search="getPosts"></posts-search-form>
-
+        <div v-if="error.status">
+            <form-errors :errors="error.errors" @close="closeAll"></form-errors>
+        </div>
         <div class="alert alert-dismissable alert-danger my-3" v-if="deleted.status">
             {{ deleted.msg }}
         </div>
@@ -46,6 +48,10 @@ export default {
             success: {
                 status: false,
                 msg: '',
+            },
+            error: {
+                status: false,
+                errors: []
             }
         }
     },

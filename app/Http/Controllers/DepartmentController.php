@@ -69,15 +69,11 @@ class DepartmentController extends Controller
             'max' => __('El :attribute no puede superar los :max caracteres'),
             'unique' => __('El :attribute debe ser un campo único en la tabla')
         ];
-        $attributes = [
-            'name' => __('Nombre'),
-            'code' => __('Código')
-        ];
 
         $validator = Validator::make($req->all(), [
             'name' => ['required', 'string', 'max:100', 'unique:departments,name'],
             'code' => ['required', 'string', 'max:5', 'unique:departments,code']
-        ], $messages, $attributes);
+        ], $messages);
 
         if($validator->fails()) {
             return response()->json([
@@ -136,23 +132,19 @@ class DepartmentController extends Controller
             'max' => __('El :attribute no puede superar los :max caracteres'),
             'unique' => __('El :attribute debe ser un campo único en la tabla')
         ];
-        $attributes = [
-            'name' => __('Nombre'),
-            'code' => __('Código')
-        ];
 
         $validator = Validator::make($req->all(), [
             'name' => ['required', 'string', 'max:100', 'unique:departments,name,' . $department->id],
             'code' => ['required', 'string', 'max:5', 'unique:departments,code,' . $department->id]
-        ], $messages, $attributes);
-        
+        ], $messages);
+
         if($validator->fails()) {
             return response()->json([
                 'error' => true,
-                'msg' => $validator->errors()
+                'errors' => $validator->errors()
             ]);
         }
-            
+
         $updated = $department->update([
             'name' => $req->name,
             'code' => $req->code
@@ -160,7 +152,7 @@ class DepartmentController extends Controller
 
         return $updated
             ? response()->json([ 'success' => true, 'msg' => __('Departamento actualizado correctamente.') ])
-            : response()->json([ 'error' => true, 'msg' =>  [__('Lo sentimos, algo ha ido mal, inténtelo de nuevo mas tarde')] ]);
+            : response()->json([ 'error' => true, 'msg' =>  __('Lo sentimos, algo ha ido mal, inténtelo de nuevo mas tarde') ]);
 
     }
 

@@ -142,7 +142,7 @@
                 </div>
                 <input
                   type="text"
-                  v-model="customer.city"
+                  v-model="customer.province"
                   class="form-control"
                 />
               </div>
@@ -206,9 +206,10 @@ export default {
             shop: this.customer.shop,
             is_active: this.customer.is_active,
           }).then( res => {
-              console.log(res.data)
               if(res.data.success) {
                   this.$emit('updated', res.data.msg);
+              } else if(res.data.error) {
+                  this.$emit('error', res.data.errors);
               }
           }).catch(err => {
               console.log(err)

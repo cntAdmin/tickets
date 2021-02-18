@@ -19,9 +19,9 @@
         </button>
       </div>
     </div>
-    <div v-show="is_success.status">
+    <div v-show="success.status">
       <div class="alert alert-dismissable alert-success">
-        {{ is_success.msg }}
+        {{ success.msg }}
         <button
           type="button"
           class="close mb-3"
@@ -32,20 +32,9 @@
         </button>
       </div>
     </div>
-    <div v-show="is_error.status">
-      <div class="alert alert-dismissable alert-danger">
-        <button
-          type="button"
-          class="close mb-3"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <ul v-for="(errors, idx) in is_error.msg" :key="idx">
-          <li v-for="(error, idx2) in errors" :key="idx2">{{ error }}</li>
-        </ul>
-      </div>
+
+    <div v-show="error.status">
+      <form-errors :errors="error.errors" @close="error.status = false"></form-errors>
     </div>
 
     <transition name="fade" v-if="!is_new && !is_edit" mode="out-in">
@@ -53,15 +42,15 @@
     </transition>
 
     <transition name="fade" v-if="is_new" mode="out-in">
-      <department-new @success="success" @error="error" @close="closeAll" />
+      <department-new @success="showSuccess" @error="showErrors" @close="closeAll" />
     </transition>
 
     <transition name="fade" v-else-if="is_edit" mode="out-in">
       <department-edit
         :department="department"
         @close="closeAll"
-        @success="success"
-        @error="error"
+        @success="showSuccess"
+        @error="showErrors"
       />
     </transition>
 
@@ -80,8 +69,8 @@
         @page="getDepartments"
         :searched="searched"
         @edit="departmentEdit"
-        @success="success"
-        @error="error"
+        @success="showSuccess"
+        @error="showErrors"
         @close="closeAll()"
       />
     </transition>
@@ -99,13 +88,13 @@ export default {
       searching: false,
       is_new: false,
       is_edit: false,
-      is_success: {
+      success: {
         status: false,
         msg: "",
       },
-      is_error: {
+      error: {
         status: false,
-        msg: "",
+        errors: [],
       },
     };
   },
@@ -114,7 +103,6 @@ export default {
   },
   methods: {
     getDepartments(data) {
-      this.closeAll();
       this.searching = true;
       this.searched = data ? data : this.searched;
 
@@ -140,8 +128,9 @@ export default {
       this.searching = false;
       this.is_new = false;
       this.is_edit = false;
-      this.is_success.status = false;
-      this.is_error.status = false;
+      this.success.status = false;
+      this.error.status = false;
+      this.getDepartments();
     },
     departmentNew() {
       this.closeAll();
@@ -152,17 +141,21 @@ export default {
       this.is_edit = true;
       this.department = data;
     },
-    success(data) {
+    showSuccess(data) {
       this.closeAll();
-      this.is_success.status = true;
-      this.is_success.msg = data;
+      this.success = {
+        status: true,
+        msg: data
+        }
       setTimeout(() => {
         this.getDepartments(data);
       }, 1500);
     },
-    error(data) {
-      this.is_error.status = true;
-      this.is_error.msg = data;
+    showErrors(data) {
+      this.error = {
+        status: true,
+        errors: data
+      }
     },
   },
 };

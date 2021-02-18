@@ -175,7 +175,7 @@
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-sm btn-block btn-secondary text-uppercase font-weight-bold">
+            <button type="submit" class="btn btn-sm btn-block btn-secondary text-uppercase font-weight-bold">
               Nuevo Cliente
             </button>
           </div>
@@ -223,9 +223,10 @@ export default {
             shop: this.selected.shop,
             is_active: this.selected.isActive,
           }).then( res => {
-            console.log(res.data)
               if(res.data.success) {
                   this.$emit('created', res.data.msg);
+              }else if(res.data.error) {
+                this.$emit('error', res.data.errors)
               }
           }).catch(err => {
               console.log(err)

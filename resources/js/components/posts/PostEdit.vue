@@ -18,7 +18,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-
+        <div v-show="error.status">
+          <form-errors :errors="error.errors" @close="closeAll"></form-errors>
+        </div>
         <form @submit.prevent="handleSubmit">
           <div class="form-inline">
             <div class="form-group col-12 col-md-6">
@@ -167,22 +169,30 @@ export default {
         status: false,
         msg: "",
       },
+      error: {
+        status: false,
+        errors: [],
+      },
     };
   },
-  beforeMount(){
-      axios.get(`/api/post/${this.$route.params.post}`)
-        .then( res => {
-            if(res.data.success) {
-                this.post = res.data.post;
-                this.$refs.description.ej2Instances.value = this.post.description;
-            }
-        })
+  beforeMount() {
+    axios.get(`/api/post/${this.$route.params.post}`).then((res) => {
+      if (res.data.success) {
+        this.post = res.data.post;
+        this.$refs.description.ej2Instances.value = this.post.description;
+      }
+    });
   },
   methods: {
+    closeAll() {
+      this.success.status = false;
+      this.error.status = false;
+    },
     uploadFile(e) {
       this.files = e.target.files;
     },
     handleSubmit() {
+      this.closeAll();
       const formData = new FormData();
       if (this.files) {
         for (const i of Object.keys(this.files)) {
@@ -192,7 +202,7 @@ export default {
       formData.append("title", this.post.title);
       formData.append("description", this.$refs.description.ej2Instances.value);
       formData.append("featured", this.post.featured);
-      
+
       axios
         .post(`/api/edit_post/${this.post.id}`, formData, {
           headers: {
@@ -200,16 +210,20 @@ export default {
           },
         })
         .then((res) => {
-            console.log(res.data)
-          if(res.data.success) {
-            $("html, body").animate({ scrollTop: 0 }, "slow");
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          if (res.data.success) {
             this.success = {
               status: true,
               msg: res.data.msg,
             };
             setTimeout(() => {
-                this.$router.push('/post');
+              this.$router.push("/post");
             }, 2000);
+          } else if (res.data.error) {
+            this.error = {
+              status: true,
+              errors: res.data.errors,
+            };
           }
         })
         .catch((err) => console.log(err));

@@ -42,21 +42,31 @@
     >
       {{ deleted.msg }}
     </div>
+
     <div
       class="alert alert-dismissable alert-success my-3 text-center"
-      v-else-if="success.status"
+      v-if="success.status"
     >
       {{ success.msg }}
     </div>
 
-    <transition name="fade" v-else-if="is_new" mode="out-in">
-      <customer-new @close="closeAll()" @created="succeeded"></customer-new>
+    <div v-if="error.status">
+      <form-errors :errors="error.errors" @close="closeAll()"></form-errors>
+    </div>
+
+    <transition name="fade" v-if="is_new" mode="out-in">
+      <customer-new
+        @close="closeAll()"
+        @created="succeeded"
+        @error="showErrors"
+      ></customer-new>
     </transition>
     <transition name="fade" v-else-if="is_edit" mode="out-in">
       <customer-edit
         :customer="customer"
         @close="closeAll()"
         @updated="succeeded"
+        @error="showErrors"
       ></customer-edit>
     </transition>
     <transition name="fade" v-else-if="searching" mode="out-in">
@@ -68,8 +78,8 @@
     <transition name="fade" v-else-if="customers.data" mode="out-in">
       <customers-table
         :customers="customers"
-        @page="getCustomers"
         :searched="searched"
+        @page="getCustomers"
         @deleted="succeeded"
         @edit="editCustomer"
       ></customers-table>
@@ -95,7 +105,7 @@ export default {
       },
       error: {
         status: false,
-        msg: "",
+        errors: [],
       },
       deleted: {
         status: false,
@@ -107,8 +117,18 @@ export default {
     this.getCustomers();
   },
   methods: {
+    showErrors(data) {
+      this.error = {
+        status: true,
+        errors: data,
+      };
+    },
     hasBeenDeleted(data) {
-      console.log(data);
+      this.closeAll();
+      this.deleted = {
+        status: true,
+        msg: data,
+      };
     },
     editCustomer(data) {
       this.closeAll();
@@ -117,15 +137,19 @@ export default {
     },
     succeeded(data) {
       this.closeAll();
-      this.success.status = true;
-      this.success.msg = data;
+      this.success = {
+        status: true,
+        msg: data,
+      };
 
       setTimeout(() => {
-        this.getCustomers();
+        this.success = {
+          status: false,
+          msg: '',
+        };
       }, 2000);
     },
     getCustomers(data) {
-      this.closeAll();
       this.getCounters();
       this.searching = true;
       this.searched = data ? data : this.searched;
@@ -156,6 +180,7 @@ export default {
       this.searching = false;
       this.is_new = false;
       this.is_edit = false;
+      this.getCustomers();
     },
     getCounters() {
       axios.get("/api/get_customers_count").then((res) => {

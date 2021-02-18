@@ -24,8 +24,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text text-uppercase">Nombre</div>
                                 </div>
-                                <input type="text" v-model="selected.name" class="form-control"
-                                    title="Minimo 3 caracteres" autofocus />
+                                <input type="text" v-model="selected.name" class="form-control" autofocus />
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0">
@@ -34,8 +33,8 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text text-uppercase">Código</div>
                                 </div>
-                                <input type="text" v-model="selected.code" class="form-control"
-                                    title="Minimo 3 caracteres" />
+                                <input type="text" v-model="selected.code" class="form-control" maxlength="5"
+                                    title="Máximo 5 caracteres" />
                             </div>
                         </div>
                         <button class="btn btn-sm btn-secondary text-uppercase ml-3">
@@ -53,14 +52,14 @@ export default {
     return {
       selected: {
         name: '',
-        code:''
+        code: ''
       }
     }
   },
   methods: {
     handleSubmit() {
       if(this.selected.name.trim() === '' || this.selected.code.trim() === '') return;
-      axios.post('/department', {
+      axios.post('/api/department', {
         name: this.selected.name,
         code: this.selected.code
       }).then( res => {

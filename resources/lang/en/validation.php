@@ -147,7 +147,15 @@ return [
     */
 
     'attributes' => [
-        'frame_id' => 'Número de Bastidor'
+        'frame_id' => 'Número de Bastidor',
+        'department_id' => 'Departamento',
+        'name' => 'Nombre',
+        'surname' => 'Apellidos',
+        'email' => 'Email',
+        'phone' => 'Teléfono',
+        'password' => 'Contraseña',
+        'password_confirmation' => 'Rep. Contraseña',
+        'is_active' => 'Activo'
     ],
 
 ];

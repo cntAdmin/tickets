@@ -25,6 +25,7 @@ class CustomerController extends Controller
         ];
         $this->attributes = [
             'cif' => 'CIF',
+            'custom_id' => 'Código Cliente',
             'fiscal_name' => 'Nombre Fiscal',
             'comercial_name' => 'Nombre Comercial',
             'phone' => 'Teléfono',
@@ -220,7 +221,8 @@ class CustomerController extends Controller
 
         if($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors()
+                'error' => true,
+                'errors' => $validator->errors()
             ]);
         }
         $updated = $customer->update([

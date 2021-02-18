@@ -34,6 +34,12 @@
                               <router-link class="btn btn-sm btn-success" :to="{name: 'post.show', params: {post: post.id}}">
                                 <i class="fas fa-eye"></i>
                               </router-link>
+                              <router-link class="btn btn-sm btn-info text-white ml-3" :to="{name: 'post.edit', params: {post: post.id}}">
+                                <i class="fas fa-edit"></i>
+                              </router-link>
+                              <button type="button" class="btn btn-sm btn-danger ml-3" @click="openDeleteModal(post)">
+                                <i class="fas fa-trash-alt"></i>
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -51,7 +57,7 @@
                 Haga una nueva búsqueda
             </div>
         </div>
-        <!-- <delete-modal v-show="showModal" :data="post" title="Post" @getDeleted="getDeleted" @close="showModal = false"></delete-modal> -->
+        <delete-modal v-show="showDelete" :data="post" title="Post" @getDeleted="getDeleted" @close="showDelete = false"></delete-modal>
     </div>
     
 </template>
@@ -62,9 +68,20 @@ export default {
   data() {
     return {
       post: {},
+      showDelete: false
     }
   },
   methods: {
+    getDeleted() {
+      axios.delete(`/api/post/${this.post.id}`)
+        .then( res => {
+          console.log(res.data)
+        }).catch( err => console.log(err))
+    },
+    openDeleteModal(post) {
+      this.showDelete = true;
+      this.post = post;
+    },
     handleCheckbox(post_id) {
       axios.get('/api/toggle_featured_post/' + post_id).then(res => this.$emit('getCount'));
       ;

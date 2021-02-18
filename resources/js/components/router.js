@@ -14,6 +14,7 @@ import FileManager from './file-manager/FileManager';
 import Post from './posts/Post';
 import PostCreate from './posts/PostCreate';
 import PostEdit from './posts/PostEdit';
+import PostShow from './posts/PostShow';
 
 Vue.use(VueRouter);
 
@@ -89,9 +90,15 @@ const router = new VueRouter({
                 component: PostCreate
             },
             {
+                path: '/admin/post/:post/edit',
+                name: 'post.edit',
+                component: PostEdit,
+                props: true
+            },
+            {
                 path: '/admin/post/:post',
                 name: 'post.show',
-                component: PostEdit,
+                component: PostShow,
                 props: true
             },
         // * ADMIN ROUTES

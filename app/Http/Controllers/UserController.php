@@ -13,16 +13,19 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    private $attributes = [
-        'department_id' => 'Departamento',
-        'name' => 'Nombre',
-        'surname' => 'Apellidos',
-        'email' => 'Email',
-        'phone' => 'Teléfono',
-        'password' => 'Contraseña',
-        'password_confirmation' => 'Rep. Contraseña',
-        'is_active' => 'Activo'
+    private $messages = [
+        'exists' => ':attribute no existe en la tabla.',
+        'max' => ':attribute no puede superar :max caracteres',
+        'string' => ':attribute debe ser tipo texto',
+        'email' => ':attribute debe tener un formato correo electrónico',
+        'numeric' => ':attribute debe ser un número',
+        'boolean' => ':attribute es un campo boleano',
+        'required' => ':attribute es un campo requerido',
+        'required_without' => ':attribute es un campo requerido si :name no existe',
+        'department_id.required_without' => ':attribute es un campo requerido si el rol no es admin, departamento o agente.',
+        'customer_id.required_without' => ':attribute es un campo requerido si el rol no es cliente o contacto.'
     ];
+
     /**
      * Display a listing of the resource.
      *
@@ -74,16 +77,6 @@ class UserController extends Controller
      */
     public function store(Request $req)
     {
-        $messages = [
-            'exists' => ':attribute no existe en la tabla.',
-            'max' => ':attribute no puede superar :max caracteres',
-            'string' => ':attribute debe ser tipo texto',
-            'email' => ':attribute debe tener un formato correo electrónico',
-            'numeric' => ':attribute debe ser un número',
-            'boolean' => ':attribute es un campo boleano',
-            'required' => ':attribute es un campo requerido',
-        ];
-
         // Validación de datos
         $validator = Validator::make($req->all(), [
             'customer_id' => ['required_without:department_id', 'nullable', 'exists:customers,id'],
@@ -95,11 +88,12 @@ class UserController extends Controller
             'phone' => ['required', 'numeric'],
             'password' => ['required', 'string', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
-        ], $messages, $this->attributes);
+        ], $this->messages);
 
         if($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors()
+                'error' => true,
+                'errors' => $validator->errors()
             ]);
         }
 
@@ -164,20 +158,11 @@ class UserController extends Controller
     public function update(Request $req, User $user)
     {
         // Mensajes de respuesta si falla alguna validación
-        $messages = [
-            'exists' => ':attribute no existe en la tabla.',
-            'max' => ':attribute no puede superar :max caracteres',
-            'string' => ':attribute debe ser tipo texto',
-            'email' => ':attribute debe tener un formato correo electrónico',
-            'numeric' => ':attribute debe ser un número',
-            'boolean' => ':attribute es un campo boleano',
-            'required' => ':attribute es un campo requerido',
-        ];
 
         // Validación de datos
         $validator = Validator::make($req->all(), [
-            // 'customer_id' => ['required_without:department_id', 'nullable', 'exists:customers,id'],
-            // 'department_id' => ['required_without:customer_id', 'nullable', 'exists:departments,id'],
+            'customer_id' => ['required_without:department_id', 'nullable', 'exists:customers,id'],
+            'department_id' => ['required_without:customer_id', 'nullable', 'exists:departments,id'],
             'name' => ['required', 'string', 'max:100'],
             'surname' => ['nullable', 'string', 'max: 100'],
             'username' => ['required', 'max:100', 'unique:users,username,' . $user->id],
@@ -185,11 +170,12 @@ class UserController extends Controller
             'phone' => ['required', 'numeric'],
             'password' => ['nullable', 'string', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
-        ], $messages, $this->attributes);
+        ], $this->messages);
 
         if($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors()
+                'error' => true,
+                'errors' => $validator->errors()
             ]);
         }
         // Actualización del usuario

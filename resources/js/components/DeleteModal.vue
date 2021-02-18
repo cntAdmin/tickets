@@ -47,6 +47,9 @@ export default {
         case "Ticket":
           return this.data.subject ? this.data.subject : this.data.custom_id;
           break;
+        case "Post":
+          return this.data.title ? this.data.title : 'Post';
+          break;
 
         default:
           return this.data.name;

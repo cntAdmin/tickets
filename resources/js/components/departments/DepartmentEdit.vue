@@ -22,8 +22,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text text-uppercase">Nombre</div>
                                 </div>
-                                <input type="text" v-model="department.name" class="form-control"
-                                    title="Minimo 3 caracteres" autofocus />
+                                <input type="text" v-model="department.name" class="form-control" autofocus />
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0">
@@ -32,8 +31,8 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text text-uppercase">Código</div>
                                 </div>
-                                <input type="text" v-model="department.code" class="form-control"
-                                    title="Minimo 3 caracteres" />
+                                <input type="text" v-model="department.code" class="form-control" maxlength="5"
+                                    title="Máximo 5 caracteres" />
                             </div>
                         </div>
                         <button class="btn btn-sm btn-info text-white text-uppercase ml-3">Guardar Cambios</button>
@@ -49,14 +48,18 @@ export default {
   props: ['department'],
   methods: {
     handleSubmit() {
-      axios.put('/department/' + this.department.id, {
+      axios.put(`/api/department/${this.department.id}`, {
           name: this.department.name,
           code: this.department.code
       }).then( res => {
         if(res.data.success) {
           this.$emit('success', res.data.msg)
         } else if(res.data.error) {
-          this.$emit('error', res.data.msg)
+          if(res.data.errors) {
+            this.$emit('error', res.data.errors)
+          } else {
+            this.$emit('error', res.data.msg)
+          }
         }
       }).catch( err => {
         console.log(err)

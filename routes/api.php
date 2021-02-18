@@ -73,7 +73,6 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/toggle_featured_post/{post}', 'PostController@toggle_featured_post');
         Route::post('/edit_post/{post}', 'PostController@edit_post');
 
-        
     });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
