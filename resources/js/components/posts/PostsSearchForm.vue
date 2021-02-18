@@ -31,6 +31,19 @@
                                 <input class="form-control" type="date" v-model="selected.date_to" />
                             </div>
                         </div>
+                        <div class="form-group col-12 col-md-3 mt-2">
+                            <label class="sr-only" for="dateFrom">Publicado</label>
+                            <div class="input-group w-100">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text text-uppercase">Publicado</div>
+                                </div>
+                                <select v-model="selected.published" class="form-control">
+                                    <option value="">-- TODOS --</option>
+                                    <option value="1">Publicados</option>
+                                    <option value="2">No Publicados</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-center mt-3">
                         <button class="btn btn-sm btn-block btn-success text-uppercase">Buscar</button>
@@ -49,6 +62,7 @@ export default {
                 text: '',
                 date_from: '',
                 date_to: '',
+                published: '',
             }
         }
     },

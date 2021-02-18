@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->text('description');
             $table->unsignedInteger('likes')->nullable()->default(0);
             $table->unsignedInteger('dislikes')->nullable()->default(0);
+            $table->boolean('published')->nullable()->default(false);
             $table->boolean('featured')->nullable()->default(false);
             $table->foreignId('deleted_by')->nullable()->constrained('users');
             $table->softDeletes();

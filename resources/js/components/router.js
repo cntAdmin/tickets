@@ -9,7 +9,6 @@ import TicketEdit from "./tickets/TicketEditComponent";
 import Departments from "./departments/Departments";
 import Customers from "./customers/Customers";
 import Users from "./users/Users";
-import Faqs from "./faqs/Faqs";
 import FileManager from './file-manager/FileManager';
 import Post from './posts/Post';
 import PostCreate from './posts/PostCreate';
@@ -65,14 +64,9 @@ const router = new VueRouter({
             component: Customers
         },
         {
-            path: '/admin/users',
-            name: 'users.index', 
+            path: '/admin/user',
+            name: 'user.index', 
             component: Users
-        },
-        {
-            path: '/admin/faqs',
-            name: 'faqs.index', 
-            component: Faqs
         },
         {
             path: '/admin/file-manager',

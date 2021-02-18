@@ -41,6 +41,16 @@ class PostController extends Controller
         if($req->ajax()) {
             $posts = Post::when($req->text, function(Builder $q, $text) {
                 $q->where('title', 'LIKE', '%' . $text. '%')->orWhere('description', 'LIKE', '%' . $text . '%');
+            })->when($req->published, function(Builder $q, $published) {
+                switch ($published) {
+                    case '1':
+                        $q->where('published', 1);
+                        break;
+                    
+                    default:
+                        $q->where('published', 0);
+                    break;
+                }
             })->when($req->date_from, function(Builder $q, $date_from) {
                 $q->whereDate('created_at', '>=', $date_from);
             })->when($req->date_to, function(Builder $q, $date_to) {
@@ -161,17 +171,29 @@ class PostController extends Controller
     }
 
     public function get_posts_counters() {
-        $published = Post::where('featured', 1)->count();
+        $published = Post::where('published', 1)->count();
+        $featured = Post::where('featured', 1)->count();
 
         return response()->json([
             'success' => true,
-            'published' => $published
+            'published' => $published,
+            'featured' => $featured
         ]);
     }
-    public function toggle_featured_post(Post $post) {
-        $post->update([
-            'featured' => !$post->featured
-        ]);
+    public function toggle_post(Post $post, Request $req) {
+
+        switch ($req->toggle) {
+            case 'featured':
+                $post->update([
+                    'featured' => !$post->featured
+                ]);
+                break;
+            case 'published':
+                $post->update([
+                    'published' => !$post->published
+                ]);
+                break;
+        }
         
         return response()->json([
             'success' => true

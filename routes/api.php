@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         
         // ? BLOGS
         Route::get('/get_posts_counters', 'PostController@get_posts_counters');
-        Route::get('/toggle_featured_post/{post}', 'PostController@toggle_featured_post');
+        Route::get('/toggle_post/{post}', 'PostController@toggle_post');
         Route::post('/edit_post/{post}', 'PostController@edit_post');
 
     });

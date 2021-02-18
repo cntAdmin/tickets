@@ -4,6 +4,7 @@
             <card-counter title="Total" color="primary" :count="posts.data ? posts.total : 0" icon="clipboard-list" size="3"/>
             <card-counter title="Publicados" color="secondary" :count="published" icon="clipboard-list" size="3"/>
             <card-counter title="No Publicados" color="secondary" :count="posts.data ? posts.total - published : 0" icon="clipboard-list" size="3"/>
+            <card-counter title="Destacados" color="secondary" :count="featured" icon="clipboard-list" size="3"/>
         </div>
 
         <div class="d-flex justify-content-center my-3">
@@ -40,6 +41,7 @@ export default {
             posts: [],
             searched: [],
             published: 0,
+            featured: 0,
             searching: false,
             deleted: {
                 status: false,
@@ -73,6 +75,7 @@ export default {
             axios.get('/api/post', { params: {
                     page: data ? data.page : 1,
                     text: data ? data.text : null,
+                    published: data ? data.published : null,
                     date_from: data ? data.date_from : null,
                     date_to: data ? data.date_to : null
                 }
@@ -89,6 +92,7 @@ export default {
             axios.get('/api/get_posts_counters')
                 .then( res => {
                     this.published = res.data.published;
+                    this.featured = res.data.featured;
                 }).catch( err => console.log(err));
         }
     }

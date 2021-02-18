@@ -10,6 +10,7 @@
                             <th scope="col">Título</th>
                             <th scope="col">Fecha</th>
                             <th scope="col">Publicado</th>
+                            <th scope="col">Destacado</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -23,7 +24,17 @@
                             <div class="d-flex justify-content-center">
                               <div class="input-group">
                                 <label class="switch">
-                                  <input type="checkbox" v-model="post.featured" @click="handleCheckbox(post.id)"/>
+                                  <input type="checkbox" v-model="post.published" name="published" @click="handleCheckbox($event, post.id)"/>
+                                  <span class="slider round"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="d-flex justify-content-center">
+                              <div class="input-group">
+                                <label class="switch">
+                                  <input type="checkbox" v-model="post.featured" name="featured" @click="handleCheckbox($event, post.id)"/>
                                   <span class="slider round"></span>
                                 </label>
                               </div>
@@ -82,9 +93,9 @@ export default {
       this.showDelete = true;
       this.post = post;
     },
-    handleCheckbox(post_id) {
-      axios.get('/api/toggle_featured_post/' + post_id).then(res => this.$emit('getCount'));
-      ;
+    handleCheckbox(e, post_id) {
+      axios.get('/api/toggle_post/' + post_id, {params:{toggle: e.target.name}
+        }).then(res => this.$emit('getCount') );
     },
     emit_pagination(page) {
       this.searched.page = page;

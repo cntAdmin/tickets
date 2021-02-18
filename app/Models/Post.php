@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     protected $fillable = [
-        'title', 'description', 'likes', 'dislikes', 'featured'
+        'title', 'description', 'likes', 'dislikes', 'published', 'featured'
     ];
     
     protected $appends = ['short_description'];
