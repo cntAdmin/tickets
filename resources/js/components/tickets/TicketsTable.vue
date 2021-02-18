@@ -47,9 +47,9 @@
                                             <i class="fa fa-exchange-alt"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="statuses">
-                                            <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, 1)">Abierto</button>
-                                            <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, 2)">Cerrado</button>
-                                            <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, 3)">Resuelto</button>
+                                            <div v-for="status in ticket_statuses" :key="status.id">
+                                                <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, status.id)">{{ status.name }}</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <button v-if="ticket.deleted_at" class="btn btn-sm btn-danger mx-1" type="button" title="Cambiar estado"
@@ -85,7 +85,7 @@
 <script>
 export default {
   props: [
-    'tickets', 'searched'
+    'tickets', 'searched', 'ticket_statuses'
   ],
   data() {
       return {
@@ -114,7 +114,7 @@ export default {
           axios.get('/api/ticket/' + ticket.id + '/status/' + id)
             .then( res => {
                 this.emit_pagination(1);
-                console.log(res.data)
+                this.$emit('getCounters');
             }).catch( err => {
                 console.log(err)
             });

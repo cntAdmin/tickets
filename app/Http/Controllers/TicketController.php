@@ -370,13 +370,13 @@ class TicketController extends Controller
     }
 
     public function get_ticket_counters() {
-        $total_count = Ticket::all()->count();
-        $opened = Ticket::where('ticket_status_id', 1)->get()->count();
-        $closed = Ticket::where('ticket_status_id', 2)->get()->count();
-        $resolved = Ticket::where('ticket_status_id', 3)->get()->count();
+        $new_tickets = Ticket::where('ticket_status_id', 1)->get()->count();
+        $opened = Ticket::where('ticket_status_id', 2)->get()->count();
+        $closed = Ticket::where('ticket_status_id', 3)->get()->count();
+        $resolved = Ticket::where('ticket_status_id', 4)->get()->count();
 
         return response()->json([
-            'total_count' => $total_count,
+            'newTickets' => $new_tickets,
             'opened' => $opened,
             'closed' => $closed,
             'resolved' => $resolved,

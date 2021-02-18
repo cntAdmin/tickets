@@ -13,6 +13,10 @@ class TicketStatusSeeder extends Seeder
     {
         $types = [
             [
+                'name' => 'Nuevo',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],[
                 'name' => 'Abierto',
                 'created_at' => now(),
                 'updated_at' => now()

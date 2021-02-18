@@ -118,9 +118,9 @@
 
 <script>
 export default {
+    props: ['ticket_statuses'],
     data() {
         return {
-            ticket_statuses: [],
             departments: [],
             selected: {
                 page: 1,
@@ -137,21 +137,12 @@ export default {
         }
     },
     mounted() {
-        this.get_all_ticket_statuses();
         this.get_all_departments();
     },
     methods: {
         handleSubmit() {
             this.selected.page = 1;
             this.$emit('search', this.selected);
-        },
-        get_all_ticket_statuses() {
-            axios.get('/api/get_all_ticket_statuses')
-                .then(res => {
-                    this.ticket_statuses = res.data;
-                }).catch(err => {
-                    console.log(err)
-                });
         },
         get_all_departments() {
             axios.get('/api/get_all_departments')
