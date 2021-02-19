@@ -6,13 +6,11 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <!-- <th scope="col">Usuario</th> -->
                             <th scope="col">Cliente</th>
                             <th scope="col">Departamento</th>
                             <th scope="col">Asunto</th>
                             <th class="text-center" scope="col">Fecha</th>
-                            <th class="text-center" scope="col">Llamadas</th>
-                            <th scope="col">Estado</th>
+                            <th class="text-center" scope="col">Estado</th>
                             <th class="text-center" scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -23,17 +21,25 @@
                                     {{ ticket.custom_id }}
                                 </router-link>
                             </th>
-                            <!-- <td>{{ ticket.user.name }}</td> -->
                             <td>{{ ticket.customer.comercial_name }}</td>
                             <td>{{ ticket.department.name }}</td>
-                            <td>{{ ticket.subject }}</td>
+                            <td>{{ ticket.subject_short }}...</td>
                             <td class="text-center">{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
-                            <td class="text-center">{{ ticket.calls_count }}</td>
                             <td>
-                                <button :class="'mx-1 btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
-                                    :title="ticket.status.name" disabled>
-                                    <i :class="'fa fa-' + setIcon(ticket.status.name) "></i>
-                                </button>
+                                <div class="d-flex justify-content-center">
+                                    <div class="form-inline">
+                                        <button :class="'btn btn-sm btn-' + setColor(ticket.status.name) " type="button"
+                                            :title="ticket.status.name" disabled>
+                                            <i :class="'fa fa-' + setIcon(ticket.status.name) "></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-link ml-2">
+                                            <i class="text-info fas fa-headset"></i><span class="badge badge-dark ml-2">{{ ticket.calls_count }}</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-link ml-2">
+                                            <i class="text-secondary fas fa-paperclip"></i><span class="badge badge-dark ml-2">{{ Object.keys(ticket.comment_attachments).length }}</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center">
@@ -48,18 +54,16 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="statuses">
                                             <div v-for="status in ticket_statuses" :key="status.id">
-                                                <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, status.id)">{{ status.name }}</button>
+                                                <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, status.id)">
+                                                    {{ status.name }}
+                                                </button>
                                             </div>
+                                            <button v-if="ticket.status.id == 1" type="button" title="Cambiar estado" class="dropdown-item"
+                                                @click="openDeleteModal(ticket)">
+                                                Borrar Ticket
+                                            </button>
                                         </div>
                                     </div>
-                                    <button v-if="ticket.deleted_at" class="btn btn-sm btn-danger mx-1" type="button" title="Cambiar estado"
-                                        disabled>
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                    <button v-else-if="ticket.status.id == 1 " class="btn btn-sm btn-danger mx-1" type="button"
-                                        title="Cambiar estado" @click="openDeleteModal(ticket)">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
                                 </div>
                             </td>
                         </tr>

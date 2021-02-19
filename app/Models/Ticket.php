@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class Ticket extends Model
 {
     protected $fillable = [
@@ -20,9 +21,14 @@ class Ticket extends Model
     ];
 
     protected $with = [
-        'comments', 'status', 'calls', 'attachments'
+        'comments', 'status', 'calls', 'attachments', 'comment_attachments'
     ];
 
+    protected $appends = ['subject_short'];
+
+    public function getSubjectShortAttribute() {
+        return Str::substr($this->attributes['subject'], 0, 25);
+    }
     public function department()
     {
         return $this->belongsTo(\App\Models\Department::class, 'department_id', 'id');
@@ -71,6 +77,17 @@ class Ticket extends Model
     public function car_model()
     {
         return $this->belongsTo(\App\Models\CarModel::class, 'car_model_id', 'id');
+    }
+
+    /**
+     * Get all of the comment_attachments for the Comment
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function comment_attachments(): HasManyThrough
+    {
+        return $this->hasManyThrough(Attachable::class, Comment::class, 'ticket_id', 'attachable_id', 'id', 'id')
+            ->where('attachable_type', 'App\Models\Comment');
     }
 
     public static function getTickets(Request $req, $type = 'tickets') {

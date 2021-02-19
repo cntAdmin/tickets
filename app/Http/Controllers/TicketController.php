@@ -83,6 +83,7 @@ class TicketController extends Controller
         ];
         
         $validator = Validator::make($req->all(), [
+            'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
             'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
@@ -93,7 +94,7 @@ class TicketController extends Controller
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'tests_done' => ['required', 'string'],
+            'tests_done' => ['nullable', 'string'],
             'ask_for' => ['required', 'string', 'max:50'],
             'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
             'calls' => ['nullable', 'array']

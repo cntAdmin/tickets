@@ -31,7 +31,8 @@
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    <router-link class="btn btn-sm btn-success text-white mx-2" :to="{name: 'ticket.create', params: {customer_id: cs.id}}">
+                                    <router-link class="btn btn-sm btn-success text-white mx-2" title="Crear un ticket"
+                                        :to="{name: 'ticket.create', params: {customer_id: cs.id}}" >
                                         <i class="fa fa-plus-circle"></i>
                                     </router-link>
                                     <button class="btn btn-sm btn-info text-white mx-2" @click="$emit('edit', cs)" title="Editar Cliente">

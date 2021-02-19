@@ -50,14 +50,18 @@ class CustomerController extends Controller
         if(!$req->ajax()) {
             return view('customers.index');
         }
-        $customers = Customer::when($req->cif, function(Builder $q, $cif){
+        $customers = Customer::when($req->custom_id, function(Builder $q, $custom_id){
+                $q->where('custom_id', 'LIKE', $custom_id . '%');
+            })->when($req->cif, function(Builder $q, $cif){
                 $q->where('cif', 'LIKE', $cif . '%');
             })->when($req->fiscal_name, function(Builder $q, $fiscal_name){
-                $q->where('fiscal_name', 'LIKE', $fiscal_name . '%');
+                $q->where('fiscal_name', 'LIKE', '%' . $fiscal_name . '%');
             })->when($req->comercial_name, function(Builder $q, $comercial_name){
-                $q->where('comercial_name', 'LIKE', $comercial_name . '%');
+                $q->where('comercial_name', 'LIKE', '%' . $comercial_name . '%');
             })->when($req->phone, function(Builder $q, $phone){
-                $q->where('phone', 'LIKE', $phone . '%');
+                $q->where('phone_1', 'LIKE', $phone . '%')
+                    ->orWhere('phone_2', 'LIKE', $phone . '%')
+                    ->orWhere('phone_3', 'LIKE', $phone . '%');
             })->when($req->email, function(Builder $q, $email){
                 $q->where('email', 'LIKE', $email . '%');
             })->when($req->street, function(Builder $q, $street){
@@ -77,7 +81,7 @@ class CustomerController extends Controller
             })
             // COUNT OF USERS PER CUSTOMER
         ->withCount('users')
-        ->orderBy('id', 'ASC')
+        ->orderBy('custom_id', 'ASC')
         ->paginate();
 
         return response()->json([

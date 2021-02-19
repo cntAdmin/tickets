@@ -21,7 +21,7 @@ class CustomersImport implements ToModel, WithHeadingRow
             'comercial_name' => ucwords(strtolower($row['talleres'])),
             'email' => strtolower($row['email']),
             'province' => ucwords(strtolower($row['provincia'])),
-            'phone' => $row['telefono'],
+            'phone_1' => $row['telefono'],
             'shop' => ucwords(strtolower($row['tienda'])),
         ]);
     }

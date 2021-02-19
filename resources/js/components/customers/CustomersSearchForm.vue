@@ -21,19 +21,6 @@
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-              <label class="sr-only" for="dateFrom">CIF</label>
-              <div class="input-group w-100">
-                <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">CIF</div>
-                </div>
-                <input
-                  type="text"
-                  v-model="selected.cif"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="form-group col-12 col-md-6 col-lg-4">
               <label class="sr-only" for="dateFrom">Nombre Comercial</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -48,7 +35,7 @@
                 />
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+            <div class="form-group col-12 col-md-6 col-lg-4">
               <label class="sr-only" for="dateFrom">Nombre Fiscal</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -77,14 +64,14 @@
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-              <label class="sr-only" for="dateFrom">email</label>
+              <label class="sr-only" for="dateFrom">Teléfono</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">email</div>
+                  <div class="input-group-text text-uppercase">Teléfono</div>
                 </div>
                 <input
                   type="text"
-                  v-model="selected.email"
+                  v-model="selected.phone"
                   class="form-control"
                 />
               </div>
@@ -112,12 +99,11 @@ export default {
     return {
       selected: {
         page: 1,
-        cif: "",
         customID: "",
         comercialName: "",
         fiscalName: "",
         shop: "",
-        email: "",
+        phone: "",
       },
     };
   },

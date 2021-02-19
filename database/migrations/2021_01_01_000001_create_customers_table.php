@@ -19,8 +19,10 @@ class CreateCustomersTable extends Migration
             $table->string('cif', 9)->nullable();
             $table->string('fiscal_name', 100);
             $table->string('comercial_name', 100);
-            $table->string('phone', 20);
-            $table->string('email')->unique();
+            $table->string('phone_1', 15)->nullable();
+            $table->string('phone_2', 15)->nullable();
+            $table->string('phone_3', 15)->nullable();
+            $table->string('email')->nullable()->unique();
             $table->string('street')->nullable();;
             $table->string('city')->nullable();;
             $table->string('province')->nullable();;

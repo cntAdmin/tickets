@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CallController;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::resource('customer.ticket', 'CustomerTicketController');
     Route::resource('faqs', 'FaqController');
     Route::resource('post', 'PostController');
+    Route::resource('call', 'CallController');
     
     // ? GENERICS
     Route::get('/get_all_customers', 'CustomerController@get_all_customers');
@@ -49,6 +51,9 @@ Route::group(['middleware' => ['auth:web']], function () {
         });
         Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
         Route::get('/toogle_faqs_ticket/{ticket}', 'TicketController@toogle_faqs_ticket');
+        
+        // ? CALLS TICKET
+        Route::put('/call/{call}/ticket/{ticket}', 'CallController@toggle_call_ticket');
         
         // ? BRANDS
         Route::get('/brand/{brand}/model', 'CarModelController@get_brand_models');

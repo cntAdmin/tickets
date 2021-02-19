@@ -56,26 +56,10 @@
                 class="btn btn-toolbar btn-block mt-2"
                 :to="{ name: 'ticket.index' }"
               >
-                <span class="ml-2">Todos los Tickets</span>
+                <span>Todos los Tickets</span>
               </router-link>
-              <router-link
-                class="btn btn-toolbar btn-block mt-2"
-                :to="{ name: 'ticket.index', query: { status: 1 } }"
-              >
-                <span class="ml-2">Tickets Abiertos</span>
-              </router-link>
-              <router-link
-                class="btn btn-toolbar btn-block mt-2"
-                :to="{ name: 'ticket.index', query: { status: 2 } }"
-              >
-                <span class="ml-2">Tickets Cerrados</span>
-              </router-link>
-              <router-link
-                class="btn btn-toolbar btn-block mt-2"
-                :to="{ name: 'ticket.index', query: { status: 3 } }"
-              >
-                <span class="ml-2">Tickets Resueltos</span>
-              </router-link>
+              <router-link v-for="status in ticket_statuses" :key="status.id" class="btn btn-toolbar btn-block mt-2"
+                :to="{ name: 'ticket.index', query: { status: status.id}}">Tickets <span class="text-capitalize ml-1">{{ status.name }}</span></router-link>
             </div>
           </li>
           <li class="nav-item mt-2">

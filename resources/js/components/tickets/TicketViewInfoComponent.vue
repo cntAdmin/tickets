@@ -13,7 +13,11 @@
             <div class="input-group">
               <span class="mr-3 mt-1">Añadir a FAQ's</span>
               <label class="switch">
-                <input type="checkbox" v-model="ticket.knowledge_base" @click="toggleFaqs"/>
+                <input
+                  type="checkbox"
+                  v-model="ticket.knowledge_base"
+                  @click="toggleFaqs"
+                />
                 <span class="slider round"></span>
               </label>
             </div>
@@ -218,11 +222,27 @@
             />
           </div>
         </div>
-        <calls-modal
-          v-show="ticket"
-          :ticketID="ticketID"
-          @selectedCalls="selectedCalls($event)"
-        ></calls-modal>
+        <div class="form-group col-12 col-md-6">
+          <button
+            type="button"
+            :class="'btn btn-block text-white ' + (Object.keys(ticket.calls).length > 0 ? 'btn-danger' : 'btn-info')"
+            data-toggle="modal"
+            data-target="#assignCall"
+            @click="openCallsModal()">
+            {{
+              Object.keys(ticket.calls).length > 0
+                ? "Llamadas seleccionada(s)"
+                : "Asignar Llamadas"
+            }}
+          </button>
+
+          <calls-modal
+            :ticketID="ticket.id"
+            :calls="calls"
+            v-show="showCallsModal"
+            @close="showCallsModal = false"
+          ></calls-modal>
+        </div>
       </div>
 
       <div class="form-inline mt-2">
@@ -251,8 +271,8 @@
       </div>
     </div>
     <ticket-view-calls
-      v-if="calls ? calls.length > 0 : 0"
-      :calls="calls"
+      v-show="Object.keys(ticket.calls).length > 0"
+      :calls="ticket.calls"
     ></ticket-view-calls>
     <ticket-comments
       v-if="ticket.comments ? ticket.comments.length > 0 : 0"
@@ -263,8 +283,8 @@
     </ticket-comments>
 
     <ticket-new-coment
-      :ticket_id="ticketID"
-      @load="get_ticket(ticketID)"
+      :ticket_id="ticket.id"
+      @load="get_ticket(ticket.id)"
     ></ticket-new-coment>
   </div>
 </template>
@@ -279,6 +299,9 @@ export default {
         customer: {},
         brand: {},
         car_model: {},
+        calls: [],
+        comments:[],
+        attachments: [],
       },
       calls: [],
       selected: {
@@ -292,35 +315,36 @@ export default {
         status: false,
         msg: "",
       },
+      showCallsModal: false
     };
   },
   beforeMount() {
-    this.get_ticket(parseInt(this.ticketID));
+    this.get_ticket(this.ticketID);
     this.getCalls();
   },
   methods: {
+    openCallsModal() {
+      this.showCallsModal = true;
+    },
     closeAll() {
       this.success.status = false;
       this.error.status = false;
     },
     toggleFaqs() {
       this.closeAll();
-      console.log(this.success.status)
-      axios.get(`/api/toogle_faqs_ticket/${this.ticket.id}`)
-        .then( res => {
-          if(res.data.success) {
-            this.success = {
-              status: true,
-              msg: res.data.msg
-            }
-            console.log(this.success.status)
-          } else if(res.data.error) {
-            this.error = {
-              status: true,
-              msg: res.data.msg
-            }
-          }
-        })
+      axios.get(`/api/toogle_faqs_ticket/${this.ticket.id}`).then((res) => {
+        if (res.data.success) {
+          this.success = {
+            status: true,
+            msg: res.data.msg,
+          };
+        } else if (res.data.error) {
+          this.error = {
+            status: true,
+            msg: res.data.msg,
+          };
+        }
+      });
     },
     succeeded(data) {
       $("html, body").animate({ scrollTop: 0 }, "slow");

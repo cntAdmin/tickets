@@ -1,106 +1,180 @@
 <template>
-    <div class="form-group col-12 col-md-6">
-        <button type="button" :class="'btn btn-block text-white ' + (Object.keys(selected.calls).length > 0 ? 'btn-danger' : 'btn-info')"
-            data-toggle="modal" data-target="#assignCall" @click="get_calls()">{{ Object.keys(selected.calls).length > 0 ? 'Llamadas seleccionada(s)' : 'Asignar Llamadas'}}</button>
-
+  <div class="form-group col-12">
     <div class="modal fade" id="assignCall">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span><i class="fa fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="searcher">
-                        <form @submit.prevent="get_calls()">
-                            <div class="form-group col-12">
-                                <label class="sr-only" for="dateFrom">Número Teléfono</label>
-                                <div class="input-group w-100">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text text-uppercase">Número Teléfono</div>
-                                    </div>
-                                    <input class="form-control" type="text" v-model="selected.phone" @keyup="get_calls()"/>
-                                </div>
-                            </div>
-                        </form>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span><i class="fa fa-times"></i></span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div id="searcher">
+              <form @submit.prevent="get_calls()">
+                <div class="form-group col-12">
+                  <label class="sr-only" for="dateFrom">Número Teléfono</label>
+                  <div class="input-group w-100">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text text-uppercase">
+                        Número Teléfono
+                      </div>
                     </div>
-                    <table class="table table-hover table-striped mt-3">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Origen</th>
-                                <th scope="col">Destino</th>
-                                <th scope="col">Duración (s)</th>
-                                <th scope="col">Selección</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(call, idx) in calls" :key="idx" class="text-center">
-                                <td>{{ call.src }}</td>
-                                <td>{{ call.dst }}</td>
-                                <td>{{ call.billsec}}</td>
-                                <td> 
-                                    <input type="checkbox" @click="selected_calls" :id="call.id" 
-                                        v-if="call.ticket_id === ticket_id" checked
-                                    />
-                                    <input type="checkbox" @click="selected_calls" :id="call.id" 
-                                        v-else
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <input
+                      class="form-control"
+                      type="text"
+                      v-model="selected.phone"
+                      @keyup="get_calls()"
+                    />
+                  </div>
                 </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-primary" value="Guardar" data-dismiss="modal" />
-                </div>
+              </form>
             </div>
+            <div v-if="calls.total > 0">
+              <div
+                v-show="success.status === true"
+                class="alert alert-success alert-dismissible fade show text-center my-3"
+                role="alert"
+              >
+                {{ success.msg }}
+
+                <button
+                  type="button"
+                  class="close"
+                  aria-label="Close"
+                  @click="success.status = false"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <table class="table table-hover table-striped mt-3">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Origen</th>
+                    <th scope="col">Destino</th>
+                    <th scope="col">Duración (s)</th>
+                    <th class="text-center" scope="col">
+                      Asignar / Desasignar
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(call, idx) in calls.data"
+                    :key="idx"
+                    class="text-center"
+                  >
+                    <td>{{ call.src }}</td>
+                    <td>{{ call.dst }}</td>
+                    <td>{{ call.billsec }}</td>
+                    <td>
+                      <div class="d-flex justify-content-center">
+                        <label class="switch">
+                          <input
+                            v-if="call.ticket_id === ticketID"
+                            type="checkbox"
+                            @click="toggleCallTicket($event, call)"
+                            checked
+                          />
+                          <input
+                            v-else
+                            type="checkbox"
+                            @click="toggleCallTicket($event, call)"
+                          />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination
+                :data="calls"
+                @pagination-change-page="emit_pagination"
+                :limit="3"
+                size="small"
+                align="center"
+              >
+                <span slot="prev-nav">&lt; Anterior</span>
+                <span slot="next-nav">Siguiente &gt;</span>
+              </pagination>
+            </div>
+            <div v-else class="mt-3 shadow">
+              <div class="alert alert-warning text-center">
+                Haga una nueva búsqueda
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input
+                type="button"
+                class="btn btn-secondary"
+                value="Salir"
+                data-dismiss="modal"
+              />
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: ['ticketID'],
-    data() {
-        return {
-            selected: {
-                calls: [],
-                phone: ''
-            },
-            calls:[]
-        }
+  props: ["ticketID"],
+  data() {
+    return {
+      calls: [],
+      success: {
+        status: false,
+        msg: "",
+      },
+      selected: {
+        page: 1,
+        phone: "",
+      },
+    };
+  },
+  mounted() {
+    this.get_calls();
+  },
+  methods: {
+    emit_pagination(page) {
+      this.selected.page = page;
+      this.get_calls();
     },
-    mounted() {
-        // this.get_calls();
+    toggleCallTicket(e, call) {
+        this.success.status = false;
+      axios
+        .put(`/api/call/${call.id}/ticket/${this.ticketID}`, {
+          toggle: e.target.checked,
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.success) {
+            this.success = {
+              status: true,
+              msg: res.data.msg,
+            };
+          }
+        });
     },
-    methods: {
-        get_calls() {
-            axios.get('api//get_all_calls', { params: {
-                    ticket_id: this.ticketID,
-                    phone_number: this.selected.phone
-                }
-            })
-            .then(res => {
-                this.calls = res.data.calls;
-            }).catch(err => {
-                console.log(err);
-            })
-        },
-        selected_calls(e) {
-            if(e.target.checked === false) {
-                for( var i = 0; i < Object.keys(this.selected.calls).length; i++){ 
-                    if ( this.selected.calls[i] === e.target.id) { 
-                        this.selected.calls.splice(i, 1); 
-                    }
-                }
-            } else {
-                this.selected.calls.push(e.target.id);
-            }
-
-            return this.$emit('selectedCalls', this.selected.calls);
-        }
+    get_calls() {
+      axios
+        .get("/api/call", {
+          params: {
+            page: this.selected.page,
+            phone_number: this.selected.phone,
+          },
+        })
+        .then((res) => {
+          console.log("callaaaa", res.data);
+          this.calls = res.data.calls;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-}
+  },
+};
 </script>

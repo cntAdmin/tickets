@@ -37,5 +37,4 @@ class Comment extends Model
         return $this->morphToMany(\App\Models\Attachment::class, 'attachable');
     }
 
-
 }

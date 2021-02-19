@@ -158,11 +158,11 @@ export default {
         .get("/api/customer", {
           params: {
             page: data ? data.page : 1,
+            custom_id: data ? data.customID : null,
             comercial_name: data ? data.comercialName : null,
             fiscal_name: data ? data.fiscalName : null,
-            cif: data ? data.cif : null,
             shop: data ? data.shop : null,
-            email: data ? data.email : null,
+            phone: data ? data.phone : null,
           },
         })
         .then((res) => {
