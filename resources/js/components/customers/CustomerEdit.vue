@@ -175,7 +175,9 @@
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-sm btn-block btn-info text-white text-uppercase font-weight-bold">
+            <button
+              class="btn btn-sm btn-block btn-info text-white text-uppercase font-weight-bold"
+            >
               Guardar Cliente
             </button>
           </div>
@@ -187,34 +189,44 @@
 
 <script>
 export default {
-  props:['customer'],
-  mounted() {console.log('customer', customer)},
+  deactivated() {
+    // GLOBAL FUNCTION IN APP.JS
+    this.resetFields();
+  },
+
+  props: ["customer"],
+  mounted() {
+    console.log("customer", customer);
+  },
   methods: {
-      handleSubmit() {
-        axios.put('/api/customer/'+ this.customer.id, {
-            custom_id: this.customer.custom_id,
-            cif: this.customer.cif,
-            fiscal_name: this.customer.fiscal_name,
-            comercial_name: this.customer.comercial_name,
-            phone: this.customer.phone,
-            email: this.customer.email,
-            street: this.customer.street,
-            city: this.customer.city,
-            province: this.customer.province,
-            country: this.customer.country,
-            postcode: this.customer.postcode,
-            shop: this.customer.shop,
-            is_active: this.customer.is_active,
-          }).then( res => {
-              if(res.data.success) {
-                  this.$emit('updated', res.data.msg);
-              } else if(res.data.error) {
-                  this.$emit('error', res.data.errors);
-              }
-          }).catch(err => {
-              console.log(err)
-          });
-      },
-  }
+    handleSubmit() {
+      axios
+        .put("/api/customer/" + this.customer.id, {
+          custom_id: this.customer.custom_id,
+          cif: this.customer.cif,
+          fiscal_name: this.customer.fiscal_name,
+          comercial_name: this.customer.comercial_name,
+          phone: this.customer.phone,
+          email: this.customer.email,
+          street: this.customer.street,
+          city: this.customer.city,
+          province: this.customer.province,
+          country: this.customer.country,
+          postcode: this.customer.postcode,
+          shop: this.customer.shop,
+          is_active: this.customer.is_active,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            this.$emit("updated", res.data.msg);
+          } else if (res.data.error) {
+            this.$emit("error", res.data.errors);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>

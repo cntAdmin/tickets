@@ -184,9 +184,9 @@
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">¿Activo?</label>
               <div class="input-group w-100">
-                  <span class="mr-3 mt-1">¿Activo?</span>
+                <span class="mr-3 mt-1">¿Activo?</span>
                 <label class="switch">
-                  <input type="checkbox" v-model="user.is_active"/>
+                  <input type="checkbox" v-model="user.is_active" />
                   <span class="slider round"></span>
                 </label>
               </div>
@@ -208,6 +208,10 @@
 
 <script>
 export default {
+  deactivated() {
+    // GLOBAL FUNCTION IN APP.JS
+    this.resetFields();
+  },
   props: ["user"],
   data() {
     return {
@@ -243,10 +247,11 @@ export default {
           console.log(res.data);
           if (res.data.success) {
             this.$emit("updated", res.data.msg);
-          }else if (res.data.error) {
+          } else if (res.data.error) {
             this.$emit("error", res.data.errors);
           }
-        }).catch((err) => {
+        })
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -276,7 +281,7 @@ export default {
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -290,8 +295,8 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -302,16 +307,16 @@ export default {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -328,5 +333,4 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
 </style>

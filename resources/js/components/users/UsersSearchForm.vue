@@ -8,9 +8,7 @@
               <label class="sr-only" for="dateFrom">Nombre</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">
-                    Nombre
-                  </div>
+                  <div class="input-group-text text-uppercase">Nombre</div>
                 </div>
                 <input
                   type="text"
@@ -24,9 +22,7 @@
               <label class="sr-only" for="dateFrom">Apellidos</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">
-                    Apellidos
-                  </div>
+                  <div class="input-group-text text-uppercase">Apellidos</div>
                 </div>
                 <input
                   type="text"
@@ -54,9 +50,7 @@
               <label class="sr-only" for="dateFrom">Email</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">
-                    Email
-                  </div>
+                  <div class="input-group-text text-uppercase">Email</div>
                 </div>
                 <input
                   type="text"
@@ -67,7 +61,9 @@
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-sm btn-block btn-success text-uppercase">Buscar</button>
+            <button class="btn btn-sm btn-block btn-success text-uppercase">
+              Buscar
+            </button>
           </div>
         </form>
       </div>
@@ -77,21 +73,26 @@
 
 <script>
 export default {
+  deactivated() {
+    // GLOBAL FUNCTION IN APP.JS
+    this.resetFields();
+  },
+
   data() {
     return {
       selected: {
-        name: '',
-        surname: '',
-        username: '',
-        email: '',
-      }
-    }
+        name: "",
+        surname: "",
+        username: "",
+        email: "",
+      },
+    };
   },
   methods: {
     handleSubmit() {
-      this.$emit('search', this.selected);
-    }
-  }
+      this.$emit("search", this.selected);
+    },
+  },
 };
 </script>
 

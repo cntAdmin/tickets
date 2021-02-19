@@ -14,7 +14,8 @@
             </div>
         </div>
         <div class="col-auto mt-3" v-for="attachment in comment.attachments" :key="attachment.id">
-            <a :href="`/api/download/comment/${comment.id}/file/${attachment.id}`" class="btn btn-sm btn-success shadow font-weight-bold">
+            <a :href="`/api/download/comment/${comment.id}/file/${attachment.id}`"
+                class="btn btn-sm btn-success shadow font-weight-bold">
                 {{ attachment.name ? attachment.name : attachment.path }}
             </a>
         </div>

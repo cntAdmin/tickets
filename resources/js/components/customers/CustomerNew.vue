@@ -175,7 +175,10 @@
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
-            <button type="submit" class="btn btn-sm btn-block btn-secondary text-uppercase font-weight-bold">
+            <button
+              type="submit"
+              class="btn btn-sm btn-block btn-secondary text-uppercase font-weight-bold"
+            >
               Nuevo Cliente
             </button>
           </div>
@@ -187,6 +190,11 @@
 
 <script>
 export default {
+  deactivated() {
+    // GLOBAL FUNCTION IN APP.JS
+    this.resetFields();
+  },
+
   data() {
     return {
       selected: {
@@ -207,31 +215,34 @@ export default {
     };
   },
   methods: {
-      handleSubmit() {
-        axios.post('/api/customer', {
-            custom_id: this.selected.customID,
-            cif: this.selected.cif,
-            fiscal_name: this.selected.fiscalName,
-            comercial_name: this.selected.comercialName,
-            phone: this.selected.phone,
-            email: this.selected.email,
-            street: this.selected.street,
-            city: this.selected.city,
-            province: this.selected.province,
-            country: this.selected.country,
-            postcode: this.selected.postcode,
-            shop: this.selected.shop,
-            is_active: this.selected.isActive,
-          }).then( res => {
-              if(res.data.success) {
-                  this.$emit('created', res.data.msg);
-              }else if(res.data.error) {
-                this.$emit('error', res.data.errors)
-              }
-          }).catch(err => {
-              console.log(err)
-          });
-      },
-  }
+    handleSubmit() {
+      axios
+        .post("/api/customer", {
+          custom_id: this.selected.customID,
+          cif: this.selected.cif,
+          fiscal_name: this.selected.fiscalName,
+          comercial_name: this.selected.comercialName,
+          phone: this.selected.phone,
+          email: this.selected.email,
+          street: this.selected.street,
+          city: this.selected.city,
+          province: this.selected.province,
+          country: this.selected.country,
+          postcode: this.selected.postcode,
+          shop: this.selected.shop,
+          is_active: this.selected.isActive,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            this.$emit("created", res.data.msg);
+          } else if (res.data.error) {
+            this.$emit("error", res.data.errors);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>

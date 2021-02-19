@@ -108,6 +108,11 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar, Resize],
   },
+  deactivated() {
+    // GLOBAL FUNCTION IN APP.JS
+    this.resetFields();
+  },
+
   data() {
     return {
       quickToolbarSettings: {

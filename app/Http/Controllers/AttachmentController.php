@@ -94,17 +94,20 @@ class AttachmentController extends Controller
     public function destroy(Attachment $attachment)
     {
         return $attachment;
-        //
     }
 
     public function download(Comment $comment, Attachment $attachment) {
         // $this->authorize('downloads.comment.files', $comment);
 
-        if($comment->ticket->whereHas('comments', function(Builder $q) {
+        if(auth()->user()->hasRole([1, 2, 3]) || $comment->ticket->whereHas('comments', function(Builder $q) {
             $q->where('comments.user_id', auth()->user()->id);
         })->exists()) {
             return Storage::download($attachment->path, $attachment->name);
         }
+        return response()->json([
+            'error' => true,
+            'msg' => 'No se ha podido descargar el fichero.' 
+        ]);
     }
 
     public function deleteAll(Request $req) {

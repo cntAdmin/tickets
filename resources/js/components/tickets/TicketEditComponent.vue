@@ -127,7 +127,8 @@
                 </div>
                 <input
                   :class="
-                    [error.errors.frame_id ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.frame_id ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                   type="text"
                   v-model="ticket.frame_id"
@@ -143,7 +144,9 @@
                   <div class="input-group-text text-uppercase">Matrícula</div>
                 </div>
                 <input
-                  :class="[error.errors.plate ? 'is-invalid' : ''] + ' form-control'"
+                  :class="
+                    [error.errors.plate ? 'is-invalid' : ''] + ' form-control'
+                  "
                   type="text"
                   v-model="ticket.plate"
                 />
@@ -161,7 +164,8 @@
                 </div>
                 <input
                   :class="
-                    [error.errors.engine_type ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.engine_type ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                   type="text"
                   v-model="ticket.engine_type"
@@ -330,6 +334,11 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
+  deactivated() {
+    // GLOBAL FUNCTION IN APP.JS
+    this.resetFields();
+  },
+
   props: ["ticketID"],
   data() {
     return {
@@ -500,7 +509,7 @@ export default {
       this.success.value = false;
       this.error = {
         status: false,
-        errors: []
+        errors: [],
       };
 
       axios
@@ -542,8 +551,8 @@ export default {
     remove_errors() {
       this.error = {
         status: false,
-        errors: []
-      }
+        errors: [],
+      };
     },
     selectedCalls(event) {
       this.ticket.calls = event;

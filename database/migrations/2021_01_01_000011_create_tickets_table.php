@@ -15,19 +15,19 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->string('custom_id', 100)->unique('custom_id');
+            $table->string('custom_id', 100)->nullable()->unique('custom_id');
             $table->foreignId('customer_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('department_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('assigned_to')->nullable()->constrained('users')->onUpdate('cascade');
-            $table->string('frame_id', 100);
-            $table->string('plate', 100);
+            $table->string('frame_id', 100)->nullable();
+            $table->string('plate', 100)->nullable();
             $table->foreignId('brand_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('car_model_id')->nullable()->constrained()->onUpdate('cascade');
-            $table->string('engine_type', 100);
+            $table->string('engine_type', 100)->nullable();
             $table->text('subject');
             $table->text('description');
-            $table->text('tests_done');
+            $table->text('tests_done')->nullable();
             $table->string('ask_for', 50);
             $table->boolean('knowledge_base');
             $table->foreignId('ticket_status_id')->default(1)->constrained()->onUpdate('cascade');

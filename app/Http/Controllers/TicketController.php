@@ -45,20 +45,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        // $this->authorize('tickets.create');
-        // GET NEW CALLS
-        $inserted = GetCalls::dispatch();
-
-        // $customers = Customer::where('is_active', 1)->get();
-        $users = User::where('is_active', 1)->get();
-
-
-        return view('tickets.create')->with([
-            // 'customers' => $customers,
-            'users' => $users,
-            'inserted' => $inserted,
-        ]);
-        
+        //
     }
 
     /**

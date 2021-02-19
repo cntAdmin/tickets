@@ -85,7 +85,7 @@ class TicketStatusController extends Controller
     }
 
     public function get_all_ticket_statuses(Request $req) {
-        return response()->json(\App\Models\TicketStatus::all());
+        return response()->json(['success' => true, 'ticket_statuses' => \App\Models\TicketStatus::all()]);
     }
 
     public function change_status(Ticket $ticket, TicketStatus $ticketStatus) {

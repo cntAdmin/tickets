@@ -43,7 +43,7 @@
                 </td>
                 <th scope="row" class="align-self-center">{{ file.comments[0].ticket.custom_id }}</th>
                 <td class="">
-                    <img :src="`storage/${file.path}`" :alt="file.name" class="w-25 img-fluid img-thumbnail"
+                    <img :src="`/storage/${file.path}`" :alt="file.name" class="w-25 img-fluid img-thumbnail"
                         @click.prevent="openImageModal(file)">
                 </td>
                 <td class="align-self-center">{{ file.name }}</td>

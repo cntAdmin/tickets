@@ -100,12 +100,19 @@ Vue.component('files-table', require('./components/file-manager/FilesTable').def
 Vue.component('posts-search-form', require('./components/posts/PostsSearchForm').default);
 Vue.component('posts-table', require('./components/posts/PostsTable').default);
 
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.mixin({
+    methods: {
+        resetFields() {
+            Object.assign(this.$data, this.$options.data.call(this));
+        }
+    }
+})
 
 const app = new Vue({
     store,

@@ -118,6 +118,10 @@
 
 <script>
 export default {
+    deactivated() {
+        // GLOBAL FUNCTION IN APP.JS
+        this.resetFields();
+    },
     props: ['ticket_statuses'],
     data() {
         return {

@@ -9,7 +9,7 @@
             </h3>
           </div>
           <div class="modal-body text-center">
-              <img class="img-fluid img-thumbnail" :src="`storage/${file.path}`" :alt="file.name">
+              <img class="img-fluid img-thumbnail" :src="`/storage/${file.path}`" :alt="file.name">
           </div>
           <div class="modal-footer justify-content-center">
             <slot name="footer ">

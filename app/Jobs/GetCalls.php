@@ -33,9 +33,9 @@ class GetCalls implements ShouldQueue
     public function handle()
     {
         // GET LAST ID FROM TICKET DB
-        $last_call = Call::orderBy('id', 'DESC')->limit(1)->first();
+        $last_call = Call::orderBy('id', 'DESC')->first() ? Call::orderBy('id', 'DESC')->first() : 0 ;
         // GET CALLS FROM LAST ID
-        $get_calls = AstCdr::select()->where('id', '>', !empty($last_call) ? $last_call->id : 0)
+        $get_calls = AstCdr::select()->where('id', '>', $last_call)
             ->where('customer_id', env('CUSTOMER_ID', 10000))
             ->whereBetween('start', [Carbon::make('first day of this month'), now()])
             ->get();

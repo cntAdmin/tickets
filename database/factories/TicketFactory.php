@@ -11,7 +11,6 @@ $factory->define(Ticket::class, function (Faker $faker) {
     $dep = Department::find(rand(1,5));
 
     return [
-        'custom_id' => $dep->code . '-' . $faker->randomNumber(8, true),
         'department_id' => $dep->id,
         'frame_id' => $faker->vin,
         'plate' => $faker->vehicleRegistration('[A-Z]{3}-[0-9]{4}'),

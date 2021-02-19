@@ -17,7 +17,10 @@ class TicketSeeder extends Seeder
                 $model = $brand->models->first();
                 $status = \App\Models\TicketStatus::inRandomOrder()->first();
                 $customer = \App\Models\Customer::inRandomOrder()->first();
-
+                $ticket->update([
+                    'custom_id' => $ticket->department->code . now()->year . '-' . str_pad($ticket->id, 5, '0', STR_PAD_LEFT)
+                ]);
+        
                 $ticket->brand()->associate($brand);
                 $ticket->car_model()->associate($model);
                 $ticket->status()->associate($status);

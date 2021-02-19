@@ -99,7 +99,7 @@ export default {
       axios
         .get("/api/get_all_ticket_statuses")
         .then((res) => {
-          this.ticket_statuses = res.data;
+          this.ticket_statuses = res.data.ticket_statuses;
         })
         .catch((err) => {
           console.log(err);
