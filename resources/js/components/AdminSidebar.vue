@@ -58,8 +58,46 @@
               >
                 <span>Todos los Tickets</span>
               </router-link>
-              <router-link v-for="status in ticket_statuses" :key="status.id" class="btn btn-toolbar btn-block mt-2"
-                :to="{ name: 'ticket.index', query: { status: status.id}}">Tickets <span class="text-capitalize ml-1">{{ status.name }}</span></router-link>
+              <router-link
+                v-for="status in ticket_statuses"
+                :key="status.id"
+                class="btn btn-toolbar btn-block mt-2"
+                :to="{ name: 'ticket.index', query: { status: status.id } }"
+                >Tickets
+                <span class="text-capitalize ml-1">{{
+                  status.name
+                }}</span></router-link
+              >
+            </div>
+          </li>
+          <li class="nav-item mt-2">
+            <div
+              class="shadow-sm collapsed"
+              data-toggle="collapse"
+              aria-expanded="false"
+            >
+              <router-link
+                id="brands"
+                class="btn btn-toolbar text-uppercase font-weight-bold"
+                :to="{ name: 'brand.index' }"
+              >
+                Marcas
+              </router-link>
+            </div>
+          </li>
+          <li class="nav-item mt-2">
+            <div
+              class="shadow-sm collapsed"
+              data-toggle="collapse"
+              aria-expanded="false"
+            >
+              <router-link
+                id="car-model"
+                class="btn btn-toolbar text-uppercase font-weight-bold"
+                :to="{ name: 'car_model.index' }"
+              >
+                Modelos
+              </router-link>
             </div>
           </li>
           <li class="nav-item mt-2">
@@ -127,9 +165,9 @@
 export default {
   props: ["user_role"],
   data() {
-      return {
-          ticket_statuses: []
-      }
+    return {
+      ticket_statuses: [],
+    };
   },
   beforeMount() {
     this.getTicketStatuses();

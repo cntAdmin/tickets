@@ -54,6 +54,16 @@ const router = new VueRouter({
                 props: true
             },
         {
+            path: '/admin/brand',
+            name: 'brand.index', 
+            component: Departments
+        },
+        {
+            path: '/admin/car-model',
+            name: 'car_model.index', 
+            component: Departments
+        },
+        {
             path: '/admin/department',
             name: 'department.index', 
             component: Departments
