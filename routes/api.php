@@ -29,6 +29,8 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::resource('faqs', 'FaqController');
     Route::resource('post', 'PostController');
     Route::resource('call', 'CallController');
+    Route::resource('brand', 'BrandController');
+    Route::resource('car-model', 'CarModelController')->parameter('car_model', 'carModel');
     
     // ? GENERICS
     Route::get('/get_all_customers', 'CustomerController@get_all_customers');
@@ -79,6 +81,9 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/toggle_post/{post}', 'PostController@toggle_post');
         Route::post('/edit_post/{post}', 'PostController@edit_post');
 
+        // MODELS
+        Route::get('/get_car_models_counter', 'CarModelController@get_car_models_counter');
+        
     });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

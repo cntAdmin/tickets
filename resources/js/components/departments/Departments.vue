@@ -34,15 +34,22 @@
     </div>
 
     <div v-show="error.status">
-      <form-errors :errors="error.errors" @close="error.status = false"></form-errors>
+      <form-errors
+        :errors="error.errors"
+        @close="error.status = false"
+      ></form-errors>
     </div>
 
     <transition name="fade" v-if="!is_new && !is_edit" mode="out-in">
-        <departments-search-form @search="getDepartments" />
+      <departments-search-form @search="getDepartments" />
     </transition>
 
     <transition name="fade" v-if="is_new" mode="out-in">
-      <department-new @success="showSuccess" @error="showErrors" @close="closeAll" />
+      <department-new
+        @success="showSuccess"
+        @error="showErrors"
+        @close="closeAll"
+      />
     </transition>
 
     <transition name="fade" v-else-if="is_edit" mode="out-in">
@@ -59,15 +66,11 @@
         <spinner></spinner>
       </div>
     </transition>
-    <transition
-      name="fade"
-      v-else-if="departments.data "
-      mode="out-in"
-    >
+    <transition v-else-if="departments.data" name="fade" mode="out-in">
       <departments-table
         :departments="departments"
-        @page="getDepartments"
         :searched="searched"
+        @page="getDepartments"
         @edit="departmentEdit"
         @success="showSuccess"
         @error="showErrors"
@@ -145,8 +148,8 @@ export default {
       this.closeAll();
       this.success = {
         status: true,
-        msg: data
-        }
+        msg: data,
+      };
       setTimeout(() => {
         this.getDepartments(data);
       }, 1500);
@@ -154,8 +157,8 @@ export default {
     showErrors(data) {
       this.error = {
         status: true,
-        errors: data
-      }
+        errors: data,
+      };
     },
   },
 };

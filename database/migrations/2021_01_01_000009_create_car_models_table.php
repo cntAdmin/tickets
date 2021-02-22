@@ -18,6 +18,7 @@ class CreateCarModelsTable extends Migration
             $table->unsignedBigInteger('brand_id')->default(1);
             $table->foreign('brand_id')->references('id')->on('brands')->onUpdate('cascade');
             $table->string('name', 100)->default('Modelo Coche');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -14,6 +14,8 @@ import Post from './posts/Post';
 import PostCreate from './posts/PostCreate';
 import PostEdit from './posts/PostEdit';
 import PostShow from './posts/PostShow';
+import Brands from './brands/Brands';
+import CarModels from './car_models/CarModels';
 
 Vue.use(VueRouter);
 
@@ -56,12 +58,12 @@ const router = new VueRouter({
         {
             path: '/admin/brand',
             name: 'brand.index', 
-            component: Departments
+            component: Brands
         },
         {
             path: '/admin/car-model',
             name: 'car_model.index', 
-            component: Departments
+            component: CarModels
         },
         {
             path: '/admin/department',

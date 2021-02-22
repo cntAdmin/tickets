@@ -100,6 +100,19 @@ Vue.component('files-table', require('./components/file-manager/FilesTable').def
 Vue.component('posts-search-form', require('./components/posts/PostsSearchForm').default);
 Vue.component('posts-table', require('./components/posts/PostsTable').default);
 
+// BRANDS
+Vue.component('brands-search-form', require('./components/brands/BrandsSearchForm').default);
+Vue.component('brands-table', require('./components/brands/BrandsTable').default);
+Vue.component('brand-new', require('./components/brands/BrandNew').default);
+Vue.component('brand-edit', require('./components/brands/BrandEdit').default);
+
+// CAR MODELS
+Vue.component('car-models-search-form', require('./components/car_models/CarModelsSearchForm').default);
+Vue.component('car-models-table', require('./components/car_models/CarModelsTable').default);
+Vue.component('car-model-new', require('./components/car_models/CarModelNew').default);
+Vue.component('car-model-edit', require('./components/car_models/CarModelEdit').default);
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

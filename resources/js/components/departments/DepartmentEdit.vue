@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-3">
+  <div class="row mt-3 mx-3">
     <div class="card shadow w-100 border-info">
       <div class="card-header">
         <div class="d-flex justify-content-between">
