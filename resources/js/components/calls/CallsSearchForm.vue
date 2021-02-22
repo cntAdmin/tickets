@@ -13,7 +13,7 @@
                                 @input="setCustomer">
                                     <div slot="no-options">No hay opciones con esta busqueda</div>
                                     <template slot="option" slot-scope="option">
-                                        {{ option.id }} - {{ option.comercial_name }}
+                                        {{ option.custom_id }} - {{ option.comercial_name }}
                                     </template>
                             </vue-select>
                         </div>

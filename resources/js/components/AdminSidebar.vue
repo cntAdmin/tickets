@@ -21,9 +21,76 @@
       >
         <ul class="navbar-nav">
           <div class="navbar-header">
-            <h6 class="text-uppercase text-center">Administración</h6>
+            <h6 class="text-uppercase text-center">Menú</h6>
           </div>
           <div class="dropdown-divider"></div>
+<!-- ADMINISTRACIÓN -->
+          <li class="nav-item w-100">
+            <div
+              class="d-flex align-items-center shadow-sm w-100"
+              data-toggle="collapse"
+              data-target="#admin"
+              aria-expanded="false"
+              aria-controls="admin"
+            >
+              <div class="mr-auto">
+                <button
+                  class="btn btn-toolbar text-uppercase font-weight-bold w-100"
+                >
+                  Administración
+                </button>
+              </div>
+              <div class="ml-auto">
+                <span
+                  class="navbar-toggler-icon"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#admin"
+                  aria-expanded="true"
+                  aria-controls="admin"
+                >
+                </span>
+              </div>
+            </div>
+            <div class="collapse" id="admin">
+              <router-link
+                id="brands"
+                class="btn btn-toolbar btn-block mt-2"
+                :to="{ name: 'brand.index' }"
+              >
+                Marcas
+              </router-link>
+              <router-link
+                id="car-model"
+                class="btn btn-toolbar btn-block mt-2"
+                :to="{ name: 'car_model.index' }"
+              >
+                Modelos
+              </router-link>
+              <router-link
+                id="departments"
+                class="btn btn-toolbar btn-block mt-2"
+                :to="{ name: 'department.index' }"
+              >
+                Departamentos
+              </router-link>
+              <router-link
+                class="btn btn-toolbar btn-block mt-2"
+                :to="{ name: 'customer.index' }"
+              >
+                Clientes
+              </router-link>
+              <router-link
+                class="btn btn-toolbar btn-block mt-2"
+                :to="{ name: 'user.index' }"
+              >
+                Usuarios / Contactos
+              </router-link>
+
+            </div>
+          </li>
+<!-- FIN ADMINISTRACIÓN -->
+<!-- TICKETS  -->
           <li class="nav-item w-100">
             <div
               class="d-flex align-items-center shadow-sm w-100"
@@ -51,7 +118,7 @@
                 </span>
               </div>
             </div>
-            <div class="collapse" id="tickets_sidebar">
+            <div class="collapse show" id="tickets_sidebar">
               <router-link
                 class="btn btn-toolbar btn-block mt-2"
                 :to="{ name: 'ticket.index' }"
@@ -70,6 +137,7 @@
               >
             </div>
           </li>
+<!-- FIN TICKETS  -->
           <li class="nav-item mt-2">
             <div
               class="shadow-sm collapsed"
@@ -82,71 +150,6 @@
                 :to="{ name: 'call.index' }"
               >
                 Llamadas
-              </router-link>
-            </div>
-          </li>
-          <li class="nav-item mt-2">
-            <div
-              class="shadow-sm collapsed"
-              data-toggle="collapse"
-              aria-expanded="false"
-            >
-              <router-link
-                id="brands"
-                class="btn btn-toolbar text-uppercase font-weight-bold"
-                :to="{ name: 'brand.index' }"
-              >
-                Marcas
-              </router-link>
-            </div>
-          </li>
-          <li class="nav-item mt-2">
-            <div
-              class="shadow-sm collapsed"
-              data-toggle="collapse"
-              aria-expanded="false"
-            >
-              <router-link
-                id="car-model"
-                class="btn btn-toolbar text-uppercase font-weight-bold"
-                :to="{ name: 'car_model.index' }"
-              >
-                Modelos
-              </router-link>
-            </div>
-          </li>
-          <li class="nav-item mt-2">
-            <div
-              class="shadow-sm collapsed"
-              data-toggle="collapse"
-              aria-expanded="false"
-            >
-              <router-link
-                id="departments"
-                class="btn btn-toolbar text-uppercase font-weight-bold"
-                :to="{ name: 'department.index' }"
-              >
-                Departamentos
-              </router-link>
-            </div>
-          </li>
-          <li class="nav-item mt-2">
-            <div class="shadow-sm">
-              <router-link
-                class="btn btn-toolbar text-uppercase font-weight-bold"
-                :to="{ name: 'customer.index' }"
-              >
-                Clientes
-              </router-link>
-            </div>
-          </li>
-          <li class="nav-item mt-2">
-            <div class="shadow-sm">
-              <router-link
-                class="btn btn-toolbar text-uppercase font-weight-bold"
-                :to="{ name: 'user.index' }"
-              >
-                Usuarios / Contactos
               </router-link>
             </div>
           </li>

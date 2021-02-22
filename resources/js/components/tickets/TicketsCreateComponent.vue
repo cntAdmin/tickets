@@ -466,7 +466,7 @@ export default {
       axios
         .get("/api/get_all_customers")
         .then((res) => {
-          this.customers = res.data;
+          this.customers = res.data.customers;
         })
         .catch((err) => {
           console.log(err);

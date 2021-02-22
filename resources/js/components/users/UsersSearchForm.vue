@@ -76,6 +76,7 @@ export default {
   deactivated() {
     // GLOBAL FUNCTION IN APP.JS
     this.resetFields();
+    this.handleSubmit();
   },
 
   data() {
