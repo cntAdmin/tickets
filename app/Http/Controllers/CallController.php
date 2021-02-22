@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Call;
+use App\Models\Customer;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,22 +18,9 @@ class CallController extends Controller
      */
     public function index(Request $req)
     {
-        
         if($req->ajax()) {
-            $calls = Call::when($req->ticket_id, function(Builder $q, $ticket_id){
-                $q->where(function($q2) use($ticket_id){
-                    $q2->whereNull('ticket_id')->orWhere('ticket_id', $ticket_id);
-                });
-            })->where('disposition', 'ANSWERED')
-            ->when($req->phone_number, function(Builder $q, $phone_number){
-                $q->where(function($q2) use ($phone_number){
-                    $q2->where('src', 'LIKE', '%' . $phone_number . '%')->orWhere('dst', 'LIKE', '%' . $phone_number . '%');
-                });
-            })->when($req->date, function(Builder $q, $date){
-                $q->whereDate('start', $date);
-            }, function($q){
-                $q->whereBetween('start', [Carbon::parse('first day of this month')->toDateString(), now()]);
-            })->orderBy('start', 'DESC')->paginate(10);
+            $calls = Call::getCalls($req)
+                ->paginate();
             
             
             return response()->json([
@@ -106,6 +94,23 @@ class CallController extends Controller
     public function destroy(Call $call)
     {
         //
+    }
+
+    public function get_calls_count(Request $req) {
+        if($req->type !== 'internal'){
+            $calls = Call::getCalls($req)->get();
+        }
+        $incoming = clone $calls;
+        $outgoing = clone $calls;
+        $incoming_count = $incoming->where('is_incoming', 1)->where('is_outgoing', 0);
+        $outgoing_count = $outgoing->where('is_incoming', 0)->where('is_outgoing', 1);
+
+        return response()->json([
+            'total_count' => $calls->count() ?? 0,
+            'incoming_count' => $incoming_count->count() ?? 0,
+            'outgoing_count' => $outgoing_count->count() ?? 0,
+            'incall_time_count' => $calls->sum('duration') ?? 0,
+        ]);
     }
 
     public function get_all_calls(Request $req) {

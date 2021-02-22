@@ -130,7 +130,6 @@ export default {
     getCounters() {
       axios.get('/api/get_car_models_counter')
         .then( res => {
-          console.log(res.data)
           if(res.data.success) {
             this.brands_count = res.data.brands_count;
           }
@@ -187,7 +186,6 @@ export default {
           name: data ? data.name : null,
         }
       }).then((res) => {
-        console.log(res.data);
         if (res.data.success) {
           this.searching = false;
           this.carModels = res.data.carModels;

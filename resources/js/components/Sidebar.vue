@@ -57,7 +57,6 @@
 export default {
     props: ['user_role'],
     mounted() {
-        console.log(this.user_role);
     }
 
 }

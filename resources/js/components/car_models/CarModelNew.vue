@@ -102,7 +102,6 @@ export default {
           name: this.selected.name,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             this.$emit("success", res.data.msg);
           } else if (res.data.error) {

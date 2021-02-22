@@ -413,7 +413,6 @@ export default {
       axios
         .get("/api/customer/" + this.$route.params.customer_id)
         .then((res) => {
-          console.log(res.data);
           this.customer = res.data.customer;
           this.get_all_users();
         });
@@ -484,7 +483,6 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data);
             this.users = res.data.users;
           })
           .catch((err) => {
@@ -526,7 +524,6 @@ export default {
           calls: this.selected.calls,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {

@@ -77,6 +77,21 @@
               aria-expanded="false"
             >
               <router-link
+                id="calls"
+                class="btn btn-toolbar text-uppercase font-weight-bold"
+                :to="{ name: 'call.index' }"
+              >
+                Llamadas
+              </router-link>
+            </div>
+          </li>
+          <li class="nav-item mt-2">
+            <div
+              class="shadow-sm collapsed"
+              data-toggle="collapse"
+              aria-expanded="false"
+            >
+              <router-link
                 id="brands"
                 class="btn btn-toolbar text-uppercase font-weight-bold"
                 :to="{ name: 'brand.index' }"

@@ -78,14 +78,6 @@ export default {
                     break;
             }
         },
-        downloadImage(attachment_id) {
-            axios('/media/' + attachment_id)
-            .then(res => {
-                console.log('res.data', res.data);
-            }).catch(err => {
-                console.log('err', err);
-            });
-        }
     },
     filters: {
     }

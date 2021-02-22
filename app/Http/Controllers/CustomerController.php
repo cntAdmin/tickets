@@ -271,12 +271,15 @@ class CustomerController extends Controller
     }
 
     public function get_all_customers() {
-        return response()->json(
-            \App\Models\Customer::where('is_active', 1)
-                ->orderBy('comercial_name')
-                ->get()
-                ->toArray()
-        );
+        $customers = \App\Models\Customer::where('is_active', 1)
+                        ->orderBy('comercial_name')
+                        ->get()
+                        ->toArray();
+
+        return response()->json([
+            'success' => true,
+            'customers' => $customers
+        ]);
     }
 
     public function get_customers_count() {

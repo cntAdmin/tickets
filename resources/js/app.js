@@ -18,7 +18,7 @@
  Vue.use(Vuex);
 
  const moment = require('moment')
- require('moment/locale/es')
+    require('moment/locale/es')
   
  Vue.use(require('vue-moment'), {
      moment
@@ -111,6 +111,10 @@ Vue.component('car-models-search-form', require('./components/car_models/CarMode
 Vue.component('car-models-table', require('./components/car_models/CarModelsTable').default);
 Vue.component('car-model-new', require('./components/car_models/CarModelNew').default);
 Vue.component('car-model-edit', require('./components/car_models/CarModelEdit').default);
+
+// CALLS
+Vue.component('calls-search-form', require('./components/calls/CallsSearchForm').default);
+Vue.component('calls-table', require('./components/calls/CallsTable').default);
 
 
 /**

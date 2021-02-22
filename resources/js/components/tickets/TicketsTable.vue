@@ -148,7 +148,6 @@ export default {
             this.$emit("close");
             this.$emit("deleted", res.data.msg);
           }
-          console.log(res.data);
         })
         .catch((err) => {});
     },

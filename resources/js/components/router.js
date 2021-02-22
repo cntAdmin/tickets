@@ -16,6 +16,7 @@ import PostEdit from './posts/PostEdit';
 import PostShow from './posts/PostShow';
 import Brands from './brands/Brands';
 import CarModels from './car_models/CarModels';
+import Calls from './calls/Calls';
 
 Vue.use(VueRouter);
 
@@ -55,6 +56,11 @@ const router = new VueRouter({
                 component: TicketEdit,
                 props: true
             },
+        {
+            path: '/admin/call',
+            name: 'call.index', 
+            component: Calls
+        },
         {
             path: '/admin/brand',
             name: 'brand.index', 

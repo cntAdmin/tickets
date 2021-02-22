@@ -194,7 +194,6 @@ export default {
       formData.append("title", this.selected.title);
       formData.append("description", this.$refs.description.ej2Instances.value);
       formData.append("featured", this.selected.featured);
-      console.log(this.files);
       axios
         .post("/api/post", formData, {
           headers: {

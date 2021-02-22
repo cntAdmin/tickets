@@ -253,7 +253,6 @@ export default {
           password_confirmation: this.selected.password_confirmation,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             this.$emit("created", res.data.msg);
           } else if (res.data.error) {

@@ -79,7 +79,6 @@ export default {
       axios
         .delete(`/api/car-model/${this.carModel.id}`)
         .then((res) => {
-            console.log(res.data)
           if (res.data.success) {
             this.$emit("deleted", res.data.msg);
           } else if (res.data.error) {

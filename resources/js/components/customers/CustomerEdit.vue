@@ -196,7 +196,7 @@ export default {
 
   props: ["customer"],
   mounted() {
-    console.log("customer", customer);
+    // console.log("customer", customer);
   },
   methods: {
     handleSubmit() {

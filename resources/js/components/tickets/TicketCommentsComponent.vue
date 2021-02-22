@@ -11,7 +11,7 @@ export default {
     props: ['comments', 'user'],
     methods: {
         succeeded(data) {
-            console.log('datacomments', data);
+            // console.log('datacomments', data);
             this.$emit('succeeded', data);
         }
     }

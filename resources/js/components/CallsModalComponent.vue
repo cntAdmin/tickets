@@ -150,7 +150,6 @@ export default {
           toggle: e.target.checked,
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             this.success = {
               status: true,
@@ -168,7 +167,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log("callaaaa", res.data);
           this.calls = res.data.calls;
         })
         .catch((err) => {

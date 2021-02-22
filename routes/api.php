@@ -83,6 +83,9 @@ Route::group(['middleware' => ['auth:web']], function () {
 
         // MODELS
         Route::get('/get_car_models_counter', 'CarModelController@get_car_models_counter');
+
+        // CALLS
+        Route::get('/get_calls_count', 'CallController@get_calls_count');
         
     });
 

@@ -155,7 +155,6 @@ export default {
         getDeleted() {
             axios.delete(`/api/file-manager/${this.file.id}`)
                 .then( res => {
-                    console.log(res.data)
                     if(res.data.success) {
                         this.success = {
                             status:true,
