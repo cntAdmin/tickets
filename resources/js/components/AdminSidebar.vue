@@ -190,7 +190,6 @@ export default {
   methods: {
     getTicketStatuses() {
       axios.get("/api/get_all_ticket_statuses").then((res) => {
-        console.log(res.data);
         this.ticket_statuses = res.data.ticket_statuses;
       });
     },
