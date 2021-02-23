@@ -492,13 +492,16 @@ export default {
     },
     handleSubmit() {
       if (this.selected.frame_id === "" && this.selected.plate === "") {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         this.error.status = true;
-        this.error.errors["frame_id"] = [
-          "Uno de los campos nº bastido o matrícula es obligatorio.",
-        ];
-        this.error.errors["plate"] = [""];
+        this.error.errors = {'frame_id': [], 'plate': []};
+
+        this.error.errors['frame_id'].push("Uno de los campos nº bastido o matrícula es obligatorio.");
+        // this.error.errors.push('plate');
+        console.log('first' , this.error.errors)
         return this.error.errors;
       }
+      
       this.success = {
         status: false,
       };
@@ -570,6 +573,7 @@ export default {
               status: true,
               errors: res.data.error,
             };
+            console.log('second' , this.error.errors)
           }
         })
         .catch((err) => {
