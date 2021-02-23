@@ -47,46 +47,46 @@ class CustomerController extends Controller
      */
     public function index(Request $req)
     {
-        if(!$req->ajax()) {
-            return view('customers.index');
-        }
-        $customers = Customer::when($req->custom_id, function(Builder $q, $custom_id){
-                $q->where('custom_id', 'LIKE', $custom_id . '%');
-            })->when($req->cif, function(Builder $q, $cif){
-                $q->where('cif', 'LIKE', $cif . '%');
-            })->when($req->fiscal_name, function(Builder $q, $fiscal_name){
-                $q->where('fiscal_name', 'LIKE', '%' . $fiscal_name . '%');
-            })->when($req->comercial_name, function(Builder $q, $comercial_name){
-                $q->where('comercial_name', 'LIKE', '%' . $comercial_name . '%');
-            })->when($req->phone, function(Builder $q, $phone){
-                $q->where('phone_1', 'LIKE', $phone . '%')
-                    ->orWhere('phone_2', 'LIKE', $phone . '%')
-                    ->orWhere('phone_3', 'LIKE', $phone . '%');
-            })->when($req->email, function(Builder $q, $email){
-                $q->where('email', 'LIKE', $email . '%');
-            })->when($req->street, function(Builder $q, $street){
-                $q->where('street', 'LIKE', $street . '%');
-            })->when($req->town, function(Builder $q, $town){
-                $q->where('town', 'LIKE', $town . '%');
-            })->when($req->city, function(Builder $q, $city){
-                $q->where('city', 'LIKE', $city . '%');
-            })->when($req->country, function(Builder $q, $country){
-                $q->where('country', 'LIKE', $country . '%');
-            })->when($req->postcode, function(Builder $q, $postcode){
-                $q->where('postcode', 'LIKE', $postcode . '%');
-            })->when($req->shop, function(Builder $q, $shop){
-                $q->where('shop', 'LIKE', $shop . '%');
-            })->when($req->is_active, function(Builder $q, $is_active){
-                $q->where('is_active', $is_active);
-            })
-            // COUNT OF USERS PER CUSTOMER
-        ->withCount('users')
-        ->orderBy('custom_id', 'ASC')
-        ->paginate();
+        if($req->ajax()) {
+            $customers = Customer::when($req->custom_id, function(Builder $q, $custom_id){
+                    $q->where('custom_id', 'LIKE', $custom_id . '%');
+                })->when($req->cif, function(Builder $q, $cif){
+                    $q->where('cif', 'LIKE', $cif . '%');
+                })->when($req->fiscal_name, function(Builder $q, $fiscal_name){
+                    $q->where('fiscal_name', 'LIKE', '%' . $fiscal_name . '%');
+                })->when($req->comercial_name, function(Builder $q, $comercial_name){
+                    $q->where('comercial_name', 'LIKE', '%' . $comercial_name . '%');
+                })->when($req->phone, function(Builder $q, $phone){
+                    $q->where('phone_1', 'LIKE', $phone . '%')
+                        ->orWhere('phone_2', 'LIKE', $phone . '%')
+                        ->orWhere('phone_3', 'LIKE', $phone . '%');
+                })->when($req->email, function(Builder $q, $email){
+                    $q->where('email', 'LIKE', $email . '%');
+                })->when($req->street, function(Builder $q, $street){
+                    $q->where('street', 'LIKE', $street . '%');
+                })->when($req->town, function(Builder $q, $town){
+                    $q->where('town', 'LIKE', $town . '%');
+                })->when($req->city, function(Builder $q, $city){
+                    $q->where('city', 'LIKE', $city . '%');
+                })->when($req->country, function(Builder $q, $country){
+                    $q->where('country', 'LIKE', $country . '%');
+                })->when($req->postcode, function(Builder $q, $postcode){
+                    $q->where('postcode', 'LIKE', $postcode . '%');
+                })->when($req->shop, function(Builder $q, $shop){
+                    $q->where('shop', 'LIKE', $shop . '%');
+                })->when($req->is_active, function(Builder $q, $is_active){
+                    $q->where('is_active', $is_active);
+                })
+                ->with('users')
+                // COUNT OF USERS PER CUSTOMER
+                ->withCount('users')
+                ->orderBy('custom_id', 'ASC')
+                ->paginate();
 
-        return response()->json([
-            'customers' => $customers
-        ]);
+            return response()->json([
+                'customers' => $customers
+            ]);
+        }
     }
 
     /**

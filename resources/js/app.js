@@ -91,6 +91,9 @@ Vue.component('users-search-form', require('./components/users/UsersSearchForm')
 Vue.component('users-table', require('./components/users/UsersTable').default);
 Vue.component('user-new', require('./components/users/UserNew').default);
 Vue.component('user-edit', require('./components/users/UserEdit').default);
+// IN CUSTOMERS
+Vue.component('contact-card', require('./components/users/ContactCard').default);
+
 
 // FILE MANAGER
 Vue.component('file-manager', require('./components/file-manager/FileManager').default);

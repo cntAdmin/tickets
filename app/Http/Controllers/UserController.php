@@ -158,7 +158,6 @@ class UserController extends Controller
     public function update(Request $req, User $user)
     {
         // Mensajes de respuesta si falla alguna validación
-
         // Validación de datos
         $validator = Validator::make($req->all(), [
             'customer_id' => ['required_without:department_id', 'nullable', 'exists:customers,id'],

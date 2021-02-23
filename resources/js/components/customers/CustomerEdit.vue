@@ -22,20 +22,6 @@
         <form @submit.prevent="handleSubmit">
           <div class="form-inline">
             <div class="form-group col-12 col-md-6 col-lg-4">
-              <label class="sr-only" for="dateFrom">CIF</label>
-              <div class="input-group w-100">
-                <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">CIF</div>
-                </div>
-                <input
-                  type="text"
-                  v-model="customer.cif"
-                  class="form-control"
-                  autofocus
-                />
-              </div>
-            </div>
-            <div class="form-group col-12 col-md-6 col-lg-4">
               <label class="sr-only" for="dateFrom">Codigo Cliente</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -46,6 +32,20 @@
                 <input
                   type="text"
                   v-model="customer.custom_id"
+                  class="form-control"
+                  autofocus
+                />
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4">
+              <label class="sr-only" for="dateFrom">CIF</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">CIF</div>
+                </div>
+                <input
+                  type="text"
+                  v-model="customer.cif"
                   class="form-control"
                   autofocus
                 />
@@ -83,19 +83,6 @@
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-              <label class="sr-only" for="dateFrom">Teléfono</label>
-              <div class="input-group w-100">
-                <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Teléfono</div>
-                </div>
-                <input
-                  type="text"
-                  v-model="customer.phone"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Email</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -104,6 +91,58 @@
                 <input
                   type="text"
                   v-model="customer.email"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Tienda</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Tienda</div>
+                </div>
+                <input
+                  type="text"
+                  v-model="customer.shop"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Teléfono 1</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Teléfono 1</div>
+                </div>
+                <input
+                  type="text"
+                  v-model="customer.phone_1"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Teléfono 2</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Teléfono 2</div>
+                </div>
+                <input
+                  type="text"
+                  v-model="customer.phone_2"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Teléfono 3</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Teléfono 3</div>
+                </div>
+                <input
+                  type="text"
+                  v-model="customer.phone_3"
                   class="form-control"
                 />
               </div>
@@ -160,28 +199,49 @@
                 />
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-              <label class="sr-only" for="dateFrom">Tienda</label>
-              <div class="input-group w-100">
-                <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Tienda</div>
-                </div>
-                <input
-                  type="text"
-                  v-model="customer.shop"
-                  class="form-control"
-                />
-              </div>
-            </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
             <button
               class="btn btn-sm btn-block btn-info text-white text-uppercase font-weight-bold"
             >
-              Guardar Cliente
+              Actualizar Cliente
             </button>
           </div>
         </form>
+        <div class="my-4 dropdown-divider"></div>
+        <div class="card shadow mt-4">
+          <div class="card-header text-uppercase">
+            <h5>Contactos</h5>
+          </div>
+          <div
+            class="alert alert-dismissable alert-success m-3 text-center"
+            v-if="success.status"
+          >
+            {{ success.msg }}
+          </div>
+          <div v-if="error.status" class="m-3">
+            <form-errors
+              :errors="error.errors"
+              @close="error.status = false"
+            ></form-errors>
+          </div>
+          <div class="d-flex justify-content-start" v-if="Object.keys(customer.users).length > 0">
+            <div class="form-inline">
+
+              <div
+                class="col-4 my-3"
+                v-for="contact in customer.users"
+                :key="contact.id"
+              >
+                <contact-card
+                  :contact="contact"
+                  @updated="showSuccess"
+                  @error="showErrors"
+                ></contact-card>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -195,10 +255,40 @@ export default {
   },
 
   props: ["customer"],
+  data() {
+    return {
+      success: {
+        status: false,
+        msg: "",
+      },
+      error: {
+        status: false,
+        errors: [],
+      },
+    };
+  },
   mounted() {
     // console.log("customer", customer);
   },
   methods: {
+    showSuccess(data) {
+      setTimeout(() => {
+        this.success = {
+          status: false,
+          msg: "",
+        };
+      }, 1500);
+      this.success = {
+        status: true,
+        msg: data,
+      };
+    },
+    showErrors(data) {
+      this.error = {
+        status: true,
+        errors: data,
+      };
+    },
     handleSubmit() {
       axios
         .put("/api/customer/" + this.customer.id, {
@@ -206,7 +296,9 @@ export default {
           cif: this.customer.cif,
           fiscal_name: this.customer.fiscal_name,
           comercial_name: this.customer.comercial_name,
-          phone: this.customer.phone,
+          phone_1: this.customer.phone_1,
+          phone_2: this.customer.phone_2,
+          phone_3: this.customer.phone_3,
           email: this.customer.email,
           street: this.customer.street,
           city: this.customer.city,
