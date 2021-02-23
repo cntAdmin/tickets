@@ -105,6 +105,7 @@ export default {
       this.searched = data ? data : this.searched;
 
       axios.get('/api/user', { params: {
+          page: data ? data.page : 1,
           name: data ? data.name : null,
           surname: data ? data.surname : null,
           username: data ? data.username : null,

@@ -73,6 +73,16 @@
           </tbody>
         </table>
       </div>
+          <pagination
+        :data="users"
+        @pagination-change-page="emit_pagination"
+        :limit="3"
+        size="small"
+        align="center"
+      >
+        <span slot="prev-nav">&lt; Anterior</span>
+        <span slot="next-nav">Siguiente &gt;</span>
+      </pagination>
     </div>
     <delete-modal v-show="showDeleteModal" title="Usuario" :data="user" @close="showDeleteModal = false" @getDeleted="getDeleted()"></delete-modal>
   </div>
@@ -80,7 +90,7 @@
 
 <script>
 export default {
-  props: ["users"],
+  props: ["users", 'searched'],
   data() {
     return {
       user: {},
@@ -88,6 +98,10 @@ export default {
     }
   },
   methods: {
+    emit_pagination(page) {
+      this.searched.page = page;
+      this.$emit('page', this.searched)
+    },
     openDeleteModal(u) {
       this.showDeleteModal = true;
       this.user = u;
