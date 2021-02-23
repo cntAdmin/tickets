@@ -19,9 +19,11 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             if(!auth()->user()->hasAnyRole([1,2,3])) {
-                return 'blog';
+                return redirect('blog');
+            } else {
+                return redirect('admin/ticket');
             }
-            return 'admin/ticket';
+            return $next($request);
         }
 
         return $next($request);
