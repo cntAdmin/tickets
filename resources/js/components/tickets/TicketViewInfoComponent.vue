@@ -291,6 +291,9 @@
 
 <script>
 export default {
+  deactivated() {
+    this.resetFields();
+  },
   props: ["ticketID", "user_role", "user"],
   data() {
     return {

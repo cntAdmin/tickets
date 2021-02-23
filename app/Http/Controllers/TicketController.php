@@ -76,7 +76,6 @@ class TicketController extends Controller
             'ask_for' => __('Solicito'),
             'status' => __('Estado'),
         ];
-
         // return $req->subject;
         $messages = [
             'required' => __(':attribute es un campo requerido.'),
@@ -119,7 +118,7 @@ class TicketController extends Controller
         $get_calls = $req->calls ? Call::find($req->calls) : null;
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
-
+        
         $lastID = Ticket::latest()->first()->id;
 
         // CREATING TICKET

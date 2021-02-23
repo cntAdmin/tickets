@@ -321,6 +321,9 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
+  deactivated() {
+    this.resetFields();
+  },
   props: ["customer_id"],
   data() {
     return {
