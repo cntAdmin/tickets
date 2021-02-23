@@ -1,12 +1,11 @@
 <template>
   <div class="row justify-content-center my-3 mx-4">
-    <div class="col-6 mt-2 text-center">
+    <div class="col-6 mt-2 text-center" v-if="success.status">
       <div
-        v-show="success.value === true"
         class="alert alert-success alert-dismissible fade show"
         role="alert"
       >
-        {{ success.message }}
+        {{ success.msg }}
 
         <button
           type="button"
@@ -18,48 +17,57 @@
         </button>
       </div>
     </div>
-    <div :class="'col-10 ' + align()">
-      <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
-        <div class="form-inline">
-          <div class="form-group shadow">
-            <label class="sr-only" for="dateFrom">Comentario</label>
-            <div class="input-group w-100">
-              <div class="input-group-prepend">
-                <div class="input-group-text text-uppercase">Comentario</div>
-              </div>
-            </div>
-            <ejs-richtexteditor
-              ref="comment"
-              :quickToolbarSettings="quickToolbarSettings"
-              :height="400"
-              :toolbarSettings="toolbarSettings"
-            >
-            </ejs-richtexteditor>
-          </div>
-          <div class="form-group mt-3 w-100">
-            <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
-            <div class="input-group w-100">
-              <div class="input-group-prepend">
-                <div class="input-group-text text-uppercase">
-                  Ficheros adjuntos
+
+    <transition name="fade" v-if="spinner" mode="out-in">
+      <div class="mt-5 pt-5 vh-100">
+        <spinner></spinner>
+      </div>
+    </transition>
+
+    <transition name="fade" v-else mode="out-in">
+      <div :class="'col-10 ' + align()">
+        <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
+          <div class="form-inline">
+            <div class="form-group shadow">
+              <label class="sr-only" for="dateFrom">Comentario</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Comentario</div>
                 </div>
               </div>
-              <input
-                class="form-control"
-                type="file"
-                @change="uploadFile"
-                multiple
-              />
+              <ejs-richtexteditor
+                ref="comment"
+                :quickToolbarSettings="quickToolbarSettings"
+                :height="400"
+                :toolbarSettings="toolbarSettings"
+              >
+              </ejs-richtexteditor>
+            </div>
+            <div class="form-group mt-3 w-100">
+              <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">
+                    Ficheros adjuntos
+                  </div>
+                </div>
+                <input
+                  class="form-control"
+                  type="file"
+                  @change="uploadFile"
+                  multiple
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <input
-          class="btn btn-success btn-sm mt-3 shadow"
-          type="submit"
-          value="Enviar Comentario"
-        />
-      </form>
-    </div>
+          <input
+            class="btn btn-success btn-sm mt-3 shadow"
+            type="submit"
+            value="Enviar Comentario"
+          />
+        </form>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -136,10 +144,11 @@ export default {
       },
       files: null,
       success: {
-        value: false,
-        message: "",
+        status: false,
+        msg: "",
       },
       error: false,
+      spinner: false,
     };
   },
   methods: {
@@ -148,6 +157,7 @@ export default {
     },
 
     handleSubmit() {
+      this.spinner = true;
       const formData = new FormData();
       if (this.files) {
         for (const i of Object.keys(this.files)) {
@@ -163,17 +173,18 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data)
+          this.spinner = false;
+          console.log(res.data);
           if (res.data.success) {
-            this.success.value = true;
-            this.success.message = res.data.msg;
+            this.success.status = true;
+            this.success.msg = res.data.msg;
             this.$emit("load");
-            this.$refs.comment.ej2Instances.value = "";
-            (this.files = null),
-              setTimeout(() => {
-                this.success.value = false;
-                this.success.message = "";
-              }, 2000);
+            this.files = null;
+
+            setTimeout(() => {
+              this.success.status = false;
+              this.success.msg = "";
+            }, 3000);
           } else if (res.data.error) {
             this.success = false;
           }
