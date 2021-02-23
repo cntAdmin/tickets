@@ -18,10 +18,10 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if(!auth()->user()->hasRole(['superadmin', 'admin', 'staff'])) {
-                return '/blog';
+            if(!auth()->user()->hasAnyRole([1,2,3])) {
+                return 'blog';
             }
-            return '/admin/ticket';
+            return 'admin/ticket';
         }
 
         return $next($request);
