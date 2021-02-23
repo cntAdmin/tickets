@@ -137,7 +137,7 @@
             <input
               class="form-control"
               type="text"
-              v-model="ticket.plate"
+              :value="ticket.plate"
               disabled
             />
           </div>
@@ -169,7 +169,7 @@
             <input
               class="form-control"
               type="text"
-              v-model="ticket.brand.name"
+              :value="ticket.brand ? ticket.brand.name : 'Sin Asignar'"
               disabled
             />
           </div>
@@ -185,7 +185,7 @@
             <input
               class="form-control"
               type="text"
-              v-model="ticket.car_model.name"
+              :value="ticket.car_model ? ticket.car_model.name : 'Sin Asignar'"
               disabled
             />
           </div>

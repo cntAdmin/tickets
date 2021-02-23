@@ -163,6 +163,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             this.success.value = true;
             this.success.message = res.data.msg;

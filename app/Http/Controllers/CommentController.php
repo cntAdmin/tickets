@@ -7,6 +7,7 @@ use App\Models\Attachment;
 use App\Models\Comment;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -54,10 +55,12 @@ class CommentController extends Controller
             'array' => __(':attribute debe ser un array de ficheros.'),
             'size' => __(':attribute tiene un tamaño máximo de 25MB.'),
         ];
+
         $validator = Validator::make($req->all(), [
             'comment' => ['required', 'string'],
             'files' => ['array', 'nullable', 'max:25600']
         ], $messages, $customAttributes);
+
         if($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
@@ -69,7 +72,7 @@ class CommentController extends Controller
         
         $ticket_assigned = $ticket->comments()->save($create_comment);
         $user_assigned = $create_comment->user()->associate(auth()->user()->id);
-
+        $create_comment->save();
         if($req->file('files')) {
             foreach ($req->file('files') as $file) {
                 $stored_file = Storage::disk('public')->put('media', $file);
@@ -80,11 +83,8 @@ class CommentController extends Controller
                 $create_comment->attachments()->save($attachment);
             }
         }
-
-        $create_comment->save();
-
-        if(env('APP_ENV') !== 'local') {
-            Mail::to(auth()->user())->send(new NewCommentMail);
+        if(!App::environment('local')) {
+            // Mail::to(auth()->user())->send(new NewCommentMail);
         }
 
         return $ticket_assigned && $user_assigned
