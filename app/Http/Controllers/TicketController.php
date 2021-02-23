@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TicketExport;
 use App\Jobs\GetCalls;
 use App\Models\Brand;
 use App\Models\Call;
@@ -11,8 +12,11 @@ use App\Models\Department;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TicketController extends Controller
 {
@@ -29,7 +33,7 @@ class TicketController extends Controller
             ]);
         }
         
-        $tickets = Ticket::getTickets($req);
+        $tickets = Ticket::getTickets($req)->paginate();
 
         return response()->json([
             'success' => true,
@@ -374,4 +378,37 @@ class TicketController extends Controller
             ? response()->json(['success' => true, 'msg' => ($ticket->knowledge_base ? 'Añadido a FAQs' : 'Quitado de FAQs')])
             : response()->json(['error' => true, 'msg' => __('No se ha podido modificar el estado de este ticket') ]);
     }
+
+    public function export_tickets(Request $req) {
+        switch ($req->type) {
+            case 'excel':
+                if(!Storage::exists('exports/excels')) {
+                    Storage::makeDirectory('exports/excels');
+                }
+    
+                $filename = 'tickets-' . now()->toDateTimeString() . '.xlsx';
+                $storage = 'exports/excels/' . $filename;
+                $store = Excel::store(new TicketExport($req), $storage);
+                break;
+            case 'pdf':
+                if(!Storage::exists('exports/pdfs')) {
+                    Storage::makeDirectory('exports/pdfs');
+                }
+                $filename = 'tickets-' . now()->format('Y-m-d_H-i-s') . '.pdf';
+                $storage = 'exports/pdfs/' . $filename;
+                $tickets = Ticket::getTickets($req)->get();
+                $pdf = PDF::loadView('exports.pdfs.tickets', ['tickets' => $tickets])
+                    ->setOptions([
+                        'defaultFont' => 'sans-serif',
+                        'debugCss' => true
+                    ]);
+                Storage::put($storage, $pdf->output());
+                break;
+        }
+        $headers = [
+            'Content-Type' => 'application/*',
+        ];
+        
+        return response()->download(Storage::path($storage), $filename , $headers);
+        }
 }

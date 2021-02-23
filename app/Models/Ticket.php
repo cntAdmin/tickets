@@ -169,7 +169,6 @@ class Ticket extends Model
             });
         })
         ->with(['user', 'customer', 'department', 'status'])
-        ->withCount(['comments', 'calls'])
-        ->paginate();
+        ->withCount(['comments', 'calls']);
     } 
 }

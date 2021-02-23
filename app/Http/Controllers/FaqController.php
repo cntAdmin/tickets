@@ -19,7 +19,7 @@ class FaqController extends Controller
             return abort(404);
         }
 
-        $tickets = Ticket::getTickets($req, 'faqs');
+        $tickets = Ticket::getTickets($req, 'faqs')->paginate();
 
         return response()->json([
             'success' => true,

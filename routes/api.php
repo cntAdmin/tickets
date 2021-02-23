@@ -43,14 +43,18 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_all_roles', 'RoleController@get_all_roles');
     Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download');
 
+    // ? EXPORTS
+    Route::get('/export_tickets', 'TicketController@export_tickets');
+    
     // ? VUE GETTERS
         // ? TICKETS
         Route::get('/get_ticket_counters', 'TicketController@get_ticket_counters');
-        Route::get('/get_user_role/{user_id?}', function($user_id) {
-            $get_user = !$user_id ? auth()->user() : User::find($user_id);
+        Route::get('/get_user_role/{id?}', function($id) {
+            $get_user = !$id ? auth()->user() : User::find($id);
 
             return response()->json([ 'user_role' => $get_user->getRoleNames()[0] ]);
         });
+
         Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
         Route::get('/toogle_faqs_ticket/{ticket}', 'TicketController@toogle_faqs_ticket');
         

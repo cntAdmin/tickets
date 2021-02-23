@@ -55,20 +55,27 @@
     </transition>
 
     <transition name="fade" v-else-if="tickets.data" mode="out-in">
-      <tickets-table
-        :tickets="tickets"
-        :ticket_statuses="ticket_statuses"
-        :searched="searched"
-        @page="getTickets"
-        @deleted="hasBeenDeleted"
-        @getCounters="getCount()"
-      />
+      <div v-if="tickets.total > 0">
+        <exports
+          @exportFile="exportFile"
+          ></exports>
+        <tickets-table
+          :tickets="tickets"
+          :ticket_statuses="ticket_statuses"
+          :searched="searched"
+          @page="getTickets"
+          @deleted="hasBeenDeleted"
+          @getCounters="getCount()"
+        />
+      </div>
     </transition>
   </div>
 </template>
 
 <script>
+import Exports from '../Exports.vue';
 export default {
+  components: { Exports },
   props: ["user"],
   data() {
     return {
@@ -95,6 +102,43 @@ export default {
     this.get_all_ticket_statuses();
   },
   methods: {
+    exportFile(type) {
+      axios.get('/api/export_tickets',{responseType: 'arraybuffer', params: {
+            page: this.searched.page ? this.searched.page : null,
+            ticket_id: this.searched ? this.searched.ticket_id : null,
+            user_name: this.searched ? this.searched.user_name : null,
+            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+            customer_name: this.searched ? this.searched.customer_name : null,
+            department_id: this.searched ? this.searched.department_id : null,
+            status: this.searched ? this.searched.status : this.$route.query.status,
+            date_from: this.searched ? this.searched.date_from : null,
+            date_to: this.searched ? this.searched.date_to : null,
+            knowledge_base: this.searched ? this.searched.knowledge_base : null,
+            type: type
+        }
+      }).then( res => {
+        // GET FILENAME FROM HEADERS
+        var filename = "";
+        var disposition = res.headers['content-disposition'];
+        if (disposition && disposition.indexOf('attachment') !== -1) {
+            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+            var matches = filenameRegex.exec(disposition);
+            if (matches != null && matches[1]) { 
+              filename = matches[1].replace(/['"]/g, '');
+            }
+        }
+        // STORE FILE IN A BLOB
+        let blob = new Blob([res.data], {type:'application/*'})
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = filename 
+        // DOWNLOAD IT
+        link.click();
+      }).catch( err => console.log(err))
+    },
+    export_pdf() {
+      console.log("b")
+    },
     get_all_ticket_statuses() {
       axios
         .get("/api/get_all_ticket_statuses")

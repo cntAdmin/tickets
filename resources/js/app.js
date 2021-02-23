@@ -50,6 +50,7 @@ Vue.use(FileManager, {store})
  Vue.component('delete-modal', require('./components/DeleteModal').default);
  Vue.component('image-modal', require('./components/ImageModal').default);
  Vue.component('form-errors', require('./components/FormErrors').default);
+ Vue.component('exports', require('./components/Exports').default);
  Vue.component('vue-select', vSelect)
 
 // TICKETS
