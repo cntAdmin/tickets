@@ -31,7 +31,9 @@
                 </div>
                 <input
                   type="text"
-                  class="form-control"
+                  :class="
+                    [error.errors.title ? 'is-invalid' : ''] + ' form-control'
+                  "
                   v-model="post.title"
                   autofocus
                 />

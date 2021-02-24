@@ -31,7 +31,9 @@
                   ref="name"
                   type="text"
                   v-model="brand.name"
-                  class="form-control"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control'
+                  "
                   required
                   autofocus
                 />
@@ -50,6 +52,13 @@
 <script>
 export default {
   props: ["brand"],
+  data() {
+    return {
+      error: {
+        errors: []
+      }
+    }
+  },
   mounted() {
     this.$refs.name.focus();
   },
@@ -66,6 +75,7 @@ export default {
             this.$emit("success", res.data.msg);
           } else if (res.data.error) {
             if (res.data.errors) {
+              this.error.errors = res.data.errors;
               this.$emit("error", res.data.errors);
             } else {
               this.$emit("error", res.data.msg);

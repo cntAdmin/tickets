@@ -212,7 +212,9 @@ class CustomerController extends Controller
             'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,custom_id,' . $customer->id],
             'fiscal_name' => ['nullable', 'string', 'max:255'],
             'comercial_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'min:6','max:15'],
+            'phone_1' => ['required', 'string', 'min:6','max:15'],
+            'phone_2' => ['nullable', 'string', 'min:6','max:15'],
+            'phone_3' => ['nullable', 'string', 'min:6','max:15'],
             'email' => ['required', 'email'],
             'street' => ['nullable', 'string', 'max:255'],
             'city' => ['nullable', 'string', 'max:255'],
@@ -289,6 +291,13 @@ class CustomerController extends Controller
         return response()->json([
             'active' => $active,
             'inactive' => $inactive
+        ]);
+    }
+
+    public function get_customer_contacts(Customer $customer) {
+        return response()->json([
+            'success' => true,
+            'contacts' => $customer->contacts()
         ]);
     }
 }

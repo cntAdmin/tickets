@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Customer extends Model
 {
@@ -19,14 +22,26 @@ class Customer extends Model
         return $this->attributes['is_active'] == 1 ? 'Activo' : 'Inactivo';
     }
     
-    public function users()
+    public function users(): HasMany
     {
         return $this->hasMany(\App\Models\User::class, 'customer_id', 'id');
     }
 
-    public function tickets()
+    public function tickets(): HasMany
     {
         return $this->hasMany(\App\Models\Ticket::class, 'customer_id', 'id');
+    }
+
+    /**
+     * Get the contacts that owns the Customer
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function contacts(): Collection
+    {
+        return User::where('customer_id', $this->id)->whereHas('roles', function(Builder $q){
+            $q->where('roles.id', 6);
+        })->get();
     }
 }
 

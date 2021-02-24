@@ -32,7 +32,9 @@
                 <input
                   type="text"
                   v-model="customer.custom_id"
-                  class="form-control"
+                  :class="
+                    [error.errors.custom_id ? 'is-invalid' : ''] + ' form-control'
+                  "
                   autofocus
                 />
               </div>
@@ -46,9 +48,10 @@
                 <input
                   type="text"
                   v-model="customer.cif"
-                  class="form-control"
-                  autofocus
-                />
+                  :class="
+                    [error.errors.cif ? 'is-invalid' : ''] + ' form-control'
+                  "
+                  />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -62,7 +65,9 @@
                 <input
                   type="text"
                   v-model="customer.fiscal_name"
-                  class="form-control"
+                  :class="
+                    [error.errors.fiscal_name ? 'is-invalid' : ''] + ' form-control'
+                  "
                   autofocus
                 />
               </div>
@@ -78,7 +83,9 @@
                 <input
                   type="text"
                   v-model="customer.comercial_name"
-                  class="form-control"
+                  :class="
+                    [error.errors.comercial_name ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -91,7 +98,9 @@
                 <input
                   type="text"
                   v-model="customer.email"
-                  class="form-control"
+                  :class="
+                    [error.errors.email ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -104,7 +113,9 @@
                 <input
                   type="text"
                   v-model="customer.shop"
-                  class="form-control"
+                  :class="
+                    [error.errors.shop ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -117,7 +128,9 @@
                 <input
                   type="text"
                   v-model="customer.phone_1"
-                  class="form-control"
+                  :class="
+                    [error.errors.phone_1 ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -130,7 +143,9 @@
                 <input
                   type="text"
                   v-model="customer.phone_2"
-                  class="form-control"
+                  :class="
+                    [error.errors.phone_2 ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -143,7 +158,9 @@
                 <input
                   type="text"
                   v-model="customer.phone_3"
-                  class="form-control"
+                  :class="
+                    [error.errors.phone_3 ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -156,7 +173,9 @@
                 <input
                   type="text"
                   v-model="customer.street"
-                  class="form-control"
+                  :class="
+                    [error.errors.street ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -169,7 +188,9 @@
                 <input
                   type="text"
                   v-model="customer.city"
-                  class="form-control"
+                  :class="
+                    [error.errors.city ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -182,7 +203,9 @@
                 <input
                   type="text"
                   v-model="customer.province"
-                  class="form-control"
+                  :class="
+                    [error.errors.province ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -195,7 +218,9 @@
                 <input
                   type="text"
                   v-model="customer.country"
-                  class="form-control"
+                  :class="
+                    [error.errors.country ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -225,12 +250,12 @@
               @close="error.status = false"
             ></form-errors>
           </div>
-          <div class="d-flex justify-content-start" v-if="Object.keys(customer.users).length > 0">
+          <div class="d-flex justify-content-start" v-if="Object.keys(contacts).length > 0">
             <div class="form-inline">
 
               <div
                 class="col-4 my-3"
-                v-for="contact in customer.users"
+                v-for="contact in contacts"
                 :key="contact.id"
               >
                 <contact-card
@@ -265,12 +290,21 @@ export default {
         status: false,
         errors: [],
       },
+      contacts: [],
     };
   },
   mounted() {
     // console.log("customer", customer);
+    this.getContacts();
   },
   methods: {
+    getContacts() {
+      axios.get(`/api/get_customer_contacts/${this.customer.id}`)
+        .then( res => {
+          console.log(res.data.contacts)
+          this.contacts = res.data.contacts;
+        });
+    },
     showSuccess(data) {
       setTimeout(() => {
         this.success = {
@@ -312,6 +346,7 @@ export default {
           if (res.data.success) {
             this.$emit("updated", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         })

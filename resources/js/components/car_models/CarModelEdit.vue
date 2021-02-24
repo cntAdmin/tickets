@@ -53,7 +53,9 @@
                 <input
                   ref="name"
                   v-model="carModel.name"
-                  class="form-control py-1"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control py-1'
+                  "
                   type="text"
                   autofocus
                 />
@@ -80,6 +82,13 @@ export default {
     this.resetFields();
   },
   props: ["brands", 'carModel'],
+  data() {
+    return {
+      error: {
+        errors: []
+      }
+    }
+  },
   mounted() {
     this.$refs.name.focus();
   },
@@ -95,9 +104,11 @@ export default {
           name: this.carModel.name,
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             this.$emit("success", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         })

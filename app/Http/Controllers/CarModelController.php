@@ -114,9 +114,32 @@ class CarModelController extends Controller
      * @param  \App\Models\CarModel  $carModel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CarModel $carModel)
+    public function update(Request $req, CarModel $carModel)
     {
-        //
+        $validator = Validator::make($req->all(), [
+            'brand_id' => ['required', 'exists:brands,id'],
+            'name' => ['required', 'string', 'max:255', 'unique:car_models,name']
+        ], $this->messages);
+        if($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $updated = $carModel->create([
+            'name' => $req->name
+        ]);
+        $get_brand = Brand::find($req->brand_id);
+        $carModel->brand()->associate($get_brand->id);
+
+        $carModel->save();
+        
+        return $updated 
+            ? response()->json([ 'success' => true, 'msg' => __('Modelo creado correctamente.')])
+            : response()->json([ 'error' => true, 'msg' => __('El modelo no se ha podido crear, pruébelo de nuevo más tarde.')]);
+
+
     }
 
     /**

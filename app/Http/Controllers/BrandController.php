@@ -11,7 +11,8 @@ class BrandController extends Controller
 {
     private $messages = [
         'required' => ':attribute es un campo obligatorio.',
-        'unique' => ':attribute tiene que ser único, el nombre que esta poniendo ya existe.'
+        'unique' => ':attribute tiene que ser único, el nombre que esta poniendo ya existe.',
+        'max' => ':attribute no puede ser mayor a :max caracteres.'
     ];
     /**
      * Display a listing of the resource.
@@ -103,8 +104,9 @@ class BrandController extends Controller
     public function update(Request $req, Brand $brand)
     {
         $validator = Validator::make($req->all(), [
-            'name' => ['required' , 'unique:brands,name,' . $brand->id]
+            'name' => ['required', 'string', 'max:255', 'unique:brands,name,' . $brand->id]
         ], $this->messages);
+
         if($validator->fails()) {
             return response()->json([
                 'error' => true,

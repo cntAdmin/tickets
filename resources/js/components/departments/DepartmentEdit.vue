@@ -30,7 +30,9 @@
                 <input
                   type="text"
                   v-model="department.name"
-                  class="form-control"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control'
+                  "
                   autofocus
                 />
               </div>
@@ -44,7 +46,9 @@
                 <input
                   type="text"
                   v-model="department.code"
-                  class="form-control"
+                  :class="
+                    [error.errors.code ? 'is-invalid' : ''] + ' form-control'
+                  "
                   maxlength="5"
                   title="Máximo 5 caracteres"
                 />
@@ -66,8 +70,14 @@ export default {
     // GLOBAL FUNCTION IN APP.JS
     this.resetFields();
   },
-
   props: ["department"],
+  data() {
+    return {
+      error: {
+        errors: []
+      }
+    }
+  },
   methods: {
     handleSubmit() {
       axios
@@ -79,7 +89,8 @@ export default {
           if (res.data.success) {
             this.$emit("success", res.data.msg);
           } else if (res.data.error) {
-            if (res.data.errors) {
+            if (Array.isArray(res.data.errors)) {
+              this.error.errors = res.data.errors;
               this.$emit("error", res.data.errors);
             } else {
               this.$emit("error", res.data.msg);

@@ -84,7 +84,12 @@
                     Departamento
                   </div>
                 </div>
-                <select v-model="user.department_id" class="form-control">
+                <select v-model="user.department_id" 
+                  :class="
+                    [error.errors.department_id ? 'is-invalid' : ''] + ' form-control'
+                  "
+
+                >
                   <option value="" disabled>Seleccione un Departamento</option>
                   <option
                     v-for="dp in departments"
@@ -103,7 +108,13 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Nombre</div>
                 </div>
-                <input type="text" v-model="user.name" class="form-control" />
+                <input
+                  type="text"
+                  v-model="user.name"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control'
+                  "
+                  />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -115,7 +126,9 @@
                 <input
                   type="text"
                   v-model="user.surname"
-                  class="form-control"
+                  :class="
+                    [error.errors.surname ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -130,7 +143,9 @@
                 <input
                   type="text"
                   v-model="user.username"
-                  class="form-control"
+                  :class="
+                    [error.errors.username ? 'is-invalid' : ''] + ' form-control'
+                  "
                   required
                 />
               </div>
@@ -150,7 +165,13 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Email</div>
                 </div>
-                <input type="email" v-model="user.email" class="form-control" />
+                <input
+                  type="email"
+                  v-model="user.email"
+                  :class="
+                    [error.errors.email ? 'is-invalid' : ''] + ' form-control'
+                  "
+                  />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -162,7 +183,10 @@
                 <input
                   type="password"
                   v-model="user.password"
-                  class="form-control"
+                  :class="
+                    [error.errors.password ? 'is-invalid' : ''] +
+                    ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -177,18 +201,11 @@
                 <input
                   type="password"
                   v-model="user.password_confirmation"
-                  class="form-control"
+                  :class="
+                    [error.errors.password_confirmation ? 'is-invalid' : ''] +
+                    ' form-control'
+                  "
                 />
-              </div>
-            </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-              <label class="sr-only" for="dateFrom">¿Activo?</label>
-              <div class="input-group w-100">
-                <span class="mr-3 mt-1">¿Activo?</span>
-                <label class="switch">
-                  <input type="checkbox" v-model="user.is_active" />
-                  <span class="slider round"></span>
-                </label>
               </div>
             </div>
           </div>
@@ -218,6 +235,9 @@ export default {
       customers: [],
       roles: [],
       departments: [],
+      error: {
+        errors: []
+      }
     };
   },
   mounted() {
@@ -247,6 +267,7 @@ export default {
           if (res.data.success) {
             this.$emit("updated", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         })

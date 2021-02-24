@@ -127,8 +127,7 @@
                 </div>
                 <input
                   :class="
-                    [error.errors.frame_id ? 'is-invalid' : ''] +
-                    ' form-control'
+                    [error.errors.frame_id ? 'is-invalid' : ''] + ' form-control'
                   "
                   type="text"
                   v-model="ticket.frame_id"
