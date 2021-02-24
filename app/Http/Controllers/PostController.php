@@ -11,25 +11,15 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    private $attributes;
     private $messages;
 
     public function __construct()
     {
-        $this->attributes = [
-            'title' => __('Título'),
-            'description' => __('Descripción'),
-            'likes' => __('Me gusta'),
-            'dislikes' => __('No me gusta'),
-            'featured' => __('Destacado'),
-        ];
-
         $this->messages = [
             'required' => ':attribute es un campo obligatorio.',
             'string' => ':attribute debe ser una cadena de texto.',
             'max' => ':attribute debe ser máximo de :max caracteres.',
         ];
-
     }
     /**
      * Display a listing of the resource.

@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 class CustomerController extends Controller
 {
     private $messages;
-    private $attributes;
 
     public function __construct()
     {
@@ -23,22 +22,6 @@ class CustomerController extends Controller
             'email' => __(':attribute debe ser de tipo email.'),
             'boolean' => __(':attribute debe ser tipo boleano (true/false)'),
         ];
-        $this->attributes = [
-            'cif' => 'CIF',
-            'custom_id' => 'Código Cliente',
-            'fiscal_name' => 'Nombre Fiscal',
-            'comercial_name' => 'Nombre Comercial',
-            'phone' => 'Teléfono',
-            'email' => 'Email',
-            'street' => 'Dirección',
-            'city' => 'Ciudad',
-            'province' => 'Provincia',
-            'country' => 'País',
-            'postcode' => 'Código Postal',
-            'shop' => 'Tienda',
-            'is_active' => 'Activo'
-        ];
-
     }
     /**
      * Display a listing of the resource.
