@@ -252,6 +252,7 @@ export default {
     handleSubmit() {
       axios
         .put("/api/user/" + this.user.id, {
+          role_id: this.user.roles[0].id,
           customer_id: this.user.customer_id,
           department_id: this.user.department_id,
           name: this.user.name,
@@ -264,6 +265,7 @@ export default {
           is_active: this.user.is_active,
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             this.$emit("updated", res.data.msg);
           } else if (res.data.error) {

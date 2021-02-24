@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -174,6 +175,7 @@ class UserController extends Controller
             'phone' => ['required', 'numeric'],
             'password' => ['nullable', 'string', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
+            'role_id' => ['required', 'numeric', 'exists:roles,id'],
         ], $this->messages);
 
         if($validator->fails()) {
@@ -184,20 +186,28 @@ class UserController extends Controller
         }
         // Actualización del usuario
         $user->update([
-            'name' => $req->name ? $req->name : $user->name,
-            'surname' => $req->surname ? $req->surname : $user->surname,
-            'username' => $req->username ? $req->username : $user->username,
-            'email' => $req->email ? $req->email : $user->email,
-            'phone' => $req->phone ? $req->phone : $user->phone,
+            'name' => $req->name,
+            'surname' => $req->surname,
+            'username' => $req->username,
+            'email' => $req->email,
+            'phone' => $req->phone,
             'password' => $req->password ? Hash::make($req->password) :  $user->password,
-            'is_active' => $req->is_active ? 1 : 0,
+            'is_active' => $req->is_active,
         ]);
 
         // Busqueda del departamento en caso de venir completado y asignarselo al usuario
-        if($req->department_id) {
-            $department = Department::find($req->department_id);
-            $department->users()->save($user);
+        if($req->customer_id) {
+            $get_customer = Customer::find($req->customer_id);
+            $user->customer()->associate($get_customer->id);
+        } else {
+            $get_department = Department::find($req->department_id);
+            $user->department()->associate($get_department->id);
         }
+        if($req->role_id) {
+            $role = Role::find($req->role_id);
+            $user->syncRoles($role);
+        }
+        $user->save();
 
         return response()->json([
             'success' => true,
