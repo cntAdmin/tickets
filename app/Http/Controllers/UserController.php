@@ -175,7 +175,7 @@ class UserController extends Controller
             'phone' => ['required', 'numeric'],
             'password' => ['nullable', 'string', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
-            'role_id' => ['required', 'numeric', 'exists:roles,id'],
+            'role_id' => ['sometimes', 'numeric', 'exists:roles,id'],
         ], $this->messages);
 
         if($validator->fails()) {

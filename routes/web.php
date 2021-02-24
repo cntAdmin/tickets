@@ -20,9 +20,9 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 
-Route::get('/testing', function (Request $req) {
-    dd(\App\Models\Customer::find(21)->contacts());
-});
+// Route::get('/testing', function (Request $req) {
+//     dd(\App\Models\Customer::find(21)->contacts());
+// });
 
 Route::get('/', function () {
     return redirect()->route('login');

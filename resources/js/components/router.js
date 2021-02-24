@@ -17,7 +17,7 @@ import PostShow from './posts/PostShow';
 import Brands from './brands/Brands';
 import CarModels from './car_models/CarModels';
 import Calls from './calls/Calls';
-import Blog from './posts/Post';
+import Blogs from './blogs/Blogs';
 
 Vue.use(VueRouter);
 
@@ -119,7 +119,7 @@ const router = new VueRouter({
         {
             path: '/blog',
             name: 'users-blog.index',
-            component: Blog
+            component: Blogs
         },
 
 
