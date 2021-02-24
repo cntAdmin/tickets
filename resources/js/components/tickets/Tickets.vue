@@ -39,8 +39,10 @@
       </router-link>
     </div>
 
-        
-    <tickets-search-form :ticket_statuses="ticket_statuses" @search="getTickets" />
+    <tickets-search-form
+      :ticket_statuses="ticket_statuses"
+      @search="getTickets"
+    />
 
     <div
       class="alert alert-dismissable alert-danger my-3"
@@ -56,9 +58,7 @@
 
     <transition name="fade" v-else-if="tickets.data" mode="out-in">
       <div v-if="tickets.total > 0">
-        <exports
-          @exportFile="exportFile"
-          ></exports>
+        <exports @exportFile="exportFile"></exports>
         <tickets-table
           :tickets="tickets"
           :ticket_statuses="ticket_statuses"
@@ -73,9 +73,7 @@
 </template>
 
 <script>
-import Exports from '../Exports.vue';
 export default {
-  components: { Exports },
   props: ["user"],
   data() {
     return {
@@ -96,48 +94,54 @@ export default {
       },
     };
   },
-  mounted() {
-    this.getCount();
+  activated() {
+    this.searched.status = this.$route.query.status ? this.$route.query.status : null;
     this.getTickets();
     this.get_all_ticket_statuses();
   },
   methods: {
     exportFile(type) {
-      axios.get('/api/export_tickets',{responseType: 'arraybuffer', params: {
+      axios
+        .get("/api/export_tickets", {
+          responseType: "arraybuffer",
+          params: {
             page: this.searched.page ? this.searched.page : null,
             ticket_id: this.searched ? this.searched.ticket_id : null,
             user_name: this.searched ? this.searched.user_name : null,
-            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+            customer_custom_id: this.searched
+              ? this.searched.customer_custom_id
+              : null,
             customer_name: this.searched ? this.searched.customer_name : null,
             department_id: this.searched ? this.searched.department_id : null,
-            status: this.searched ? this.searched.status : this.$route.query.status,
+            status: this.searched
+              ? this.searched.status
+              : this.$route.query.status,
             date_from: this.searched ? this.searched.date_from : null,
             date_to: this.searched ? this.searched.date_to : null,
             knowledge_base: this.searched ? this.searched.knowledge_base : null,
-            type: type
-        }
-      }).then( res => {
-        // GET FILENAME FROM HEADERS
-        var filename = "";
-        var disposition = res.headers['content-disposition'];
-        if (disposition && disposition.indexOf('attachment') !== -1) {
+            type: type,
+          },
+        })
+        .then((res) => {
+          // GET FILENAME FROM HEADERS
+          var filename = "";
+          var disposition = res.headers["content-disposition"];
+          if (disposition && disposition.indexOf("attachment") !== -1) {
             var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
             var matches = filenameRegex.exec(disposition);
-            if (matches != null && matches[1]) { 
-              filename = matches[1].replace(/['"]/g, '');
+            if (matches != null && matches[1]) {
+              filename = matches[1].replace(/['"]/g, "");
             }
-        }
-        // STORE FILE IN A BLOB
-        let blob = new Blob([res.data], {type:'application/*'})
-        let link = document.createElement('a')
-        link.href = window.URL.createObjectURL(blob)
-        link.download = filename 
-        // DOWNLOAD IT
-        link.click();
-      }).catch( err => console.log(err))
-    },
-    export_pdf() {
-      console.log("b")
+          }
+          // STORE FILE IN A BLOB
+          let blob = new Blob([res.data], { type: "application/*" });
+          let link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = filename;
+          // DOWNLOAD IT
+          link.click();
+        })
+        .catch((err) => console.log(err));
     },
     get_all_ticket_statuses() {
       axios
@@ -159,14 +163,25 @@ export default {
     },
     getCount() {
       axios
-        .get("/api/get_ticket_counters")
+        .get("/api/get_ticket_counters", {
+          params: {
+            ticket_id: this.searched ? this.searched.ticket_id : null,
+            user_name: this.searched ? this.searched.user_name : null,
+            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+            customer_name: this.searched ? this.searched.customer_name : null,
+            department_id: this.searched ? this.searched.department_id : null,
+            status: this.searched ? this.searched.status : null,
+            date_from: this.searched ? this.searched.date_from : null,
+            date_to: this.searched ? this.searched.date_to : null,
+            knowledge_base: this.searched ? this.searched.knowledge_base : null,
+          },
+        })
         .then((res) => {
           this.total_count = res.data.total_count;
           this.opened = res.data.opened;
           this.closed = res.data.closed;
           this.resolved = res.data.resolved;
           this.newTickets = res.data.newTickets;
-          
         })
         .catch((err) => {
           console.log(err);
@@ -176,20 +191,21 @@ export default {
       this.closeAll();
       this.searching = true;
       this.searched = data ? data : this.searched;
-
+      this.getCount();
+      
       axios
         .get("/api/ticket", {
           params: {
-            page: data ? data.page : null,
-            ticket_id: data ? data.ticket_id : null,
-            user_name: data ? data.user_name : null,
-            customer_custom_id: data ? data.customer_custom_id : null,
-            customer_name: data ? data.customer_name : null,
-            department_id: data ? data.department_id : null,
-            status: data ? data.status : this.$route.query.status,
-            date_from: data ? data.date_from : null,
-            date_to: data ? data.date_to : null,
-            knowledge_base: data ? data.knowledge_base : null,
+            page: this.searched ? this.searched.page : null,
+            ticket_id: this.searched ? this.searched.ticket_id : null,
+            user_name: this.searched ? this.searched.user_name : null,
+            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+            customer_name: this.searched ? this.searched.customer_name : null,
+            department_id: this.searched ? this.searched.department_id : null,
+            status: this.searched ? this.searched.status : null,
+            date_from: this.searched ? this.searched.date_from : null,
+            date_to: this.searched ? this.searched.date_to : null,
+            knowledge_base: this.searched ? this.searched.knowledge_base : null,
           },
         })
         .then((res) => {

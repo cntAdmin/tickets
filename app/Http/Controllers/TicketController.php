@@ -25,15 +25,15 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index()
     {
-        if(!$req->ajax()) {
-            return view('tickets.index')->with([
-                'status' => $req->status ? $req->status : null
-            ]);
-        }
+        // if(!$req->ajax()) {
+        //     return view('tickets.index')->with([
+        //         'status' => $req->status ? $req->status : null
+        //     ]);
+        // }
         
-        $tickets = Ticket::getTickets($req)->paginate();
+        $tickets = Ticket::filterTickets()->paginate();
 
         return response()->json([
             'success' => true,
@@ -355,11 +355,11 @@ class TicketController extends Controller
         ]);
     }
 
-    public function get_ticket_counters() {
-        $new_tickets = Ticket::where('ticket_status_id', 1)->get()->count();
-        $opened = Ticket::where('ticket_status_id', 2)->get()->count();
-        $closed = Ticket::where('ticket_status_id', 3)->get()->count();
-        $resolved = Ticket::where('ticket_status_id', 4)->get()->count();
+    public function get_ticket_counters(Request $req) {
+        $new_tickets = Ticket::filterTickets()->where('ticket_status_id', 1)->get()->count();
+        $opened = Ticket::filterTickets()->where('ticket_status_id', 2)->get()->count();
+        $closed = Ticket::filterTickets()->where('ticket_status_id', 3)->get()->count();
+        $resolved = Ticket::filterTickets()->where('ticket_status_id', 4)->get()->count();
 
         return response()->json([
             'newTickets' => $new_tickets,
@@ -395,7 +395,7 @@ class TicketController extends Controller
                 }
                 $filename = 'tickets-' . now()->format('Y-m-d_H-i-s') . '.pdf';
                 $storage = 'exports/pdfs/' . $filename;
-                $tickets = Ticket::getTickets($req)->get();
+                $tickets = Ticket::filterTickets()->get();
                 $pdf = PDF::loadView('exports.pdfs.tickets', ['tickets' => $tickets])
                     ->setOptions([
                         'defaultFont' => 'sans-serif',

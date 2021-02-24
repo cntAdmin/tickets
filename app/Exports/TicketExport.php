@@ -25,7 +25,7 @@ class TicketExport implements FromView, ShouldAutoSize
     */
     public function view(): View
     {
-        $tickets = Ticket::getTickets($this->req)->get();
+        $tickets = Ticket::filterTickets()->get();
         return view('exports.excels.tickets')->with(['tickets' => $tickets]);
     }
 

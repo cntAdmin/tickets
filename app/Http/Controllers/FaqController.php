@@ -13,18 +13,9 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index()
     {
-        if(!$req->ajax()) {
-            return abort(404);
-        }
-
-        $tickets = Ticket::getTickets($req, 'faqs')->paginate();
-
-        return response()->json([
-            'success' => true,
-            'tickets' => $tickets
-        ]);
+        //
     }
 
     /**
