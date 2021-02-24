@@ -13,7 +13,7 @@ class Customer extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'cif', 'custom_id', 'fiscal_name', 'comercial_name', 'phone', 'email', 'street', 'city', 'province', 'country', 'postcode',
+        'cif', 'custom_id', 'fiscal_name', 'comercial_name', 'phone_1', 'phone_2', 'phone_3', 'email', 'street', 'city', 'province', 'country', 'postcode',
         'shop', 'is_active', 'deleted_by'
     ];
     protected $appends = ['active_status'];
