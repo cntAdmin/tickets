@@ -121,7 +121,7 @@
             <div class="collapse show" id="tickets_sidebar">
               <router-link
                 class="btn btn-toolbar btn-block mt-2"
-                :to="{ name: 'ticket.index' }"
+                :to="{ name: 'ticket.index' }" @click="() => window.location.href = '/ticket'"
               >
                 <span>Todos los Tickets</span>
               </router-link>

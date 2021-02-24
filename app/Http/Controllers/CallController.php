@@ -137,4 +137,14 @@ class CallController extends Controller
             'msg' => 'Llamada ' . ($req->toggle ? 'asignada' : 'desasignada') . ' correctamente.'
         ]);
     }
+
+    public function asignable_calls(Request $req) {
+        $req->type = 'finder';
+        $calls = Call::getCalls($req)->paginate();
+
+        return response()->json([
+            'success' => true,
+            'calls' => $calls
+        ]);
+    }
 }

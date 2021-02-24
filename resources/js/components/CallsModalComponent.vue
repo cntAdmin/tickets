@@ -32,7 +32,7 @@
             </div>
             <div v-if="calls.total > 0">
               <div
-                v-show="success.status === true"
+                v-show="success.status"
                 class="alert alert-success alert-dismissible fade show text-center my-3"
                 role="alert"
               >
@@ -66,7 +66,7 @@
                   >
                     <td>{{ call.src }}</td>
                     <td>{{ call.dst }}</td>
-                    <td>{{ call.billsec }}</td>
+                    <td>{{ call.duration }}</td>
                     <td>
                       <div class="d-flex justify-content-center">
                         <label class="switch">
@@ -160,13 +160,14 @@ export default {
     },
     get_calls() {
       axios
-        .get("/api/call", {
+        .get("/api/asignable_calls", {
           params: {
             page: this.selected.page,
             phone_number: this.selected.phone,
           },
         })
         .then((res) => {
+          console.log(res.data)
           this.calls = res.data.calls;
         })
         .catch((err) => {

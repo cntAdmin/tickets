@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         
         // ? CALLS TICKET
         Route::put('/call/{call}/ticket/{ticket}', 'CallController@toggle_call_ticket');
+        Route::get('/asignable_calls', 'CallController@asignable_calls');
         
         // ? BRANDS
         Route::get('/brand/{brand}/model', 'CarModelController@get_brand_models');
