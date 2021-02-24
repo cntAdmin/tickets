@@ -47,7 +47,10 @@
           v-if="error.status"
           class="alert alert-danger alert-dismissible fade show"
         >
-          <form-errors :errors="error.errors"></form-errors>
+          <form-errors
+            :errors="error.errors"
+            @close="error.status = false"
+          ></form-errors>
         </div>
         <form
           id="edit_ticket_form"
@@ -127,7 +130,8 @@
                 </div>
                 <input
                   :class="
-                    [error.errors.frame_id ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.frame_id ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                   type="text"
                   v-model="ticket.frame_id"

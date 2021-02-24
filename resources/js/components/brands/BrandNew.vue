@@ -32,7 +32,9 @@
                   ref="name"
                   type="text"
                   v-model="selected.name"
-                  class="form-control"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control'
+                  "
                   required
                   autofocus
                 />
@@ -57,6 +59,9 @@ export default {
     return {
       selected: {
         name: ''
+      },
+      error: {
+        errors: []
       }
     }
   },
@@ -70,9 +75,11 @@ export default {
       axios.post('/api/brand', {
         name: this.selected.name
       }).then((res) => {
+        console.log(res.data)
           if (res.data.success) {
             this.$emit("success", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         }).catch((err) => console.log(err));

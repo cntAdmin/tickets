@@ -27,7 +27,10 @@
       </button>
     </div>
     <div v-show="error.status">
-      <form-errors :errors="error.errors" @close="closeAll"></form-errors>
+      <form-errors
+        :errors="error.errors"
+        @close="error.status = false"
+      ></form-errors>
     </div>
 
     <div v-show="success.status">
@@ -128,12 +131,11 @@ export default {
   },
   methods: {
     getCounters() {
-      axios.get('/api/get_car_models_counter')
-        .then( res => {
-          if(res.data.success) {
-            this.brands_count = res.data.brands_count;
-          }
-        })
+      axios.get("/api/get_car_models_counter").then((res) => {
+        if (res.data.success) {
+          this.brands_count = res.data.brands_count;
+        }
+      });
     },
     hasBeenDeleted(data) {
       $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -169,28 +171,30 @@ export default {
       };
     },
     getAllBrands() {
-      axios.get("/api/get_all_brands")
-        .then((res) => {
-          if (res.data.success) {
-            this.brands = res.data.brands;
-          }
-        });
+      axios.get("/api/get_all_brands").then((res) => {
+        if (res.data.success) {
+          this.brands = res.data.brands;
+        }
+      });
     },
     getCarModels(data) {
       this.searching = true;
       this.searched = data ? data : this.searched;
       let page = data && typeof data.page !== undefined ? data.page : 1;
-      axios.get("/api/car-model", { params: {
-          page: page,
-          brand_id: data ? data.brand_id : null,
-          name: data ? data.name : null,
-        }
-      }).then((res) => {
-        if (res.data.success) {
-          this.searching = false;
-          this.carModels = res.data.carModels;
-        }
-      });
+      axios
+        .get("/api/car-model", {
+          params: {
+            page: page,
+            brand_id: data ? data.brand_id : null,
+            name: data ? data.name : null,
+          },
+        })
+        .then((res) => {
+          if (res.data.success) {
+            this.searching = false;
+            this.carModels = res.data.carModels;
+          }
+        });
     },
     closeAll() {
       this.is_new = false;

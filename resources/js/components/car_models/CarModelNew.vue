@@ -52,7 +52,9 @@
                 <input
                   ref="name"
                   v-model="selected.name"
-                  class="form-control py-1"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control py-1'
+                  "
                   type="text"
                   autofocus
                 />
@@ -86,6 +88,9 @@ export default {
         brand_id: null,
         name: null,
       },
+      error: {
+        errors: []
+      }
     };
   },
   mounted() {
@@ -105,6 +110,7 @@ export default {
           if (res.data.success) {
             this.$emit("success", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         })

@@ -19,7 +19,10 @@
           </button>
         </div>
         <div v-show="error.status">
-          <form-errors :errors="error.errors" @close="closeAll"></form-errors>
+          <form-errors
+            :errors="error.errors"
+            @close="error.status = false"
+          ></form-errors>
         </div>
 
         <form @submit.prevent="handleSubmit">

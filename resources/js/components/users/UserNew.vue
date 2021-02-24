@@ -30,7 +30,9 @@
                 </div>
                 <select
                   v-model="selected.role_id"
-                  class="form-control"
+                  :class="
+                    [error.errors.role_id ? 'is-invalid' : ''] + ' form-control'
+                  "
                   required
                 >
                   <option value="" disabled>Seleccione un rol</option>
@@ -104,7 +106,9 @@
                 <input
                   type="text"
                   v-model="selected.name"
-                  class="form-control"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -117,7 +121,9 @@
                 <input
                   type="text"
                   v-model="selected.surname"
-                  class="form-control"
+                  :class="
+                    [error.errors.surname ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -132,7 +138,9 @@
                 <input
                   type="text"
                   v-model="selected.username"
-                  class="form-control"
+                  :class="
+                    [error.errors.username ? 'is-invalid' : ''] + ' form-control'
+                  "
                   required
                 />
               </div>
@@ -146,7 +154,9 @@
                 <input
                   type="text"
                   v-model="selected.phone"
-                  class="form-control"
+                  :class="
+                    [error.errors.phone ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -159,7 +169,9 @@
                 <input
                   type="email"
                   v-model="selected.email"
-                  class="form-control"
+                  :class="
+                    [error.errors.email ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -172,7 +184,9 @@
                 <input
                   type="password"
                   v-model="selected.password"
-                  class="form-control"
+                  :class="
+                    [error.errors.password ? 'is-invalid' : ''] + ' form-control'
+                  "
                   required
                 />
               </div>
@@ -188,7 +202,9 @@
                 <input
                   type="password"
                   v-model="selected.password_confirmation"
-                  class="form-control"
+                  :class="
+                    [error.errors.password_confirmation ? 'is-invalid' : ''] + ' form-control'
+                  "
                   required
                 />
               </div>
@@ -231,6 +247,9 @@ export default {
         password: "",
         password_confirmation: "",
       },
+      error: {
+        errors: []
+      }
     };
   },
   mounted() {
@@ -256,6 +275,7 @@ export default {
           if (res.data.success) {
             this.$emit("created", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         })

@@ -31,7 +31,9 @@
                 <input
                   type="text"
                   v-model="selected.name"
-                  class="form-control"
+                  :class="
+                    [error.errors.name ? 'is-invalid' : ''] + ' form-control py-1'
+                  "
                   autofocus
                 />
               </div>
@@ -45,7 +47,9 @@
                 <input
                   type="text"
                   v-model="selected.code"
-                  class="form-control"
+                  :class="
+                    [error.errors.code ? 'is-invalid' : ''] + ' form-control py-1'
+                  "
                   maxlength="5"
                   title="Máximo 5 caracteres"
                 />
@@ -75,6 +79,9 @@ export default {
         name: "",
         code: "",
       },
+      error: {
+        errors: []
+      }
     };
   },
   methods: {
@@ -90,6 +97,7 @@ export default {
           if (res.data.success) {
             this.$emit("success", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         })

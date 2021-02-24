@@ -30,7 +30,9 @@
                 <input
                   type="text"
                   v-model="selected.cif"
-                  class="form-control"
+                  :class="
+                    [error.errors.cif ? 'is-invalid' : ''] + ' form-control'
+                  "
                   autofocus
                 />
               </div>
@@ -45,9 +47,10 @@
                 </div>
                 <input
                   type="text"
-                  v-model="selected.customID"
-                  class="form-control"
-                  autofocus
+                  v-model="selected.custom_id"
+                  :class="
+                    [error.errors.custom_id ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -61,9 +64,10 @@
                 </div>
                 <input
                   type="text"
-                  v-model="selected.fiscalName"
-                  class="form-control"
-                  autofocus
+                  v-model="selected.fiscal_name"
+                  :class="
+                    [error.errors.fiscal_name ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -77,21 +81,55 @@
                 </div>
                 <input
                   type="text"
-                  v-model="selected.comercialName"
-                  class="form-control"
+                  v-model="selected.comercial_name"
+                  :class="
+                    [error.errors.comercial_name ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-              <label class="sr-only" for="dateFrom">Teléfono</label>
+              <label class="sr-only" for="dateFrom">Teléfono 1</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Teléfono</div>
+                  <div class="input-group-text text-uppercase">Teléfono 1</div>
                 </div>
                 <input
                   type="text"
-                  v-model="selected.phone"
-                  class="form-control"
+                  v-model="selected.phone_1"
+                  :class="
+                    [error.errors.phone_1 ? 'is-invalid' : ''] + ' form-control'
+                  "
+                />
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Teléfono 2</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Teléfono 2</div>
+                </div>
+                <input
+                  type="text"
+                  v-model="selected.phone_2"
+                  :class="
+                    [error.errors.phone_2 ? 'is-invalid' : ''] + ' form-control'
+                  "
+                />
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Teléfono 3</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Teléfono 3</div>
+                </div>
+                <input
+                  type="text"
+                  v-model="selected.phone_3"
+                  :class="
+                    [error.errors.phone_3 ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -102,9 +140,11 @@
                   <div class="input-group-text text-uppercase">Email</div>
                 </div>
                 <input
-                  type="text"
+                  type="email"
                   v-model="selected.email"
-                  class="form-control"
+                  :class="
+                    [error.errors.email ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -117,7 +157,9 @@
                 <input
                   type="text"
                   v-model="selected.street"
-                  class="form-control"
+                  :class="
+                    [error.errors.street ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -130,7 +172,9 @@
                 <input
                   type="text"
                   v-model="selected.city"
-                  class="form-control"
+                  :class="
+                    [error.errors.city ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -143,7 +187,9 @@
                 <input
                   type="text"
                   v-model="selected.province"
-                  class="form-control"
+                  :class="
+                    [error.errors.province ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -156,7 +202,9 @@
                 <input
                   type="text"
                   v-model="selected.country"
-                  class="form-control"
+                  :class="
+                    [error.errors.country ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -169,7 +217,9 @@
                 <input
                   type="text"
                   v-model="selected.shop"
-                  class="form-control"
+                  :class="
+                    [error.errors.shop ? 'is-invalid' : ''] + ' form-control'
+                  "
                 />
               </div>
             </div>
@@ -198,10 +248,10 @@ export default {
   data() {
     return {
       selected: {
-        customID: "",
+        custom_id: "",
         cif: "",
-        fiscalName: "",
-        comercialName: "",
+        fiscal_name: "",
+        comercial_name: "",
         phone: "",
         email: "",
         street: "",
@@ -212,16 +262,19 @@ export default {
         shop: "",
         isActive: "",
       },
+      error: {
+        errors: []
+      }
     };
   },
   methods: {
     handleSubmit() {
       axios
         .post("/api/customer", {
-          custom_id: this.selected.customID,
+          custom_id: this.selected.custom_id,
           cif: this.selected.cif,
-          fiscal_name: this.selected.fiscalName,
-          comercial_name: this.selected.comercialName,
+          fiscal_name: this.selected.fiscal_name,
+          comercial_name: this.selected.comercial_name,
           phone: this.selected.phone,
           email: this.selected.email,
           street: this.selected.street,
@@ -236,6 +289,7 @@ export default {
           if (res.data.success) {
             this.$emit("created", res.data.msg);
           } else if (res.data.error) {
+            this.error.errors = res.data.errors;
             this.$emit("error", res.data.errors);
           }
         })

@@ -33,7 +33,8 @@
                   type="text"
                   v-model="customer.custom_id"
                   :class="
-                    [error.errors.custom_id ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.custom_id ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                   autofocus
                 />
@@ -51,7 +52,7 @@
                   :class="
                     [error.errors.cif ? 'is-invalid' : ''] + ' form-control'
                   "
-                  />
+                />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -66,7 +67,8 @@
                   type="text"
                   v-model="customer.fiscal_name"
                   :class="
-                    [error.errors.fiscal_name ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.fiscal_name ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                   autofocus
                 />
@@ -84,7 +86,8 @@
                   type="text"
                   v-model="customer.comercial_name"
                   :class="
-                    [error.errors.comercial_name ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.comercial_name ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                 />
               </div>
@@ -204,7 +207,8 @@
                   type="text"
                   v-model="customer.province"
                   :class="
-                    [error.errors.province ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.province ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                 />
               </div>
@@ -250,9 +254,11 @@
               @close="error.status = false"
             ></form-errors>
           </div>
-          <div class="d-flex justify-content-start" v-if="Object.keys(contacts).length > 0">
+          <div
+            class="d-flex justify-content-start"
+            v-if="Object.keys(contacts).length > 0"
+          >
             <div class="form-inline">
-
               <div
                 class="col-4 my-3"
                 v-for="contact in contacts"
@@ -299,9 +305,10 @@ export default {
   },
   methods: {
     getContacts() {
-      axios.get(`/api/get_customer_contacts/${this.customer.id}`)
-        .then( res => {
-          console.log(res.data.contacts)
+      axios
+        .get(`/api/get_customer_contacts/${this.customer.id}`)
+        .then((res) => {
+          console.log(res.data.contacts);
           this.contacts = res.data.contacts;
         });
     },

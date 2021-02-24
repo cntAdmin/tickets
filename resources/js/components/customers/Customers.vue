@@ -51,7 +51,10 @@
     </div>
 
     <div v-if="error.status">
-      <form-errors :errors="error.errors" @close="closeAll()"></form-errors>
+      <form-errors
+        :errors="error.errors"
+        @close="error.status = false"
+      ></form-errors>
     </div>
 
     <transition name="fade" v-if="is_new" mode="out-in">
@@ -145,7 +148,7 @@ export default {
       setTimeout(() => {
         this.success = {
           status: false,
-          msg: '',
+          msg: "",
         };
       }, 2000);
     },
