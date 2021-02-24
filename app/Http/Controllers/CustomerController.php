@@ -206,7 +206,7 @@ class CustomerController extends Controller
             'postcode' => ['nullable', 'string', 'max:255'],
             'shop' => ['required','string', 'max:255'],
             'is_active' => ['nullable', 'boolean'],
-        ], $this->messages, $this->attributes);
+        ], $this->messages);
 
         if($validator->fails()) {
             return response()->json([
