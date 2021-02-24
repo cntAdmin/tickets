@@ -321,7 +321,7 @@ export default {
       showCallsModal: false
     };
   },
-  beforeMount() {
+  activated() {
     this.get_ticket(this.ticketID);
     this.getCalls();
   },
