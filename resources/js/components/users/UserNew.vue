@@ -258,6 +258,9 @@ export default {
     this.get_all_departments();
   },
   methods: {
+    setCustomer(value) {
+      this.selected.customer_id = value ? value.id : null;
+    },
     handleSubmit() {
       axios
         .post("/api/user", {
@@ -272,6 +275,7 @@ export default {
           password_confirmation: this.selected.password_confirmation,
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             this.$emit("created", res.data.msg);
           } else if (res.data.error) {

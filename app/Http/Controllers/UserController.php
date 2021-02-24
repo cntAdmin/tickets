@@ -83,8 +83,8 @@ class UserController extends Controller
             'department_id' => ['required_without:customer_id', 'nullable', 'exists:departments,id'],
             'name' => ['required', 'string', 'max:100'],
             'surname' => ['nullable', 'string', 'max: 100'],
-            'username' => ['required', 'max:100', 'unique:users,username'],
-            'email' => ['nullable', 'sometimes', 'email'],
+            'username' => ['required', 'string', 'max:100', 'unique:users,username'],
+            'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'numeric'],
             'password' => ['required', 'string', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
@@ -97,27 +97,32 @@ class UserController extends Controller
             ]);
         }
 
-        $user = User::create([
-            'name' => $req->name,
-            'surname' => $req->surname,
-            'username' => $req->username,
-            'email' => $req->email,
-            'phone' => $req->phone,
-            'password' => Hash::make($req->password),
-            // ? SE TIENE QUE VALIDAR EL EMAIL ?
-            'email_verified_at' => now(),
-            'is_active' => 1
-        ]);
+        try {
+            $user = User::create([
+                'name' => $req->name,
+                'surname' => $req->surname,
+                'username' => $req->username,
+                'email' => $req->email,
+                'phone' => $req->phone,
+                'password' => Hash::make($req->password),
+                // ? SE TIENE QUE VALIDAR EL EMAIL ?
+                'email_verified_at' => now()->toDateTimeString(),
+                'is_active' => true
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json($th);
+        }
+
         
         if($req->customer_id) {
             $get_customer = Customer::find($req->customer_id);
-            $user->customer()->associate($get_customer);
+            $user->customer()->associate($get_customer->id);
         } else {
             $get_department = Department::find($req->department_id);
-            $user->department()->associate($get_department);
+            $user->department()->associate($get_department->id);
         }
-
         $user->save();
+
         return response()->json([
             'success' => true,
             'msg' => __('Usuario creado correctamente')

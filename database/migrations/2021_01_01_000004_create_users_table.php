@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('customer_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('department_id')->nullable()->constrained()->onUpdate('cascade');
             $table->string('name');
-            $table->string('surname');
+            $table->string('surname')->nullable();
             $table->string('username')->unique();
             $table->string('phone');
             $table->string('email');

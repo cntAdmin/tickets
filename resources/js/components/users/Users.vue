@@ -137,7 +137,7 @@ export default {
       searching: false,
     };
   },
-  activated() {
+  mounted() {
     this.getUsers();
   },
   methods: {
@@ -148,11 +148,11 @@ export default {
       };
     },
     succeeded(data) {
-      this.closeAll();
       this.success.status = true;
       this.success.msg = data;
+
       setTimeout(() => {
-        this.getUsers();
+        this.closeAll();
       }, 1500);
     },
     editUser(data) {
