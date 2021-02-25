@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 
 class Call extends Model
@@ -15,11 +16,22 @@ class Call extends Model
         'is_to_billing', 'is_recorded', 'rating_status', 'src_extension', 'dst_extension', 'src_number', 'dst_number'
     ];
     
-    public function ticket()
+    public function ticket(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Ticket::class, 'ticket_id', 'id');
     }
     
+    /**
+     * Get the customer that owns the Call
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
+
+
     public static function getCalls(Request $req) {
         return Call::select('id', 'customer_id', 'src_number','src', 'dst', 'dst_extension', 'disposition', 'dst_number',
                                     'start', 'answer', 'end', 'duration', 'is_incoming', 'is_outgoing')

@@ -19,7 +19,7 @@ class CallController extends Controller
     public function index(Request $req)
     {
         if($req->ajax()) {
-            $calls = Call::getCalls($req)
+            $calls = Call::getCalls($req)->with('customer')
                 ->paginate();
             
             
@@ -124,11 +124,13 @@ class CallController extends Controller
 
     }
 
-    public function toggle_call_ticket(Call $call, Ticket $ticket, Request $req ) {
+    public function toggle_call_ticket(Call $call, Ticket $ticket, Request $req) {
         if($req->toggle) {
             $call->ticket()->associate($ticket->id);
+            $call->customer()->associate($ticket->customer->id);
         } else {
             $call->ticket()->dissociate($ticket->id);
+            $call->customer()->dissociate($ticket->customer->id);
         }
         $call->save();
 

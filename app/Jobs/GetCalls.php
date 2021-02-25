@@ -3,10 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\Call;
+use App\Models\Customer;
 use App\Models\Mtcdr\AstCdr;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -36,14 +38,22 @@ class GetCalls implements ShouldQueue
         $last_call = Call::orderBy('id', 'DESC')->first() ? Call::orderBy('id', 'DESC')->first()->id : 0 ;
         // GET CALLS FROM LAST ID
         $get_calls = AstCdr::where('id', '>', $last_call)
-            ->where('customer_id', env('CUSTOMER_ID', 10000))
+            ->where('customer_id', env('CUSTOMER_ID', 10124))
             ->whereBetween('start', [Carbon::make('first day of this month'), now()])
             ->get();
 
         foreach ($get_calls as $call) {
+            $customer_id = Customer::when(strlen($call->src) > 4, function($q) use ($call) {
+                $q->where('phone_1', 'LIKE', '%' . substr($call->src, 2))
+                    ->orWhere('phone_2', 'LIKE', '%' . substr($call->src, 2))
+                    ->orWhere('phone_3', 'LIKE', '%' . substr($call->src, 2));
+            })->when(strlen($call->dst) > 4, function($q) use ($call) {
+                $q->where('phone_1', 'LIKE', '%' . $call->dst)->orWhere('phone_2', 'LIKE', '%' . $call->dst)->orWhere('phone_3', 'LIKE', '%' . $call->dst);
+            })->first();
+
             $insert_calls[] = [
                 'id' => $call->id,
-                'customer_id' => $call->customer_id,
+                'customer_id' => $customer_id->id ?? null,
                 'src' => $call->src,
                 'dst' => $call->dst,
                 'dcontext' => $call->dsdcontext,
