@@ -62,6 +62,7 @@
                   :options="customers"
                   label="comercial_name"
                   itemid="id"
+                  :value="user.customer.comercial_name"
                   @input="setCustomer"
                 >
                   <div slot="no-options">No hay opciones con esta busqueda</div>
@@ -247,6 +248,7 @@ export default {
   },
   methods: {
     setCustomer(value) {
+      this.user.customer.comercial_name = value ? value.comercial_name : null;
       this.user.customer_id = value ? value.id : null;
     },
     handleSubmit() {

@@ -38,18 +38,10 @@ class UserController extends Controller
             return abort(404);
         }
         // USUARIOS QUE EL ROL NO SEA SUPERADMIN
-        $users = User::role([2,3,4,5,6])
-        ->when($req->name, function(Builder $q, $name) {
-            $q->where('name', 'LIKE', $name . '%');
-        })->when($req->surname, function(Builder $q, $surname) {
-            $q->where('surname', 'LIKE', $surname . '%');
-        })->when($req->email, function(Builder $q, $email) {
-            $q->where('email', 'LIKE', $email . '%');
-        })->when($req->phone, function(Builder $q, $phone) {
-            $q->where('phone', 'LIKE', $phone . '%');
-        })->with(['customer', 'department', 'roles'])
-        ->withCount('tickets')
-        ->orderBy('surname', 'ASC')
+        $users = User::role([2,3,4,5,6])->filterUsers()
+            ->with(['customer', 'department', 'roles'])
+            ->withCount('tickets')
+            ->orderBy('surname', 'ASC')
         // PAGINADO
         ->paginate();
 
