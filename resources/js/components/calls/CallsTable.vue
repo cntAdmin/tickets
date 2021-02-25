@@ -5,6 +5,7 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr class="text-center text-uppercase">
+              <th scope="col">INCIDENCIA</th>
               <th
                 class="text-center"
                 scope="col"
@@ -14,7 +15,6 @@
               >
                 CLIENTE
               </th>
-              <th scope="col">INCIDENCIA</th>
               <th scope="col">ORIGEN</th>
               <th scope="col">DESTINO</th>
               <th scope="col">NOMBRE</th>
@@ -28,15 +28,16 @@
             </tr>
           </thead>
           <tr v-for="(call, idx) in calls.data" :key="idx" class="text-center">
-            <td
-              v-show="Object.keys(['superadmin', 'department', 'staff'].filter((str) => str === user_role)).length > 0"
-            >
-              {{ call.customer ? call.customer.comercial_name || call.customer.fiscal_name : null }}
-            </td>
-            <td>
+            <td class="text-left">
               <router-link v-if="call.ticket" :to="{name: 'ticket.show', params: { 'ticketID': call.ticket.id } }">
                 <button class="btn btn-link btn-sm text-uppercase">{{ call.ticket.custom_id }}</button>
               </router-link>
+            </td>
+            <td
+              class="text-left"
+              v-show="Object.keys(['superadmin', 'department', 'staff'].filter((str) => str === user_role)).length > 0"
+            >
+              {{ call.customer ? call.customer.comercial_name || call.customer.fiscal_name : null }}
             </td>
             <td>{{ call.src }}</td>
 
