@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-around">
         <div class="mr-auto">
           <h4 class="title text-uppercase" v-show="ticket">
-            Ticket ({{ ticket.custom_id }})
+            Incidencia: ({{ ticket.custom_id }})
           </h4>
         </div>
 
@@ -25,7 +25,7 @@
               class="btn btn-sm btn-primary mx-3"
               :to="{ name: 'ticket.edit', params: { ticketID: ticketID } }"
             >
-              Editar Ticket
+              Editar Incidencia
             </router-link>
             <router-link
               class="btn btn-sm btn-secondary"
@@ -387,7 +387,7 @@ export default {
             this.success.status = true;
             this.success.message = res.data.msg;
             setTimeout(() => {
-              window.location.href = "/ticket/" + parseInt(this.ticketID);
+              window.location.href = "/admin/incidencia/" + parseInt(this.ticketID);
             }, 1500);
           }
         })

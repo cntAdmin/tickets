@@ -5,7 +5,7 @@
         <table class="table table-hover table-striped shadow text-left">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">#</th>
+              <th class="text-center" scope="col"># Incidencia</th>
               <th scope="col">Cliente</th>
               <th scope="col">Departamento</th>
               <th scope="col">Asunto</th>
@@ -16,10 +16,10 @@
           </thead>
           <tbody>
             <tr :class="ticket.status.name == 'Nuevo' ? 'bg-danger text-white' : ''" v-for="ticket in tickets.data" :key="ticket.id">
-              <th scope="row">
+              <th class="text-center" scope="row">
                 <router-link
                   :to="{ name: 'ticket.show', params: { ticketID: ticket.id } }"
-                  :class="ticket.status.name == 'Nuevo' ? 'text-white' : '' + ' btn btn-sm text-uppercase'"
+                  :class="ticket.status.name == 'Nuevo' ? 'text-white' : '' + ' btn btn-link btn-sm text-uppercase'"
                 >
                   {{ ticket.custom_id }}
                 </router-link>

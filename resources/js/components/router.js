@@ -36,23 +36,23 @@ const router = new VueRouter({
         },
         // * ADMIN ROUTES
         {
-            path: '/admin/ticket',
+            path: '/admin/incidencia',
             name: 'ticket.index', 
             component: Tickets
         },
             {
-                path: '/admin/ticket/create/:customer_id?',
+                path: '/admin/incidencia/create/:customer_id?',
                 name: 'ticket.create', 
                 component: TicketsCreate
             },
             {
-                path: '/admin/ticket/:ticketID',
+                path: '/admin/incidencia/:ticketID',
                 name: 'ticket.show', 
                 component: TicketViewInfo,
                 props: true
             },
             {
-                path: '/admin/ticket/:ticketID/edit',
+                path: '/admin/incidencia/:ticketID/edit',
                 name: 'ticket.edit', 
                 component: TicketEdit,
                 props: true
@@ -93,7 +93,7 @@ const router = new VueRouter({
             component: FileManager
         },
         {
-            path: '/admin/post',
+            path: '/admin/blog',
             name: 'post.index',
             component: Post
         },

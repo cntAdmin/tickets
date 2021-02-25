@@ -299,7 +299,7 @@
               type="submit"
               class="btn btn-success btn-block mx-3"
             >
-              Enviar Ticket
+              Enviar Incidencia
             </button>
           </div>
         </form>
@@ -566,7 +566,7 @@ export default {
                 status: false,
                 errors: []
               };
-                // REDIRIGIR A TICKETS 
+                // REDIRIGIR A Incidencias 
               this.$router.push("/ticket");
 
             }, 2000);

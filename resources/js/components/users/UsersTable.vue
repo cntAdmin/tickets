@@ -11,7 +11,7 @@
               <th scope="col">Nom. Usuario</th>
               <th scope="col">Teléfono</th>
               <th scope="col">Email</th>
-              <th class="text-center" scope="col">Tickets</th>
+              <th class="text-center" scope="col">Incidencias</th>
               <th class="text-center" scope="col">Estado</th>
               <th class="text-center" scope="col">Acciones</th>
             </tr>

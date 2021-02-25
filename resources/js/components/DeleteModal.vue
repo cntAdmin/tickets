@@ -44,11 +44,11 @@ export default {
             ? this.data.comercial_name
             : this.data.fiscal_name;
           break;
-        case "Ticket":
+        case "Incidencia":
           return this.data.subject ? this.data.subject : this.data.custom_id;
           break;
-        case "Post":
-          return this.data.title ? this.data.title : 'Post';
+        case "Blog":
+          return this.data.title ? this.data.title : 'Blog';
           break;
 
         default:

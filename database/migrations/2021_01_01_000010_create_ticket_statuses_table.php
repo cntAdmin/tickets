@@ -16,6 +16,7 @@ class CreateTicketStatusesTable extends Migration
         Schema::create('ticket_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->default('Tipo X');
+            $table->string('menu_name', 100)->default('Tipo X');
             $table->timestamps();
         });
     }

@@ -37,7 +37,7 @@
                 <button
                   class="btn btn-toolbar text-uppercase font-weight-bold w-100"
                 >
-                  Tickets
+                  Incidencias
                 </button>
               </div>
               <div class="ml-auto">
@@ -57,16 +57,16 @@
                 class="btn btn-toolbar btn-block mt-2"
                 :to="{ name: 'ticket.index' }"
               >
-                <span>Todos los Tickets</span>
+                <span>Todas las Incidencias</span>
               </router-link>
               <router-link
                 v-for="status in ticket_statuses"
                 :key="status.id"
                 class="btn btn-toolbar btn-block mt-2"
                 :to="{ name: 'ticket.index', query: { status: status.id } }"
-                >Tickets
+                >Incidencias
                 <span class="text-capitalize ml-1">{{
-                  status.name
+                  status.menu_name
                 }}</span></router-link
               >
             </div>

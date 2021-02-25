@@ -5,10 +5,10 @@
         <form @submit.prevent="handleSubmit">
           <div class="form-inline">
             <div class="form-group col-12 col-md-6 col-lg-4">
-              <label class="sr-only" for="dateFrom"># Ticket</label>
+              <label class="sr-only" for="dateFrom"># Incidencia</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase"># Ticket</div>
+                  <div class="input-group-text text-uppercase"># Incidencia</div>
                 </div>
                 <input
                   type="text"

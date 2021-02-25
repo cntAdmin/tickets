@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-around">
           <div class="mr-auto">
             <h4 class="title text-uppercase" v-show="ticket">
-              Ticket ({{ ticket.custom_id }})
+              Incidencia ({{ ticket.custom_id }})
             </h4>
           </div>
           <div class="ml-auto" v-show="ticket">
@@ -22,7 +22,7 @@
                 type="submit"
                 class="btn btn-sm btn-success mx-3"
               >
-                Guardar Ticket
+                Guardar Incidencia
               </button>
 
               <router-link
@@ -315,7 +315,7 @@
               type="submit"
               class="btn btn-sm btn-success btn-block mx-3"
             >
-              Guardar Ticket
+              Guardar Incidencia
             </button>
           </div>
         </form>

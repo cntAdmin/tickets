@@ -35,7 +35,7 @@
         class="btn btn-secondary btn-sm text-uppercase btn-block"
         :to="{ name: 'ticket.create' }"
       >
-        Crear Ticket
+        Crear Incidencia
       </router-link>
     </div>
 
