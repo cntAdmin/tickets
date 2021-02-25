@@ -2,28 +2,28 @@
   <div class="mx-3">
     <div class="row">
       <card-counter
-        title="Nuevos"
+        title="Nuevas"
         color="primary"
         :count="newTickets"
         icon="clipboard-list"
         size="3"
       />
       <card-counter
-        title="Abiertos"
+        title="Abiertas"
         color="danger"
         :count="opened"
         icon="envelope-open"
         size="3"
       />
       <card-counter
-        title="Cerrados"
+        title="Cerradas"
         color="info"
         :count="closed"
         icon="times-circle"
         size="3"
       />
       <card-counter
-        title="Resueltos"
+        title="Resueltas"
         color="success"
         :count="resolved"
         icon="check-circle"
