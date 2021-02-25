@@ -119,6 +119,9 @@ export default {
   mounted() {
     this.getCustomers();
   },
+  deactivated() {
+    this.closeAll();
+  },
   methods: {
     showErrors(data) {
       this.error = {

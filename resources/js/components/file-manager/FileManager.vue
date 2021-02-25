@@ -62,6 +62,9 @@ export default {
       },
     };
   },
+  deactivated() {
+    this.deleted.status = false;
+  },
   methods: {
     hasBeenDeleted(data) {
       this.deleted.status = true;

@@ -101,6 +101,9 @@ export default {
       },
     };
   },
+  deactivated() {
+    this.closeAll();
+  },
   mounted() {
     this.getDepartments();
   },

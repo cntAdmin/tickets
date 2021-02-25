@@ -98,7 +98,15 @@ export default {
   activated() {
     this.getPosts();
   },
+  deactivated() {
+    this.closeAll();
+  },
   methods: {
+    closeAll() {
+      this.searching = false;
+      this.success.status = false;
+      this.error.status = false;
+    },
     hasBeenDeleted(data) {
       this.deleted = {
         status: true,

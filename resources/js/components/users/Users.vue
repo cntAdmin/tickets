@@ -137,6 +137,9 @@ export default {
       searching: false,
     };
   },
+  deactivated() {
+    this.closeAll();
+  },
   mounted() {
     this.getUsers();
   },

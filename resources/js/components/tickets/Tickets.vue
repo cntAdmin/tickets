@@ -99,6 +99,9 @@ export default {
     this.getTickets();
     this.get_all_ticket_statuses();
   },
+  deactivated() {
+    this.closeAll();
+  },
   methods: {
     exportFile(type) {
       axios

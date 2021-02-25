@@ -115,6 +115,9 @@ export default {
   mounted() {
     this.getBrands();
   },
+  deactivated() {
+    this.closeAll();
+  },
   methods: {
     showSuccess(data) {
       this.success = {
