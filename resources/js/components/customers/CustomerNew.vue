@@ -9,11 +9,12 @@
           <div class="ml-auto">
             <button
               type="button"
-              class="close mb-3"
+              class="btn btn-sm btn-danger text-uppercase mb-3"
               @click="$emit('close')"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+            Cerrar
+              <i class="fa fa-times"></i>
             </button>
           </div>
         </div>
