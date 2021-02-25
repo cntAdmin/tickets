@@ -167,6 +167,7 @@ export default {
           params: {
             page: this.selected.page,
             phone_number: this.selected.phone,
+            type: 'finder'
           },
         })
         .then((res) => {

@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Call;
-use App\Models\Customer;
 use App\Models\Ticket;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class CallController extends Controller
@@ -19,7 +16,9 @@ class CallController extends Controller
     public function index(Request $req)
     {
         if($req->ajax()) {
-            $calls = Call::getCalls($req)->with('customer')
+            $calls = Call::filterCalls()
+                ->orderBy('start', 'DESC')
+                ->with(['customer', 'ticket'])
                 ->paginate();
             
             
@@ -98,7 +97,7 @@ class CallController extends Controller
 
     public function get_calls_count(Request $req) {
         if($req->type !== 'internal'){
-            $calls = Call::getCalls($req)->get();
+            $calls = Call::filterCalls()->get();
         }
         $incoming = clone $calls;
         $outgoing = clone $calls;
@@ -141,8 +140,7 @@ class CallController extends Controller
     }
 
     public function asignable_calls(Request $req) {
-        $req->type = 'finder';
-        $calls = Call::getCalls($req)->paginate();
+        $calls = Call::filterCalls()->paginate();
 
         return response()->json([
             'success' => true,

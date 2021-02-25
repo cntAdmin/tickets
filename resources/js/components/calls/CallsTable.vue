@@ -4,16 +4,17 @@
       <div class="card-body">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
-            <tr class="text-center">
+            <tr class="text-center text-uppercase">
               <th
                 class="text-center"
                 scope="col"
                 v-show="
-                  Object.keys(['superadmin', 'department', 'staff'].filter((str) => str === user_role)).length > 0
+                  Object.keys(['superadmin', 'admin', 'department', 'staff'].filter((str) => str === user_role)).length > 0
                 "
               >
                 CLIENTE
               </th>
+              <th scope="col">INCIDENCIA</th>
               <th scope="col">ORIGEN</th>
               <th scope="col">DESTINO</th>
               <th scope="col">NOMBRE</th>
@@ -30,7 +31,12 @@
             <td
               v-show="Object.keys(['superadmin', 'department', 'staff'].filter((str) => str === user_role)).length > 0"
             >
-              {{ call.customer ? call.customer.comercial_name || call.customer.fiscal_name : '' }}
+              {{ call.customer ? call.customer.comercial_name || call.customer.fiscal_name : null }}
+            </td>
+            <td>
+              <router-link v-if="call.ticket" :to="{name: 'ticket.show', params: { 'ticketID': call.ticket.id } }">
+                <button class="btn btn-link btn-sm text-uppercase">{{ call.ticket.custom_id }}</button>
+              </router-link>
             </td>
             <td>{{ call.src }}</td>
 
