@@ -10,10 +10,10 @@ import Departments from "./departments/Departments";
 import Customers from "./customers/Customers";
 import Users from "./users/Users";
 import FileManager from './file-manager/FileManager';
-import Post from './posts/Post';
+import Posts from './posts/Posts';
 import PostCreate from './posts/PostCreate';
 import PostEdit from './posts/PostEdit';
-import PostShow from './posts/PostShow';
+import Post from './posts/Post';
 import Brands from './brands/Brands';
 import CarModels from './car_models/CarModels';
 import Calls from './calls/Calls';
@@ -95,7 +95,7 @@ const router = new VueRouter({
         {
             path: '/admin/blog',
             name: 'post.index',
-            component: Post
+            component: Posts
         },
             {
                 path: '/admin/post/create',
@@ -111,7 +111,7 @@ const router = new VueRouter({
             {
                 path: '/admin/post/:post',
                 name: 'post.show',
-                component: PostShow,
+                component: Post,
                 props: true
             },
         // * ADMIN ROUTES

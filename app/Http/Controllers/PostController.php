@@ -29,24 +29,7 @@ class PostController extends Controller
     public function index(Request $req)
     {
         if($req->ajax()) {
-            $posts = Post::when($req->text, function(Builder $q, $text) {
-                $q->where('title', 'LIKE', '%' . $text. '%')->orWhere('description', 'LIKE', '%' . $text . '%');
-            })->when($req->published, function(Builder $q, $published) {
-                switch ($published) {
-                    case '1':
-                        $q->where('published', 1);
-                        break;
-                    
-                    default:
-                        $q->where('published', 0);
-                    break;
-                }
-            })->when($req->date_from, function(Builder $q, $date_from) {
-                $q->whereDate('created_at', '>=', $date_from);
-            })->when($req->date_to, function(Builder $q, $date_to) {
-                $q->whereDate('created_at',  '<=', $date_to);
-            })->with(['user'])
-            ->paginate();
+            $posts = Post::filterPosts()->orderBy('created_at', 'DESC')->paginate();
 
             return response()->json([
                 'success' => true,
@@ -230,4 +213,16 @@ class PostController extends Controller
             : response()->json(['error' => true, 'msg' => 'El post no se ha podido editar correctamente']);
     }
 
+    public function featured_post(Request $req)
+    {
+        $posts = Post::filterPosts()
+            ->orderBy('featured', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(14);
+
+        return response()->json([
+            'success' => true,
+            'posts' => $posts
+        ]);
+    }
 }

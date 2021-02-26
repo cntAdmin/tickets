@@ -17,7 +17,7 @@
           <tbody>
             <tr v-for="post in posts.data" :key="post.id">
               <th scope="row">{{ post.id }}</th>
-              <td>{{ post.user.name }}</td>
+              <td>{{ post.created_by.name }}</td>
               <td>{{ post.title }}</td>
               <td class="text-center">
                 {{ post.created_at | moment("DD-MM-YYYY") }}

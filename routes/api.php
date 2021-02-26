@@ -82,15 +82,16 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::post('/deleteSelectedFiles', 'AttachmentController@deleteSelected');
         Route::get('/get_files_counters', 'AttachmentController@get_files_counters');
         
-        // ? BLOGS
+        // ? POSTS
         Route::get('/get_posts_counters', 'PostController@get_posts_counters');
         Route::get('/toggle_post/{post}', 'PostController@toggle_post');
         Route::post('/edit_post/{post}', 'PostController@edit_post');
-
-        // MODELS
+        // ? POST
+        Route::get('/featured_post', 'PostController@featured_post');
+        // ? MODELS
         Route::get('/get_car_models_counter', 'CarModelController@get_car_models_counter');
 
-        // CALLS
+        // ? CALLS
         Route::get('/get_calls_count', 'CallController@get_calls_count');
         
     });

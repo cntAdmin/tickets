@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-light bg-white shadow mt-1 h-100 col-2 flex-column overflow-auto position-fixed"
+    class="navbar navbar-light shadow mt-1 h-100 col-2 flex-column overflow-auto position-fixed bg-blue-gradient"
   >
     <div class="container">
       <button
@@ -23,7 +23,7 @@
           <div class="navbar-header">
             <h6 class="text-uppercase text-center">Menú</h6>
           </div>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider border-dark"></div>
 <!-- ADMINISTRACIÓN -->
           <li class="nav-item w-100">
             <div
@@ -34,59 +34,62 @@
               aria-controls="admin"
             >
               <div class="mr-auto">
-                <button
-                  class="btn btn-toolbar text-uppercase font-weight-bold w-100"
-                >
-                  Administración
-                </button>
+                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">Administración</h5>
               </div>
               <div class="ml-auto">
                 <span
-                  class="navbar-toggler-icon"
+                  class="navbar-toggler-icon mr-3"
                   type="button"
                   data-toggle="collapse"
                   data-target="#admin"
                   aria-expanded="true"
                   aria-controls="admin"
-                >
-                </span>
+                ></span>
               </div>
             </div>
             <div class="collapse" id="admin">
-              <router-link
-                id="brands"
-                class="btn btn-toolbar btn-block mt-2"
-                :to="{ name: 'brand.index' }"
-              >
-                Marcas
-              </router-link>
+              <li class="nav-item">
+                <router-link
+                  id="brands"
+                  class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                  :to="{ name: 'brand.index' }"
+                >
+                <span class="font-weight-bold">Marcas</span>
+                </router-link>
+              </li>
               <router-link
                 id="car-model"
-                class="btn btn-toolbar btn-block mt-2"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'car_model.index' }"
               >
-                Modelos
+              <span class="font-weight-bold">Modelos</span>
+                
               </router-link>
               <router-link
                 id="departments"
-                class="btn btn-toolbar btn-block mt-2"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'department.index' }"
               >
-                Departamentos
+              <span class="font-weight-bold">Departamentos</span>
               </router-link>
               <router-link
-                class="btn btn-toolbar btn-block mt-2"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'customer.index' }"
               >
-                Clientes
+              <span class="font-weight-bold">Clientes</span>
               </router-link>
               <router-link
-                class="btn btn-toolbar btn-block mt-2"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'user.index' }"
               >
-                Usuarios / Contactos
+              <span class="font-weight-bold">Usuarios / Contactos</span>
               </router-link>
-
+              <router-link
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                :to="{ name: 'post.index' }"
+              >
+              <span class="font-weight-bold">Blog</span>
+              </router-link>
             </div>
           </li>
 <!-- FIN ADMINISTRACIÓN -->
@@ -100,15 +103,11 @@
               aria-controls="tickets_sidebar"
             >
               <div class="mr-auto">
-                <button
-                  class="btn btn-toolbar text-uppercase font-weight-bold w-100"
-                >
-                  Incidencias
-                </button>
+                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">Incidencias</h5>
               </div>
               <div class="ml-auto">
                 <span
-                  class="navbar-toggler-icon"
+                  class="navbar-toggler-icon mr-3"
                   type="button"
                   data-toggle="collapse"
                   data-target="#tickets_sidebar"
@@ -120,7 +119,7 @@
             </div>
             <div class="collapse show" id="tickets_sidebar">
               <router-link
-                class="btn btn-toolbar btn-block mt-2"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'ticket.index'}"
               >
                 <span>Todas las Incidencias</span>
@@ -128,50 +127,42 @@
               <router-link
                 v-for="status in ticket_statuses"
                 :key="status.id"
-                class="btn btn-toolbar btn-block mt-2"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'ticket.index', query: { status: status.id } }"
                 >Incidencias
-                <span class="text-capitalize ml-1">{{
+                <span class="ml-1">{{
                   status.menu_name
                 }}</span></router-link
               >
             </div>
           </li>
 <!-- FIN TICKETS  -->
-          <li class="nav-item mt-2">
-            <div
-              class="shadow-sm collapsed"
-              data-toggle="collapse"
-              aria-expanded="false"
-            >
+          <li class="nav-item shadow-sm mt-2">
               <router-link
                 id="calls"
-                class="btn btn-toolbar text-uppercase font-weight-bold"
+                class="text-decoration-none nav-link"
                 :to="{ name: 'call.index' }"
               >
-                Llamadas
+                <h5 class=" text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">Llamadas</h5>
               </router-link>
-            </div>
           </li>
-          <li class="nav-item mt-2">
-            <div class="shadow-sm">
+          <li class="nav-item shadow-sm mt-2">
               <router-link
-                class="btn btn-toolbar text-uppercase font-weight-bold"
-                :to="{ name: 'post.index' }"
+                id="calls"
+                class="text-decoration-none nav-link"
+                :to="{ name: 'users-blog.index' }"
               >
-                Blog
+                <h5 class=" text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">Blog</h5>
               </router-link>
-            </div>
           </li>
-          <li class="nav-item mt-2">
-            <div class="shadow-sm">
+          <li class="nav-item shadow-sm mt-2">
               <router-link
-                class="btn btn-toolbar text-uppercase font-weight-bold"
+                id="calls"
+                class="text-decoration-none nav-link"
                 :to="{ name: 'file_manager.index' }"
               >
-                Media
+                <h5 class=" text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">Media</h5>
               </router-link>
-            </div>
           </li>
         </ul>
       </div>
@@ -201,4 +192,19 @@ export default {
 </script>
 
 <style>
+.bg-blue-gradient {
+  background: rgb(33,112,184);
+  background: linear-gradient(0deg, rgba(33,112,184,1) 0%, rgba(0,91,255,1) 0%, rgba(208,252,255,1) 100%);
+}
+.btn-dark.router-link-exact-active.router-link-active {
+  background-color: white;
+  color: black !important
+}
+.text-decoration-none.router-link-exact-active.router-link-active {
+  /* background-color: orange; */
+  color: white !important;
+  text-decoration: underline !important;
+  text-decoration-color: white !important;
+
+}
 </style>

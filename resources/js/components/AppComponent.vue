@@ -23,4 +23,31 @@ export default {
   .fade-leave-active {
     opacity: 0.0
   }
+  .text-shadow-lg {
+    text-shadow: 4px 4px 2px #343a40 ;
+  }
+  .text-shadow-md {
+    text-shadow: 3px 3px 5px #343a40 ;
+  }
+  .text-shadow-sm {
+    text-shadow: 2px 1px 1px #343a40 ;
+  }
+  .text-shadow-danger-lg {
+    text-shadow: 4px 4px 2px #e3342f ;
+  }
+  .text-shadow-danger-md {
+    text-shadow: 3px 3px 5px #e3342f ;
+  }
+  .text-shadow-danger-sm {
+    text-shadow: 2px 1px 1px #e3342f ;
+  }
+  .text-shadow-light-lg {
+    text-shadow: 4px 4px 2px #f8f9fa ;
+  }
+  .text-shadow-light-md {
+    text-shadow: 3px 3px 5px #f8f9fa ;
+  }
+  .text-shadow-light-sm {
+    text-shadow: 2px 1px 1px #f8f9fa ;
+  }
 </style>

@@ -103,7 +103,16 @@ Vue.component('files-table', require('./components/file-manager/FilesTable').def
 // POSTS
 Vue.component('posts-search-form', require('./components/posts/PostsSearchForm').default);
 Vue.component('posts-table', require('./components/posts/PostsTable').default);
+    // POST
+    Vue.component('post-header', require('./components/posts/PostHeader').default);
+    Vue.component('featured-posts', require('./components/posts/FeaturedPosts').default);
+    Vue.component('other-posts', require('./components/posts/OtherPosts').default);
 
+    // ? BLOG (FRONT VIEW)
+    Vue.component('blog-header', require('./components/blogs/BlogHeader').default);
+    Vue.component('thumbnail-posts', require('./components/blogs/ThumbnailPosts').default);
+    Vue.component('thumbnail-post', require('./components/blogs/ThumbnailPost').default);
+    
 // BRANDS
 Vue.component('brands-search-form', require('./components/brands/BrandsSearchForm').default);
 Vue.component('brands-table', require('./components/brands/BrandsTable').default);
@@ -133,7 +142,7 @@ Vue.mixin({
             Object.assign(this.$data, this.$options.data.call(this));
         }
     }
-})
+});
 
 const app = new Vue({
     store,
