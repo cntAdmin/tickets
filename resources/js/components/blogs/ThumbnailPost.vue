@@ -1,17 +1,21 @@
 <template>
-  <div class="card m-3">
+  <div class="card m-3 shadow row flex-wrap">
     <div class="card-body">
-      <div class="row justify-content-center align-items-center">
+      <div class="row alignt-items-center">
         <div :class="'col-4 ' + orderDivImage(idx)">
-          <img
-            :src="storageURL + post.image"
-            :alt="post.title"
-            class="img-fluid img-thumbnail"
-          />
+          <div class="row justify-content-center">
+            <img
+              height="100px"
+              width="100px"
+              :src="storageURL + post.image"
+              :alt="post.title"
+              class="img-fluid img-thumbnail"
+            />
+          </div>
         </div>
         <div :class="'col-8 ' + orderDivText(idx)">
           <!-- <router-link :to="{ name: 'post.show', params: { post: post.id } }"> -->
-            <h5 class="text-uppercase font-weight-bold text">
+            <h5 class="text-uppercase font-weight-bold ">
               {{ post.title }}
             </h5>
           <!-- </router-link> -->
@@ -27,8 +31,6 @@ export default {
   data() {
     return {
       storageURL: "/storage/",
-      imageOrder: "",
-      textOrder: "",
     };
   },
   methods: {

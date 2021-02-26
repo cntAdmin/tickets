@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-blue-gradient row justify-content-center align-items-center w-100 shadow"
+    class="bg-blue-gradient row justify-content-center align-items-center w-100 shadow-lg"
     style="height: 100px"
   >
     <h2 class="font-weight-bolder text-white text-shadow-md">{{ title }}</h2>
