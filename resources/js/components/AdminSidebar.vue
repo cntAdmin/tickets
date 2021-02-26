@@ -20,11 +20,13 @@
         id="sidebar_navbar"
       >
         <ul class="navbar-nav">
-          <div class="navbar-header">
-            <h6 class="text-uppercase text-center">Menú</h6>
+          <div class="navbar-header ">
+            <router-link :to="{ name: 'ticket.index' }" class="row justify-content-center">
+              <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
+            </router-link>
           </div>
           <div class="dropdown-divider border-dark"></div>
-<!-- ADMINISTRACIÓN -->
+          <!-- ADMINISTRACIÓN -->
           <li class="nav-item w-100">
             <div
               class="d-flex align-items-center shadow-sm w-100"
@@ -34,7 +36,11 @@
               aria-controls="admin"
             >
               <div class="mr-auto">
-                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">Administración</h5>
+                <h5
+                  class="font-weight-bold text-uppercase m-3 text-shadow-light-sm"
+                >
+                  Administración
+                </h5>
               </div>
               <div class="ml-auto">
                 <span
@@ -54,7 +60,7 @@
                   class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                   :to="{ name: 'brand.index' }"
                 >
-                <span class="font-weight-bold">Marcas</span>
+                  <span class="font-weight-bold">Marcas</span>
                 </router-link>
               </li>
               <router-link
@@ -62,38 +68,37 @@
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'car_model.index' }"
               >
-              <span class="font-weight-bold">Modelos</span>
-                
+                <span class="font-weight-bold">Modelos</span>
               </router-link>
               <router-link
                 id="departments"
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'department.index' }"
               >
-              <span class="font-weight-bold">Departamentos</span>
+                <span class="font-weight-bold">Departamentos</span>
               </router-link>
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'customer.index' }"
               >
-              <span class="font-weight-bold">Clientes</span>
+                <span class="font-weight-bold">Clientes</span>
               </router-link>
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'user.index' }"
               >
-              <span class="font-weight-bold">Usuarios / Contactos</span>
+                <span class="font-weight-bold">Usuarios / Contactos</span>
               </router-link>
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'post.index' }"
               >
-              <span class="font-weight-bold">Blog</span>
+                <span class="font-weight-bold">Blog</span>
               </router-link>
             </div>
           </li>
-<!-- FIN ADMINISTRACIÓN -->
-<!-- TICKETS  -->
+          <!-- FIN ADMINISTRACIÓN -->
+          <!-- TICKETS  -->
           <li class="nav-item w-100">
             <div
               class="d-flex align-items-center shadow-sm w-100"
@@ -103,7 +108,11 @@
               aria-controls="tickets_sidebar"
             >
               <div class="mr-auto">
-                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">Incidencias</h5>
+                <h5
+                  class="font-weight-bold text-uppercase m-3 text-shadow-light-sm"
+                >
+                  Incidencias
+                </h5>
               </div>
               <div class="ml-auto">
                 <span
@@ -120,7 +129,7 @@
             <div class="collapse show" id="tickets_sidebar">
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
-                :to="{ name: 'ticket.index'}"
+                :to="{ name: 'ticket.index' }"
               >
                 <span>Todas las Incidencias</span>
               </router-link>
@@ -130,39 +139,49 @@
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'ticket.index', query: { status: status.id } }"
                 >Incidencias
-                <span class="ml-1">{{
-                  status.menu_name
-                }}</span></router-link
+                <span class="ml-1">{{ status.menu_name }}</span></router-link
               >
             </div>
           </li>
-<!-- FIN TICKETS  -->
+          <!-- FIN TICKETS  -->
           <li class="nav-item shadow-sm mt-2">
-              <router-link
-                id="calls"
-                class="text-decoration-none nav-link"
-                :to="{ name: 'call.index' }"
+            <router-link
+              id="calls"
+              class="text-decoration-none nav-link"
+              :to="{ name: 'call.index' }"
+            >
+              <h5
+                class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm"
               >
-                <h5 class=" text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">Llamadas</h5>
-              </router-link>
+                Llamadas
+              </h5>
+            </router-link>
           </li>
           <li class="nav-item shadow-sm mt-2">
-              <router-link
-                id="calls"
-                class="text-decoration-none nav-link"
-                :to="{ name: 'users-blog.index' }"
+            <router-link
+              id="calls"
+              class="text-decoration-none nav-link"
+              :to="{ name: 'users-blog.index' }"
+            >
+              <h5
+                class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm"
               >
-                <h5 class=" text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">Blog</h5>
-              </router-link>
+                Blog
+              </h5>
+            </router-link>
           </li>
           <li class="nav-item shadow-sm mt-2">
-              <router-link
-                id="calls"
-                class="text-decoration-none nav-link"
-                :to="{ name: 'file_manager.index' }"
+            <router-link
+              id="calls"
+              class="text-decoration-none nav-link"
+              :to="{ name: 'file_manager.index' }"
+            >
+              <h5
+                class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm"
               >
-                <h5 class=" text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">Media</h5>
-              </router-link>
+                Media
+              </h5>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -193,18 +212,22 @@ export default {
 
 <style>
 .bg-blue-gradient {
-  background: rgb(33,112,184);
-  background: linear-gradient(0deg, rgba(33,112,184,1) 0%, rgba(0,91,255,1) 0%, rgba(208,252,255,1) 100%);
+  background: rgb(33, 112, 184);
+  background: linear-gradient(
+    0deg,
+    rgba(33, 112, 184, 1) 0%,
+    rgba(0, 91, 255, 1) 0%,
+    rgba(208, 252, 255, 1) 100%
+  );
 }
 .btn-dark.router-link-exact-active.router-link-active {
   background-color: white;
-  color: black !important
+  color: black !important;
 }
 .text-decoration-none.router-link-exact-active.router-link-active {
   /* background-color: orange; */
   color: white !important;
   text-decoration: underline !important;
   text-decoration-color: white !important;
-
 }
 </style>
