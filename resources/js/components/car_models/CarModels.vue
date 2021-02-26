@@ -124,9 +124,6 @@ export default {
       brands_count: 0,
     };
   },
-  deactivated() {
-    this.closeAll();
-  },
   mounted() {
     this.getAllBrands();
     this.getCounters();
