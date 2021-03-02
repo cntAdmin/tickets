@@ -10,7 +10,7 @@ class Comment extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'description'
+        'description', 'deleted_by'
     ];
 
     protected $with = [

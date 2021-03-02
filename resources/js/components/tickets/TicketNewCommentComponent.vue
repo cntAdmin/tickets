@@ -1,10 +1,7 @@
 <template>
   <div class="row justify-content-center my-3 mx-4">
     <div class="col-6 mt-2 text-center" v-if="success.status">
-      <div
-        class="alert alert-success alert-dismissible fade show"
-        role="alert"
-      >
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ success.msg }}
 
         <button
@@ -174,7 +171,7 @@ export default {
         })
         .then((res) => {
           this.spinner = false;
-          console.log(res.data);
+
           if (res.data.success) {
             this.success.status = true;
             this.success.msg = res.data.msg;

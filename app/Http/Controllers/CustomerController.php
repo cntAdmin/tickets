@@ -92,21 +92,21 @@ class CustomerController extends Controller
     {
         // $this->authorize('customers.create');
         $validator = Validator::make($req->all(), [
-            'cif' => ['nullable', 'string', 'max:9', 'unique:customers,cif'],
-            'custom_id' => ['nullable', 'string', 'max:100', 'unique:customers,custom_id'],
-            'fiscal_name' => ['nullable', 'string', 'max:255'],
+            'cif' => ['nullable', 'sometimes', 'string', 'max:9', 'unique:customers,cif'],
+            'custom_id' => ['nullable', 'sometimes', 'string', 'max:100', 'unique:customers,custom_id'],
+            'fiscal_name' => ['nullable', 'sometimes', 'string', 'max:255'],
             'comercial_name' => ['required', 'string', 'max:255'],
-            'phone_1' => ['required', 'string', 'min:6','max:15'],
-            'phone_2' => ['nullable', 'string', 'min:6','max:15'],
-            'phone_3' => ['nullable', 'string', 'min:6','max:15'],
+            'phone_1' => ['required', 'sometimes', 'string', 'min:6','max:15'],
+            'phone_2' => ['nullable', 'sometimes', 'string', 'min:6','max:15'],
+            'phone_3' => ['nullable', 'sometimes', 'string', 'min:6','max:15'],
             'email' => ['required', 'email'],
-            'street' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'province' => ['nullable', 'string', 'max:255'],
-            'country' => ['nullable', 'string', 'max:255'],
-            'postcode' => ['nullable', 'string', 'max:255'],
-            'shop' => ['required','string', 'max:255'],
-            'is_active' => ['nullable', 'boolean'],
+            'street' => ['nullable', 'sometimes', 'string', 'max:255'],
+            'city' => ['nullable', 'sometimes', 'string', 'max:255'],
+            'province' => ['nullable', 'sometimes', 'string', 'max:255'],
+            'country' => ['nullable', 'sometimes', 'string', 'max:255'],
+            'postcode' => ['nullable', 'sometimes', 'string', 'max:255'],
+            'shop' => ['required', 'sometimes', 'string', 'max:255'],
+            'is_active' => ['nullable', 'sometimes', 'boolean'],
         ], $this->messages);
 
         if($validator->fails()) {
@@ -115,7 +115,6 @@ class CustomerController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
-
         $create_customer = Customer::create([
             'cif' => $req->cif,
             'custom_id' => $req->custom_id ?? Str::random(10),
@@ -136,9 +135,8 @@ class CustomerController extends Controller
 
         $create_user = $create_customer->users()->create([
             'name' => $req->comercial_name,
-            'surname' => '',
             'username' => 'cliente_'.rand(1,9999999),
-            'phone' => $req->phone,
+            'phone' => $req->phone_1,
             'email' => $req->email,
             'email_verified_at' => now(),
             'password' => Hash::make(Str::random(10)),

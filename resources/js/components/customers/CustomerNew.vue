@@ -253,7 +253,9 @@ export default {
         cif: "",
         fiscal_name: "",
         comercial_name: "",
-        phone: "",
+        phone_1: "",
+        phone_2: "",
+        phone_3: "",
         email: "",
         street: "",
         city: "",
@@ -289,6 +291,7 @@ export default {
           is_active: this.selected.isActive,
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             this.$emit("created", res.data.msg);
           } else if (res.data.error) {

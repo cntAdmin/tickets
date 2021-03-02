@@ -46,7 +46,9 @@ export default {
             this.showDeleteModal = false;
             axios.delete('/api/ticket/' + this.comment.ticket_id + '/comment/' + this.comment.id)
                 .then( res => {
-                    this.$emit('succeeded', res.data.msg)
+                    if(res.data.success) {
+                        this.$emit('succeeded', res.data.msg);
+                    }
                 }).catch( err => {
                     console.log( err )
                 });

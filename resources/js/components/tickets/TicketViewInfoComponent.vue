@@ -225,10 +225,14 @@
         <div class="form-group col-12 col-md-6">
           <button
             type="button"
-            :class="'btn btn-block text-white ' + (Object.keys(ticket.calls).length > 0 ? 'btn-danger' : 'btn-info')"
+            :class="
+              'btn btn-block text-white ' +
+              (Object.keys(ticket.calls).length > 0 ? 'btn-danger' : 'btn-info')
+            "
             data-toggle="modal"
             data-target="#assignCall"
-            @click="openCallsModal()">
+            @click="openCallsModal()"
+          >
             {{
               Object.keys(ticket.calls).length > 0
                 ? "Llamadas seleccionada(s)"
@@ -303,7 +307,7 @@ export default {
         brand: {},
         car_model: {},
         calls: [],
-        comments:[],
+        comments: [],
         attachments: [],
       },
       calls: [],
@@ -318,7 +322,7 @@ export default {
         status: false,
         msg: "",
       },
-      showCallsModal: false
+      showCallsModal: false,
     };
   },
   activated() {
@@ -351,8 +355,18 @@ export default {
     },
     succeeded(data) {
       $("html, body").animate({ scrollTop: 0 }, "slow");
-      this.success.status = true;
-      this.success.message = data;
+      this.success = {
+        status: true,
+        msg: data,
+      };
+
+      setTimeout(() => {
+        this.get_ticket(this.ticket.id);
+        this.success = {
+          status: false,
+          msg: '',
+        };
+      }, 1500);
     },
     get_ticket(ticket_id) {
       axios
@@ -385,9 +399,10 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.success.status = true;
-            this.success.message = res.data.msg;
+            this.success.msg = res.data.msg;
             setTimeout(() => {
-              window.location.href = "/admin/incidencia/" + parseInt(this.ticketID);
+              window.location.href =
+                "/admin/incidencia/" + parseInt(this.ticketID);
             }, 1500);
           }
         })

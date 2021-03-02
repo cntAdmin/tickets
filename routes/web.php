@@ -21,7 +21,13 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 
 // Route::get('/testing', function (Request $req) {
-//     dd(\App\Models\Customer::find(21)->contacts());
+//     $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
+//     $admin_comments = \App\Models\Ticket::where('tickets.id', 52)->whereHas('comments.user', function($q) use ($admin_users) {
+//         $q->whereIn('users.id', $admin_users);
+//     })->withCount('comments')->first();
+    
+//     dd($admin_comments->comments_count);
+
 // });
 
 Route::get('/', function () {
