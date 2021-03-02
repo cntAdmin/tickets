@@ -95,6 +95,7 @@ class TicketController extends Controller
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'numeric', 'exists:brands,id'],
             'model_id' => ['nullable', 'numeric', 'exists:car_models,id'],
+            'other_brand_model' => ['nullable', 'string', 'max:255'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
@@ -127,6 +128,7 @@ class TicketController extends Controller
         $create_ticket = Ticket::create([
             'custom_id' => $get_department->code . now()->year . '-' . str_pad(($lastID + 1), 5, '0', STR_PAD_LEFT),
             'frame_id' => $req->frame_id,
+            'other_brand_model' => $req->other_brand_model,
             'plate' => $req->plate,
             'engine_type' => $req->engine_type,
             'subject' => $req->subject,
@@ -263,6 +265,7 @@ class TicketController extends Controller
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'numeric', 'exists:brands,id'],
             'model_id' => ['nullable', 'numeric', 'exists:car_models,id'],
+            'other_brand_model' => ['nullable', 'string', 'max:255', 'exists:car_models,id'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
@@ -281,6 +284,7 @@ class TicketController extends Controller
         $updated = $ticket->update([
             'frame_id' => $req->frame_id ?? $ticket->frame_id,
             'plate' => $req->plate ?? $ticket->plate,
+            'other_brand_model' => $req->other_brand_model,
             'engine_type' => $req->engine_type ?? $ticket->engine_type,
             'subject' => $req->subject ?? $ticket->subject,
             'description' => $req->description ?? $ticket->description,

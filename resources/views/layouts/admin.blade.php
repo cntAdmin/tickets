@@ -9,8 +9,8 @@
                 <admin-sidebar user_role="{{ auth()->user()->getRoleNames()[0] ?? null }}"></admin-sidebar>
                 @endhasanyrole
             </div>
-            <div class="ml-auto col-10 m-4">
-                <main class="p-2">
+            <div class="ml-auto col-10 my-2">
+                <main class="my-2">
                     <App user_role="{{ auth()->user()->getRoleNames()[0] }}" :user="{{ auth()->user() }}"></App>
                 </main>
             </div>

@@ -210,18 +210,24 @@
             <div
               class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
             >
-              <label class="sr-only" for="dateFrom">Solicito</label>
+              <label class="sr-only" for="dateFrom">Otro Marca/Modelo</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Solicito</div>
+                  <div class="input-group-text text-uppercase">Otro Marca/Modelo</div>
                 </div>
                 <input
                   :class="
-                    [error.errors.ask_for ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.other_brand_model ? 'is-invalid' : ''] + ' form-control'
                   "
                   type="text"
-                  v-model="selected.ask_for"
-                  required
+                  v-model="selected.other_brand_model"
+                  v-if="!selected.model_id"
+                />
+                <input
+                  v-else
+                  class="form-control"
+                  type="text"
+                  disabled
                 />
               </div>
             </div>
@@ -239,6 +245,24 @@
                   "
                   type="text"
                   v-model="selected.subject"
+                  required
+                />
+              </div>
+            </div>
+            <div
+              class="form-group col-12 col-md-6"
+            >
+              <label class="sr-only" for="dateFrom">Solicito</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Solicito</div>
+                </div>
+                <input
+                  :class="
+                    [error.errors.ask_for ? 'is-invalid' : ''] + ' form-control'
+                  "
+                  type="text"
+                  v-model="selected.ask_for"
                   required
                 />
               </div>
@@ -360,6 +384,7 @@ export default {
         plate: "",
         brand_id: "",
         model_id: "",
+        other_brand_model: "",
         engine_type: "",
         ask_for: "",
         description: "",
@@ -551,6 +576,7 @@ export default {
       formData.append("plate", this.selected.plate);
       formData.append("brand_id", this.selected.brand_id);
       formData.append("model_id", this.selected.model_id);
+      formData.append("other_brand_model", this.selected.other_brand_model);
       formData.append("engine_type", this.selected.engine_type);
       formData.append("ask_for", this.selected.ask_for);
       formData.append("subject", this.selected.subject);
@@ -563,20 +589,6 @@ export default {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-
-          // customer_id: this.selected.customer_id,
-          // user_id: this.selected.user_id,
-          // department_id: this.selected.department_id,
-          // frame_id: this.selected.frame_id,
-          // plate: this.selected.plate,
-          // brand_id: this.selected.brand_id,
-          // model_id: this.selected.model_id,
-          // engine_type: this.selected.engine_type,
-          // ask_for: this.selected.ask_for,
-          // subject: this.selected.subject,
-          // description: this.$refs.description.ej2Instances.value,
-          // tests_done: this.$refs.tests_done.ej2Instances.value,
-          // calls: this.selected.calls,
         })
         .then((res) => {
           console.log(res.data);
@@ -601,12 +613,14 @@ export default {
                 plate: "",
                 brand_id: "",
                 model_id: "",
+                other_brand_model: "",
                 engine_type: "",
                 ask_for: "",
                 description: "",
                 tests_done: "",
                 calls: [],
               };
+              document.querySelector("input[type='file']").value ="";
               this.$refs.customersSelect.clearSelection();
               this.$refs.brandsSelect.clearSelection();
               this.$refs.modelsSelect.clearSelection();

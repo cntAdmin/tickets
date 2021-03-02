@@ -24,6 +24,7 @@ class CreateTicketsTable extends Migration
             $table->string('plate', 100)->nullable();
             $table->foreignId('brand_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('car_model_id')->nullable()->constrained()->onUpdate('cascade');
+            $table->string('other_brand_model', 255)->nullable();
             $table->string('engine_type', 100)->nullable();
             $table->text('subject');
             $table->text('description');

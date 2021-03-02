@@ -1,5 +1,5 @@
 <template>
-  <div class="card mt-4">
+  <div class="card pt-0 mt-4">
     <div class="card-header">
       <div class="d-flex justify-content-around">
         <div class="mr-auto">

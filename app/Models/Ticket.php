@@ -16,7 +16,7 @@ class Ticket extends Model
 {
     protected $fillable = [
         'custom_id', 'frame_id', 'plate', 'brand', 'model', 'subject', 'description', 'tests_done', 'ask_for', 'knowledge_base',
-        'engine_type',
+        'engine_type', 'other_brand_model',
         // FOREIGN KEYS
         'customer_id', 'department_id', 'user_id', 'deleted_by', 'call_id', 'ticket_status_id'
     ];
