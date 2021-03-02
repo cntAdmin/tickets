@@ -10,13 +10,13 @@
         <div class="card-body">
           <h5 class="card-title font-weight-bold clamped">{{ post.title }}</h5>
         </div>
-        <div class="card-footer">
+        <!-- <div class="card-footer">
           <router-link
             :to="{ name: 'post.show', params: { post: post.id } }"
             class="btn btn-primary btn-sm btn-block"
             >Saber más...
           </router-link>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
