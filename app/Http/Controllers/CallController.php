@@ -140,7 +140,7 @@ class CallController extends Controller
     }
 
     public function asignable_calls(Request $req) {
-        $calls = Call::filterCalls()->paginate();
+        $calls = Call::filterCalls()->orderBy('start', 'DESC')->paginate();
 
         return response()->json([
             'success' => true,

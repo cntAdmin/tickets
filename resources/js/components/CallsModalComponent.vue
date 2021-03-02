@@ -53,6 +53,7 @@
                     <th scope="col">Origen</th>
                     <th scope="col">Destino</th>
                     <th scope="col">Duración (s)</th>
+                    <th class="text-center" scope="col">Fecha y Hora</th>
                     <th class="text-center" scope="col">
                       Asignar / Desasignar
                     </th>
@@ -67,6 +68,7 @@
                     <td>{{ call.src }}</td>
                     <td>{{ call.dst }}</td>
                     <td>{{ call.duration }}</td>
+                    <td>{{ call.start | moment('DD-MM-YYYY HH:mm:ss') }}</td>
                     <td>
                       <div class="d-flex justify-content-center">
                         <label class="switch">
