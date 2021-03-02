@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attachment;
 use App\Models\Comment;
+use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -96,7 +97,7 @@ class AttachmentController extends Controller
         return $attachment;
     }
 
-    public function download(Comment $comment, Attachment $attachment) {
+    public function download_attachment_comment(Comment $comment, Attachment $attachment) {
         // $this->authorize('downloads.comment.files', $comment);
 
         if(auth()->user()->hasRole([1, 2, 3]) || $comment->ticket->whereHas('comments', function(Builder $q) {
@@ -108,6 +109,12 @@ class AttachmentController extends Controller
             'error' => true,
             'msg' => 'No se ha podido descargar el fichero.' 
         ]);
+    }
+    public function download_attachment_ticket(Ticket $ticket, Attachment $attachment) {
+        // $this->authorize('downloads.comment.files', $comment);
+
+        return Storage::download($attachment->path, $attachment->name);
+
     }
 
     public function deleteAll(Request $req) {

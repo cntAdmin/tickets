@@ -21,13 +21,7 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 
 // Route::get('/testing', function (Request $req) {
-//     $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
-//     $admin_comments = \App\Models\Ticket::where('tickets.id', 52)->whereHas('comments.user', function($q) use ($admin_users) {
-//         $q->whereIn('users.id', $admin_users);
-//     })->withCount('comments')->first();
-    
-//     dd($admin_comments->comments_count);
-
+//     dd(\App\Models\Ticket::find(59)->attachments);
 // });
 
 Route::get('/', function () {

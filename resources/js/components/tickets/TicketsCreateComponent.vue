@@ -293,6 +293,24 @@
               </ejs-richtexteditor>
             </div>
           </div>
+          <div class="form-inline mx-3">
+            <div class="form-group mt-3 w-100">
+              <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">
+                    Ficheros adjuntos
+                  </div>
+                </div>
+                <input
+                  class="form-control"
+                  type="file"
+                  @change="uploadFile"
+                  multiple
+                />
+              </div>
+            </div>
+          </div>
           <div class="form-inline mt-4">
             <button
               form="create_ticket_form"
@@ -406,6 +424,7 @@ export default {
       },
       modal: false,
       buttonText: "Asignar llamada(s)",
+      files: [],
     };
   },
   activated() {
@@ -422,6 +441,10 @@ export default {
     }
   },
   methods: {
+    uploadFile(e) {
+      this.files = e.target.files;
+    },
+
     setModel(value) {
       this.selected.model_id = value ? value.id : null;
     },
@@ -497,14 +520,16 @@ export default {
       if (this.selected.frame_id === "" && this.selected.plate === "") {
         $("html, body").animate({ scrollTop: 0 }, "slow");
         this.error.status = true;
-        this.error.errors = {'frame_id': [], 'plate': []};
+        this.error.errors = { frame_id: [], plate: [] };
 
-        this.error.errors['frame_id'].push("Uno de los campos nº bastido o matrícula es obligatorio.");
-        // this.error.errors.push('plate');
-        console.log('first' , this.error.errors)
+        this.error.errors["frame_id"].push(
+          "Uno de los campos nº bastido o matrícula es obligatorio."
+        );
+
+        console.log("first", this.error.errors);
         return this.error.errors;
       }
-      
+
       this.success = {
         status: false,
       };
@@ -513,23 +538,48 @@ export default {
         errors: [],
       };
 
+      const formData = new FormData();
+      if (this.files) {
+        for (const i of Object.keys(this.files)) {
+          formData.append(`files[${i}]`, this.files[i]);
+        }
+      }
+      formData.append("customer_id", this.selected.customer_id);
+      formData.append("user_id", this.selected.user_id);
+      formData.append("department_id", this.selected.department_id);
+      formData.append("frame_id", this.selected.frame_id);
+      formData.append("plate", this.selected.plate);
+      formData.append("brand_id", this.selected.brand_id);
+      formData.append("model_id", this.selected.model_id);
+      formData.append("engine_type", this.selected.engine_type);
+      formData.append("ask_for", this.selected.ask_for);
+      formData.append("subject", this.selected.subject);
+      formData.append("description", this.$refs.description.ej2Instances.value);
+      formData.append("tests_done", this.$refs.tests_done.ej2Instances.value);
+      formData.append("calls", this.selected.calls);
+
       axios
-        .post("/api/ticket", {
-          customer_id: this.selected.customer_id,
-          user_id: this.selected.user_id,
-          department_id: this.selected.department_id,
-          frame_id: this.selected.frame_id,
-          plate: this.selected.plate,
-          brand_id: this.selected.brand_id,
-          model_id: this.selected.model_id,
-          engine_type: this.selected.engine_type,
-          ask_for: this.selected.ask_for,
-          subject: this.selected.subject,
-          description: this.$refs.description.ej2Instances.value,
-          tests_done: this.$refs.tests_done.ej2Instances.value,
-          calls: this.selected.calls,
+        .post("/api/ticket", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+
+          // customer_id: this.selected.customer_id,
+          // user_id: this.selected.user_id,
+          // department_id: this.selected.department_id,
+          // frame_id: this.selected.frame_id,
+          // plate: this.selected.plate,
+          // brand_id: this.selected.brand_id,
+          // model_id: this.selected.model_id,
+          // engine_type: this.selected.engine_type,
+          // ask_for: this.selected.ask_for,
+          // subject: this.selected.subject,
+          // description: this.$refs.description.ej2Instances.value,
+          // tests_done: this.$refs.tests_done.ej2Instances.value,
+          // calls: this.selected.calls,
         })
         .then((res) => {
+          console.log(res.data);
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
@@ -538,7 +588,7 @@ export default {
             };
 
             setTimeout(() => {
-                // RESETAR VARIALBES A VACIO O NULL
+              // RESETAR VARIALBES A VACIO O NULL
               this.success = {
                 status: false,
                 msg: "",
@@ -555,7 +605,7 @@ export default {
                 ask_for: "",
                 description: "",
                 tests_done: "",
-                calls: []
+                calls: [],
               };
               this.$refs.customersSelect.clearSelection();
               this.$refs.brandsSelect.clearSelection();
@@ -564,11 +614,10 @@ export default {
               this.$refs.tests_done.ej2Instances.value = null;
               this.error = {
                 status: false,
-                errors: []
+                errors: [],
               };
-                // REDIRIGIR A Incidencias 
+              // REDIRIGIR A Incidencias
               this.$router.push("/ticket");
-
             }, 2000);
           } else if (res.data.error) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -576,7 +625,7 @@ export default {
               status: true,
               errors: res.data.error,
             };
-            console.log('second' , this.error.errors)
+            console.log("second", this.error.errors);
           }
         })
         .catch((err) => {

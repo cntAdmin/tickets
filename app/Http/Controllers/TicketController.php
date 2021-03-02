@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\TicketExport;
 use App\Jobs\GetCalls;
+use App\Models\Attachment;
 use App\Models\Brand;
 use App\Models\Call;
 use App\Models\CarModel;
@@ -60,7 +61,6 @@ class TicketController extends Controller
      */
     public function store(Request $req)
     {
-
         $custom_attributes = [
             'user_id' => __('Usuario'),
             'department_id' => __('Departamento'),
@@ -75,6 +75,7 @@ class TicketController extends Controller
             'test_done' => __('Pruebas realizadas'),
             'ask_for' => __('Solicito'),
             'status' => __('Estado'),
+            'files' => __('Ficheros')
         ];
         // return $req->subject;
         $messages = [
@@ -100,7 +101,8 @@ class TicketController extends Controller
             'tests_done' => ['nullable', 'string'],
             'ask_for' => ['required', 'string', 'max:50'],
             'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
-            'calls' => ['nullable', 'array']
+            'calls' => ['nullable', 'array'],
+            'files' => ['array', 'nullable', 'max:25600']
         ], $messages, $custom_attributes);
         // return $validator->errors();
 
@@ -135,6 +137,17 @@ class TicketController extends Controller
             'created_by' => auth()->user()->id,
         ]);
         
+        if($req->file('files')) {
+            foreach ($req->file('files') as $file) {
+                $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2,'0', STR_PAD_LEFT), $file);
+                $attachment = Attachment::create([
+                    'name' => $file->getClientOriginalName(),
+                    'path' => $stored_file
+                    ]);
+                $create_ticket->attachments()->save($attachment);
+            }
+        }
+
         // ? ASSIGNING DATA
         // ASSOCIATE STATUS
         $create_ticket->status()->associate($get_status);

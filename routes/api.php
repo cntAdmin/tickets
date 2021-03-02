@@ -41,7 +41,8 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
     Route::get('/get_all_brands', 'BrandController@get_all_brands');
     Route::get('/get_all_roles', 'RoleController@get_all_roles');
-    Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download');
+    Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download_attachment_comment');
+    Route::get('/download/ticket/{ticket}/file/{attachment}', 'AttachmentController@download_attachment_ticket');
 
     // ? EXPORTS
     Route::get('/export_tickets', 'TicketController@export_tickets');

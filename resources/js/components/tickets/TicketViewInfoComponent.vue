@@ -274,6 +274,17 @@
         </div>
       </div>
     </div>
+    <div class="row justify-content-end mx-4">
+
+    <div v-for="attachment in ticket.attachments" :key="attachment.id">
+      <a
+        :href="`/api/download/ticket/${ticket.id}/file/${attachment.id}`"
+        class="btn btn-sm btn-success shadow font-weight-bold mr-2 my-2"
+      >
+        {{ attachment.name ? attachment.name : attachment.path }}
+      </a>
+    </div>
+    </div>
     <ticket-view-calls
       v-show="Object.keys(ticket.calls).length > 0"
       :calls="ticket.calls"
@@ -364,7 +375,7 @@ export default {
         this.get_ticket(this.ticket.id);
         this.success = {
           status: false,
-          msg: '',
+          msg: "",
         };
       }, 1500);
     },
