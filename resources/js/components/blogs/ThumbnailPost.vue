@@ -1,24 +1,21 @@
 <template>
-  <div class="card m-3 shadow row flex-wrap">
-    <div class="card-body">
-      <div class="row alignt-items-center">
-        <div :class="'col-4 ' + orderDivImage(idx)">
-          <div class="row justify-content-center">
-            <img
-              height="100px"
-              width="100px"
-              :src="storageURL + post.image"
-              :alt="post.title"
-              class="img-fluid img-thumbnail"
-            />
-          </div>
+  <div class="col-12 col-lg-4 col-xl-3 mt-3">
+    <div class="row justify-content-center">
+      <div class="card shadow" style="width: 18rem">
+        <img
+          class="card-img-top"
+          :src="'/storage/' + post.image"
+          :alt="post.title"
+        />
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold clamped">{{ post.title }}</h5>
         </div>
-        <div :class="'col-8 ' + orderDivText(idx)">
-          <!-- <router-link :to="{ name: 'post.show', params: { post: post.id } }"> -->
-            <h5 class="text-uppercase font-weight-bold ">
-              {{ post.title }}
-            </h5>
-          <!-- </router-link> -->
+        <div class="card-footer">
+          <router-link
+            :to="{ name: 'post.show', params: { post: post.id } }"
+            class="btn btn-primary btn-sm btn-block"
+            >Saber más...
+          </router-link>
         </div>
       </div>
     </div>

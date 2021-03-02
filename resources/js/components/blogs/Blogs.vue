@@ -1,9 +1,23 @@
 <template>
   <div class="row justify-content-center mx-3">
-    <blog-header title="AAP-TC INFORMACIÓN"></blog-header>
-    
-    <thumbnail-posts :posts="featuredPosts.data"></thumbnail-posts>
-    
+    <div
+      class="bg-blue-gradient row justify-content-center align-items-center w-100 shadow"
+      style="height: 100px"
+    >
+      <h2 class="font-weight-bolder text-white text-shadow-md">
+        AAP-TC INFORMACIÓN
+      </h2>
+    </div>
+
+    <div class="row justify-content-center mt-3 w-100">
+      <thumbnail-post
+        v-for="(post, idx) in featuredPosts.data"
+        :key="post.id"
+        :post="post"
+        :idx="idx"
+      ></thumbnail-post>
+    </div>
+
     <div class="row justify-content-center mt-5">
       <pagination
         :data="featuredPosts"

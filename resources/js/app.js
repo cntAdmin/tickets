@@ -109,8 +109,6 @@ Vue.component('posts-table', require('./components/posts/PostsTable').default);
     Vue.component('other-posts', require('./components/posts/OtherPosts').default);
 
     // ? BLOG (FRONT VIEW)
-    Vue.component('blog-header', require('./components/blogs/BlogHeader').default);
-    Vue.component('thumbnail-posts', require('./components/blogs/ThumbnailPosts').default);
     Vue.component('thumbnail-post', require('./components/blogs/ThumbnailPost').default);
     
 // BRANDS

@@ -218,7 +218,7 @@ class PostController extends Controller
         $posts = Post::filterPosts()
             ->orderBy('featured', 'ASC')
             ->orderBy('created_at', 'DESC')
-            ->paginate(14);
+            ->paginate(16);
 
         return response()->json([
             'success' => true,
