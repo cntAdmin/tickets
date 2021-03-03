@@ -181,7 +181,10 @@ export default {
             setTimeout(() => {
               this.success.status = false;
               this.success.msg = "";
-            }, 3000);
+
+              this.$router.push("/ticket");
+
+            }, 2500);
           } else if (res.data.error) {
             this.success = false;
           }

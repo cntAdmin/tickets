@@ -18,7 +18,7 @@ class Ticket extends Model
         'custom_id', 'frame_id', 'plate', 'brand', 'model', 'subject', 'description', 'tests_done', 'ask_for', 'knowledge_base',
         'engine_type', 'other_brand_model',
         // FOREIGN KEYS
-        'customer_id', 'department_id', 'user_id', 'deleted_by', 'call_id', 'ticket_status_id'
+        'customer_id', 'department_id', 'user_id', 'deleted_by', 'call_id', 'ticket_status_id', 'created_by'
     ];
 
     protected $casts = [
@@ -162,7 +162,7 @@ class Ticket extends Model
                     $q2->where('customers.custom_id', 'LIKE', $custom_id . '%');
                 });
             }, function (Builder $q) {
-                if (!auth()->user()->hasRole(['superadmin', 'admin', 'staff'])) {
+                if (!auth()->user()->hasRole([1, 2, 3, 4])) {
                     $q->whereHas('customer', function ($q2) {
                         $q2->where('customers.id', auth()->user()->customer_id);
                     });

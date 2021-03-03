@@ -366,7 +366,7 @@ export default {
   deactivated() {
     this.resetFields();
   },
-  props: ["customer_id"],
+  props: ["customer_id", 'user_role'],
   data() {
     return {
       users: [],
@@ -453,6 +453,7 @@ export default {
     };
   },
   activated() {
+    console.log('user_role', this.user_role)
     this.get_all_departments();
     this.get_all_customers();
     this.get_all_brands();
@@ -551,7 +552,6 @@ export default {
           "Uno de los campos nº bastido o matrícula es obligatorio."
         );
 
-        console.log("first", this.error.errors);
         return this.error.errors;
       }
 
@@ -591,7 +591,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
@@ -639,7 +638,6 @@ export default {
               status: true,
               errors: res.data.error,
             };
-            console.log("second", this.error.errors);
           }
         })
         .catch((err) => {
