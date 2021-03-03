@@ -1,9 +1,20 @@
 <template>
   <nav
-    class="navbar navbar-light shadow mt-1 h-100 col-2 flex-column overflow-auto position-fixed bg-blue-gradient"
+    class="navbar navbar-expand-lg navbar-light shadow h-100 col-2 flex-column overflow-auto position-fixed bg-blue-gradient d-none d-md-block"
   >
     <div class="container">
+        <button 
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        </button>
+
       <button
+      
         class="btn btn-block btn-link border-bottom d-block d-md-none"
         type="button"
         data-toggle="collapse"
@@ -20,7 +31,7 @@
         id="sidebar_navbar"
       >
         <ul class="navbar-nav">
-          <div class="navbar-header ">
+          <div class="navbar-header">
             <router-link :to="{ name: 'ticket.index' }" class="row justify-content-center">
               <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
             </router-link>
@@ -159,7 +170,7 @@
           </li>
           <li class="nav-item shadow-sm mt-2">
             <router-link
-              id="calls"
+              id="blog"
               class="text-decoration-none nav-link"
               :to="{ name: 'users-blog.index' }"
             >
@@ -172,7 +183,7 @@
           </li>
           <li class="nav-item shadow-sm mt-2">
             <router-link
-              id="calls"
+              id="file_manager"
               class="text-decoration-none nav-link"
               :to="{ name: 'file_manager.index' }"
             >

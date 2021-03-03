@@ -51,6 +51,9 @@ Vue.use(FileManager, {store})
  Vue.component('image-modal', require('./components/ImageModal').default);
  Vue.component('form-errors', require('./components/FormErrors').default);
  Vue.component('exports', require('./components/Exports').default);
+ Vue.component('navbar-test', require('./components/NavbarTest').default);
+ Vue.component('mobile-bottom-navbar', require('./components/MobileBottomNavbar').default);
+ 
  Vue.component('vue-select', vSelect)
 
 // TICKETS

@@ -185,6 +185,7 @@ export default {
           this.closed = res.data.closed;
           this.resolved = res.data.resolved;
           this.newTickets = res.data.newTickets;
+          this.$emit('getNewTickets');
         })
         .catch((err) => {
           console.log(err);

@@ -1,18 +1,63 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <keep-alive>
-      <router-view
-        :key="$route.fullPath"
+  <div class="d-flex flex-row">
+    <!-- DESKTOP SIDEBAR  -->
+    <div
+      class="d-none d-xl-block position-fixed vh-100 col-2 m-0 p-0 flex-column shadow"
+    >
+      <sidebar
+        v-if="user_role.indexOf(1,2,3,4)"
         :user_role="user_role"
         :user="user"
-      ></router-view>
-    </keep-alive>
-  </transition>
+      ></sidebar>
+      <admin-sidebar
+        v-else
+        user_role="user_role"
+      ></admin-sidebar>
+    </div>
+     <!-- MOBILE SIDEBAR -->
+    <div class="fixed-bottom d-xl-none d-block">
+      <mobile-bottom-navbar :newTickets="newTickets"></mobile-bottom-navbar>
+    </div>
+    <!-- MAIN CONTEN -->
+    <div class="col-xl-10 col-12 my-2 ml-auto">
+      <main class="my-2">
+        <transition name="fade" mode="out-in">
+          <keep-alive>
+            <router-view
+              :key="$route.fullPath"
+              :user_role="user_role"
+              :user="user"
+              @getNewTickets="get_new_tickets()"
+            ></router-view>
+          </keep-alive>
+        </transition>
+      </main>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   props: ["user_role", "user"],
+  data() {
+    return {
+      newTickets: 0
+    }
+  },
+  methods: {
+    get_new_tickets() {
+      axios.get('/api/get_ticket_counters')
+          .then( res => {
+              this.newTickets = res.data.newTickets;
+          }).catch( err => console.log(err));
+    }
+  },
+  watch:{
+    $route(to, from){
+      this.get_new_tickets();
+    }
+} 
+
 };
 </script>
 <style>
