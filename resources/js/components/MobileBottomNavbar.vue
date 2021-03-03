@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-dark bg-dark justify-content-center shadow-lg">
-    <ul class="navbar-nav flex-row justify-content-between w-100">
+    <ul class="navbar-nav flex-row justify-content-around w-100">
       <li class="nav-item">
           <button class="btn btn-link" title="Incidencias Nuevas">
               <router-link
