@@ -15,11 +15,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr :class="ticket.status.id == 1 ? 'bg-danger text-white' : ''" v-for="ticket in tickets.data" :key="ticket.id">
+            <tr
+              :class="ticket.status.id == 1 ? 'bg-danger text-white' : ''"
+              v-for="ticket in tickets.data"
+              :key="ticket.id"
+            >
               <th class="text-center" scope="row">
                 <router-link
                   :to="{ name: 'ticket.show', params: { ticketID: ticket.id } }"
-                  :class="ticket.status.id == 1 ? 'text-white' : '' + ' btn btn-link btn-sm text-uppercase'"
+                  :class="
+                    ticket.status.id == 1
+                      ? 'text-white'
+                      : '' + ' btn btn-link btn-sm text-uppercase'
+                  "
                 >
                   {{ ticket.custom_id }}
                 </router-link>
@@ -49,9 +57,12 @@
                     </span>
                     <span class="btn btn-sm btn-link ml-2">
                       <i class="text-secondary fas fa-paperclip"></i
-                      ><span class="badge badge-dark ml-2">{{
-                        Object.keys(ticket.comment_attachments).length
-                      }}</span>
+                      ><span class="badge badge-dark ml-2">
+                        {{
+                          Object.keys(ticket.comment_attachments).length +
+                          Object.keys(ticket.attachments).length
+                        }}
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -79,7 +90,10 @@
                     >
                       <i class="fa fa-exchange-alt"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="statuses">
+                    <div
+                      class="dropdown-menu dropdown-menu-right"
+                      aria-labelledby="statuses"
+                    >
                       <div v-for="status in ticket_statuses" :key="status.id">
                         <button
                           type="button"
@@ -170,17 +184,17 @@ export default {
       // console.log(status_id);
       switch (status_id) {
         case 2:
-          return status_id = "envelope-open";
+          return (status_id = "envelope-open");
           break;
         case 3:
-          return status_id = "times-circle";
+          return (status_id = "times-circle");
           break;
         case 4:
-          return status_id = "check-circle";
+          return (status_id = "check-circle");
           break;
 
         default:
-          return status_id = "clipboard-list";
+          return (status_id = "clipboard-list");
           break;
       }
       return status_id;
@@ -189,17 +203,17 @@ export default {
       // console.log(status_id);
       switch (status_id) {
         case 2:
-          return status_id = "secondary";
+          return (status_id = "secondary");
           break;
         case 3:
-          return status_id = "info text-white";
+          return (status_id = "info text-white");
           break;
         case 4:
-          return status_id = "success";
+          return (status_id = "success");
           break;
 
         default:
-          return status_id = "dark";
+          return (status_id = "dark");
           break;
       }
     },
