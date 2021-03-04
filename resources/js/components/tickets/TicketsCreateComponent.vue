@@ -607,6 +607,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {

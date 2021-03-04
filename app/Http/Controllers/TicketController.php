@@ -13,11 +13,13 @@ use App\Models\Department;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\User;
+use App\Scopes\RoleTicketFilterScope;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Str;
 
 class TicketController extends Controller
 {
@@ -122,22 +124,28 @@ class TicketController extends Controller
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
         
-        $lastID = Ticket::latest()->first()->id;
-
+        $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest()->first()->id;
         // CREATING TICKET
-        $create_ticket = Ticket::create([
-            'custom_id' => $get_department->code . now()->year . '-' . str_pad(($lastID + 1), 5, '0', STR_PAD_LEFT),
-            'frame_id' => $req->frame_id,
-            'other_brand_model' => $req->other_brand_model,
-            'plate' => $req->plate,
-            'engine_type' => $req->engine_type,
-            'subject' => $req->subject,
-            'description' => $req->description,
-            'tests_done' => $req->tests_done,
-            'ask_for' => $req->ask_for,
-            'knowledge_base' => $req->knowledge_base ? 1 : 0,
-            'created_by' => auth()->user()->id,
-        ]);
+        try {
+            //code...
+            $create_ticket = Ticket::create([
+                'custom_id' => Str::upper($get_department->code) . now()->year . '-' . str_pad(($lastID + 1), 5, '0', STR_PAD_LEFT),
+                'frame_id' => $req->frame_id,
+                'other_brand_model' => $req->other_brand_model,
+                'plate' => $req->plate,
+                'engine_type' => $req->engine_type,
+                'subject' => $req->subject,
+                'description' => $req->description,
+                'tests_done' => $req->tests_done,
+                'ask_for' => $req->ask_for,
+                'knowledge_base' => 0,
+                'created_by' => auth()->user()->id,
+                'ticket_status_id' => 1
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $th;
+        }
         
         if($req->file('files')) {
             foreach ($req->file('files') as $file) {
