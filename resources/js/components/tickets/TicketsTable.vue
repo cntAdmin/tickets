@@ -15,11 +15,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr :class="ticket.status.name == 'Nuevo' ? 'bg-danger text-white' : ''" v-for="ticket in tickets.data" :key="ticket.id">
+            <tr :class="ticket.status.id == 1 ? 'bg-danger text-white' : ''" v-for="ticket in tickets.data" :key="ticket.id">
               <th class="text-center" scope="row">
                 <router-link
                   :to="{ name: 'ticket.show', params: { ticketID: ticket.id } }"
-                  :class="ticket.status.name == 'Nuevo' ? 'text-white' : '' + ' btn btn-link btn-sm text-uppercase'"
+                  :class="ticket.status.id == 1 ? 'text-white' : '' + ' btn btn-link btn-sm text-uppercase'"
                 >
                   {{ ticket.custom_id }}
                 </router-link>
@@ -169,13 +169,13 @@ export default {
     setIcon(status_id) {
       // console.log(status_id);
       switch (status_id) {
-        case "2":
+        case 2:
           return status_id = "envelope-open";
           break;
-        case "3":
+        case 3:
           return status_id = "times-circle";
           break;
-        case "4":
+        case 4:
           return status_id = "check-circle";
           break;
 
@@ -188,13 +188,13 @@ export default {
     setColor(status_id) {
       // console.log(status_id);
       switch (status_id) {
-        case "2":
+        case 2:
           return status_id = "secondary";
           break;
-        case "3":
+        case 3:
           return status_id = "info text-white";
           break;
-        case "4":
+        case 4:
           return status_id = "success";
           break;
 
