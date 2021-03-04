@@ -28,21 +28,26 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        // if(!$req->ajax()) {
-        //     return view('tickets.index')->with([
-        //         'status' => $req->status ? $req->status : null
-        //     ]);
-        // }
-        
-        $tickets = Ticket::filterTickets()->paginate();
+        if ($req->ajax()) {
+            $tickets = Ticket::filterTickets()->paginate();
+            return response()->json([
+                'success' => true,
+                'tickets' => $tickets,
+            ]);
+        }
+    }
+    public function mobile_index(Request $req)
+    {
+        if ($req->ajax()) {
+            $tickets = Ticket::filterTickets()->skip($req->offset ?? 0)->take(10)->get();
 
-        return response()->json([
-            'success' => true,
-            'tickets' => $tickets,
-        ]);
-
+            return response()->json([
+                'success' => true,
+                'tickets' => $tickets,
+            ]);
+        }
     }
 
     /**
@@ -87,7 +92,7 @@ class TicketController extends Controller
             'max' => __(':attribute debe ser inferior a :max caracteres.'),
             'boolean' => __(':attribute debe ser de tipo boleano (true/false).'),
         ];
-        
+
         $validator = Validator::make($req->all(), [
             'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
@@ -109,7 +114,7 @@ class TicketController extends Controller
         ], $messages, $custom_attributes);
         // return $validator->errors();
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
             ], 200);
@@ -123,7 +128,7 @@ class TicketController extends Controller
         $get_calls = $req->calls ? Call::find($req->calls) : null;
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
-        
+
         $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest()->first()->id;
         // CREATING TICKET
         try {
@@ -146,14 +151,14 @@ class TicketController extends Controller
             //throw $th;
             return $th;
         }
-        
-        if($req->file('files')) {
+
+        if ($req->file('files')) {
             foreach ($req->file('files') as $file) {
-                $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2,'0', STR_PAD_LEFT), $file);
+                $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2, '0', STR_PAD_LEFT), $file);
                 $attachment = Attachment::create([
                     'name' => $file->getClientOriginalName(),
                     'path' => $stored_file
-                    ]);
+                ]);
                 $create_ticket->attachments()->save($attachment);
             }
         }
@@ -167,32 +172,32 @@ class TicketController extends Controller
         $create_ticket->customer()->associate($get_customer);
         // ASSIGN DEPARTMENT
         $create_ticket->department()->associate($get_department);
-        
-        if($req->assigned_to) {
+
+        if ($req->assigned_to) {
             // ASSIGN USER ASSIGNED TO THIS TICKET
             $create_ticket->tickets()->associate($get_assigned_to);
         }
-        if($req->calls) {
+        if ($req->calls) {
             foreach ($get_calls as $call) {
                 // ASSIGN CALLS TO THIS TICKET
                 $create_ticket->calls()->save($call);
             }
         }
-        if($req->brand_id) {
+        if ($req->brand_id) {
             $create_ticket->brand()->associate($get_brand);
         }
-        if($req->model_id) {
+        if ($req->model_id) {
             $create_ticket->car_model()->associate($get_model);
         }
-       
+
         // ? SAVE ASSOCIATED DATA
         $create_ticket->save();
 
         return $create_ticket
             ? response()->json(['success' => __('Ticket creado correctamente.')], 200)
             : response()->json([
-                    'error' => __('El Ticket no se ha podido crear, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
-            ],422);
+                'error' => __('El Ticket no se ha podido crear, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
+            ], 422);
     }
 
     /**
@@ -208,7 +213,7 @@ class TicketController extends Controller
         return response()->json([
             'success' => true,
             'ticket' => $ticket->load(['customer', 'user', 'department', 'brand', 'car_model'])
-            ]);
+        ]);
     }
 
     /**
@@ -264,7 +269,7 @@ class TicketController extends Controller
             'max' => __(':attribute debe ser inferior a :max caracteres.'),
             'boolean' => __(':attribute debe ser de tipo boleano (true/false).'),
         ];
-        
+
         $validator = Validator::make($req->all(), [
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
@@ -283,12 +288,12 @@ class TicketController extends Controller
             'knowledge_base' => ['nullable', 'boolean']
         ], $messages, $custom_attributes);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
             ]);
         }
-        
+
         $updated = $ticket->update([
             'frame_id' => $req->frame_id ?? $ticket->frame_id,
             'plate' => $req->plate ?? $ticket->plate,
@@ -300,7 +305,7 @@ class TicketController extends Controller
             'ask_for' => $req->ask_for ?? $ticket->ask_for,
             'knowledge_base' => $req->knowledge_base ? 1 : 0,
             'ticket_status_id' => $req->status  ?? $ticket->ticket_status_id,
-            ]);
+        ]);
 
         $get_user = User::find($req->user_id);
         $get_customer = Customer::find($get_user->customer_id);
@@ -309,41 +314,41 @@ class TicketController extends Controller
         $get_calls = $req->calls ? Call::find($req->calls) : null;
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_car_model = $req->model_id ? CarModel::find($req->model_id) : null;
-            
-        // ? ASSIGNING DATA
-            // ASSIGN USER
-            $ticket->user()->associate($get_user);
-            // ASSIGN CUSTOMER
-            $ticket->customer()->associate($get_customer);
-            // ASSIGN DEPARTMENT
-            $ticket->department()->associate($get_department);
-        
-            if($req->assigned_to) {
-                // ASSIGN USER ASSIGNED TO THIS TICKET
-                $ticket->tickets()->associate($get_assigned_to);
-            }
-            if($req->calls) {
-                foreach ($get_calls as $call) {
-                    // ASSIGN CALLS TO THIS TICKET
-                    $ticket->calls()->save($call);
-                }
-            }
-            if($req->brand_id) {
-                $ticket->brand()->associate($get_brand);
-            }
-            if($req->model_id) {
-                $ticket->car_model()->associate($get_car_model);
-            }
-            
-            // ? SAVE ASSOCIATED DATA
-            $ticket->save();
 
-        Call::where('ticket_id', $ticket->id)->each(function($call){
+        // ? ASSIGNING DATA
+        // ASSIGN USER
+        $ticket->user()->associate($get_user);
+        // ASSIGN CUSTOMER
+        $ticket->customer()->associate($get_customer);
+        // ASSIGN DEPARTMENT
+        $ticket->department()->associate($get_department);
+
+        if ($req->assigned_to) {
+            // ASSIGN USER ASSIGNED TO THIS TICKET
+            $ticket->tickets()->associate($get_assigned_to);
+        }
+        if ($req->calls) {
+            foreach ($get_calls as $call) {
+                // ASSIGN CALLS TO THIS TICKET
+                $ticket->calls()->save($call);
+            }
+        }
+        if ($req->brand_id) {
+            $ticket->brand()->associate($get_brand);
+        }
+        if ($req->model_id) {
+            $ticket->car_model()->associate($get_car_model);
+        }
+
+        // ? SAVE ASSOCIATED DATA
+        $ticket->save();
+
+        Call::where('ticket_id', $ticket->id)->each(function ($call) {
             $call->update(['ticket_id' => null]);
         });
-        
+
         $get_calls = $req->calls ? Call::find(array_values($req->calls)) : [];
-    
+
         foreach ($get_calls as $call) {
             $call->ticket()->associate($ticket->id);
             $call->save();
@@ -353,7 +358,7 @@ class TicketController extends Controller
             ? response()->json(['success' => __('Ticket actualizado correctamente.')])
             : response()->json([
                 'error' => __('El Ticket no se ha podido actualizar, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
-        ]);
+            ]);
     }
 
     /**
@@ -377,10 +382,11 @@ class TicketController extends Controller
             : response()->json([
                 'error' => true,
                 'msg' => __('El Ticket no se ha podido eliminar, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
-        ]);
+            ]);
     }
 
-    public function get_ticket_counters(Request $req) {
+    public function get_ticket_counters(Request $req)
+    {
         $new_tickets = Ticket::filterTickets()->where('ticket_status_id', 1)->get()->count();
         $opened = Ticket::filterTickets()->where('ticket_status_id', 2)->get()->count();
         $closed = Ticket::filterTickets()->where('ticket_status_id', 3)->get()->count();
@@ -394,28 +400,30 @@ class TicketController extends Controller
         ]);
     }
 
-    public function toogle_faqs_ticket(Ticket $ticket) {
+    public function toogle_faqs_ticket(Ticket $ticket)
+    {
         $updated = $ticket->update([
             'knowledge_base' => !$ticket->knowledge_base
         ]);
         return $updated
             ? response()->json(['success' => true, 'msg' => ($ticket->knowledge_base ? 'Añadido a FAQs' : 'Quitado de FAQs')])
-            : response()->json(['error' => true, 'msg' => __('No se ha podido modificar el estado de este ticket') ]);
+            : response()->json(['error' => true, 'msg' => __('No se ha podido modificar el estado de este ticket')]);
     }
 
-    public function export_tickets(Request $req) {
+    public function export_tickets(Request $req)
+    {
         switch ($req->type) {
             case 'excel':
-                if(!Storage::exists('exports/excels')) {
+                if (!Storage::exists('exports/excels')) {
                     Storage::makeDirectory('exports/excels');
                 }
-    
+
                 $filename = 'tickets-' . now()->toDateTimeString() . '.xlsx';
                 $storage = 'exports/excels/' . $filename;
                 $store = Excel::store(new TicketExport($req), $storage);
                 break;
             case 'pdf':
-                if(!Storage::exists('exports/pdfs')) {
+                if (!Storage::exists('exports/pdfs')) {
                     Storage::makeDirectory('exports/pdfs');
                 }
                 $filename = 'tickets-' . now()->format('Y-m-d_H-i-s') . '.pdf';
@@ -432,7 +440,7 @@ class TicketController extends Controller
         $headers = [
             'Content-Type' => 'application/*',
         ];
-        
-        return response()->download(Storage::path($storage), $filename , $headers);
-        }
+
+        return response()->download(Storage::path($storage), $filename, $headers);
+    }
 }

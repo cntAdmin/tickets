@@ -32,7 +32,7 @@
                   {{ ticket.custom_id }}
                 </router-link>
               </th>
-              <td>{{ ticket.customer.comercial_name }}</td>
+              <td>{{ ticket.customer ? ticket.customer.comercial_name : '' }}</td>
               <td>{{ ticket.department.name }}</td>
               <td>{{ ticket.subject_short }}...</td>
               <td class="text-center">

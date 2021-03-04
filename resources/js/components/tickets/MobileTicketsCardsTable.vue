@@ -1,10 +1,6 @@
 <template>
-  <div class="flex-row justify-content-center">
-    <div
-      class="card mt-3 shadow"
-      v-for="ticket in tickets.data"
-      :key="ticket.id"
-    >
+  <div class="flex-row justify-content-center" id="cards-list">
+    <div class="card mt-3 shadow" v-for="ticket in tickets" :key="ticket.id">
       <div class="card-header">
         <h4 class="text-uppercase text-left font-weight-bold">
           <router-link
@@ -30,12 +26,12 @@
               <span
                 :class="
                   'disabled col-4 btn btn-sm btn-block btn-' +
-                  setColor(ticket.status.name)
+                  setColor(ticket.status.id)
                 "
                 type="button"
-                :title="ticket.status.name"
+                :title="ticket.status.id"
               >
-                <i :class="'fas fa-' + setIcon(ticket.status.name)"></i>
+                <i :class="'fas fa-' + setIcon(ticket.status.id)"></i>
               </span>
               <span class="col-4 btn btn-sm btn-link">
                 <i class="text-info fas fa-headset"></i>
@@ -108,51 +104,120 @@
             </div>
           </div>
         </div>
+      </div>  <!-- END OF CARD FOOTER -->
+    </div>  <!-- END OF CARD -->
+    <transition name="fade" v-if="searching" mode="out-in">
+      <div class="row justify-content-center mt-5">
+        <spinner></spinner>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["tickets", "ticket_statuses", "searched"],
+  props: ["ticket_statuses", "searched"],
+  data() {
+    return {
+      tickets: [],
+      searching: false,
+      offset: 10,
+      dontLoad: false
+    };
+  },
+  mounted() {
+    window.onscroll = () => {
+      this.scroll();
+    };
+    this.loadMore();
+  },
   methods: {
-    setIcon(status_name) {
-      switch (status_name) {
-        case "Abierto":
-          status_name = "envelope-open";
-          break;
-        case "Cerrado":
-          status_name = "times-circle";
-          break;
-        case "Resuelto":
-          status_name = "check-circle";
-          break;
+    scroll() {
+      let bottomOfWindow =
+        Number(
+          (
+            Math.max(
+              window.pageYOffset,
+              document.documentElement.scrollTop,
+              document.body.scrollTop
+            ) + window.innerHeight
+          ).toFixed(0)
+        ) === document.documentElement.offsetHeight;
 
-        default:
-          status_name = "clipboard-list";
-          break;
+      if (bottomOfWindow) {
+        this.loadMore(); // replace it with your code
       }
-      return status_name;
     },
-    setColor(status_name) {
-      switch (status_name) {
-        case "Abierto":
-          status_name = "secondary";
+    loadMore() {
+      if(!this.dontLoad && this.searching == false) {
+        this.searching = true;
+
+        axios
+          .get("/api/mobile_ticket", {
+            params: {
+              page: this.searched ? this.searched.page : null,
+              ticket_id: this.searched ? this.searched.ticket_id : null,
+              user_name: this.searched ? this.searched.user_name : null,
+              customer_custom_id: this.searched
+                ? this.searched.customer_custom_id
+                : null,
+              customer_name: this.searched ? this.searched.customer_name : null,
+              department_id: this.searched ? this.searched.department_id : null,
+              status: this.searched ? this.searched.status : null,
+              date_from: this.searched ? this.searched.date_from : null,
+              date_to: this.searched ? this.searched.date_to : null,
+              knowledge_base: this.searched ? this.searched.knowledge_base : null,
+              offset: this.offset + 10,
+            },
+          })
+          .then((res) => {
+            if(res.data.tickets.length === 0) {
+                this.searching = false;
+                return this.dontLoad = true;
+            } else if(res.data.success) {
+              setTimeout(() => {
+                this.offset += this.offset;
+                this.searching = false;
+                this.tickets.push(...res.data.tickets);
+              }, 1000);
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    },
+    setIcon(status_id) {
+      switch (status_id) {
+        case 2:
+          return (status_id = "envelope-open");
           break;
-        case "Cerrado":
-          status_name = "info text-white";
+        case 3:
+          return (status_id = "times-circle");
           break;
-        case "Resuelto":
-          status_name = "success";
+        case 4:
+          return (status_id = "check-circle");
           break;
 
         default:
-          status_name = "dark";
+          return (status_id = "clipboard-list");
           break;
       }
+    },
+    setColor(status_id) {
+      switch (status_id) {
+        case 2:
+          return (status_id = "secondary");
+          break;
+        case 3:
+          return (status_id = "info text-white");
+          break;
+        case 4:
+          return (status_id = "success");
+          break;
 
-      return status_name;
+        default:
+          return (status_id = "dark");
+          break;
+      }
     },
   },
 };

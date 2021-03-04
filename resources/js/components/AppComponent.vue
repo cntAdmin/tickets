@@ -4,23 +4,12 @@
     <div
       class="d-none d-xl-block position-fixed vh-100 col-2 m-0 p-0 flex-column shadow"
     >
-      <sidebar
-        v-if="!is_admin"
-        :user_role="user_role"
-        :user="user"
-      ></sidebar>
-      <admin-sidebar
-        v-else
-        user_role="user_role"
-      ></admin-sidebar>
-    </div>
-     <!-- MOBILE SIDEBAR -->
-    <div class="fixed-bottom d-xl-none d-block">
-      <mobile-bottom-navbar :newTickets="newTickets"></mobile-bottom-navbar>
+      <sidebar v-if="!is_admin" :user_role="user_role" :user="user"></sidebar>
+      <admin-sidebar v-else :user_role="user_role"></admin-sidebar>
     </div>
     <!-- MAIN CONTEN -->
-    <div class="col-xl-10 col-12 my-2 pb-5 ml-auto">
-      <main class="my-2">
+    <div class="col-xl-10 col-12 ml-auto">
+      <main>
         <transition name="fade" mode="out-in">
           <keep-alive>
             <router-view
@@ -32,6 +21,10 @@
           </keep-alive>
         </transition>
       </main>
+      <!-- MOBILE SIDEBAR -->
+      <div class="fixed-bottom d-xl-none d-block">
+        <mobile-bottom-navbar :newTickets="newTickets"></mobile-bottom-navbar>
+      </div>
     </div>
   </div>
 </template>
@@ -43,28 +36,29 @@ export default {
     return {
       newTickets: 0,
       is_admin: false,
-      admin_roles: [
-        1, 2, 3, 4
-      ]
-    }
+      admin_roles: [1, 2, 3, 4],
+    };
   },
   mounted() {
-    this.is_admin = this.admin_roles.some(role => role === this.user.roles[0].id);
+    this.is_admin = this.admin_roles.some(
+      (role) => role === this.user.roles[0].id
+    );
   },
   methods: {
     get_new_tickets() {
-      axios.get('/api/get_ticket_counters')
-          .then( res => {
-              this.newTickets = res.data.newTickets;
-          }).catch( err => console.log(err));
-    }
+      axios
+        .get("/api/get_ticket_counters")
+        .then((res) => {
+          this.newTickets = res.data.newTickets;
+        })
+        .catch((err) => console.log(err));
+    },
   },
-  watch:{
-    $route(to, from){
+  watch: {
+    $route(to, from) {
       this.get_new_tickets();
-    }
-} 
-
+    },
+  },
 };
 </script>
 <style>

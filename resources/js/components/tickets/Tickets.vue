@@ -72,27 +72,32 @@
 
     <transition name="fade" v-else-if="tickets.data" mode="out-in">
       <div v-if="tickets.total > 0">
-        <exports class="d-none d-xl-block" @exportFile="exportFile"></exports>
-        <!-- DESCKTOP TABLE -->
-        <tickets-table
-          class="d-none d-xl-block"
-          :tickets="tickets"
-          :ticket_statuses="ticket_statuses"
-          :searched="searched"
-          @page="getTickets"
-          @deleted="hasBeenDeleted"
-          @getCounters="getCount()"
-        />
+        <div class="d-none d-xl-block">
+          <exports @exportFile="exportFile"></exports>
+        </div>
+        <div class="d-none d-xl-block">
+          <!-- DESCKTOP TABLE -->
+          <tickets-table
+            class="d-none d-xl-block"
+            :tickets="tickets"
+            :ticket_statuses="ticket_statuses"
+            :searched="searched"
+            @page="getTickets"
+            @deleted="hasBeenDeleted"
+            @getCounters="getCount()"
+          />
+        </div>
         <!-- MOBILE CARDS TABLE TABLE -->
-        <mobile-tickets-cards-table
-          class="d-xl-none d-block"
-          :tickets="tickets"
-          :ticket_statuses="ticket_statuses"
-          :searched="searched"
-          @page="getTickets"
-          @deleted="hasBeenDeleted"
-          @getCounters="getCount()"
-        />
+        <div class="d-xl-none d-block">
+          <mobile-tickets-cards-table
+            :tickets="tickets"
+            :ticket_statuses="ticket_statuses"
+            :searched="searched"
+            @page="getTickets"
+            @deleted="hasBeenDeleted"
+            @getCounters="getCount()"
+          />
+        </div>
       </div>
       <div v-else class="mt-3 shadow">
         <div class="alert alert-warning text-center">
@@ -227,7 +232,7 @@ export default {
         });
     },
     getTickets(data) {
-      document.querySelector('div#finder').classList.remove('show');
+      document.querySelector("div#finder").classList.remove("show");
       this.closeAll();
       this.searching = true;
       this.searched = data ? data : this.searched;

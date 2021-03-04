@@ -55,7 +55,8 @@ Route::group(['middleware' => ['auth:web']], function () {
 
             return response()->json([ 'user_role' => $get_user->getRoleNames()[0] ]);
         });
-
+        Route::get('/mobile_ticket', 'TicketController@mobile_index');
+        
         Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
         Route::get('/toogle_faqs_ticket/{ticket}', 'TicketController@toogle_faqs_ticket');
         
