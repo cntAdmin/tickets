@@ -167,6 +167,7 @@ export default {
         });
     },
     setIcon(status_id) {
+      console.log(status_id);
       switch (status_id) {
         case "2":
           status_id = "envelope-open";
@@ -185,6 +186,7 @@ export default {
       return status_id;
     },
     setColor(status_id) {
+      console.log(status_id);
       switch (status_id) {
         case "2":
           status_id = "secondary";
