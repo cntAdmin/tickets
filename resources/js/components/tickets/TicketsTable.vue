@@ -34,12 +34,12 @@
                 <div class="d-flex justify-content-center">
                   <div class="form-inline">
                     <button
-                      :class="'btn btn-sm btn-' + setColor(ticket.status.name)"
+                      :class="'btn btn-sm btn-' + setColor(ticket.status.id)"
                       type="button"
                       :title="ticket.status.name"
                       disabled
                     >
-                      <i :class="'fa fa-' + setIcon(ticket.status.name)"></i>
+                      <i :class="'fa fa-' + setIcon(ticket.status.id)"></i>
                     </button>
                     <span class="btn btn-sm btn-link ml-2">
                       <i class="text-info fas fa-headset"></i
@@ -166,42 +166,42 @@ export default {
           console.log(err);
         });
     },
-    setIcon(status_name) {
-      switch (status_name) {
-        case "Abierto":
-          status_name = "envelope-open";
+    setIcon(status_id) {
+      switch (status_id) {
+        case "2":
+          status_id = "envelope-open";
           break;
-        case "Cerrado":
-          status_name = "times-circle";
+        case "3":
+          status_id = "times-circle";
           break;
-        case "Resuelto":
-          status_name = "check-circle";
+        case "4":
+          status_id = "check-circle";
           break;
 
         default:
-          status_name = "clipboard-list";
+          status_id = "clipboard-list";
           break;
       }
-      return status_name;
+      return status_id;
     },
-    setColor(status_name) {
-      switch (status_name) {
-        case "Abierto":
-          status_name = "secondary";
+    setColor(status_id) {
+      switch (status_id) {
+        case "2":
+          status_id = "secondary";
           break;
-        case "Cerrado":
-          status_name = "info text-white";
+        case "3":
+          status_id = "info text-white";
           break;
-        case "Resuelto":
-          status_name = "success";
+        case "4":
+          status_id = "success";
           break;
 
         default:
-          status_name = "dark";
+          status_id = "dark";
           break;
       }
 
-      return status_name;
+      return status_id;
     },
     emit_pagination(page) {
       this.searched.page = page;
