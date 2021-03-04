@@ -167,43 +167,41 @@ export default {
         });
     },
     setIcon(status_id) {
-      console.log(status_id);
+      // console.log(status_id);
       switch (status_id) {
         case "2":
-          status_id = "envelope-open";
+          return status_id = "envelope-open";
           break;
         case "3":
-          status_id = "times-circle";
+          return status_id = "times-circle";
           break;
         case "4":
-          status_id = "check-circle";
+          return status_id = "check-circle";
           break;
 
         default:
-          status_id = "clipboard-list";
+          return status_id = "clipboard-list";
           break;
       }
       return status_id;
     },
     setColor(status_id) {
-      console.log(status_id);
+      // console.log(status_id);
       switch (status_id) {
         case "2":
-          status_id = "secondary";
+          return status_id = "secondary";
           break;
         case "3":
-          status_id = "info text-white";
+          return status_id = "info text-white";
           break;
         case "4":
-          status_id = "success";
+          return status_id = "success";
           break;
 
         default:
-          status_id = "dark";
+          return status_id = "dark";
           break;
       }
-
-      return status_id;
     },
     emit_pagination(page) {
       this.searched.page = page;
