@@ -1,6 +1,6 @@
 <template>
-      <div :class="'mt-3 row justify-content-' + align('comment') ">
-        <div class="col-10">
+      <div :class="'mt-3 row justify-content-center justify-content-xl-' + align('comment') ">
+        <div class="col-12 col-xl-10">
             <h4 :class="'title text-' + align('text')">{{ comment.user.name ? comment.user.name : comment.user.username }}</h4>
             <p :class="'h6 text-' + align('text')">{{ comment.created_at | moment("from", "now") }}</p>
             <div class="card mt-1 shadow">

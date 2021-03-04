@@ -41,7 +41,7 @@
                 <td class="align-self-center">
                     <input type="checkbox" :name="file.id" @click="handleCheckbox">
                 </td>
-                <th scope="row" class="align-self-center">{{ file.comments[0].ticket.custom_id }}</th>
+                <th scope="row" class="align-self-center">{{ file.comments.length > 0 ? file.comments[0].ticket.custom_id : '' }}</th>
                 <td class="">
                     <img :src="`/storage/${file.path}`" :alt="file.name" class="w-25 img-fluid img-thumbnail"
                         @click.prevent="openImageModal(file)">
@@ -96,7 +96,9 @@ export default {
     data() {
         return {
             filesToDelete: [],
-            file: {},
+            file: {
+                comments: []
+            },
             showDeleteModal:false,
             showDeleteAllModal:false,
             showImageModal:false,

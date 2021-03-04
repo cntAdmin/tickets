@@ -1,7 +1,25 @@
 <template>
-  <div class="form-inline my-3 justify-content-start">
-    <button type="button" class="btn btn-sm btn-success" @click="$emit('exportFile', 'excel')">Exportar a Excel</button>
-    <button type="button" class="btn btn-sm btn-warning text-dark ml-2" @click="$emit('exportFile', 'pdf')">Exportar a PDF</button>
+  <div class="d-flex my-3 justify-content-start">
+    <div class="d-inline-flex w-100">
+      <div class="col-6 col-xl-2">
+        <button
+          type="button"
+          class="btn btn-sm btn-success btn-block font-weight-bold shadow"
+          @click="$emit('exportFile', 'excel')"
+        >
+          Exportar Excel
+        </button>
+      </div>
+      <div class="col-6 col-xl-2">
+        <button
+          type="button"
+          class="btn btn-sm btn-warning text-dark btn-block font-weight-bold shadow"
+          @click="$emit('exportFile', 'pdf')"
+        >
+          Exportar PDF
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 

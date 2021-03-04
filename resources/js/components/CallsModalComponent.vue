@@ -173,7 +173,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data)
           this.calls = res.data.calls;
         })
         .catch((err) => {

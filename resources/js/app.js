@@ -4,72 +4,81 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
- import router from './components/router';
- import {RichTextEditorPlugin} from "@syncfusion/ej2-vue-richtexteditor";
- import vSelect from 'vue-select';
- import Vuex from 'vuex';
- import FileManager from 'laravel-file-manager';
- 
+import router from './components/router';
+import {
+    RichTextEditorPlugin
+} from "@syncfusion/ej2-vue-richtexteditor";
+import vSelect from 'vue-select';
+import Vuex from 'vuex';
+import FileManager from 'laravel-file-manager';
+
 
 //  console.log(router)
- require('./bootstrap');
- 
- window.Vue = require('vue');
- Vue.use(Vuex);
+require('./bootstrap');
 
- const moment = require('moment')
-    require('moment/locale/es')
-  
- Vue.use(require('vue-moment'), {
-     moment
- })
+window.Vue = require('vue');
+Vue.use(Vuex);
+
+const moment = require('moment')
+require('moment/locale/es')
+
+Vue.use(require('vue-moment'), {
+    moment
+})
 Vue.use(RichTextEditorPlugin);
 
 const store = new Vuex.Store();
-Vue.use(FileManager, {store})
+Vue.use(FileManager, {
+    store
+})
 
 
-  /**
-  * The following block of code may be used to automatically register your
-  * Vue components. It will recursively scan this directory for the Vue
-  * components and automatically register them with their "basename".
-  *
-  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
-  */
- 
- // const files = require.context('./', true, /\.vue$/i)
- // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
- 
- Vue.component('App', require('./components/AppComponent').default);
- Vue.component('admin-sidebar', require('./components/AdminSidebar').default);
- Vue.component('sidebar', require('./components/Sidebar').default);
- Vue.component('navbar', require('./components/Navbar').default);
- Vue.component('pagination', require('laravel-vue-pagination'));
- Vue.component('spinner', require('./components/Spinner.vue').default);
- Vue.component('card-counter', require('./components/CardCounter').default);
- Vue.component('delete-modal', require('./components/DeleteModal').default);
- Vue.component('image-modal', require('./components/ImageModal').default);
- Vue.component('form-errors', require('./components/FormErrors').default);
- Vue.component('exports', require('./components/Exports').default);
- Vue.component('navbar-test', require('./components/NavbarTest').default);
- Vue.component('mobile-bottom-navbar', require('./components/MobileBottomNavbar').default);
- 
- Vue.component('vue-select', vSelect)
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
+
+// const files = require.context('./', true, /\.vue$/i)
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+Vue.component('App', require('./components/AppComponent').default);
+Vue.component('admin-sidebar', require('./components/AdminSidebar').default);
+Vue.component('sidebar', require('./components/Sidebar').default);
+Vue.component('navbar', require('./components/Navbar').default);
+Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('spinner', require('./components/Spinner.vue').default);
+Vue.component('card-counter', require('./components/CardCounter').default);
+Vue.component('delete-modal', require('./components/DeleteModal').default);
+Vue.component('image-modal', require('./components/ImageModal').default);
+Vue.component('form-errors', require('./components/FormErrors').default);
+Vue.component('exports', require('./components/Exports').default);
+Vue.component('navbar-test', require('./components/NavbarTest').default);
+Vue.component('mobile-bottom-navbar', require('./components/MobileBottomNavbar').default);
+
+Vue.component('vue-select', vSelect)
 
 // TICKETS
 Vue.component('tickets', require('./components/tickets/Tickets').default);
 Vue.component('tickets-table', require('./components/tickets/TicketsTable').default);
 Vue.component('tickets-search-form', require('./components/tickets/TicketsSearchForm').default);
+// MOBILE
+Vue.component('mobile-tickets-cards-table', require('./components/tickets/MobileTicketsCardsTable').default);
+
 // CREATE TICKET
-    Vue.component('tickets-create', require('./components/tickets/TicketsCreateComponent').default);
-    Vue.component('calls-modal', require('./components/CallsModalComponent').default);
+Vue.component('tickets-create', require('./components/tickets/TicketsCreateComponent').default);
+Vue.component('calls-modal', require('./components/CallsModalComponent').default);
 // VIEW TICKET 
-    Vue.component('ticket-view-info', require('./components/tickets/TicketViewInfoComponent').default);
-    Vue.component('ticket-comments', require('./components/tickets/TicketCommentsComponent').default);
-    Vue.component('ticket-comment', require('./components/tickets/TicketCommentComponent').default);
-    Vue.component('ticket-new-coment', require('./components/tickets/TicketNewCommentComponent').default);
-    Vue.component('ticket-view-calls', require('./components/tickets/TicketViewCallsComponent').default);
-        
+Vue.component('ticket-view-info', require('./components/tickets/TicketViewInfoComponent').default);
+Vue.component('ticket-comments', require('./components/tickets/TicketCommentsComponent').default);
+Vue.component('ticket-comment', require('./components/tickets/TicketCommentComponent').default);
+Vue.component('ticket-new-coment', require('./components/tickets/TicketNewCommentComponent').default);
+Vue.component('ticket-view-calls', require('./components/tickets/TicketViewCallsComponent').default);
+// MOBILE
+Vue.component('ticket-cards-calls', require('./components/tickets/MobileTicketCardsCalls').default);
+
 // DEPARTMENTS
 Vue.component('departments', require('./components/departments/Departments').default);
 Vue.component('departments-search-form', require('./components/departments/DepartmentsSearchForm').default);
@@ -106,14 +115,14 @@ Vue.component('files-table', require('./components/file-manager/FilesTable').def
 // POSTS
 Vue.component('posts-search-form', require('./components/posts/PostsSearchForm').default);
 Vue.component('posts-table', require('./components/posts/PostsTable').default);
-    // POST
-    Vue.component('post-header', require('./components/posts/PostHeader').default);
-    Vue.component('featured-posts', require('./components/posts/FeaturedPosts').default);
-    Vue.component('other-posts', require('./components/posts/OtherPosts').default);
+// POST
+Vue.component('post-header', require('./components/posts/PostHeader').default);
+Vue.component('featured-posts', require('./components/posts/FeaturedPosts').default);
+Vue.component('other-posts', require('./components/posts/OtherPosts').default);
 
-    // ? BLOG (FRONT VIEW)
-    Vue.component('thumbnail-post', require('./components/blogs/ThumbnailPost').default);
-    
+// ? BLOG (FRONT VIEW)
+Vue.component('thumbnail-post', require('./components/blogs/ThumbnailPost').default);
+
 // BRANDS
 Vue.component('brands-search-form', require('./components/brands/BrandsSearchForm').default);
 Vue.component('brands-table', require('./components/brands/BrandsTable').default);

@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-light bg-blue-gradient h-100 overflow-hidden"
+    class="navbar navbar-light bg-blue-gradient h-100 overflow-hidden align-items-start"
   >
     <div class="">
       <!-- BOTON BURGER -->
@@ -144,7 +144,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.user);
     this.getTicketStatuses();
   },
   methods: {

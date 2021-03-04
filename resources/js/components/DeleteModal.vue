@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container w-100 col-12 col-md-10 col-xl-6">
           <div class="modal-header">
             <h3 class="text-center">
               ¿Seguro que deseas eliminar este {{ title }}?
@@ -47,6 +47,9 @@ export default {
         case "Incidencia":
           return this.data.subject ? this.data.subject : this.data.custom_id;
           break;
+        case "Comentario":
+          return 'Comentario';
+          break;
         case "Blog":
           return this.data.title ? this.data.title : 'Blog';
           break;
@@ -63,28 +66,24 @@ export default {
 .modal-mask {
   position: fixed;
   z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
-  display: table;
-  transition: opacity 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: grid;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+  display: flex;
+  grid-template-columns: 1;
+  place-items: middle;
 }
 
 .modal-container {
-  width: 500px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.11);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
   font-family: Helvetica, Arial, sans-serif;
 }
 

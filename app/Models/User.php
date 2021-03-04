@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -15,6 +17,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
     use SendsPasswordResetEmails;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -31,6 +34,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $with = [
+        'customer'
     ];
 
     /**
@@ -66,22 +73,22 @@ class User extends Authenticatable
         });
     }
 
-    public function customer()
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Customer::class, 'customer_id', 'id')->withCount('tickets');
+        return $this->belongsTo(\App\Models\Customer::class, 'customer_id', 'id');
     }
 
-    public function tickets()
+    public function tickets(): HasMany
     {
         return $this->hasMany(\App\Models\Ticket::class, 'user_id', 'id');
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(\App\Models\Comment::class, 'user_id', 'id');
     }
 
-    public function department()
+    public function department(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Department::class, 'department_id', 'id');
     }

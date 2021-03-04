@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-5 mb-4">
+    <div class="mx-2 mx-xl-5 mb-4">
         <div v-for="(comment, idx) in comments" :key="idx">
             <ticket-comment :comment="comment" :key="comment.id" :user="user" @succeeded="succeeded"></ticket-comment>
         </div>

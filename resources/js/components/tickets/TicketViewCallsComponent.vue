@@ -1,5 +1,5 @@
 <template>
-  <div class="card mt-3">
+  <div class="card mt-2">
     <div class="card-header">Llamadas asociadas</div>
     <div class="card-body">
       <table class="table table-hover table-striped">

@@ -23,7 +23,7 @@
           method="POST"
         >
           <div class="form-inline">
-            <div class="form-group col-12 col-md-6 col-lg-4">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Cliente</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -32,17 +32,14 @@
                   </div>
                 </div>
                 <vue-select
-                  :class="
-                    [error.errors.comercial_name ? 'is-invalid' : ''] +
-                    ' col-9 px-0 w-100'
-                  "
-                  :options="customers"
+                  v-if="!is_admin"
+                  class="col-8 col-xl-9 px-0 w-100"
                   ref="customersSelect"
                   transition="vs__fade"
                   label="comercial_name"
                   itemid="id"
-                  @input="setCustomer"
                   v-model="customer.comercial_name"
+                  disabled
                 >
                   <div slot="no-options">No hay opciones con esta busqueda</div>
                   <template slot="option" slot-scope="option">
@@ -54,15 +51,38 @@
                     }}
                   </template>
                 </vue-select>
+                <vue-select
+                  v-else
+                  :class="
+                    [error.errors.comercial_name ? 'is-invalid' : ''] +
+                    ' col-8 col-xl-9 px-0 w-100'
+                  "
+                  :options="customers"
+                  ref="customersSelect"
+                  transition="vs__fade"
+                  label="comercial_name"
+                  itemid="id"
+                  @input="setCustomer"
+                  v-model="customer.comercial_name"
+                ></vue-select>
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Contacto</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Contacto</div>
                 </div>
                 <select
+                  v-if="!is_admin"
+                  class="form-control"
+                  :value="user.id"
+                  disabled
+                >
+                  <option :value="user.id">{{ user.name }}</option>
+                </select>
+                <select
+                  v-else
                   :class="
                     [error.errors.user_id ? 'is-invalid' : ''] + ' form-control'
                   "
@@ -76,7 +96,7 @@
                 </select>
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Departamentos</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -101,9 +121,7 @@
                 </select>
               </div>
             </div>
-            <div
-              class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
-            >
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Nº Bastidor</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -119,9 +137,7 @@
                 />
               </div>
             </div>
-            <div
-              class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
-            >
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-1">
               <label class="sr-only" for="dateFrom">Matrícula</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -136,9 +152,7 @@
                 />
               </div>
             </div>
-            <div
-              class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
-            >
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Tipo de Motor</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -156,9 +170,7 @@
                 />
               </div>
             </div>
-            <div
-              class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
-            >
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Marca</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -167,7 +179,7 @@
                 <vue-select
                   :class="
                     [error.errors.engine_type ? 'is-invalid' : ''] +
-                    ' col-9 px-0 mx-0'
+                    ' col-8 col-xl-9 px-0 mx-0'
                   "
                   :options="brands"
                   ref="brandsSelect"
@@ -183,9 +195,7 @@
                 </vue-select>
               </div>
             </div>
-            <div
-              class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
-            >
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Modelo</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -194,7 +204,7 @@
                 <vue-select
                   :options="models"
                   ref="modelsSelect"
-                  class="col-9 px-0 mx-0"
+                  class="col-8 col-xl-9 px-0 mx-0"
                   transition="vs__fade"
                   label="name"
                   itemid="id"
@@ -207,33 +217,29 @@
                 </vue-select>
               </div>
             </div>
-            <div
-              class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
-            >
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Otro Marca/Modelo</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Otro Marca/Modelo</div>
+                  <div class="input-group-text text-uppercase">
+                    Otro Marca/Modelo
+                  </div>
                 </div>
                 <input
                   :class="
-                    [error.errors.other_brand_model ? 'is-invalid' : ''] + ' form-control'
+                    [error.errors.other_brand_model ? 'is-invalid' : ''] +
+                    ' form-control'
                   "
                   type="text"
                   v-model="selected.other_brand_model"
                   v-if="!selected.model_id"
                 />
-                <input
-                  v-else
-                  class="form-control"
-                  type="text"
-                  disabled
-                />
+                <input v-else class="form-control" type="text" disabled />
               </div>
             </div>
           </div>
-          <div class="form-inline mt-2">
-            <div class="form-group col-12 col-md-6">
+          <div class="form-inline">
+            <div class="form-group col-12 col-md-6 mt-2">
               <label class="sr-only" for="dateFrom">Asunto</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -249,9 +255,7 @@
                 />
               </div>
             </div>
-            <div
-              class="form-group col-12 col-md-6"
-            >
+            <div class="form-group col-12 col-md-6 mt-2">
               <label class="sr-only" for="dateFrom">Solicito</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -269,8 +273,8 @@
             </div>
             <calls-modal @selectedCalls="selectedCalls($event)"></calls-modal>
           </div>
-          <div class="form-inline mt-2">
-            <div class="form-group col-12">
+          <div class="form-inline">
+            <div class="form-group col-12 mt-2">
               <label class="sr-only" for="dateFrom">Descripcion</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -293,8 +297,8 @@
               </ejs-richtexteditor>
             </div>
           </div>
-          <div class="form-inline mt-2">
-            <div class="form-group col-12">
+          <div class="form-inline">
+            <div class="form-group col-12 mt-2">
               <label class="sr-only" for="dateFrom">Pruebas Realizadas</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -318,12 +322,12 @@
             </div>
           </div>
           <div class="form-inline mx-3">
-            <div class="form-group mt-3 w-100">
+            <div class="form-group mt-2 w-100">
               <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">
-                    Ficheros adjuntos
+                    <span class="d-none d-xl-block">Ficheros</span> adjuntos
                   </div>
                 </div>
                 <input
@@ -366,7 +370,7 @@ export default {
   deactivated() {
     this.resetFields();
   },
-  props: ["customer_id", 'user_role'],
+  props: ["customer_id", "user_role", "user"],
   data() {
     return {
       users: [],
@@ -450,10 +454,22 @@ export default {
       modal: false,
       buttonText: "Asignar llamada(s)",
       files: [],
+      is_admin: false,
+      admin_roles: [
+        1, 2, 3, 4
+      ]
     };
   },
   activated() {
-    console.log('user_role', this.user_role)
+    this.is_admin = this.admin_roles.some(
+      (role) => role === this.user.roles[0].id
+    );
+    if (!this.is_admin) {
+      this.customer.comercial_name = this.user.customer.comercial_name;
+      this.selected.customer_id = this.user.customer.id;
+      this.selected.user_id = this.user.id;
+      this.get_all_users();
+    }
     this.get_all_departments();
     this.get_all_customers();
     this.get_all_brands();
@@ -619,7 +635,7 @@ export default {
                 tests_done: "",
                 calls: [],
               };
-              document.querySelector("input[type='file']").value ="";
+              document.querySelector("input[type='file']").value = "";
               this.$refs.customersSelect.clearSelection();
               this.$refs.brandsSelect.clearSelection();
               this.$refs.modelsSelect.clearSelection();

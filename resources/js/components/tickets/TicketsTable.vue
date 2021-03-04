@@ -79,7 +79,7 @@
                     >
                       <i class="fa fa-exchange-alt"></i>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="statuses">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="statuses">
                       <div v-for="status in ticket_statuses" :key="status.id">
                         <button
                           type="button"

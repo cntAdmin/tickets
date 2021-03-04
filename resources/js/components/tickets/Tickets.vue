@@ -38,8 +38,22 @@
         Crear Incidencia
       </router-link>
     </div>
+    <div class="d-xl-none d-block d-flex justify-content-center my-3">
+      <button
+        class="btn btn-primary btn-sm btn-block text-uppercase font-weight-bold"
+        type="button"
+        data-toggle="collapse"
+        data-target="#finder"
+        aria-expanded="true"
+        aria-controls="finder"
+      >
+        Buscador
+      </button>
+    </div>
 
     <tickets-search-form
+      id="finder"
+      class="collapse hidden d-xl-block"
       :ticket_statuses="ticket_statuses"
       @search="getTickets"
     />
@@ -58,8 +72,10 @@
 
     <transition name="fade" v-else-if="tickets.data" mode="out-in">
       <div v-if="tickets.total > 0">
-        <exports @exportFile="exportFile"></exports>
+        <exports class="d-none d-xl-block" @exportFile="exportFile"></exports>
+        <!-- DESCKTOP TABLE -->
         <tickets-table
+          class="d-none d-xl-block"
           :tickets="tickets"
           :ticket_statuses="ticket_statuses"
           :searched="searched"
@@ -67,6 +83,21 @@
           @deleted="hasBeenDeleted"
           @getCounters="getCount()"
         />
+        <!-- MOBILE CARDS TABLE TABLE -->
+        <mobile-tickets-cards-table
+          class="d-xl-none d-block"
+          :tickets="tickets"
+          :ticket_statuses="ticket_statuses"
+          :searched="searched"
+          @page="getTickets"
+          @deleted="hasBeenDeleted"
+          @getCounters="getCount()"
+        />
+      </div>
+      <div v-else class="mt-3 shadow">
+        <div class="alert alert-warning text-center">
+          Haga una nueva búsqueda
+        </div>
       </div>
     </transition>
   </div>
@@ -95,7 +126,9 @@ export default {
     };
   },
   activated() {
-    this.searched.status = this.$route.query.status ? this.$route.query.status : null;
+    this.searched.status = this.$route.query.status
+      ? this.$route.query.status
+      : null;
     this.getTickets();
     this.get_all_ticket_statuses();
   },
@@ -170,7 +203,9 @@ export default {
           params: {
             ticket_id: this.searched ? this.searched.ticket_id : null,
             user_name: this.searched ? this.searched.user_name : null,
-            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+            customer_custom_id: this.searched
+              ? this.searched.customer_custom_id
+              : null,
             customer_name: this.searched ? this.searched.customer_name : null,
             department_id: this.searched ? this.searched.department_id : null,
             status: this.searched ? this.searched.status : null,
@@ -185,25 +220,28 @@ export default {
           this.closed = res.data.closed;
           this.resolved = res.data.resolved;
           this.newTickets = res.data.newTickets;
-          this.$emit('getNewTickets');
+          this.$emit("getNewTickets");
         })
         .catch((err) => {
           console.log(err);
         });
     },
     getTickets(data) {
+      document.querySelector('div#finder').classList.remove('show');
       this.closeAll();
       this.searching = true;
       this.searched = data ? data : this.searched;
       this.getCount();
-      
+
       axios
         .get("/api/ticket", {
           params: {
             page: this.searched ? this.searched.page : null,
             ticket_id: this.searched ? this.searched.ticket_id : null,
             user_name: this.searched ? this.searched.user_name : null,
-            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+            customer_custom_id: this.searched
+              ? this.searched.customer_custom_id
+              : null,
             customer_name: this.searched ? this.searched.customer_name : null,
             department_id: this.searched ? this.searched.department_id : null,
             status: this.searched ? this.searched.status : null,

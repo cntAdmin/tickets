@@ -109,7 +109,7 @@ export default {
     getDeleted() {
       axios.delete('/api/user/' + this.user.id)
         .then( res => {
-            console.log(res.data)
+            // console.log(res.data)
             if(res.data.success) {
                 this.$emit('deleted', res.data.msg)
             }

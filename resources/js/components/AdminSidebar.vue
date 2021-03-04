@@ -1,31 +1,8 @@
 <template>
   <nav
-    class="navbar navbar-expand-lg navbar-light shadow h-100 col-2 flex-column overflow-auto position-fixed bg-blue-gradient d-none d-md-block"
+    class="navbar navbar-light bg-blue-gradient h-100 overflow-hidden align-items-start"
   >
     <div class="container">
-        <button 
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        </button>
-
-      <button
-      
-        class="btn btn-block btn-link border-bottom d-block d-md-none"
-        type="button"
-        data-toggle="collapse"
-        data-target="#sidebar_navbar"
-        aria-controls="sidebar_navbar"
-        aria-expanded="true"
-        aria-label="Toggle navigation"
-        title="Contraer/Expandir Menú"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div
         class="accordion navbar-collapse mt-2 d-none d-md-block"
         id="sidebar_navbar"

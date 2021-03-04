@@ -1,6 +1,6 @@
 <template>
-  <div class="row justify-content-center my-3 mx-4">
-    <div class="col-6 mt-2 text-center" v-if="success.status">
+  <div class="row justify-content-center my-3 mx-2 mx-xl-4">
+    <div class="col-12 col-xl-6 mt-2 text-center" v-if="success.status">
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ success.msg }}
 
@@ -14,6 +14,12 @@
         </button>
       </div>
     </div>
+    <div class="col-12 col-xl-6 mt-2 text-center" v-if="error.status">
+        <form-errors
+          :errors="error.errors"
+          @close="error.status = false"
+        ></form-errors>
+    </div>
 
     <transition name="fade" v-if="spinner" mode="out-in">
       <div class="mt-5 pt-5 vh-100">
@@ -22,10 +28,10 @@
     </transition>
 
     <transition name="fade" v-else mode="out-in">
-      <div :class="'col-10 ' + align()">
+      <div :class="'col-12 col-xl-10 ' + align()">
         <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
           <div class="form-inline">
-            <div class="form-group shadow">
+            <div class="form-group w-100 shadow">
               <label class="sr-only" for="dateFrom">Comentario</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -45,7 +51,8 @@
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">
-                    Ficheros adjuntos
+                    <span class="d-none d-xl-inline-block">Ficheros </span>
+                    adjuntos
                   </div>
                 </div>
                 <input
@@ -144,7 +151,10 @@ export default {
         status: false,
         msg: "",
       },
-      error: false,
+      error: {
+        status: false,
+        errors: [],
+      },
       spinner: false,
     };
   },
@@ -155,6 +165,17 @@ export default {
 
     handleSubmit() {
       this.spinner = true;
+      if (this.$refs.comment.ej2Instances.value === null) {
+        this.error.status = true;
+        this.error.errors = { comment: [] };
+
+        this.error.errors["comment"].push(
+          "Es obligatorio escribir un comentario."
+        );
+        this.spinner = false;
+        return;
+      }
+
       const formData = new FormData();
       if (this.files) {
         for (const i of Object.keys(this.files)) {
@@ -179,11 +200,11 @@ export default {
             this.files = null;
 
             setTimeout(() => {
-              this.success.status = false;
-              this.success.msg = "";
-
+              this.success = {
+                status: false,
+                msg: "",
+              };
               this.$router.push("/ticket");
-
             }, 2500);
           } else if (res.data.error) {
             this.success = false;
