@@ -96,7 +96,7 @@
                 </div>
                 <input
                   type="password"
-                  v-model="contact.confirm_password"
+                  v-model="contact.password_confirmation"
                   class="form-control"
                 />
               </div>

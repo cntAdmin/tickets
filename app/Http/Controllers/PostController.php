@@ -225,4 +225,18 @@ class PostController extends Controller
             'posts' => $posts
         ]);
     }
+
+    public function featured_post_mobile(Request $req) {
+        $posts = Post::filterPosts()
+            ->orderBy('featured', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->skip($req->offset)
+            ->take(10)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'posts' => $posts
+        ]);
+    }
 }

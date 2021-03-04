@@ -1,7 +1,7 @@
 <template>
   <div class="col-12 col-lg-4 col-xl-3 mt-3">
-    <div class="row justify-content-center">
-      <div class="card shadow" style="width: 18rem">
+    <!-- <div class="d-flex justify-content-center"> -->
+      <div class="card shadow" style="width: 100%">
         <img
           class="card-img-top"
           :src="'/storage/' + post.image"
@@ -18,7 +18,7 @@
           </router-link>
         </div> -->
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 

@@ -11,6 +11,7 @@ import {
 import vSelect from 'vue-select';
 import Vuex from 'vuex';
 import FileManager from 'laravel-file-manager';
+import VueScreen from 'vue-screen';
 
 
 //  console.log(router)
@@ -18,6 +19,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 Vue.use(Vuex);
+Vue.use(VueScreen, 'bootstrap'); 
 
 const moment = require('moment')
 require('moment/locale/es')

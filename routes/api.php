@@ -90,6 +90,8 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::post('/edit_post/{post}', 'PostController@edit_post');
         // ? POST
         Route::get('/featured_post', 'PostController@featured_post');
+        Route::get('/featured_post_mobile', 'PostController@featured_post_mobile');
+        
         // ? MODELS
         Route::get('/get_car_models_counter', 'CarModelController@get_car_models_counter');
 
