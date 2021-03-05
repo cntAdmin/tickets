@@ -74,6 +74,7 @@ class UserController extends Controller
         $validator = Validator::make($req->all(), [
             'customer_id' => ['required_without:department_id', 'nullable', 'exists:customers,id'],
             'department_id' => ['required_without:customer_id', 'nullable', 'exists:departments,id'],
+            'role_id' => ['required', 'numeric', 'exists:roles,id'],
             'name' => ['required', 'string', 'max:100'],
             'surname' => ['nullable', 'string', 'max: 100'],
             'username' => ['required', 'string', 'max:100', 'unique:users,username'],
@@ -114,6 +115,10 @@ class UserController extends Controller
             $get_department = Department::find($req->department_id);
             $user->department()->associate($get_department->id);
         }
+
+        $get_role = Role::find($req->role_id);
+        $user->syncRoles($get_role);
+
         $user->save();
 
         return response()->json([

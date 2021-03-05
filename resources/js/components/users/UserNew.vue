@@ -265,6 +265,7 @@ export default {
     handleSubmit() {
       axios
         .post("/api/user", {
+          role_id: this.selected.role_id,
           customer_id: this.selected.customer_id,
           department_id: this.selected.department_id,
           name: this.selected.name,
