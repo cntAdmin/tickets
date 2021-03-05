@@ -121,7 +121,7 @@ export default {
     return {
       tickets: [],
       searching: false,
-      offset: 10,
+      offset: 0,
       dontLoad: false
     };
   },
@@ -149,7 +149,7 @@ export default {
       }
     },
     loadMore() {
-      if(!this.dontLoad && this.searching == false) {
+      if(!this.dontLoad && !this.searching) {
         this.searching = true;
 
         axios
@@ -167,22 +167,21 @@ export default {
               date_from: this.searched ? this.searched.date_from : null,
               date_to: this.searched ? this.searched.date_to : null,
               knowledge_base: this.searched ? this.searched.knowledge_base : null,
-              offset: this.offset + 10,
+              offset: this.offset,
             },
           })
           .then((res) => {
             if(res.data.tickets.length === 0) {
-                this.searching = false;
                 return this.dontLoad = true;
             } else if(res.data.success) {
+              this.offset += 10;
               setTimeout(() => {
-                this.offset += this.offset;
-                this.searching = false;
                 this.tickets.push(...res.data.tickets);
               }, 1000);
             }
           })
           .catch((err) => console.log(err));
+          this.searching = false;
       }
     },
     setIcon(status_id) {

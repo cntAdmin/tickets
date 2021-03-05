@@ -41,11 +41,12 @@ class TicketController extends Controller
     public function mobile_index(Request $req)
     {
         if ($req->ajax()) {
-            $tickets = Ticket::filterTickets()->skip($req->offset ?? 0)->take(10)->get();
+            $tickets = Ticket::filterTickets()->skip($req->offset)->take(10)->get();
 
             return response()->json([
                 'success' => true,
                 'tickets' => $tickets,
+                'req_offset' => $req->offset,
             ]);
         }
     }

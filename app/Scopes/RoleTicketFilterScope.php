@@ -19,9 +19,13 @@ class RoleTicketFilterScope implements Scope
     {
         $user = auth()->user();
         if(auth()->check()) {
-            if(!$user->hasAnyRole([1, 2, 3])) {
-            // if($user->hasRole([1, 2, 3])) {
-                $builder->where('customer_id', '=', $user->customer_id);
+            switch($user->roles[0]->id){
+                case 5:
+                    $builder->where('customer_id', '=', $user->customer_id);
+                    break;
+                case 6:
+                    $builder->where('customer_id', '=', $user->customer_id)->where('user_id', $user->id);
+                    break;
             }
         } else {
             return redirect('login');
