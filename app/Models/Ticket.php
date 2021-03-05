@@ -105,9 +105,13 @@ class Ticket extends Model
     public function scopeFilterTickets($query, String $type = 'tickets'): Builder
     {
         return $query->when($type === 'faqs', function (Builder $q, $faqs) {
-            $q->where('knowledge_base', 1);
-        })
-        ->when(request()->input('ticket_id'), function (Builder $q, $id) {
+            $q->where('knowledge_base', 1)
+                ->when(request()->input('text'), function(Builder $q2, $text) {
+                    $q2->where(function(Builder $q3) use ($text){
+                        $q3->where('subject', 'LIKE', '%' . $text . '%')->orWhere('description', 'LIKE', '%' . $text . '%');
+                    });
+                });
+        })->when(request()->input('ticket_id'), function (Builder $q, $id) {
             $q->where('custom_id', 'LIKE', '%' . $id . '%');
         })->when(request()->input('frame_id'), function (Builder $q, $frame_id) {
             $q->where('frame_id', 'LIKE', $frame_id . '%');

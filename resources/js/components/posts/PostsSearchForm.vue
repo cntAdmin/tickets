@@ -6,12 +6,12 @@
           <div class="form-inline">
             <div class="form-group col-12 col-md-6">
               <label class="sr-only" for="dateFrom"
-                >Buscar en titulo y descripción</label
+                >Buscar</label
               >
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">
-                    Buscar en titulo y descripción
+                    Buscar
                   </div>
                 </div>
                 <input

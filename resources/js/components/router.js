@@ -22,6 +22,7 @@ import Brands from './brands/Brands';
 import CarModels from './car_models/CarModels';
 import Calls from './calls/Calls';
 import Blogs from './blogs/Blogs';
+import Faqs from './faqs/Faqs';
 
 Vue.use(VueRouter);
 
@@ -129,6 +130,12 @@ const router = new VueRouter({
             path: '/profile/:user',
             name: 'profile.index',
             component: Profile,
+            props: true
+        },
+        {
+            path: '/faqs',
+            name: 'faqs.index',
+            component: Faqs,
             props: true
         },
 

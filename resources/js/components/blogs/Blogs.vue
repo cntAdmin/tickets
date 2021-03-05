@@ -52,7 +52,7 @@ export default {
       featuredPosts: [],
       url: "/api/featured_post",
       searching: false,
-      offset: 10,
+      offset: 0,
       dontLoad: false,
     };
   },
@@ -90,7 +90,7 @@ export default {
           .get(this.url, {
             params: {
               page: page ? page : 1,
-              offset: this.offset + 10,
+              offset: this.offset,
             },
           })
           .then((res) => {
@@ -100,7 +100,7 @@ export default {
               return (this.dontLoad = true);
             } else if (res.data.success) {
               if (this.$screen.breakpoint === "xs") {
-                this.offset += this.offset;
+                this.offset += 10;
                 setTimeout(() => {
                   this.featuredPosts.push(...res.data.posts);
                   this.searching = false;

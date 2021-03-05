@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-3">
+  <div class="mx-3 mt-3">
     <div class="row">
       <card-counter
         title="Nuevas"

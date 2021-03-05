@@ -142,6 +142,10 @@ Vue.component('car-model-edit', require('./components/car_models/CarModelEdit').
 Vue.component('calls-search-form', require('./components/calls/CallsSearchForm').default);
 Vue.component('calls-table', require('./components/calls/CallsTable').default);
 
+// FAQS
+Vue.component('faqs-search-form', require('./components/faqs/FaqsSearchForm').default);
+Vue.component('faqs-table', require('./components/faqs/FaqsTable').default);
+Vue.component('mobile-faqs-cards-table', require('./components/faqs/MobileFaqsCardsTable').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

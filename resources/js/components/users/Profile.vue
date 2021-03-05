@@ -6,7 +6,7 @@
         onclick="event.preventDefault();  
                                 document.getElementById('logout-form').submit();"
       >
-        Logout
+        Salir
       </button>
 
       <form id="logout-form" action="/logout" method="POST" class="d-none">

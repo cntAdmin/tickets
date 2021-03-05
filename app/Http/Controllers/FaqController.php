@@ -13,9 +13,16 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        //
+        if($req->ajax()) {
+            $faqs = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->filterTickets('faqs')->paginate();
+
+            return response()->json([
+                'success' => true,
+                'faqs' => $faqs
+            ]);
+        }
     }
 
     /**

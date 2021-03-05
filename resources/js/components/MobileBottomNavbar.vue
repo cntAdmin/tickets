@@ -11,11 +11,12 @@
             <i class="fas fa-file-alt fa-2x"></i>
             <span
               class="badge badge-pill badge-light text-dark position-absolute bottom-0 end-0 mt-2"
-              >{{ newTickets }}</span
-            >
+              >
+              {{ newTickets }}
+              </span>
           </router-link>
         </button>
-          <sub class="text-white">No Vistas</sub>
+          <sub class="text-white">Nuevas</sub>
         </div>
       </li>
       <li class="nav-item">
@@ -31,6 +32,17 @@
 
       <li class="nav-item">
         <div class="d-flex flex-column align-items-center">
+          <button class="btn btn-link" title="Nueva Incidencia">
+            <router-link :to="{ name: 'ticket.create' }" class="text-white">
+              <i class="fas fa-plus-square fa-2x"></i>
+            </router-link>
+          </button>
+          <sub class="text-white">Crear</sub>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <div class="d-flex flex-column align-items-center">
           <button class="btn btn-link" title="Blog">
             <router-link :to="{ name: 'users-blog.index' }" class="text-white">
               <i class="fas fa-blog fa-2x"></i>
@@ -39,16 +51,18 @@
           <sub class="text-white">Blog</sub>
         </div>
       </li>
+
       <li class="nav-item">
         <div class="d-flex flex-column align-items-center">
-          <button class="btn btn-link" title="Nueva Incidencia">
-            <router-link :to="{ name: 'ticket.create' }" class="text-white">
-              <i class="fas fa-plus-square fa-2x"></i>
+          <button class="btn btn-link" title="Perfil">
+            <router-link :to="{ name: 'profile.index', params: { user: user.id } }" class="text-white">
+              <i class="fas fa-question-circle fa-2x"></i>
             </router-link>
           </button>
-          <sub class="text-white">Nueva</sub>
+          <sub class="text-white">FAQ'S</sub>
         </div>
       </li>
+
       <li class="nav-item">
         <div class="d-flex flex-column align-items-center">
           <button class="btn btn-link" title="Perfil">

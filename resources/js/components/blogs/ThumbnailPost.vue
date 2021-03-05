@@ -1,7 +1,7 @@
 <template>
-  <div class="col-12 col-lg-4 col-xl-3 mt-3">
+  <div class="col-12 col-lg-4 mt-3">
     <!-- <div class="d-flex justify-content-center"> -->
-      <div class="card shadow" style="width: 100%">
+      <div class="card shadow mx-auto" style="width: 70%">
         <img
           class="card-img-top"
           :src="'/storage/' + post.image"
