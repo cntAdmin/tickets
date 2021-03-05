@@ -1,5 +1,18 @@
 <template>
   <div class="d-flex flex-wrap justify-content-center mt-2">
+    <div v-if="$screen.breakpoint === 'xs'" class="col-12 mb-4">
+      <button
+        class="btn btn-danger btn-block mt-2 text-uppercase shadow-lg"
+        onclick="event.preventDefault();  
+                                document.getElementById('logout-form').submit();"
+      >
+        Logout
+      </button>
+
+      <form id="logout-form" action="/logout" method="POST" class="d-none">
+        <input type="hidden" name="_token" :value="csrf" />
+      </form>
+    </div>
     <div class="col-12">
       <ul class="nav nav-tabs nav-fill" id="my_profile_tabs" role="tablist">
         <li class="nav-item">
@@ -394,7 +407,11 @@
           class="d-flex flex-wrap justify-content-start"
           v-if="Object.keys(contacts).length > 0"
         >
-          <div class="col-12 col-lg-4 my-3" v-for="contact in contacts" :key="contact.id">
+          <div
+            class="col-12 col-lg-4 my-3"
+            v-for="contact in contacts"
+            :key="contact.id"
+          >
             <contact-card
               :contact="contact"
               @updated="showContactSuccess"
@@ -436,6 +453,9 @@ export default {
         status: false,
         errors: [],
       },
+      csrf: document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content"),
     };
   },
   beforeMount() {

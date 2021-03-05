@@ -23,7 +23,7 @@
       </main>
       <!-- MOBILE SIDEBAR -->
       <div class="fixed-bottom d-xl-none d-block">
-        <mobile-bottom-navbar :newTickets="newTickets"></mobile-bottom-navbar>
+        <mobile-bottom-navbar :newTickets="newTickets" :user="user"></mobile-bottom-navbar>
       </div>
     </div>
   </div>

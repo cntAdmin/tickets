@@ -52,7 +52,7 @@
       <li class="nav-item">
         <div class="d-flex flex-column align-items-center">
           <button class="btn btn-link" title="Perfil">
-            <router-link :to="{ name: 'ticket.create' }" class="text-white">
+            <router-link :to="{ name: 'profile.index', params: { user: user.id } }" class="text-white">
               <i class="fas fa-user fa-2x"></i>
             </router-link>
           </button>
@@ -65,7 +65,7 @@
 
 <script>
 export default {
-  props: ["newTickets"],
+  props: ["newTickets", "user"],
 };
 </script>
 

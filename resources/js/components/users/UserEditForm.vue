@@ -219,6 +219,7 @@ export default {
       departments: [],
       size: "",
       is_admin: false,
+      admin_roles: [ 1, 2, 3, 4]
     };
   },
   mounted() {
