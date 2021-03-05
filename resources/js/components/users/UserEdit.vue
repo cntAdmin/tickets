@@ -21,7 +21,8 @@
       </div>
       <!-- FIN CARD HEADER -->
       <div class="card-body">
-        <form @submit.prevent="handleSubmit">
+        <user-edit-form :user="user" :error="error" @error="$emit('error', error.errors)"></user-edit-form>
+        <!-- <form @submit.prevent="handleSubmit">
           <div class="form-inline">
             <div class="form-group col-12 col-md-6 col-lg-4">
               <label class="sr-only" for="dateFrom">Rol</label>
@@ -218,7 +219,7 @@
               Guardar Usuario
             </button>
           </div>
-        </form>
+        </form> -->
       </div>
       <!-- FIN CARD BODY -->
     </div>
@@ -238,6 +239,7 @@ export default {
       roles: [],
       departments: [],
       error: {
+        status: false,
         errors: []
       }
     };

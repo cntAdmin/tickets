@@ -4,10 +4,7 @@
   >
     <div class="">
       <!-- BOTON BURGER -->
-      <div
-        id="sidebar_navbar"
-        class="navbar-collapse mt-2"
-      >
+      <div id="sidebar_navbar" class="navbar-collapse mt-2">
         <ul class="navbar-nav">
           <div class="navbar-header">
             <router-link
@@ -108,6 +105,12 @@
               </div>
             </div>
             <div class="collapse" id="user_info">
+              <router-link
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                :to="{ name: 'profile.index', params: { user: user.id } }"
+                >Mi Perfil
+              </router-link>
+
               <button
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 onclick="event.preventDefault();  

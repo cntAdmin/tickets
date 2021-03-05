@@ -164,7 +164,7 @@ class CustomerController extends Controller
     {
         return response()->json([
             'success' => true,
-            'customer' => $customer
+            'customer' => $customer,
         ]);
     }
 

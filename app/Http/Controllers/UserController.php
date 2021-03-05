@@ -130,7 +130,16 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact($user));
+        if($user->getRoleNames()[0] === "customer") {
+            $contacts = Customer::find($user->customer_id)->contacts();
+        }
+
+        return response()->json([
+            'success' => true,
+            'user' => $user->load(['roles', 'customer', 'department']),
+            'contacts' => $contacts ?? '',
+        ]);
+
     }
 
     /**

@@ -5,7 +5,7 @@
       class="d-none d-xl-block position-fixed vh-100 col-2 m-0 p-0 flex-column shadow"
     >
       <sidebar v-if="!is_admin" :user_role="user_role" :user="user"></sidebar>
-      <admin-sidebar v-else :user_role="user_role"></admin-sidebar>
+      <admin-sidebar v-else :user_role="user_role" :user="user"></admin-sidebar>
     </div>
     <!-- MAIN CONTEN -->
     <div class="col-xl-10 col-12 ml-auto">

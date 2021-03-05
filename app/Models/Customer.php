@@ -22,6 +22,7 @@ class Customer extends Model
         return $this->attributes['is_active'] == 1 ? 'Activo' : 'Inactivo';
     }
     
+
     public function users(): HasMany
     {
         return $this->hasMany(\App\Models\User::class, 'customer_id', 'id');
@@ -39,9 +40,9 @@ class Customer extends Model
      */
     public function contacts(): Collection
     {
-        return User::where('customer_id', $this->id)->whereHas('roles', function(Builder $q){
+        return $this->users()->whereHas('roles', function(Builder $q){
             $q->where('roles.id', 6);
-        })->get();
+        })->with(['roles'])->get();
     }
 }
 

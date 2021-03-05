@@ -6,14 +6,18 @@ import Tickets from "./tickets/Tickets";
 import TicketViewInfo from "./tickets/TicketViewInfoComponent";
 import TicketsCreate from "./tickets/TicketsCreateComponent";
 import TicketEdit from "./tickets/TicketEditComponent";
+
+import Posts from './posts/Posts';
+import Post from './posts/Post';
+
+import Users from "./users/Users";
+import Profile from './users/Profile';
+
 import Departments from "./departments/Departments";
 import Customers from "./customers/Customers";
-import Users from "./users/Users";
 import FileManager from './file-manager/FileManager';
-import Posts from './posts/Posts';
 import PostCreate from './posts/PostCreate';
 import PostEdit from './posts/PostEdit';
-import Post from './posts/Post';
 import Brands from './brands/Brands';
 import CarModels from './car_models/CarModels';
 import Calls from './calls/Calls';
@@ -120,6 +124,12 @@ const router = new VueRouter({
             path: '/blog',
             name: 'users-blog.index',
             component: Blogs
+        },
+        {
+            path: '/profile/:user',
+            name: 'profile.index',
+            component: Profile,
+            props: true
         },
 
 

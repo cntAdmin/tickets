@@ -9,7 +9,10 @@
       >
         <ul class="navbar-nav">
           <div class="navbar-header">
-            <router-link :to="{ name: 'ticket.index' }" class="row justify-content-center">
+            <router-link
+              :to="{ name: 'ticket.index' }"
+              class="row justify-content-center"
+            >
               <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
             </router-link>
           </div>
@@ -171,6 +174,58 @@
               </h5>
             </router-link>
           </li>
+          <div class="dropdown-divider"></div>
+          <li class="nav-item w-100">
+            <div
+              class="d-flex align-items-center shadow-sm w-100 border border-light"
+              data-toggle="collapse"
+              data-target="#user_info"
+              aria-expanded="true"
+              aria-controls="user_info"
+            >
+              <div class="mr-auto">
+                <h5
+                  class="font-weight-bold text-uppercase m-3 text-shadow-light-sm"
+                >
+                  {{ user.username }}
+                </h5>
+              </div>
+              <div class="ml-auto">
+                <span
+                  class="navbar-toggler-icon mr-3"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#user_info"
+                  aria-expanded="true"
+                  aria-controls="user_info"
+                >
+                </span>
+              </div>
+            </div>
+            <div class="collapse" id="user_info">
+              <router-link
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                :to="{ name: 'profile.index', params: { user: user.id } }"
+                >Mi Perfil
+              </router-link>
+              <button
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                onclick="event.preventDefault();  
+                                document.getElementById('logout-form').submit();"
+              >
+                Logout
+              </button>
+
+              <form
+                id="logout-form"
+                action="/logout"
+                method="POST"
+                class="d-none"
+              >
+                <input type="hidden" name="_token" :value="csrf" />
+              </form>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -179,10 +234,13 @@
 
 <script>
 export default {
-  props: ["user_role"],
+  props: ["user_role", "user"],
   data() {
     return {
       ticket_statuses: [],
+      csrf: document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content"),
     };
   },
   beforeMount() {
