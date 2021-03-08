@@ -263,6 +263,8 @@ export default {
       this.selected.customer_id = value ? value.id : null;
     },
     handleSubmit() {
+      this.$emit('closeErrors');
+      this.error.errors = [];
       axios
         .post("/api/user", {
           role_id: this.selected.role_id,

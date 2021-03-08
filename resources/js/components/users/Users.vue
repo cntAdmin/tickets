@@ -49,7 +49,7 @@
         class="btn btn-secondary btn-sm text-uppercase btn-block font-weight-bold"
         @click="is_new = true"
       >
-        Crear Cliente
+        Crear Usuario
       </button>
     </div>
 
@@ -80,6 +80,7 @@
         @close="closeAll()"
         @created="succeeded"
         @error="showErrors"
+        @closeErrors="error.status = false"
       ></user-new>
     </transition>
     <transition name="fade" v-else-if="is_edit" mode="out-in">
