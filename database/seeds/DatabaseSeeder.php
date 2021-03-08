@@ -15,15 +15,15 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             PermissionsSeeder::class,
             PermissionsRolesSeeder::class,
-            DepartmentsSeeder::class,
             CustomersSeeder::class,
             UsersSeeder::class,
             BrandSeeder::class,
             CarModelsSeeder::class,
             TicketStatusSeeder::class,
-            TicketSeeder::class,
-            AttachmentsSeeder::class,
-            PostSeeder::class,
+            // DepartmentsSeeder::class,
+            // TicketSeeder::class,
+            // AttachmentsSeeder::class,
+            // PostSeeder::class,
             ]);
     }
 }
