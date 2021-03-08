@@ -1,7 +1,8 @@
 <template>
       <div :class="'mt-3 row justify-content-center justify-content-xl-' + align('comment') ">
         <div class="col-12 col-xl-10">
-            <h4 :class="'title text-' + align('text')">{{ comment.user.name ? comment.user.name : comment.user.username }}</h4>
+            <h4 :class="'title text-' + align('text')" v-if="!isFaq">{{ comment.user.name ? comment.user.name : comment.user.username }}</h4>
+            <h4 :class="'title text-' + align('text')" v-else>{{ user_role }}</h4>
             <p :class="'h6 text-' + align('text')">{{ comment.created_at | moment("from", "now") }}</p>
             <div class="card mt-1 shadow">
                 <div class="card-body"> 
@@ -27,7 +28,7 @@
 <script>
 export default {
     props: [
-        'comment', 'user'
+        'comment', 'user', 'isFaq'
     ],
     data() {
         return {

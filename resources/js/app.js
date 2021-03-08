@@ -66,6 +66,8 @@ Vue.component('vue-select', vSelect)
 Vue.component('tickets', require('./components/tickets/Tickets').default);
 Vue.component('tickets-table', require('./components/tickets/TicketsTable').default);
 Vue.component('tickets-search-form', require('./components/tickets/TicketsSearchForm').default);
+Vue.component('ticket-view', require('./components/tickets/TicketView').default);
+
 // MOBILE
 Vue.component('mobile-tickets-cards-table', require('./components/tickets/MobileTicketsCardsTable').default);
 

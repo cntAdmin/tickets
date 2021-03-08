@@ -28,7 +28,7 @@
               </td>
               <td>
                 <router-link
-                  :to="{ name: 'ticket.show', params: { ticketID: faq.id } }"
+                  :to="{ name: 'faqs.show', params: { id: faq.id } }"
                   class="btn btn-sm btn-block btn-success"
                 >
                     <i class="fa fa-eye"></i>

@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="d-flex justify-content-center flex-row flex-wrap mt-4">
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-6 col-lg-4 mt-2  mt-md-0">
         <label class="sr-only" for="dateFrom">Buscar</label>
         <div class="input-group w-100">
           <div class="input-group-prepend">
@@ -15,7 +15,7 @@
           />
         </div>
       </div>
-      <div class="col-12 col-md-2">
+      <div class="col-12 col-md-2 mt-2 mt-md-0">
         <button
           class="btn btn-success btn-block text-uppercase"
           type="submit"

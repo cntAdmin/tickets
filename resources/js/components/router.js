@@ -23,6 +23,7 @@ import CarModels from './car_models/CarModels';
 import Calls from './calls/Calls';
 import Blogs from './blogs/Blogs';
 import Faqs from './faqs/Faqs';
+import FaqViewInfo from './faqs/FaqViewInfo';
 
 Vue.use(VueRouter);
 
@@ -133,11 +134,16 @@ const router = new VueRouter({
             props: true
         },
         {
-            path: '/faqs',
+            path: '/faq',
             name: 'faqs.index',
             component: Faqs,
-            props: true
         },
+            {
+                path: '/faq/:id',
+                name: 'faqs.show',
+                component: FaqViewInfo,
+                props: true
+            },
 
 
     ],

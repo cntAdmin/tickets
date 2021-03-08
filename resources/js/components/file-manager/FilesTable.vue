@@ -29,7 +29,7 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">Seleccionar</th>
-              <th scope="col"># Incidencia Asociado</th>
+              <th scope="col"># Incidencia Asociada</th>
               <th scope="col">Miniatura</th>
               <th scope="col">Nombre Fichero</th>
               <th scope="col">Fecha Subida</th>

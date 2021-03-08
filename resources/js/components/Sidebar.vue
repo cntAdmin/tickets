@@ -80,14 +80,14 @@
           <li class="nav-item mt-2">
             <div class="shadow-sm">
               <router-link
-                id="blog"
+                id="faqs"
                 class="d-flex align-items-center shadow-sm w-100 border border-light text-decoration-none"
                 :to="{ name: 'faqs.index' }"
               >
                 <h5
                   class="font-weight-bold text-uppercase m-3 text-shadow-light-sm text-dark"
                 >
-                  Faq's
+                  Glosario de Incidencias
                 </h5>
               </router-link>
             </div>
