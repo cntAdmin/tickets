@@ -2,10 +2,14 @@
 
 @section('content')
 <div class="d-flex h-100">
-    <div class="m-auto w-50">
+    <video autoplay muted loop class="position-fixed w-100" style="opacity: 0.5; filter: blur(.5px) ">
+        <source src="{{ asset('/storage/login_video.mp4')}}" type="video/mp4">
+    </video>
+
+    <div class="m-auto w-50 h-75">
         <div class="d-flex justify-content-center">
             <div class="col-md-10">
-                <div class="card">
+                <div class="card shadow-lg">
                     <div class="card-header text-uppercase">{{ __('Acceder') }}</div>
 
                     <div class="card-body">
