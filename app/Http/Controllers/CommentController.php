@@ -62,7 +62,7 @@ class CommentController extends Controller
             'files' => ['array', 'nullable', 'max:25600']
         ], $messages, $customAttributes);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
             ]);
@@ -73,12 +73,12 @@ class CommentController extends Controller
 
         $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
         $admin_comments = Ticket::where('tickets.id', $ticket->id)
-            ->whereHas('comments.user', function(Builder $q) use ($admin_users) {
+            ->whereHas('comments.user', function (Builder $q) use ($admin_users) {
                 $q->whereIn('users.id', $admin_users);
             })->withCount('comments')
             ->first();
 
-        if(empty($admin_comments) || ($admin_comments && $admin_comments->count() <= 0)) {
+        if (empty($admin_comments) || ($admin_comments && $admin_comments->count() <= 0)) {
             $ticket->update([
                 'ticket_status_id' => 2
             ]);
@@ -87,31 +87,29 @@ class CommentController extends Controller
         $ticket_assigned = $ticket->comments()->save($create_comment);
         $user_assigned = $create_comment->user()->associate(auth()->user()->id);
         $create_comment->save();
-        if($req->file('files')) {
+        if ($req->file('files')) {
             foreach ($req->file('files') as $file) {
-                $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2,'0', STR_PAD_LEFT), $file);
+                $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2, '0', STR_PAD_LEFT), $file);
                 $attachment = Attachment::create([
                     'name' => $file->getClientOriginalName(),
                     'path' => $stored_file
-                    ]);
+                ]);
                 $create_comment->attachments()->save($attachment);
             }
         }
 
-        if(!App::environment('local')) {
+        if (!App::environment('local')) {
             // Mail::to(auth()->user())->send(new NewCommentMail);
         }
 
 
 
         return $ticket_assigned && $user_assigned
-            ? response()->json(['success' => true, 'msg' => __('Comentario creado correctamente.') ])
+            ? response()->json(['success' => true, 'msg' => __('Comentario creado correctamente.')])
             : response()->json([
                 'error' => true,
                 'msg' =>  __('El comentario no se ha podido crear, por favor intentelo de nuevo mas tarde o contacte con el administrador.')
             ]);
-
-        
     }
 
     /**
@@ -162,7 +160,7 @@ class CommentController extends Controller
             'deleted_by' => auth()->user()->id
         ]);
 
-        $comment->attachments()->each(function($attachment) {
+        $comment->attachments()->each(function ($attachment) {
             Storage::delete($attachment->path);
         });
 

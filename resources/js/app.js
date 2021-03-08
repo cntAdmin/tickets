@@ -12,6 +12,7 @@ import vSelect from 'vue-select';
 import Vuex from 'vuex';
 import FileManager from 'laravel-file-manager';
 import VueScreen from 'vue-screen';
+import checkView from 'vue-check-view'
 
 
 //  console.log(router)
@@ -34,6 +35,7 @@ Vue.use(FileManager, {
     store
 })
 
+Vue.use(checkView)
 
 /**
  * The following block of code may be used to automatically register your

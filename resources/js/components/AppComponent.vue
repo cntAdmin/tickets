@@ -23,7 +23,7 @@
       </main>
       <!-- MOBILE SIDEBAR -->
       <div class="fixed-bottom d-xl-none d-block">
-        <mobile-bottom-navbar :newTickets="newTickets" :user="user"></mobile-bottom-navbar>
+        <mobile-bottom-navbar :newTickets="answered_tickets" :user="user"></mobile-bottom-navbar>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
   props: ["user_role", "user"],
   data() {
     return {
-      newTickets: 0,
+      answered_tickets: 0,
       is_admin: false,
       admin_roles: [1, 2, 3, 4],
     };
@@ -47,9 +47,9 @@ export default {
   methods: {
     get_new_tickets() {
       axios
-        .get("/api/get_ticket_counters")
+        .get("/api/answered_tickets")
         .then((res) => {
-          this.newTickets = res.data.newTickets;
+          this.answered_tickets = res.data.answered;
         })
         .catch((err) => console.log(err));
     },

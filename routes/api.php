@@ -56,7 +56,6 @@ Route::group(['middleware' => ['auth:web']], function () {
             return response()->json([ 'user_role' => $get_user->getRoleNames()[0] ]);
         });
         Route::get('/mobile_ticket', 'TicketController@mobile_index');
-        
         Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
         Route::get('/toogle_faqs_ticket/{ticket}', 'TicketController@toogle_faqs_ticket');
         
@@ -98,6 +97,10 @@ Route::group(['middleware' => ['auth:web']], function () {
         // ? CALLS
         Route::get('/get_calls_count', 'CallController@get_calls_count');
         
+        // ? COMMENTS
+        Route::get('/mark_comment_as_read/{comment}', 'CommentController@mark_comment_as_read');
+        Route::get('/answered_tickets', 'CommentController@answered_tickets');
+
     });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

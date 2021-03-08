@@ -15,6 +15,7 @@ use App\Models\TicketStatus;
 use App\Models\User;
 use App\Scopes\RoleTicketFilterScope;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -443,5 +444,14 @@ class TicketController extends Controller
         ];
 
         return response()->download(Storage::path($storage), $filename, $headers);
+    }
+
+    public function answered_tickets() {
+        $answered = Ticket::where('answered', true)->count();
+
+        return response()->json([
+            'success' => true,
+            'answered' => $answered
+        ]);
     }
 }
