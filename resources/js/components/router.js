@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 // COMPONENTS
 import Tickets from "./tickets/Tickets";
+import TicketsPending from "./tickets/TicketsPending";
 import TicketViewInfo from "./tickets/TicketViewInfoComponent";
 import TicketsCreate from "./tickets/TicketsCreateComponent";
 import TicketEdit from "./tickets/TicketEditComponent";
@@ -42,27 +43,11 @@ const router = new VueRouter({
         },
         // * ADMIN ROUTES
         {
-            path: '/admin/incidencia',
-            name: 'ticket.index', 
-            component: Tickets
+            path: '/admin/incidencia/:ticketID/edit',
+            name: 'ticket.edit', 
+            component: TicketEdit,
+            props: true
         },
-            {
-                path: '/admin/incidencia/create/:customer_id?',
-                name: 'ticket.create', 
-                component: TicketsCreate
-            },
-            {
-                path: '/admin/incidencia/:ticketID',
-                name: 'ticket.show', 
-                component: TicketViewInfo,
-                props: true
-            },
-            {
-                path: '/admin/incidencia/:ticketID/edit',
-                name: 'ticket.edit', 
-                component: TicketEdit,
-                props: true
-            },
         {
             path: '/admin/call',
             name: 'call.index', 
@@ -122,6 +107,27 @@ const router = new VueRouter({
             },
         // * ADMIN ROUTES
         // * USERS ROUTES.
+        {
+            path: '/incidencias',
+            name: 'ticket.index', 
+            component: Tickets
+        },
+            {
+                path: '/incidencia/create/:customer_id?',
+                name: 'ticket.create', 
+                component: TicketsCreate
+            },
+            {
+                path: '/incidencia/:ticketID',
+                name: 'ticket.show', 
+                component: TicketViewInfo,
+                props: true
+            },
+            {
+                path: '/incidencias/pendientes',
+                name: 'ticket.answer', 
+                component: TicketsPending,
+            },
         {
             path: '/blog',
             name: 'users-blog.index',

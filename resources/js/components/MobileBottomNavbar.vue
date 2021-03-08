@@ -5,7 +5,7 @@
         <div class="d-flex flex-column align-items-center">
         <button class="btn btn-link" title="No Vistas">
           <router-link
-            :to="{ name: 'ticket.index', query: { status: 1 } }"
+            :to="{ name: 'ticket.answer'}"
             class="text-white"
           >
             <i class="fas fa-file-alt fa-2x"></i>

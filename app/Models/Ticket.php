@@ -17,6 +17,8 @@ class Ticket extends Model
     protected $fillable = [
         'custom_id', 'frame_id', 'plate', 'brand', 'model', 'subject', 'description', 'tests_done', 'ask_for', 'knowledge_base',
         'engine_type', 'other_brand_model',
+        // IF TRUE => ADMIN HAS ANSWERED
+        'answered',
         // FOREIGN KEYS
         'customer_id', 'department_id', 'user_id', 'deleted_by', 'call_id', 'ticket_status_id', 'created_by'
     ];
@@ -111,6 +113,12 @@ class Ticket extends Model
                         $q3->where('subject', 'LIKE', '%' . $text . '%')->orWhere('description', 'LIKE', '%' . $text . '%');
                     });
                 });
+        })->when(request()->input('answered'), function (Builder $q) {
+            if(auth()->user()->roles[0]->id > 4) {
+                $q->whereAnswered(true);
+            } else {
+                $q->whereAnswered(false);
+            }
         })->when(request()->input('ticket_id'), function (Builder $q, $id) {
             $q->where('custom_id', 'LIKE', '%' . $id . '%');
         })->when(request()->input('frame_id'), function (Builder $q, $frame_id) {

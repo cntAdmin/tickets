@@ -2,7 +2,7 @@
   <div class="flex-row justify-content-center" id="cards-list">
     <div class="card mt-3 shadow" v-for="ticket in faqs" :key="ticket.id">
       <div class="card-header">
-        <h4 class="text-uppercase text-left font-weight-bold">aa  {{ticket.id}}bb
+        <h4 class="text-uppercase text-left font-weight-bold">
           <router-link
             :to="{
               name: 'faqs.show',

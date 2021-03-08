@@ -116,7 +116,7 @@
 
 <script>
 export default {
-  props: ["ticket_statuses", "searched"],
+  props: ["ticket_statuses", "searched", "answered"],
   data() {
     return {
       tickets: [],
@@ -168,6 +168,7 @@ export default {
               date_to: this.searched ? this.searched.date_to : null,
               knowledge_base: this.searched ? this.searched.knowledge_base : null,
               offset: this.offset,
+              answered: this.answered
             },
           })
           .then((res) => {
