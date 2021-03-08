@@ -16,7 +16,7 @@ class CreateCallsTable extends Migration
         Schema::create('calls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ticket_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('customer_id');
+            $table->foreignId('customer_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('src', 80)->nullable();
             $table->string('dst', 80)->nullable();
             $table->string('dcontext', 255)->nullable();

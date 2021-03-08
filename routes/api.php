@@ -58,7 +58,8 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/mobile_ticket', 'TicketController@mobile_index');
         Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
         Route::get('/toogle_faqs_ticket/{ticket}', 'TicketController@toogle_faqs_ticket');
-        
+        Route::get('/answered_tickets', 'TicketController@answered_tickets');
+
         // ? CALLS TICKET
         Route::put('/call/{call}/ticket/{ticket}', 'CallController@toggle_call_ticket');
         Route::get('/asignable_calls', 'CallController@asignable_calls');
@@ -99,7 +100,6 @@ Route::group(['middleware' => ['auth:web']], function () {
         
         // ? COMMENTS
         Route::get('/mark_comment_as_read/{comment}', 'CommentController@mark_comment_as_read');
-        Route::get('/answered_tickets', 'CommentController@answered_tickets');
 
     });
 
