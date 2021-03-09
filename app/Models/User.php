@@ -70,6 +70,14 @@ class User extends Authenticatable
             $q->where('email', 'LIKE', $email . '%');
         })->when(request()->input('phone'), function(Builder $q, $phone) {
             $q->where('phone', 'LIKE', $phone . '%');
+        })->when(request()->input('role_id'), function(Builder $q, $role) {
+            $q->whereHas('roles', function(Builder $q2) use ($role) {
+                $q2->where('id', $role);
+            });
+        }, function(Builder $q) {
+            $q->whereHas('roles', function(Builder $q2) {
+                $q2->where('id', '<>', 1);
+            });
         });
     }
 

@@ -38,7 +38,7 @@ class UserController extends Controller
             return abort(404);
         }
         // USUARIOS QUE EL ROL NO SEA SUPERADMIN
-        $users = User::role([2,3,4,5,6])->filterUsers()
+        $users = User::filterUsers()
             ->with(['customer', 'department', 'roles'])
             ->withCount('tickets')
             ->orderBy('surname', 'ASC')

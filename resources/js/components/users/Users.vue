@@ -177,6 +177,7 @@ export default {
             surname: data ? data.surname : null,
             username: data ? data.username : null,
             email: data ? data.email : null,
+            role_id: data ? data.role_id : null,
           },
         })
         .then((res) => {
