@@ -140,7 +140,8 @@ export default {
   deactivated() {
     this.resetFields();
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
+      console.log(from)
     next(vm => {
       console.log(from)
     })

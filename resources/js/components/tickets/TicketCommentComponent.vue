@@ -1,5 +1,5 @@
 <template>
-      <div :class="'mt-3 row justify-content-center justify-content-xl-' + align('comment') " v-view.once="checkVisibility">
+      <div :class="'mt-3 row justify-content-center justify-content-xl-' + align('comment') ">
         <div class="col-12 col-xl-10">
             <h4 :class="'title text-' + align('text')" v-if="!isFaq">{{ comment.user.name ? comment.user.name : comment.user.username }}</h4>
             <h4 :class="'title text-' + align('text')" v-else>{{ user_role }}</h4>
@@ -40,16 +40,6 @@ export default {
         this.get_user_role();
     },
     methods: {
-        checkVisibility(e) {
-            if(this.user.id !== this.comment.user_id) {
-                axios.get(`/api/mark_comment_as_read/${this.comment.id}`)
-                    .then( res => {
-                        if(res.data.success) {
-                            // console.log(res.data)
-                        }
-                    }).catch( err => console.log(err))
-            }
-        },
         openDeleteModal(){
             this.showDeleteModal = true;
         },
