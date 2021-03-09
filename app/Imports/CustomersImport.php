@@ -16,13 +16,13 @@ class CustomersImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Customer([
-            'custom_id' => strtoupper($row['codigo']),
-            'fiscal_name' => ucwords(strtolower($row['talleres'])),
-            'comercial_name' => ucwords(strtolower($row['talleres'])),
+            'custom_id' => strtoupper($row['custom_id']),
+            'fiscal_name' => ucwords(strtolower($row['comercial_name'])),
+            'comercial_name' => ucwords(strtolower($row['comercial_name'])),
             'email' => strtolower($row['email']),
-            'province' => ucwords(strtolower($row['provincia'])),
-            'phone_1' => $row['telefono'],
-            'shop' => ucwords(strtolower($row['tienda'])),
+            'province' => ucwords(strtolower($row['province'])),
+            'phone_1' => $row['phone_1'],
+            'shop' => ucwords(strtolower($row['shop'])),
         ]);
     }
 }
