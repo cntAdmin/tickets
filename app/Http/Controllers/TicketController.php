@@ -150,10 +150,10 @@ class TicketController extends Controller
                 'ticket_status_id' => 1
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
-            return $th;
+            throw $th;
+            // return $th;
         }
-        
+
         return $req;
 
         if ($req->file('files')) {
