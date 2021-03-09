@@ -37,7 +37,7 @@
         size="4"
       />
       <card-counter
-        title="Contactos"
+        title="Usuarios"
         color="danger"
         :count="contact_count"
         icon="envelope-open"

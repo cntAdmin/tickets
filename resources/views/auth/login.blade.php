@@ -6,11 +6,16 @@
         <source src="{{ asset('/storage/login_video.mp4')}}" type="video/mp4">
     </video>
 
-    <div class="m-auto w-50 h-75">
+    <div class="m-auto w-50">
         <div class="d-flex justify-content-center">
             <div class="col-md-10">
                 <div class="card shadow-lg">
-                    <div class="card-header text-uppercase">{{ __('Acceder') }}</div>
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img src="{{ asset('/storage/aap_logo.jpeg')}}" class="d-inline-block align-middle w-25" alt="">
+                            <h1 class="text-uppercase mx-5">{{ env('APP_NAME') }}</h1>
+                        </div>
+                    </div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">

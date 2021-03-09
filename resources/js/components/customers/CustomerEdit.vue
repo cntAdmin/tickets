@@ -241,7 +241,7 @@
         <div class="my-4 dropdown-divider"></div>
         <div class="card shadow mt-4">
           <div class="card-header text-uppercase">
-            <h5>Contactos</h5>
+            <h5>Usuarios</h5>
           </div>
           <div
             class="alert alert-dismissable alert-success m-3 text-center"

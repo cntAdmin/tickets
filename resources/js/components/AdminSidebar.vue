@@ -78,7 +78,7 @@
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'user.index' }"
               >
-                <span class="font-weight-bold">Usuarios / Contactos</span>
+                <span class="font-weight-bold">Usuarios</span>
               </router-link>
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
