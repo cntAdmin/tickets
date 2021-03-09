@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth:web']], function () {
 
     // ? EXPORTS
     Route::get('/export_tickets', 'TicketController@export_tickets');
+    Route::get('/export_customers', 'CustomerController@export_customers');
+    Route::get('/export_users', 'UserController@export_users');
     
     // ? VUE GETTERS
         // ? TICKETS

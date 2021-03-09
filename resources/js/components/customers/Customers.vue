@@ -79,13 +79,19 @@
     </transition>
 
     <transition name="fade" v-else-if="customers.data" mode="out-in">
-      <customers-table
-        :customers="customers"
-        :searched="searched"
-        @page="getCustomers"
-        @deleted="succeeded"
-        @edit="editCustomer"
-      ></customers-table>
+      <div v-if="customers.total > 0">
+        <div class="d-none d-xl-block">
+          <exports @exportFile="exportFile" toExport="customers" :searched="searched"></exports>
+        </div>
+
+        <customers-table
+          :customers="customers"
+          :searched="searched"
+          @page="getCustomers"
+          @deleted="succeeded"
+          @edit="editCustomer"
+        ></customers-table>
+      </div>
     </transition>
   </div>
 </template>
@@ -123,6 +129,44 @@ export default {
     this.closeAll();
   },
   methods: {
+    exportFile(type) {
+      axios
+        .get("/api/export_customers", {
+          responseType: "arraybuffer",
+          params: {
+            custom_id: this.searched.custom_id ? this.searched.custom_id : null,
+            comercial_name: this.searched.comercial_name
+              ? this.searched.comercial_name
+              : null,
+            fiscal_name: this.searched.fiscal_name
+              ? this.searched.fiscal_name
+              : null,
+            shop: this.searched.shop ? this.searched.shop : null,
+            phone: this.searched.phone ? this.searched.phone : null,
+            type: type,
+          },
+        })
+        .then((res) => {
+          // GET FILENAME FROM HEADERS
+          var filename = "";
+          var disposition = res.headers["content-disposition"];
+          if (disposition && disposition.indexOf("attachment") !== -1) {
+            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+            var matches = filenameRegex.exec(disposition);
+            if (matches != null && matches[1]) {
+              filename = matches[1].replace(/['"]/g, "");
+            }
+          }
+          // STORE FILE IN A BLOB
+          let blob = new Blob([res.data], { type: "application/*" });
+          let link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = filename;
+          // DOWNLOAD IT
+          link.click();
+        })
+        .catch((err) => console.log(err));
+    },
     showErrors(data) {
       this.error = {
         status: true,
@@ -164,9 +208,9 @@ export default {
         .get("/api/customer", {
           params: {
             page: data ? data.page : 1,
-            custom_id: data ? data.customID : null,
-            comercial_name: data ? data.comercialName : null,
-            fiscal_name: data ? data.fiscalName : null,
+            custom_id: data ? data.custom_id : null,
+            comercial_name: data ? data.comercial_name : null,
+            fiscal_name: data ? data.fiscal_name : null,
             shop: data ? data.shop : null,
             phone: data ? data.phone : null,
           },

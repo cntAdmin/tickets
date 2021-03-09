@@ -132,7 +132,7 @@ class TicketController extends Controller
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
 
-        $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest()->first()->id;
+        $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first()->id;
         // CREATING TICKET
         try {
             //code...
@@ -432,7 +432,8 @@ class TicketController extends Controller
                 $filename = 'tickets-' . now()->format('Y-m-d_H-i-s') . '.pdf';
                 $storage = 'exports/pdfs/' . $filename;
                 $tickets = Ticket::filterTickets()->get();
-                $pdf = PDF::loadView('exports.pdfs.tickets', ['tickets' => $tickets])
+                $pdf = PDF::loadView('exports.tickets', ['tickets' => $tickets])
+                    ->setPaper('a4', 'landscape')
                     ->setOptions([
                         'defaultFont' => 'sans-serif',
                         'debugCss' => true

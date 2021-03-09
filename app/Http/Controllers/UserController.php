@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Ticket;
@@ -9,8 +10,11 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class UserController extends Controller
 {
@@ -270,5 +274,39 @@ class UserController extends Controller
             'customer_count' => $customer_count,
             'contact_count' => $contact_count
         ]);
+    }
+
+    public function export_users(Request $req) {
+        switch ($req->type) {
+            case 'excel':
+                if (!Storage::exists('exports/excels')) {
+                    Storage::makeDirectory('exports/excels');
+                }
+                
+                $filename = 'users-' . now()->toDateTimeString() . '.xlsx';
+                $storage = 'exports/excels/' . $filename;
+                Excel::store(new UserExport($req), $storage);
+                break;
+            case 'pdf':
+                if (!Storage::exists('exports/pdfs')) {
+                    Storage::makeDirectory('exports/pdfs');
+                }
+                $filename = 'users-' . now()->format('Y-m-d_H-i-s') . '.pdf';
+                $storage = 'exports/pdfs/' . $filename;
+                $users = User::filterUsers()->get();
+                $pdf = PDF::loadView('exports.users', ['users' => $users])
+                    ->setPaper('a4', 'landscape')
+                    ->setOptions([
+                        'defaultFont' => 'sans-serif',
+                        'debugCss' => true
+                    ]);
+                Storage::put($storage, $pdf->output());
+                break;
+        }
+        $headers = [
+            'Content-Type' => 'application/*',
+        ];
+
+        return response()->download(Storage::path($storage), $filename, $headers);
     }
 }

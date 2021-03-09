@@ -98,13 +98,19 @@
     </transition>
 
     <transition name="fade" v-else-if="users.data" mode="out-in">
-      <users-table
-        :users="users"
-        @page="getUsers"
-        :searched="searched"
-        @deleted="succeeded"
-        @edit="editUser"
-      ></users-table>
+      <div v-if="users.total > 0">
+        <div class="d-none d-xl-block">
+          <exports toExport="users" :searched="searched"></exports>
+        </div>
+
+        <users-table
+          :users="users"
+          :searched="searched"
+          @page="getUsers"
+          @deleted="succeeded"
+          @edit="editUser"
+        ></users-table>
+      </div>
     </transition>
   </div>
 </template>
@@ -145,6 +151,7 @@ export default {
     this.getUsers();
   },
   methods: {
+    
     showErrors(data) {
       this.error = {
         status: true,

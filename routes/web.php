@@ -20,11 +20,11 @@ use Maatwebsite\Excel\Facades\Excel;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/testing', function (Request $req) {
-    Excel::import(new TicketsImport, 'imports/Importar_Incidencias_prueba.csv');
-    dd("solusionao");
-});
+// Route::get('testing1', 'UserController@export_users');
+// Route::get('/testing', function (Request $req) {
+    
+//     dd(Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first());
+// });
 
 Route::get('/', function () {
     return redirect()->route('login');

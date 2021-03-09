@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CustomerExport;
 use App\Models\Customer;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+
 class CustomerController extends Controller
 {
     private $messages;
@@ -31,35 +35,7 @@ class CustomerController extends Controller
     public function index(Request $req)
     {
         if($req->ajax()) {
-            $customers = Customer::when($req->custom_id, function(Builder $q, $custom_id){
-                    $q->where('custom_id', 'LIKE', $custom_id . '%');
-                })->when($req->cif, function(Builder $q, $cif){
-                    $q->where('cif', 'LIKE', $cif . '%');
-                })->when($req->fiscal_name, function(Builder $q, $fiscal_name){
-                    $q->where('fiscal_name', 'LIKE', '%' . $fiscal_name . '%');
-                })->when($req->comercial_name, function(Builder $q, $comercial_name){
-                    $q->where('comercial_name', 'LIKE', '%' . $comercial_name . '%');
-                })->when($req->phone, function(Builder $q, $phone){
-                    $q->where('phone_1', 'LIKE', $phone . '%')
-                        ->orWhere('phone_2', 'LIKE', $phone . '%')
-                        ->orWhere('phone_3', 'LIKE', $phone . '%');
-                })->when($req->email, function(Builder $q, $email){
-                    $q->where('email', 'LIKE', $email . '%');
-                })->when($req->street, function(Builder $q, $street){
-                    $q->where('street', 'LIKE', $street . '%');
-                })->when($req->town, function(Builder $q, $town){
-                    $q->where('town', 'LIKE', $town . '%');
-                })->when($req->city, function(Builder $q, $city){
-                    $q->where('city', 'LIKE', $city . '%');
-                })->when($req->country, function(Builder $q, $country){
-                    $q->where('country', 'LIKE', $country . '%');
-                })->when($req->postcode, function(Builder $q, $postcode){
-                    $q->where('postcode', 'LIKE', $postcode . '%');
-                })->when($req->shop, function(Builder $q, $shop){
-                    $q->where('shop', 'LIKE', $shop . '%');
-                })->when($req->is_active, function(Builder $q, $is_active){
-                    $q->where('is_active', $is_active);
-                })
+            $customers = Customer::filterCustomers()
                 ->with('users')
                 // COUNT OF USERS PER CUSTOMER
                 ->withCount('users')
@@ -286,5 +262,40 @@ class CustomerController extends Controller
             'success' => true,
             'contacts' => $customer->contacts()
         ]);
+    }
+
+    public function export_customers(Request $req)
+    {
+        switch ($req->type) {
+            case 'excel':
+                if (!Storage::exists('exports/excels')) {
+                    Storage::makeDirectory('exports/excels');
+                }
+                
+                $filename = 'customers-' . now()->toDateTimeString() . '.xlsx';
+                $storage = 'exports/excels/' . $filename;
+                $store = Excel::store(new CustomerExport($req), $storage);
+                break;
+            case 'pdf':
+                if (!Storage::exists('exports/pdfs')) {
+                    Storage::makeDirectory('exports/pdfs');
+                }
+                $filename = 'customers-' . now()->format('Y-m-d_H-i-s') . '.pdf';
+                $storage = 'exports/pdfs/' . $filename;
+                $customers = Customer::filterCustomers()->get();
+                $pdf = PDF::loadView('exports.customers', ['customers' => $customers])
+                    ->setPaper('a4', 'landscape')
+                    ->setOptions([
+                        'defaultFont' => 'sans-serif',
+                        'debugCss' => true
+                    ]);
+                Storage::put($storage, $pdf->output());
+                break;
+        }
+        $headers = [
+            'Content-Type' => 'application/*',
+        ];
+
+        return response()->download(Storage::path($storage), $filename, $headers);
     }
 }

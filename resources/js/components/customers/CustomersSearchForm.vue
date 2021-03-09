@@ -14,7 +14,7 @@
                 </div>
                 <input
                   type="text"
-                  v-model="selected.customID"
+                  v-model="selected.custom_id"
                   class="form-control"
                   autofocus
                 />
@@ -30,7 +30,7 @@
                 </div>
                 <input
                   type="text"
-                  v-model="selected.comercialName"
+                  v-model="selected.comercial_name"
                   class="form-control"
                 />
               </div>
@@ -45,7 +45,7 @@
                 </div>
                 <input
                   type="text"
-                  v-model="selected.fiscalName"
+                  v-model="selected.fiscal_name"
                   class="form-control"
                 />
               </div>
@@ -100,9 +100,9 @@ export default {
     return {
       selected: {
         page: 1,
-        customID: "",
-        comercialName: "",
-        fiscalName: "",
+        custom_id: "",
+        comercial_name: "",
+        fiscal_name: "",
         shop: "",
         phone: "",
       },
