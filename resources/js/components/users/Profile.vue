@@ -38,7 +38,7 @@
             aria-controls="contact"
             aria-selected="false"
           >
-            Mis Contactos
+            Mis Usuarios
           </a>
         </li>
       </ul>
