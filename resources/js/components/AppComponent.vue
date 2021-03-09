@@ -13,6 +13,7 @@
         <transition name="fade" mode="out-in">
           <keep-alive>
             <router-view
+            class="mt-2"
               :key="$route.fullPath"
               :user_role="user_role"
               :user="user"
