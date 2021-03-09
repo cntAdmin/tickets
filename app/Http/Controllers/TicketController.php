@@ -131,8 +131,7 @@ class TicketController extends Controller
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
 
-        return $req;
-        $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first()->id;
+        $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first()->id ?? 0;
         // CREATING TICKET
         try {
             //code...
