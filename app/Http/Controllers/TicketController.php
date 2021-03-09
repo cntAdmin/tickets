@@ -18,6 +18,7 @@ use App\Scopes\RoleTicketFilterScope;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -131,12 +132,17 @@ class TicketController extends Controller
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
 
-        $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first()->id ?? 0;
+        $ticket = New Ticket();
+
+        $last_autoincrement = DB::table('information_schema.tables')
+            ->select("AUTO_INCREMENT as autoincrement")
+            ->whereRaw("table_name = 'tickets' AND table_schema = '". $ticket->getTable() ."'")->get();
+        $lastID = $last_autoincrement[0]->autoincrement;
         // CREATING TICKET
         try {
             //code...
             $create_ticket = Ticket::create([
-                'custom_id' => Str::upper($get_department->code) . now()->year . '-' . str_pad(($lastID + 1), 5, '0', STR_PAD_LEFT),
+                'custom_id' => Str::upper($get_department->code) . now()->year . '-' . str_pad(($lastID), 5, '0', STR_PAD_LEFT),
                 'frame_id' => $req->frame_id,
                 'other_brand_model' => $req->other_brand_model,
                 'plate' => $req->plate,
