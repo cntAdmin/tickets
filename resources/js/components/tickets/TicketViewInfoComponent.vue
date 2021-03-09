@@ -140,6 +140,11 @@ export default {
   deactivated() {
     this.resetFields();
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      console.log(from)
+    })
+  },
   props: ["ticketID", "user_role", "user"],
   data() {
     return {
