@@ -23,7 +23,7 @@ export default {
     }
   },
   mounted() {
-    console.log({contact: this.contact});
+    // console.log({contact: this.contact});
   },
   methods: {
     handleSubmit() {

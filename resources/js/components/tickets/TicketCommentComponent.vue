@@ -45,7 +45,7 @@ export default {
                 axios.get(`/api/mark_comment_as_read/${this.comment.id}`)
                     .then( res => {
                         if(res.data.success) {
-                            console.log(res.data)
+                            // console.log(res.data)
                         }
                     }).catch( err => console.log(err))
             }

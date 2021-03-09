@@ -90,11 +90,8 @@
                   <input
                     type="text"
                     v-model="user.customer.custom_id"
-                    :class="
-                      [customerError.errors.custom_id ? 'is-invalid' : ''] +
-                      ' form-control'
-                    "
-                    autofocus
+                    class="form-control"
+                    disabled
                   />
                 </div>
               </div>
@@ -513,8 +510,7 @@ export default {
     handleCustomerSubmit() {
       this.closeAll();
       axios
-        .put("/api/customer/" + this.user.customer.id, {
-          custom_id: this.user.customer.custom_id,
+        .put(`/api/customer/${this.user.customer.id}`, {
           cif: this.user.customer.cif,
           fiscal_name: this.user.customer.fiscal_name,
           comercial_name: this.user.customer.comercial_name,

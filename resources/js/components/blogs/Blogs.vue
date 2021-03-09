@@ -9,16 +9,16 @@
       </h2>
     </div>
 
-    <div class="d-flex flex-column flex-lg-row flex-wrap justify-content-center mt-3 w-100">
+    <div class="d-flex flex-column flex-lg-row flex-wrap justify-content-center mt-3 w-100" v-if="featuredPosts.data">
       <thumbnail-post
-        v-for="(post, idx) in featuredPosts.data !== undefined &&
-        Object.keys(featuredPosts.data).length > 0
-          ? featuredPosts.data
-          : featuredPosts"
+        v-for="(post, idx) in featuredPosts.data"
         :key="post.id"
         :post="post"
         :idx="idx"
       ></thumbnail-post>
+    </div>
+    <div v-else class="mt-3 mx-3 shadow">
+      <div class="alert alert-warning text-center mb-0">¡Lo sentimos, todavía no hay nada en el Blog! Vuelva pronto para ver las novedades.</div>
     </div>
     <transition name="fade" v-if="searching" mode="out-in">
       <div class="d-flex justify-content-center my-5">
@@ -94,15 +94,16 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             if (res.data.posts.length === 0) {
               this.searching = false;
               return (this.dontLoad = true);
             } else if (res.data.success) {
+              console.log(res.data)
               if (this.$screen.breakpoint === "xs") {
                 this.offset += 10;
                 setTimeout(() => {
-                  this.featuredPosts.push(...res.data.posts);
+                  this.featuredPosts.data.push(...res.data.posts);
                   this.searching = false;
                 }, 1000);
               } else {

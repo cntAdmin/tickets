@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     get_ticket() {
-        console.log(this.id)
+        // console.log(this.id)
       axios
         .get(`/api/ticket/${this.id}`)
         .then((res) => {

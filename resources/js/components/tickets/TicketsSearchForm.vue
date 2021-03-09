@@ -4,7 +4,7 @@
             <div class="card-body">
                 <form @submit.prevent="handleSubmit">
                     <div class="form-inline">
-                        <div class="form-group col-12 col-md-6 col-lg-4">
+                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
                             <label class="sr-only" for="dateFrom"># Incidencia</label>
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">
@@ -14,7 +14,7 @@
                                     title="Minimo 3 caracteres" autofocus />
                             </div>
                         </div>
-                        <div class="form-group col-12 col-md-6 col-lg-4">
+                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2"  v-if="user.roles[0].id < 4">
                             <label class="sr-only" for="dateFrom">Usuario</label>
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">
@@ -24,7 +24,7 @@
                                     title="Minimo 3 caracteres" />
                             </div>
                         </div>
-                        <div class="form-group col-12 col-md-6 col-lg-4">
+                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id < 4">
                             <label class="sr-only" for="dateFrom">Cod. Cliente</label>
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">
@@ -62,9 +62,8 @@
                                 <input type="date" v-model="selected.date_to" class="form-control" />
                             </div>
                         </div>
-                    </div>
-                    <div class="form-inline mt-2">
-                        <div class="form-group col-12 col-md-6 col-lg-4">
+
+                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
                             <label class="sr-only" for="dateFrom">Departamentos</label>
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">
@@ -78,7 +77,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group col-12 col-md-6 col-lg-4">
+                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
                             <label class="sr-only" for="dateFrom">Estados</label>
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">
@@ -92,7 +91,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group col-12 col-md-6 col-lg-4">
+                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
                             <label class="sr-only" for="dateFrom">Publicado</label>
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">
@@ -123,7 +122,7 @@ export default {
         this.resetFields();
         this.handleSubmit();
     },
-    props: ['ticket_statuses'],
+    props: ["ticket_statuses", "user"],
     data() {
         return {
             departments: [],

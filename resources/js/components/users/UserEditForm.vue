@@ -258,7 +258,7 @@ export default {
           is_active: this.user.is_active,
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.success) {
             this.$emit("updated", res.data.msg);
           } else if (res.data.error) {

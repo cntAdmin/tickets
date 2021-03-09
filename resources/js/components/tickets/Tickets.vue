@@ -55,6 +55,7 @@
       id="finder"
       class="collapse hidden d-xl-block"
       :ticket_statuses="ticket_statuses"
+      :user="user"
       @search="getTickets"
     />
 
