@@ -116,7 +116,6 @@ class TicketController extends Controller
             'files' => ['array', 'nullable', 'max:25600']
         ], $messages, $custom_attributes);
         // return $validator->errors();
-        return $req;
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
@@ -154,6 +153,8 @@ class TicketController extends Controller
             //throw $th;
             return $th;
         }
+        
+        return $req;
 
         if ($req->file('files')) {
             foreach ($req->file('files') as $file) {
