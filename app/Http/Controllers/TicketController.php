@@ -132,6 +132,7 @@ class TicketController extends Controller
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
 
         $lastID = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first()->id;
+        return $lastID;
         // CREATING TICKET
         try {
             //code...
