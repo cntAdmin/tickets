@@ -274,25 +274,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.bg-blue-gradient {
-  background: rgb(33, 112, 184);
-  background: linear-gradient(
-    0deg,
-    rgba(33, 112, 184, 1) 0%,
-    rgba(0, 91, 255, 1) 0%,
-    rgba(208, 252, 255, 1) 100%
-  );
-}
-.btn-dark.router-link-exact-active.router-link-active {
-  background-color: white;
-  color: black !important;
-}
-.text-decoration-none.router-link-exact-active.router-link-active {
-  /* background-color: orange; */
-  color: white !important;
-  text-decoration: underline !important;
-  text-decoration-color: white !important;
-}
-</style>
