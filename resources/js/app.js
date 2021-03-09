@@ -12,7 +12,6 @@ import vSelect from 'vue-select';
 import Vuex from 'vuex';
 import FileManager from 'laravel-file-manager';
 import VueScreen from 'vue-screen';
-import checkView from 'vue-check-view'
 
 
 //  console.log(router)
@@ -112,7 +111,6 @@ Vue.component('user-edit', require('./components/users/UserEdit').default);
 Vue.component('user-edit-form', require('./components/users/UserEditForm').default);
 // IN CUSTOMERS
 Vue.component('contact-card', require('./components/users/ContactCard').default);
-
 
 // FILE MANAGER
 Vue.component('file-manager', require('./components/file-manager/FileManager').default);

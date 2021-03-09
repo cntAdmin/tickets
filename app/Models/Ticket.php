@@ -112,6 +112,14 @@ class Ticket extends Model
                     $q2->where(function(Builder $q3) use ($text){
                         $q3->where('subject', 'LIKE', '%' . $text . '%')->orWhere('description', 'LIKE', '%' . $text . '%');
                     });
+                })->when(request()->input('brand_id'), function(Builder $q, $brand_id) {
+                    $q->whereHas('brand', function(Builder $q2) use ($brand_id){
+                        $q2->where('id', $brand_id);
+                    });
+                })->when(request()->input('model_id'), function(Builder $q, $model_id) {
+                    $q->whereHas('car_model', function(Builder $q2) use ($model_id){
+                        $q2->where('id', $model_id);
+                    });
                 });
         })->when(request()->input('answered'), function (Builder $q) {
             if(auth()->user()->roles[0]->id > 4) {

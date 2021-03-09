@@ -9,7 +9,7 @@
       </h2>
     </div>
 
-    <div class="d-flex flex-column flex-lg-row flex-wrap justify-content-center mt-3 w-100" v-if="featuredPosts.data">
+    <div class="d-flex flex-column flex-lg-row flex-wrap justify-content-center mt-3 w-100" v-if="featuredPosts.data && Object.keys(featuredPosts.data) > 0">
       <thumbnail-post
         v-for="(post, idx) in featuredPosts.data"
         :key="post.id"
@@ -89,7 +89,7 @@ export default {
         axios
           .get(this.url, {
             params: {
-              page: page ? page : 1,
+              page: page,
               offset: this.offset,
             },
           })
@@ -99,7 +99,6 @@ export default {
               this.searching = false;
               return (this.dontLoad = true);
             } else if (res.data.success) {
-              console.log(res.data)
               if (this.$screen.breakpoint === "xs") {
                 this.offset += 10;
                 setTimeout(() => {

@@ -318,6 +318,7 @@ export default {
           status: false,
           msg: "",
         };
+        this.$emit('close')
       }, 1500);
       this.success = {
         status: true,

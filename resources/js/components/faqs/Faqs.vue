@@ -62,6 +62,8 @@ export default {
             params: {
               page: data ? data.page : null,
               text: data ? data.text : null,
+              brand_id: data ? data.brand_id : null,
+              model_id: data ? data.model_id : null,
             },
           })
           .then((res) => {

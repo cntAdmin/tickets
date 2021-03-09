@@ -68,6 +68,9 @@
         @getCount="getCounters"
       ></posts-table>
     </transition>
+    <transition name="fade" v-else mode="out-in" class="mt-3 mx-3 shadow">
+      <div class="alert alert-warning text-center">Haga una nueva búsqueda</div>
+    </transition>
   </div>
 </template>
 
