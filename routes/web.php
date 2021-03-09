@@ -1,6 +1,7 @@
 <?php
 
 use App\Exports\TicketExport;
+use App\Imports\TicketsImport;
 use App\Models\Ticket;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -20,9 +21,10 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 
-// Route::get('/testing', function (Request $req) {
-//     dd(\App\Models\Ticket::find(59)->attachments);
-// });
+Route::get('/testing', function (Request $req) {
+    Excel::import(new TicketsImport, 'imports/Importar_Incidencias_prueba.csv');
+    dd("solusionao");
+});
 
 Route::get('/', function () {
     return redirect()->route('login');

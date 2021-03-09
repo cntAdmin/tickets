@@ -13,9 +13,9 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::all()->each(function($user){
-            $user->assignRole(6);
-        });
+        // \App\Models\User::all()->each(function($user){
+        //     $user->assignRole(5);
+        // });
         $cnt_admin = \App\Models\User::create([
             'name' => 'CNT',
             'surname' => 'Admin',

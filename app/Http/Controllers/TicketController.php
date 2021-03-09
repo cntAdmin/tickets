@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\TicketExport;
+use App\Imports\TicketsImport;
 use App\Jobs\GetCalls;
 use App\Models\Attachment;
 use App\Models\Brand;
@@ -459,5 +460,9 @@ class TicketController extends Controller
             'success' => true,
             'answered' => $answered
         ]);
+    }
+
+    public function ticket_import() {
+        Excel::import(new TicketsImport, 'imports/Importar_Incidencias_prueba.csv');
     }
 }

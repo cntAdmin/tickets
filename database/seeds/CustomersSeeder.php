@@ -27,6 +27,7 @@ class CustomersSeeder extends Seeder
                 'is_active' => 1,
             ]);
             $user->customer()->associate($c);
+            $user->syncRoles([5]);
             $user->save();
         });
 
