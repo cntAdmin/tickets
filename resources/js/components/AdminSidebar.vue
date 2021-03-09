@@ -20,7 +20,7 @@
           <!-- ADMINISTRACIÓN -->
           <li class="nav-item w-100">
             <div
-              class="d-flex align-items-center shadow-sm w-100"
+              class="d-flex align-items-center shadow-sm w-100 collapsed"
               data-toggle="collapse"
               data-target="#admin"
               aria-expanded="false"
@@ -44,7 +44,7 @@
                 ></span>
               </div>
             </div>
-            <div class="collapse" id="admin">
+            <div class="collapse" id="admin" data-parent="#sidebar_navbar">
               <li class="nav-item">
                 <router-link
                   id="brands"
@@ -97,6 +97,7 @@
               data-target="#tickets_sidebar"
               aria-expanded="true"
               aria-controls="tickets_sidebar"
+              data-parent="sidebar_navbar"
             >
               <div class="mr-auto">
                 <h5
@@ -105,6 +106,7 @@
                   Incidencias
                 </h5>
               </div>
+              <!-- Lineas horizontales -->
               <div class="ml-auto">
                 <span
                   class="navbar-toggler-icon mr-3"
@@ -116,8 +118,9 @@
                 >
                 </span>
               </div>
+              <!-- Lineas horizontales -->
             </div>
-            <div class="collapse show" id="tickets_sidebar">
+            <div class="collapse show" id="tickets_sidebar" data-parent="#sidebar_navbar">
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'ticket.index' }"
@@ -193,7 +196,7 @@
           <div class="dropdown-divider"></div>
           <li class="nav-item w-100">
             <div
-              class="d-flex align-items-center shadow-sm w-100 border border-light"
+              class="d-flex align-items-center shadow-sm w-100 border border-light collapsed"
               data-toggle="collapse"
               data-target="#user_info"
               aria-expanded="true"
@@ -218,7 +221,7 @@
                 </span>
               </div>
             </div>
-            <div class="collapse" id="user_info">
+            <div class="collapse" id="user_info" data-parent="#sidebar_navbar">
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'profile.index', params: { user: user.id } }"
