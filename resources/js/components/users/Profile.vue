@@ -78,6 +78,10 @@
           </div>
 
           <form @submit.prevent="handleCustomerSubmit">
+            <h5 class="font-weight-bold text-uppercase mt-3">
+              Datos de Cliente
+            </h5>
+
             <div class="form-inline">
               <div class="form-group col-12 col-md-6 col-lg-4">
                 <label class="sr-only" for="dateFrom">Codigo Cliente</label>
@@ -300,49 +304,6 @@
                 </div>
               </div>
             </div>
-            <div class="form-inline">
-              <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-                <label class="sr-only" for="dateFrom">Contraseña</label>
-                <div class="input-group w-100">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text text-uppercase">
-                      Contraseña
-                    </div>
-                  </div>
-                  <input
-                    type="password"
-                    v-model="user.password"
-                    :class="
-                      [customerError.errors.password ? 'is-invalid' : ''] +
-                      ' form-control'
-                    "
-                  />
-                </div>
-              </div>
-              <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-                <label class="sr-only" for="dateFrom"
-                  >Confirmar Contraseña</label
-                >
-                <div class="input-group w-100">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text text-uppercase">
-                      Confirmar Contraseña
-                    </div>
-                  </div>
-                  <input
-                    type="password"
-                    v-model="user.password_confirmation"
-                    :class="
-                      [
-                        customerError.errors.password_confirmation
-                          ? 'is-invalid'
-                          : '',
-                      ] + ' form-control'
-                    "
-                  />
-                </div>
-              </div>
-            </div>
             <div class="d-flex justify-content-center mt-3">
               <button
                 class="btn btn-sm btn-block btn-info text-white text-uppercase font-weight-bold"
@@ -350,7 +311,17 @@
                 Actualizar Cliente
               </button>
             </div>
+          <div class="dropdown-divider my-3"></div>
           </form>
+
+          <h5 class="font-weight-bold text-uppercase mt-3">Datos de Usuario</h5>
+          <user-edit-form 
+            v-if="user.id"
+            :user="user"
+            :error="contactError"
+            @updated="showCustomerSuccess"
+            @error="showCustomerErrors"
+            />
         </div>
         <!-- SI EL USUARIO NO ES CUSTOMER SOLO MUESTRA SUS DATOS -->
         <div v-else class="d-flex flex-wrap justify-content-start mt-3 pt-3">
@@ -359,9 +330,11 @@
             <div class="card">
               <div class="card-body">
                 <user-edit-form
+                  v-if="user.id"
                   :user="user"
                   :error="contactError"
                   @error="showCustomerErrors"
+                  @updated="showCustomerSuccess"
                 ></user-edit-form>
               </div>
             </div>
@@ -404,6 +377,7 @@
           class="d-flex flex-wrap justify-content-start"
           v-if="Object.keys(contacts).length > 0"
         >
+        {{contacts}}
           <div
             class="col-12 col-lg-4 my-3"
             v-for="contact in contacts"
@@ -429,7 +403,7 @@ export default {
     return {
       user: {
         customer: {},
-        tickets: {},
+        tickets: [],
         roles: [],
         department: {},
       },
@@ -478,9 +452,10 @@ export default {
       };
     },
     showContactSuccess(data) {
-      this.customerError = {
+      console.log('data', data)
+      this.contactSuccess = {
         status: true,
-        errors: data,
+        msg: data,
       };
       setTimeout(() => {
         this.closeAll();

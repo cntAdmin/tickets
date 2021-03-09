@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="card-body">
-      <user-edit-form :user="contact" :error="error" type="card" @error="$emit('error', error.errors)" />
+      <user-edit-form :user="contact" :error="error" type="card" @error="$emit('error', error.errors)" @updated="emitUpdate" />
     </div>
   </div>
 </template>
@@ -42,6 +42,7 @@ export default {
           is_active: this.contact.is_active,
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             this.$emit("updated", res.data.msg);
           } else if (res.data.error) {
@@ -56,6 +57,9 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    emitUpdate(data) {
+      this.$emit('updated', data);
+    }
   },
 };
 </script>
