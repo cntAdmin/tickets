@@ -8,7 +8,7 @@
               <th scope="col">Rol</th>
               <th scope="col">Cliente / Departamento</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Nom. Usuario</th>
+              <th scope="col">Usuario</th>
               <th scope="col">Teléfono</th>
               <th scope="col">Email</th>
               <th class="text-center" scope="col">Incidencias</th>
