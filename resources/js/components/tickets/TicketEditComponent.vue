@@ -417,7 +417,7 @@ export default {
       buttonText: "Asignar llamada(s)",
     };
   },
-  beforeMount() {
+  activated() {
     this.get_all_departments();
     this.get_all_customers();
     this.get_ticket(parseInt(this.ticketID));
