@@ -139,6 +139,7 @@ class TicketController extends Controller
             $create_ticket = Ticket::create([
                 'customer_id' => $req->customer_id,
                 'user_id' => $req->user_id,
+                'department_id' => $req->department_id,
                 'custom_id' => Str::upper($get_department->code) . now()->year . '-' . str_pad(($lastID), 5, '0', STR_PAD_LEFT),
                 'frame_id' => $req->frame_id,
                 'other_brand_model' => $req->other_brand_model,
@@ -171,8 +172,6 @@ class TicketController extends Controller
         // ? ASSIGNING DATA
         // ASSOCIATE STATUS
         $create_ticket->status()->associate($get_status);
-        // ASSIGN DEPARTMENT
-        $create_ticket->department()->associate($get_department);
 
         if ($req->assigned_to) {
             // ASSIGN USER ASSIGNED TO THIS TICKET
