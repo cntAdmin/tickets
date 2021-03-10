@@ -30,7 +30,7 @@
                 </div>
               </form>
             </div>
-            <div v-if="selected.phone !== ''">
+            <div v-if="selected.phone !== '' && calls.data.length > 0">
               <div
                 v-show="success.status"
                 class="alert alert-success alert-dismissible fade show text-center my-3"

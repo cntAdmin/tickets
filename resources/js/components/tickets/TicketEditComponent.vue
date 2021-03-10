@@ -462,7 +462,7 @@ export default {
       axios
         .get("/api/get_all_customers")
         .then((res) => {
-          this.customers = res.data;
+          this.customers = res.data.customers;
         })
         .catch((err) => {
           console.log(err);
@@ -493,6 +493,18 @@ export default {
           this.users[0] = res.data.ticket.user;
           this.$refs.description.ej2Instances.value = this.ticket.description;
           this.$refs.tests_done.ej2Instances.value = this.ticket.tests_done;
+          if(this.ticket.brand === null) {
+            this.ticket.brand = {
+              id: 0,
+              name: ''
+            };
+          }
+          if(this.ticket.car_model === null) {
+            this.ticket.car_model = {
+              id: 0,
+              name: ''
+            };
+          }
         })
         .catch((err) => {
           console.log(err);

@@ -155,7 +155,7 @@
         "
         data-toggle="modal"
         data-target="#assignCall"
-        @click="openCallsModal()"
+        @click="showCallsModal = true"
       >
         {{
           Object.keys(ticket.calls).length > 0
@@ -166,7 +166,6 @@
 
       <calls-modal
         :ticketID="ticket.id"
-        :calls="calls"
         v-show="showCallsModal"
         @close="showCallsModal = false"
       ></calls-modal>
@@ -196,6 +195,12 @@
 <script>
 export default {
   props: ["ticket", "isFaq"],
+  data() {
+    return {
+      showCallsModal: false,
+      calls: [],
+    }
+  }
 };
 </script>
 

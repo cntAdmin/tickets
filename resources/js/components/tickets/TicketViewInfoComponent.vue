@@ -170,7 +170,6 @@ export default {
         status: false,
         msg: "",
       },
-      showCallsModal: false,
     };
   },
   activated() {
@@ -178,9 +177,6 @@ export default {
     this.getCalls();
   },
   methods: {
-    openCallsModal() {
-      this.showCallsModal = true;
-    },
     closeAll() {
       this.success.status = false;
       this.error.status = false;
