@@ -211,7 +211,7 @@ class Ticket extends Model
             return 1;
         }
 
-        $last_custom_id = Ticket::latest('id')->first()->custom_id;
+        $last_custom_id = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->withTrashed()->latest('id')->first()->custom_id;
         $array_custom_id = explode('-', $last_custom_id);
         $get_year_from_custom_id = substr($array_custom_id[0], -4);
         
