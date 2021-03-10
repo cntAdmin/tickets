@@ -597,7 +597,7 @@ export default {
       formData.append("ask_for", this.selected.ask_for);
       formData.append("subject", this.selected.subject);
       formData.append("description", this.$refs.description.ej2Instances.value);
-      formData.append("tests_done", this.$refs.tests_done.ej2Instances.value !== 'null' ? this.$refs.tests_done.ej2Instances.value : null);
+      formData.append("tests_done", this.$refs.tests_done.ej2Instances.value !== null ? this.$refs.tests_done.ej2Instances.value : null);
       formData.append("calls", this.selected.calls);
 
       axios

@@ -147,7 +147,7 @@ class TicketController extends Controller
                 'engine_type' => $req->engine_type,
                 'subject' => $req->subject,
                 'description' => $req->description,
-                'tests_done' => $req->tests_done,
+                'tests_done' => $req->tests_done !== 'null' ? $req->tests_done : null,
                 'ask_for' => $req->ask_for,
                 'knowledge_base' => 0,
                 'created_by' => auth()->user()->id,
