@@ -9,14 +9,18 @@
             <th scope="col">Origen</th>
             <th scope="col">Destino</th>
             <th scope="col">Fecha</th>
-            <th scope="col">Duración</th>
+            <th scope="col">Duración <sub>(s)</sub></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(call, idx) in calls" :key="idx">
             <td>{{ call.is_incoming ? "Entrante" : "Saliente" }}</td>
             <td>{{ call.src }}</td>
-            <td>{{ call.dst }}</td>
+            <td v-if="call.is_incoming == 1">
+              {{ call.dst_extension ? call.dst_extension : call.dst }}
+            </td>
+            <td v-else-if="type == 'internal'">{{ call.dst.slice(-3) }}</td>
+            <td v-else>{{ call.dst ? call.dst : call.dst_extension }}</td>
             <td>{{ call.start | moment("L LTS") }}</td>
             <td>{{ call.billsec }}</td>
           </tr>

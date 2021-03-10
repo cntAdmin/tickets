@@ -77,10 +77,12 @@ Route::group(['middleware' => ['auth:web']], function () {
         // ? CUSTOMERS
         Route::get('/get_customers_count', 'CustomerController@get_customers_count');
         Route::get('/get_customer_contacts/{customer}', 'CustomerController@get_customer_contacts');
+        Route::put('/toggle_active_customer/{customer}', 'CustomerController@toggle_active_customer');
         
         // ? USERS
         Route::get('/get_users_counters', 'UserController@get_users_counters');
-
+        Route::put('/toggle_active_user/{user}', 'UserController@toggle_active_user');
+        
         // ? FILE MANAGER
         Route::post('/deleteAllFiles', 'AttachmentController@deleteAll');
         Route::post('/deleteSelectedFiles', 'AttachmentController@deleteSelected');

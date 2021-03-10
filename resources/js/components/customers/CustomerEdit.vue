@@ -2,20 +2,38 @@
   <div class="w-100 mt-3">
     <div class="card shadow border-info">
       <div class="card-header">
-        <div class="d-flex justify-content-between">
-          <div class="mr-auto">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="col-9">
             <h3 class="text-uppercase">Editar Cliente</h3>
           </div>
-          <div class="ml-auto">
-            <button
-              type="button"
-              class="btn btn-sm btn-danger text-uppercase mb-3"
-              @click="$emit('close')"
-              aria-label="Close"
-            >
-            Cerrar
-              <i class="fa fa-times"></i>
-            </button>
+          <div class="col-3">
+            <div class="d-flex flex-row justify-content-between my-auto">
+              <div class="col-7 my-auto">
+                <div class="d-flex flex-row justify-content-end">
+                  <label class="switch my-auto">
+                    <input
+                      v-model="customer.is_active"
+                      type="checkbox"
+                      @click="toggleActive($event)"
+                    />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-5 my-auto ml-auto">
+                <div class="d-flex flex-row justify-content-end">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger text-uppercase mb-3 my-auto"
+                  @click="$emit('close')"
+                  aria-label="Close"
+                >
+                  Cerrar
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -305,10 +323,22 @@ export default {
     this.getContacts();
   },
   methods: {
+    toggleActive(e){
+      axios
+        .put(`/api/toggle_active_customer/${this.customer.id}`, {
+          is_active: e.target.checked,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            console.log(res.data.msg)
+          }
+        });
+    },
     getContacts() {
       axios
         .get(`/api/get_customer_contacts/${this.customer.id}`)
         .then((res) => {
+          console.log(res.data);
           this.contacts = res.data.contacts;
         });
     },
@@ -318,7 +348,7 @@ export default {
           status: false,
           msg: "",
         };
-        this.$emit('close')
+        this.$emit("close");
       }, 1500);
       this.success = {
         status: true,

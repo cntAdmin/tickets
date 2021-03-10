@@ -17,7 +17,6 @@
               </th>
               <th scope="col">ORIGEN</th>
               <th scope="col">DESTINO</th>
-              <th scope="col">NOMBRE</th>
               <th class="text-center" scope="col">FECHA</th>
               <th class="text-center" scope="col">INICIO</th>
               <th class="text-center" scope="col">
@@ -49,11 +48,9 @@
 
             <!-- <td>{{ call.customer?.name }}</td> -->
 
-            <td v-if="call.is_incoming == 1">{{ call.dst_number }}</td>
-            <td v-else>{{ call.src_number }}</td>
             <td>{{ call.start | moment("DD-MM-YYYY") }}</td>
             <td>{{ call.start | moment("HH:mm:ss") }}</td>
-            <td class="text-right">{{ call.duration }}</td>
+            <td class="text-center">{{ call.duration }}</td>
             <td v-if="call.is_incoming == 1">
               <i class="text-success fa fa-sign-in-alt" title="Entrante"></i>
             </td>

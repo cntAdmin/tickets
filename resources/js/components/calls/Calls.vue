@@ -68,6 +68,9 @@
 <script>
 export default {
   props: ["user_role"],
+  deactivated() {
+    this.resetFields();
+  },
   mounted() {
     this.get_all_customers();
   },

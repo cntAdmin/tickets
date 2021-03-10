@@ -309,4 +309,15 @@ class UserController extends Controller
 
         return response()->download(Storage::path($storage), $filename, $headers);
     }
+
+    public function toggle_active_user(User $user, Request $req)
+    {
+        $updated = $user->update([
+            'is_active' => $req->is_active
+        ]);
+        $status = $req->is_active ? "activado" : "desactivado";
+        return $updated
+            ? response()->json([ 'success' => true, 'msg' => 'Usuario ' . $status  . ' correctamente.'])
+            : response()->json([ 'success' => true, 'msg' => 'No ha podido ser '. $status . ' correctamente']);
+    }
 }

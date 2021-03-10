@@ -258,9 +258,10 @@ class CustomerController extends Controller
     }
 
     public function get_customer_contacts(Customer $customer) {
+        $customer_with_users = $customer->users;
         return response()->json([
             'success' => true,
-            'contacts' => $customer->contacts()
+            'contacts' => $customer_with_users
         ]);
     }
 
@@ -297,5 +298,16 @@ class CustomerController extends Controller
         ];
 
         return response()->download(Storage::path($storage), $filename, $headers);
+    }
+
+    public function toggle_active_customer(Customer $customer, Request $req)
+    {
+        $updated = $customer->update([
+            'is_active' => $req->is_active
+        ]);
+        $status = $req->is_active ? 'activado' : 'desactivado';
+        return $updated
+            ? response()->json([ 'success' => true, 'msg' => 'Cliente ' . $status . ' correctamente.'])
+            : response()->json([ 'success' => true, 'msg' => 'Cliente no ha podido ser ' . $status . ' correctamente, contácte con el administrador.']);
     }
 }
