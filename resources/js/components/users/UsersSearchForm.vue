@@ -11,6 +11,7 @@
                   <div class="input-group-text text-uppercase">Rol</div>
                 </div>
                 <select v-model="selected.role_id" class="form-control">
+                  <option value="">-- TODOS --</option>
                   <option :value="rol.id" v-for="rol in roles" :key="rol.id">{{ rol.name }}</option>
                 </select>
               </div>
@@ -90,7 +91,7 @@ export default {
       roles: []
     };
   },
-  mounted() {
+  activated() {
     this.get_all_roles();
   },
   methods: {

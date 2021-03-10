@@ -19,27 +19,27 @@ class RolesSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],[
-                'name' => 'admin',
+                'name' => 'Admin',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],[
-                'name' => 'department',
+                'name' => 'Departamento',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],[
-                'name' => 'staff',
+                'name' => 'Agente',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],[
-                'name' => 'customer',
+                'name' => 'Cliente',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],[
-                'name' => 'contact',
+                'name' => 'Contacto',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now(),
