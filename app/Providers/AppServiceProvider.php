@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Ticket::observe(TicketObserver::class);
+        Ticket::observe(TicketObserver::class);
         // Comment::observe(CommentObserver::class);
     }
 }

@@ -22,8 +22,10 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 // Route::get('testing1', 'UserController@export_users');
 // Route::get('/testing', function (Request $req) {
-    
-//     dd(Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first());
+
+//     $ticket = App\Models\Comment::first();
+
+//     return (new App\Mail\NewCommentMail($ticket))->render();
 // });
 
 Route::get('/', function () {

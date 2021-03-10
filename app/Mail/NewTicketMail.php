@@ -29,6 +29,6 @@ class NewTicketMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.new_ticket')->with(['ticket' => $this->ticket]);
+        return $this->markdown('mails.new_ticket')->with(['ticket' => $this->ticket]);
     }
 }

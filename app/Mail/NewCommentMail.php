@@ -29,6 +29,6 @@ class NewCommentMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.new_comment')->with(['comment' => $this->comment ]);
+        return $this->markdown('mails.new_comment')->with(['comment' => $this->comment ]);
     }
 }
