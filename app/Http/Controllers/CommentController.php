@@ -74,13 +74,13 @@ class CommentController extends Controller
             ]);
 
         $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
-        $admin_comments = Ticket::where('tickets.id', $ticket->id)
+        $ticket_admin_comments = Ticket::where('tickets.id', $ticket->id)
             ->whereHas('comments.user', function (Builder $q) use ($admin_users) {
                 $q->whereIn('users.id', $admin_users);
             })->withCount('comments')
             ->first();
 
-        if (empty($admin_comments) || ($admin_comments && $admin_comments->count() <= 0)) {
+        if (empty($ticket_admin_comments) || ($ticket_admin_comments && $ticket_admin_comments->comments_count == 1)) {
             $ticket->update([
                 'ticket_status_id' => 2
             ]);

@@ -21,12 +21,23 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 // Route::get('testing1', 'UserController@export_users');
-// Route::get('/testing', function (Request $req) {
+Route::get('/testing', function (Request $req) {
+    $ticket = Ticket::find(74);
+    $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
+    $ticket_admin_comments = Ticket::where('tickets.id', $ticket->id)
+        ->whereHas('comments.user', function ($q) use ($admin_users) {
+            $q->whereIn('users.id', $admin_users);
+        })->withCount('comments')
+        ->first();
+        
+    if (empty($ticket_admin_comments) || ($ticket_admin_comments && $ticket_admin_comments->count() <= 0)) {
+        $ticket->update([
+            'ticket_status_id' => 2
+        ]);
+    }
+    dd("post");
 
-//     $ticket = App\Models\Comment::first();
-
-//     return (new App\Mail\NewCommentMail($ticket))->render();
-// });
+});
 
 Route::get('/', function () {
     return redirect()->route('login');

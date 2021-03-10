@@ -22,10 +22,16 @@ class TicketObserver
             $getUserMail = $ticket->user;
             
             if($getCustomerMail->email === $getUserMail->email) {
-                Mail::to($getCustomerMail->email)->send(new NewTicketMail($ticket));
+                Mail::to($getCustomerMail->email)
+                    ->bcc('nacho@costanetworks.es')
+                    ->send(new NewTicketMail($ticket));
             } else {
-                Mail::to($getCustomerMail->email)->send(new NewTicketMail($ticket));
-                Mail::to($getUserMail->email)->send(new NewTicketMail($ticket));
+                Mail::to($getCustomerMail->email)
+                    ->bcc('nacho@costanetworks.es')
+                    ->send(new NewTicketMail($ticket));
+                Mail::to($getUserMail->email)
+                    ->bcc('nacho@costanetworks.es')
+                    ->send(new NewTicketMail($ticket));
             }
         }
     }
