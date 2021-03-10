@@ -132,13 +132,8 @@ class TicketController extends Controller
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_model = $req->model_id ? CarModel::find($req->model_id) : null;
 
-        $ticket = New Ticket();
+        $lastID = Ticket::getLastID();
 
-        $last_autoincrement = DB::table('information_schema.tables')
-            ->select("AUTO_INCREMENT as autoincrement")
-            ->whereRaw("table_name = 'tickets' AND table_schema = '". $ticket->getTable() ."'")->get();
-        $lastID = $last_autoincrement[0]->autoincrement;
-        // CREATING TICKET
         try {
             //code...
             $create_ticket = Ticket::create([

@@ -204,4 +204,21 @@ class Ticket extends Model
             ->with(['user', 'customer', 'department', 'status'])
             ->withCount(['comments', 'calls']);
     }
+
+    public static function getLastID()
+    {
+        if(Ticket::first() === null) {
+            return 1;
+        }
+
+        $last_custom_id = Ticket::latest('id')->first()->custom_id;
+        $array_custom_id = explode('-', $last_custom_id);
+        $get_year_from_custom_id = substr($array_custom_id[0], -4);
+        
+        if($get_year_from_custom_id == now()->year) {
+            return intval($array_custom_id[1]) + 1;
+        }
+        // SI EMPIEZA UN NUEVO AÑO RESETEAR CONTADOR A 1
+        return 1;
+    }
 }
