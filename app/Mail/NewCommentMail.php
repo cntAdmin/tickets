@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,9 +17,9 @@ class NewCommentMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Comment $comment)
     {
-        //
+        $this->comment = $comment;
     }
 
     /**
@@ -28,6 +29,6 @@ class NewCommentMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mails.new_comment');
+        return $this->view('mails.new_comment')->with(['comment' => $this->comment ]);
     }
 }

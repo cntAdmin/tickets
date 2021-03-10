@@ -1,2 +1,1 @@
-
-    <div>new test template</div>
+<div>new comment template</div>

@@ -137,6 +137,8 @@ class TicketController extends Controller
         try {
             //code...
             $create_ticket = Ticket::create([
+                'customer_id' => $req->customer_id,
+                'user_id' => $req->user_id,
                 'custom_id' => Str::upper($get_department->code) . now()->year . '-' . str_pad(($lastID), 5, '0', STR_PAD_LEFT),
                 'frame_id' => $req->frame_id,
                 'other_brand_model' => $req->other_brand_model,
@@ -149,7 +151,7 @@ class TicketController extends Controller
                 'knowledge_base' => 0,
                 'created_by' => auth()->user()->id,
                 'ticket_status_id' => 1
-            ]);
+            ]);    
         } catch (\Throwable $th) {
             // throw $th;
             return $th;
@@ -169,10 +171,6 @@ class TicketController extends Controller
         // ? ASSIGNING DATA
         // ASSOCIATE STATUS
         $create_ticket->status()->associate($get_status);
-        // ASSIGN USER
-        $create_ticket->user()->associate($get_user);
-        // ASSIGN CUSTOMER
-        $create_ticket->customer()->associate($get_customer);
         // ASSIGN DEPARTMENT
         $create_ticket->department()->associate($get_department);
 

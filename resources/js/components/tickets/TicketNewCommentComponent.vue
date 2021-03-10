@@ -191,6 +191,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data)
           this.spinner = false;
 
           if (res.data.success) {

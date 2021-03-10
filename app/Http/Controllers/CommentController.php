@@ -47,7 +47,6 @@ class CommentController extends Controller
             'comment' => 'Comentario',
             'files' => 'Ficheros'
         ];
-
         $messages = [
             'required' => __(':attribute es un campo obligatorio.'),
             'numeric' => __(':attribute debe ser un id.'),
@@ -67,9 +66,12 @@ class CommentController extends Controller
                 'error' => $validator->errors()
             ]);
         }
+        
         $create_comment = Comment::create([
+            'ticket_id' => $ticket->id,
+            'user_id' => auth()->user()->id,
             'description' => $req->comment
-        ]);
+            ]);
 
         $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
         $admin_comments = Ticket::where('tickets.id', $ticket->id)
@@ -84,9 +86,6 @@ class CommentController extends Controller
             ]);
         }
 
-        $ticket_assigned = $ticket->comments()->save($create_comment);
-        $user_assigned = $create_comment->user()->associate(auth()->user()->id);
-        $create_comment->save();
         if ($req->file('files')) {
             foreach ($req->file('files') as $file) {
                 $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2, '0', STR_PAD_LEFT), $file);
@@ -98,13 +97,7 @@ class CommentController extends Controller
             }
         }
 
-        if (!App::environment('local')) {
-            // Mail::to(auth()->user())->send(new NewCommentMail);
-        }
-
-
-
-        return $ticket_assigned && $user_assigned
+        return $create_comment
             ? response()->json(['success' => true, 'msg' => __('Comentario creado correctamente.')])
             : response()->json([
                 'error' => true,
