@@ -16,7 +16,7 @@
 <p>
     Puede comprobar el estado de la incidenciao actualizarlo en línea pulsando aquí.
 </p>
-@component('mail::button', ['url' => config('app.url') . '/incidencia/' . $ticket->id])
+@component('mail::button', ['url' => config('app.url') . 'incidencia/' . $ticket->id])
 Ver Incidencia
 @endcomponent
 <p>
