@@ -117,7 +117,7 @@
                 <h5
                   class="font-weight-bold text-uppercase m-3 text-shadow-light-sm"
                 >
-                  {{ user.username }}
+                  Mi Perfil
                 </h5>
               </div>
               <div class="ml-auto">

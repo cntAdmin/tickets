@@ -84,12 +84,12 @@
                 <td class="text-center">{{ $call->duration ?? 0 }}</td>
                 @if ($call->is_incoming == 1)
                     <td>
-                        <i class="text-success fa fa-sign-in-alt" title="Entrante"></i>
+                        Entrante
                     </td>
                 @else
                     <td>
-                        <i class="text-warning fa fa-sign-out-alt" title="Saliente"></i>
-                    </td>                
+                        Saliente
+                    </td>
                 @endif
                 <td>{{ $call->disposition }}</td>
             </tr>
