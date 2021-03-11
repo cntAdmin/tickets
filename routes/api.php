@@ -24,7 +24,8 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::resource('user', 'UserController');
     Route::resource('file-manager', 'AttachmentController')->parameter('file-manager', 'attachment');
     Route::resource('department', 'DepartmentController');
-    Route::resource('ticket', 'TicketController');
+    Route::resource('ticket', 'TicketController')->except(['ticket.update']);
+    Route::post('/ticket/{ticket}', 'TicketController@update');
     Route::resource('ticket.comment', 'CommentController')->except(['ticket.comment.store']);
     Route::resource('customer', 'CustomerController');
     Route::resource('customer.ticket', 'CustomerTicketController');

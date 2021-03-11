@@ -105,8 +105,8 @@ class TicketController extends Controller
             'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
-            'brand_id' => ['nullable', 'numeric', 'exists:brands,id'],
-            'model_id' => ['nullable', 'numeric', 'exists:car_models,id'],
+            'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
+            'model_id' => ['nullable', 'sometimes', 'exists:car_models,id'],
             'other_brand_model' => ['nullable', 'string', 'max:255'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
@@ -273,21 +273,25 @@ class TicketController extends Controller
             'boolean' => __(':attribute debe ser de tipo boleano (true/false).'),
         ];
 
+        // return $req;
         $validator = Validator::make($req->all(), [
+            'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
             'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
-            'frame_id' => ['nullable', 'string', 'max:100'],
+            'frame_id' => ['nullable', 'sometimes', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
-            'brand_id' => ['nullable', 'numeric', 'exists:brands,id'],
-            'model_id' => ['nullable', 'numeric', 'exists:car_models,id'],
-            'other_brand_model' => ['nullable', 'string', 'max:255', 'exists:car_models,id'],
+            'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
+            'model_id' => ['nullable', 'sometimes', 'exists:car_models,id'],
+            'other_brand_model' => ['nullable', 'string', 'max:255'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'tests_done' => ['required', 'string'],
+            'tests_done' => ['nullable', 'string'],
             'ask_for' => ['required', 'string', 'max:50'],
+            'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
             'calls' => ['nullable', 'array'],
+            'files' => ['array', 'nullable', 'max:25600'],
             'knowledge_base' => ['nullable', 'boolean']
         ], $messages, $custom_attributes);
 
@@ -309,6 +313,17 @@ class TicketController extends Controller
             'knowledge_base' => $req->knowledge_base ? 1 : 0,
             'ticket_status_id' => $req->status  ?? $ticket->ticket_status_id,
         ]);
+
+        if ($req->file('files')) {
+            foreach ($req->file('files') as $file) {
+                $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2, '0', STR_PAD_LEFT), $file);
+                $attachment = Attachment::create([
+                    'name' => $file->getClientOriginalName(),
+                    'path' => $stored_file
+                ]);
+                $ticket->attachments()->save($attachment);
+            }
+        }
 
         $get_user = User::find($req->user_id);
         $get_customer = Customer::find($get_user->customer_id);

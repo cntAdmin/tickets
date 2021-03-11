@@ -67,16 +67,20 @@ class CommentController extends Controller
             ]);
         }
 
-        $create_comment = Comment::create([
-            'ticket_id' => $ticket->id,
-            'user_id' => auth()->user()->id ?? $ticket->user->id,
-            'description' => $req->comment,
-            '_token' => Str::uuid(),
-        ]);
+        try {
+            $create_comment = Comment::create([
+                'ticket_id' => $ticket->id,
+                'user_id' => auth()->user()->id ?? $ticket->user->id,
+                'description' => $req->comment,
+                '_token' => Str::uuid(),
+            ]);
+        } catch (\Throwable $th) {
+            return $th;
+        }
 
         $ticket->update([
-            'answered' => (auth()->user() && auth()->user()->roles[0] > 4) || !auth()->user() ? true : false
-        ]);
+            'answered' => ((auth()->user() && auth()->user()->roles[0]->id > 4) || !auth()->user()) ? 1 : 0
+            ]);
 
         $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
         $ticket_admin_comments = Ticket::where('tickets.id', $ticket->id)

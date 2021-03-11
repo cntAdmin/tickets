@@ -327,7 +327,7 @@
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">
-                    <span class="d-none d-xl-block">Ficheros</span> adjuntos
+                    <span class="d-none d-xl-block mx-1">Ficheros</span> adjuntos <sub>(max. 25MB)</sub>
                   </div>
                 </div>
                 <input
@@ -585,19 +585,32 @@ export default {
           formData.append(`files[${i}]`, this.files[i]);
         }
       }
+      if(this.selected.frame_id !== null) {
+        formData.append("frame_id", this.selected.frame_id);
+      }
+      if(this.selected.plate !== null) {
+        formData.append("plate", this.selected.plate);
+      }
+      if(this.selected.brand_id !== null) {
+        formData.append("brand_id", this.selected.brand_id);
+      }
+      if(this.selected.model_id !== null) {
+        formData.append("model_id", this.selected.model_id);
+      }
+      if(this.$refs.tests_done.ej2Instances.value !== null) {
+        formData.append("tests_done", this.$refs.tests_done.ej2Instances.value);
+      }
+      if(this.selected.other_brand_model !== null) {
+        formData.append("other_brand_model", this.selected.other_brand_model);
+      }
+
       formData.append("customer_id", this.selected.customer_id);
       formData.append("user_id", this.selected.user_id);
       formData.append("department_id", this.selected.department_id);
-      formData.append("frame_id", this.selected.frame_id);
-      formData.append("plate", this.selected.plate);
-      formData.append("brand_id", this.selected.brand_id);
-      formData.append("model_id", this.selected.model_id);
-      formData.append("other_brand_model", this.selected.other_brand_model);
       formData.append("engine_type", this.selected.engine_type);
       formData.append("ask_for", this.selected.ask_for);
       formData.append("subject", this.selected.subject);
       formData.append("description", this.$refs.description.ej2Instances.value);
-      formData.append("tests_done", this.$refs.tests_done.ej2Instances.value !== null ? this.$refs.tests_done.ej2Instances.value : null);
       formData.append("calls", this.selected.calls);
 
       axios

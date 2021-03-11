@@ -309,6 +309,25 @@
               </ejs-richtexteditor>
             </div>
           </div>
+          <div class="form-inline mx-3">
+            <div class="form-group mt-2 w-100">
+              <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">
+                    <span class="d-none d-xl-block mx-1">Ficheros</span>
+                    adjuntos <sub>(max. 25MB)</sub>
+                  </div>
+                </div>
+                <input
+                  class="form-control"
+                  type="file"
+                  @change="uploadFile"
+                  multiple
+                />
+              </div>
+            </div>
+          </div>
           <div class="form-inline mt-4">
             <button
               form="edit_ticket_form"
@@ -424,6 +443,9 @@ export default {
     this.get_all_brands();
   },
   methods: {
+    uploadFile(e) {
+      this.files = e.target.files;
+    },
     setCustomer(value) {
       this.ticket.customer.id = value ? value.id : null;
       this.get_all_users();
@@ -493,16 +515,16 @@ export default {
           this.users[0] = res.data.ticket.user;
           this.$refs.description.ej2Instances.value = this.ticket.description;
           this.$refs.tests_done.ej2Instances.value = this.ticket.tests_done;
-          if(this.ticket.brand === null) {
+          if (this.ticket.brand === null) {
             this.ticket.brand = {
               id: 0,
-              name: ''
+              name: "",
             };
           }
-          if(this.ticket.car_model === null) {
+          if (this.ticket.car_model === null) {
             this.ticket.car_model = {
               id: 0,
-              name: ''
+              name: "",
             };
           }
         })
@@ -511,46 +533,77 @@ export default {
         });
     },
     handleSubmit() {
-      this.error.errors = [];
-
-      if (this.ticket.frame_id === "" && this.ticket.plate === "") {
+      if (this.ticket.frame_id === null && this.ticket.plate === null) {
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         this.error.status = true;
-        this.error.errors["frame_id"] = [
-          "Uno de los campos nº bastido o matrícula es obligatorio.",
-        ];
-        this.error.errors["plate"] = [""];
-        return this.error;
+        this.error.errors = { frame_id: [], plate: [] };
+
+        this.error.errors["frame_id"].push(
+          "Uno de los campos nº bastido o matrícula es obligatorio."
+        );
+
+        return this.error.errors;
       }
-      this.success.value = false;
+
+      this.success = {
+        status: false,
+      };
       this.error = {
         status: false,
         errors: [],
       };
 
+      const formData = new FormData();
+      if (this.files) {
+        for (const i of Object.keys(this.files)) {
+          formData.append(`files[${i}]`, this.files[i]);
+        }
+      }
+      console.log(this.ticket);
+      
+      if(this.ticket.frame_id !== null) {
+        formData.append("frame_id", this.ticket.frame_id);
+      }
+      if(this.ticket.plate !== null) {
+        formData.append("plate", this.ticket.plate);
+      }
+      if(this.ticket.brand_id !== null) {
+        formData.append("brand_id", this.ticket.brand_id);
+      }
+      if(this.ticket.car_model_id !== null) {
+        formData.append("model_id", this.ticket.car_model_id);
+      }
+      if(this.$refs.tests_done.ej2Instances.value !== null) {
+        formData.append("tests_done", this.$refs.tests_done.ej2Instances.value);
+      }
+      if(this.ticket.other_brand_model !== null) {
+        formData.append("other_brand_model", this.ticket.other_brand_model);
+      }
+
+      formData.append("customer_id", this.ticket.customer_id);
+      formData.append("user_id", this.ticket.user_id);
+      formData.append("department_id", this.ticket.department_id);
+      formData.append("engine_type", this.ticket.engine_type);
+      formData.append("ask_for", this.ticket.ask_for);
+      formData.append("subject", this.ticket.subject);
+      formData.append("description", this.$refs.description.ej2Instances.value);
+      formData.append("calls", this.ticket.calls);
+
       axios
-        .put("/api/ticket/" + this.ticket.id, {
-          customer_id: this.ticket.customer.id,
-          user_id: this.ticket.user.id,
-          department_id: this.ticket.department.id,
-          frame_id: this.ticket.frame_id,
-          plate: this.ticket.plate,
-          brand_id: this.ticket.brand.id,
-          model_id: this.ticket.car_model.id,
-          engine_type: this.ticket.engine_type,
-          ask_for: this.ticket.ask_for,
-          subject: this.ticket.subject,
-          description: this.$refs.description.ej2Instances.value,
-          tests_done: this.$refs.tests_done.ej2Instances.value,
-          calls: this.ticket.calls,
+        .post(`/api/ticket/${this.ticket.id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
 
             this.success.value = true;
             this.success.message = res.data.success;
             setTimeout(() => {
-              this.$router.push(`/admin/ticket${this.ticket.id}`);
+              this.$router.push(`/incidencia/${this.ticket.id}`);
             }, 2000);
           } else if (res.data.error) {
             this.error = {

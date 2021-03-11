@@ -51,8 +51,7 @@
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">
-                    <span class="d-none d-xl-inline-block">Ficheros </span>
-                    adjuntos
+                    <span class="d-none d-xl-block mx-1">Ficheros</span> adjuntos <sub>(max. 25MB)</sub>
                   </div>
                 </div>
                 <input
@@ -194,6 +193,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data)
           this.spinner = false;
 
           if (res.data.success) {
