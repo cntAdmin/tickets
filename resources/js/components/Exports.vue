@@ -14,7 +14,7 @@
         <button
           type="button"
           class="btn btn-sm btn-warning text-dark btn-block font-weight-bold shadow"
-          @click="$emit('exportFile', 'pdf')"
+          @click="exportFile('pdf')"
         >
           Exportar PDF
         </button>
@@ -29,11 +29,13 @@ export default {
   methods: {
     exportFile(type) {
       this.searched.type = type;
+
       axios
         .get(`/api/export_${this.toExport}`, {
           responseType: "arraybuffer", params: this.searched
         })
         .then((res) => {
+          // console.log(res.data)
           // GET FILENAME FROM HEADERS
           var filename = "";
           var disposition = res.headers["content-disposition"];

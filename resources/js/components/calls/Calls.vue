@@ -47,6 +47,10 @@
     </transition>
     <!-- MOSTRAMOS LISTADO DE FACTURAS -->
     <div v-else-if="calls.data">
+      <div class="d-none d-xl-block">
+        <exports toExport="calls" :searched="searched"></exports>
+      </div>
+
       <calls-table
         :user_role="user_role"
         :calls="calls"
@@ -148,8 +152,12 @@ export default {
           this.outgoing_counter = res.data.outgoing_count;
           this.incall_time_counter =
             res.data.incall_time_count > 0
-              ? parseFloat(this.$moment.duration(res.data.incall_time_count, "seconds").asMinutes()).toFixed()
-                  : 0;
+              ? parseFloat(
+                  this.$moment
+                    .duration(res.data.incall_time_count, "seconds")
+                    .asMinutes()
+                ).toFixed()
+              : 0;
         })
         .catch((err) => {
           console.log(err);

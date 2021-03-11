@@ -2,6 +2,7 @@
 
 use App\Exports\TicketExport;
 use App\Imports\TicketsImport;
+use App\Models\Call;
 use App\Models\Ticket;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
@@ -22,10 +23,6 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 // Route::get('testing1', 'UserController@export_users');
 Route::get('/testing', function (Request $req) {
-    \App\Models\Comment::all()->each(function(\App\Models\Comment $comment) {
-        $comment->update(['_token' => Str::uuid()]);
-    });
-    dd(Str::uuid());
 });
 
 Route::get('/', function () {
@@ -35,7 +32,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/ver/{comment:_token}', 'CommentController@view_ticket_token');
-Route::get('/ver/incidencia/{ticket}',function(Ticket $ticket) {
+Route::get('/ver/incidencia/{ticket}', function (Ticket $ticket) {
     // dd($ticket->load(['customer', 'user', 'department', 'brand', 'car_model']));
     return view('tickets.view')->withTicket($ticket->load(['customer', 'user', 'department', 'brand', 'car_model']));
 });

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CallExport;
 use App\Models\Call;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class CallController extends Controller
 {
@@ -146,5 +150,38 @@ class CallController extends Controller
             'success' => true,
             'calls' => $calls
         ]);
+    }
+
+    public function export_calls(Request $req)
+    {
+        switch ($req->type) {
+            case 'excel':
+                if (!Storage::exists('exports/excels')) {
+                    Storage::makeDirectory('exports/excels');
+                }
+                
+                $filename = 'calls-' . now()->toDateTimeString() . '.xlsx';
+                $storage = 'exports/excels/' . $filename;
+                $store = Excel::store(new CallExport(), $storage);
+                break;
+            case 'pdf':
+                if (!Storage::exists('exports/pdfs')) {
+                    Storage::makeDirectory('exports/pdfs');
+                }
+                $filename = 'calls-' . now()->format('Y-m-d_H-i-s') . '.pdf';
+                $storage = 'exports/pdfs/' . $filename;
+                $calls = Call::filterCalls()->get();
+                $pdf = PDF::loadView('exports.calls', ['calls' => $calls])
+                    ->setPaper('a4', 'landscape')
+                    ->setOptions([
+                        'defaultFont' => 'sans-serif',
+                    ])->save('storage/' . $storage);
+                break;
+        }
+        $headers = [
+            'Content-Type' => 'application/*',
+        ];
+
+        return response()->download(Storage::path($storage), $filename, $headers);
     }
 }
