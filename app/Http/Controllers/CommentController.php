@@ -74,6 +74,9 @@ class CommentController extends Controller
             '_token' => Str::uuid(),
         ]);
 
+        $ticket->update([
+            'answered' => (auth()->user() && auth()->user()->roles[0] > 4) || !auth()->user() ? true : false
+        ]);
 
         $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
         $ticket_admin_comments = Ticket::where('tickets.id', $ticket->id)

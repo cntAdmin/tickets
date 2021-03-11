@@ -141,9 +141,9 @@ export default {
     this.resetFields();
   },
   beforeRouteEnter(to, from, next) {
-      console.log(from)
+      // console.log(from)
     next(vm => {
-      console.log(from)
+      // console.log(from)
     })
   },
   props: ["ticketID", "user_role", "user"],
@@ -173,12 +173,21 @@ export default {
     };
   },
   activated() {
-    // this.get_ticket(this.ticketID);
-    // this.getCalls();
+    if(!this.ticketID) {
+      let routeArray = this.$route.params.pathMatch.split('/');
+      this.get_ticket(routeArray[routeArray.length - 1]);
+    } else {
+      this.get_ticket(this.ticketID);
+    }
+      this.getCalls();
   },
   mounted() {
-    let routeArray = this.$route.params.pathMatch.split('/');
-    this.get_ticket(this.ticketID ? this.ticketID : routeArray[routeArray.length - 1]);
+    if(!this.ticketID) {
+      let routeArray = this.$route.params.pathMatch.split('/');
+      this.get_ticket(routeArray[routeArray.length - 1]);
+    } else {
+      this.get_ticket(this.ticketID);
+    }
   },
   methods: {
     closeAll() {

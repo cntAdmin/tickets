@@ -209,7 +209,6 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        dd($ticket);
         if(auth()->check()) {
             $inserted = GetCalls::dispatch();
         }
