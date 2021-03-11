@@ -430,6 +430,15 @@ class TicketController extends Controller
 
     public function export_tickets(Request $req)
     {
+        $tickets = Ticket::filterTickets()->get();
+        if($tickets->count() > 300) {
+            return response()->json([
+                'error' => true,
+                'errors' => [
+                    ['tickets' => 'Fichero demasiado grande, por favor haga otra búsqueda mas concreta']
+                ]
+            ]);
+        }
         switch ($req->type) {
             case 'excel':
                 if (!Storage::exists('exports/excels')) {
@@ -452,8 +461,7 @@ class TicketController extends Controller
                     ->setOptions([
                         'defaultFont' => 'sans-serif',
                         'debugCss' => true
-                    ]);
-                Storage::put($storage, $pdf->output());
+                    ])->save('storage/' . $storage);
                 break;
         }
         $headers = [

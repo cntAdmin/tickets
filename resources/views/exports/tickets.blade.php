@@ -42,9 +42,9 @@
     <title>Reporte de Tickets</title>
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
+    <table class="table table-hover table-striped shadow">
+        <thead class="thead-dark">
+            <tr class="text-center text-uppercase">
                 <th>#</th>
                 <th>Cliente</th>
                 <th>Asunto</th>
@@ -58,7 +58,7 @@
             @foreach ($tickets as $ticket)
                 <tr>
                     <th>{{ $ticket->custom_id }}</th>
-                    <td>{{ $ticket->customer->comercial_name ?? $ticket->customer->fiscal_name  }}</td>
+                    <td>{{ ($ticket->customer && $ticket->customer->comercial_name) ? $ticket->customer->comercial_name : $ticket->customer->fiscal_name ?? ''  }}</td>
                     <td>{{ $ticket->subject}}...</td><i class="fa fa-call"></i>
                     <td>{{ \Carbon\Carbon::parse($ticket->created_at)->format('d-m-Y H:i:s') }}</td>
                     <td>{{ $ticket->status->name }}</td>

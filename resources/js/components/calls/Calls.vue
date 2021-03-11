@@ -48,7 +48,20 @@
     <!-- MOSTRAMOS LISTADO DE FACTURAS -->
     <div v-else-if="calls.data">
       <div class="d-none d-xl-block">
-        <exports toExport="calls" :searched="searched"></exports>
+        <form-errors
+          class="mt-3"
+          v-if="error.status"
+          :errors="error.errors"
+          @close="error.status = false"
+        ></form-errors>
+
+        <exports
+          toExport="calls"
+          :searched="searched"
+          :total="calls.total"
+          @error="showErrors"
+          @close="closeAll"
+        ></exports>
       </div>
 
       <calls-table
@@ -92,6 +105,12 @@ export default {
     };
   },
   methods: {
+    showErrors(data) {
+      this.error = {
+        status: true,
+        errors: data,
+      };
+    },
     get_all_customers() {
       axios
         .get("/api/get_all_customers")
@@ -162,6 +181,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    closeAll() {
+      this.error.status = false;
     },
   },
 };

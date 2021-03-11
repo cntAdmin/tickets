@@ -74,7 +74,19 @@
     <transition name="fade" v-else-if="tickets.data" mode="out-in">
       <div v-if="tickets.total > 0">
         <div class="d-none d-xl-block">
-          <exports toExport="tickets" :searched="searched"></exports>
+          <form-errors
+            class="mt-3"
+            v-if="error.status"
+            :errors="error.errors"
+            @close="error.status = false"
+          ></form-errors>
+          <exports
+            toExport="tickets"
+            :searched="searched"
+            :total="tickets.total"
+            @error="showErrors"
+            @close="closeAll"
+          ></exports>
         </div>
         <div class="d-none d-xl-block">
           <!-- DESCKTOP TABLE -->
@@ -129,6 +141,10 @@ export default {
         status: false,
         msg: "",
       },
+      error: {
+        status: false,
+        errors: [],
+      },
     };
   },
   activated() {
@@ -142,48 +158,11 @@ export default {
     this.closeAll();
   },
   methods: {
-    exportFile(type) {
-      axios
-        .get("/api/export_tickets", {
-          responseType: "arraybuffer",
-          params: {
-            page: this.searched.page ? this.searched.page : null,
-            ticket_id: this.searched ? this.searched.ticket_id : null,
-            user_name: this.searched ? this.searched.user_name : null,
-            customer_custom_id: this.searched
-              ? this.searched.customer_custom_id
-              : null,
-            customer_name: this.searched ? this.searched.customer_name : null,
-            department_id: this.searched ? this.searched.department_id : null,
-            status: this.searched
-              ? this.searched.status
-              : this.$route.query.status,
-            date_from: this.searched ? this.searched.date_from : null,
-            date_to: this.searched ? this.searched.date_to : null,
-            knowledge_base: this.searched ? this.searched.knowledge_base : null,
-            type: type,
-          },
-        })
-        .then((res) => {
-          // GET FILENAME FROM HEADERS
-          var filename = "";
-          var disposition = res.headers["content-disposition"];
-          if (disposition && disposition.indexOf("attachment") !== -1) {
-            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-            var matches = filenameRegex.exec(disposition);
-            if (matches != null && matches[1]) {
-              filename = matches[1].replace(/['"]/g, "");
-            }
-          }
-          // STORE FILE IN A BLOB
-          let blob = new Blob([res.data], { type: "application/*" });
-          let link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.download = filename;
-          // DOWNLOAD IT
-          link.click();
-        })
-        .catch((err) => console.log(err));
+    showErrors(data) {
+      this.error = {
+        status: true,
+        errors: data,
+      };
     },
     get_all_ticket_statuses() {
       axios
@@ -266,6 +245,7 @@ export default {
     },
     closeAll() {
       this.deleted.status = false;
+      this.error.status = false;
     },
   },
 };

@@ -4,6 +4,7 @@
 
 use App\Models\Department;
 use App\Models\Ticket;
+use App\Models\User;
 use Faker\Generator as Faker;
 
 $factory->define(Ticket::class, function (Faker $faker) {
@@ -21,5 +22,6 @@ $factory->define(Ticket::class, function (Faker $faker) {
         'tests_done' => $faker->randomHtml(2,2),
         'ask_for' => 'asistencia',
         'knowledge_base' => $faker->boolean(50),
+        'created_by' => User::role([1, 2, 3, 4])->first()->id
     ];
 });

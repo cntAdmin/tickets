@@ -73,9 +73,6 @@
     <transition name="fade" v-else-if="tickets.data" mode="out-in">
       <div v-if="tickets.total > 0">
         <div class="d-none d-xl-block">
-          <exports @exportFile="exportFile"></exports>
-        </div>
-        <div class="d-none d-xl-block">
           <!-- DESCKTOP TABLE -->
           <tickets-table
             class="d-none d-xl-block"

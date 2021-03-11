@@ -82,9 +82,11 @@
       <div v-if="customers.total > 0">
         <div class="d-none d-xl-block">
           <exports
-            @exportFile="exportFile"
-            toExport="customers"
-            :searched="searched"
+          toExport="customers"
+          :searched="searched"
+          :total="customers.total"
+          @error="showErrors"
+          @close="closeAll"
           ></exports>
         </div>
 

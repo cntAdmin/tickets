@@ -100,7 +100,13 @@
     <transition name="fade" v-else-if="users.data" mode="out-in">
       <div v-if="users.total > 0">
         <div class="d-none d-xl-block">
-          <exports toExport="users" :searched="searched"></exports>
+          <exports
+          toExport="users"
+          :searched="searched"
+          :total="users.total"
+          @error="showErrors"
+          @close="closeAll"
+            ></exports>
         </div>
 
         <users-table

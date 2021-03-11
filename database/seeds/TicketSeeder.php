@@ -11,7 +11,7 @@ class TicketSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Ticket::class, 50)->create()
+        factory(\App\Models\Ticket::class, 1050)->create()
             ->each(function(\App\Models\Ticket $ticket) {
                 $brand = \App\Models\Brand::inRandomOrder()->first();
                 $model = $brand->models->first();
