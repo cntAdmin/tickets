@@ -36,9 +36,9 @@ class CustomerController extends Controller
     {
         if($req->ajax()) {
             $customers = Customer::filterCustomers()
-                ->with('users')
+                ->with(['users'])
                 // COUNT OF USERS PER CUSTOMER
-                ->withCount('users')
+                ->withCount('users', 'tickets')
                 ->orderBy('custom_id', 'ASC')
                 ->paginate();
 

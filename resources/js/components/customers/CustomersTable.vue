@@ -10,6 +10,7 @@
                             <th scope="col">Nombre Fiscal</th>
                             <th scope="col">Nombre Comercial</th>
                             <th scope="col">Email</th>
+                            <th scope="col">Incidencias</th>
                             <th scope="col">Estado</th>
                             <th class="text-center" scope="col">Acciones</th>
                         </tr>
@@ -21,6 +22,7 @@
                             <td>{{ cs.fiscal_name }}</td>
                             <td>{{ cs.comercial_name }}</td>
                             <td>{{ cs.email }}</td>
+                            <td>{{ cs.tickets_count }}</td>
                             <td>
                                 <button v-if="cs.is_active" class="btn btn-sm btn-success" :title="cs.active_status" disabled>
                                     <i class="fa fa-check"></i>

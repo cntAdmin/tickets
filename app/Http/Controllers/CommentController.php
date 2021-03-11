@@ -66,13 +66,13 @@ class CommentController extends Controller
                 'error' => $validator->errors()
             ]);
         }
-
+        
         try {
             $create_comment = Comment::create([
                 'ticket_id' => $ticket->id,
                 'user_id' => auth()->user()->id ?? $ticket->user->id,
                 'description' => $req->comment,
-                '_token' => Str::uuid(),
+                '_token' => $this->createToken(),
             ]);
         } catch (\Throwable $th) {
             return $th;
@@ -182,5 +182,17 @@ class CommentController extends Controller
         }
         return redirect('/ver/incidencia/' . $comment->ticket->id);
         dd(auth()->user());
+    }
+ 
+    public function createToken()
+    {
+        $token = Str::uuid();
+        $exists = Comment::where('_token', $token)->first();
+
+        if(!$exists) {
+            return $token;
+        } else {
+            $this->createToken();
+        }
     }
 }
