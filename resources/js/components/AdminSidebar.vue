@@ -18,6 +18,13 @@
               >
                 <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
               </router-link>
+              <div class="row justify-content-center my-3 w-100">
+                <router-link
+                  class="btn btn-success btn-block text-uppercase shadow font-weight-bold"
+                  :to="{ name: 'profile.index', params: { user: user.id } }"
+                  >Hola {{ user.name }}
+                </router-link>
+              </div>
             </div>
           </div>
           <div class="dropdown-divider border-dark"></div>
@@ -52,7 +59,7 @@
               <li class="nav-item">
                 <router-link
                   id="brands"
-                  class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                  class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                   :to="{ name: 'brand.index' }"
                 >
                   <span class="font-weight-bold">Marcas</span>
@@ -60,32 +67,32 @@
               </li>
               <router-link
                 id="car-model"
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'car_model.index' }"
               >
                 <span class="font-weight-bold">Modelos</span>
               </router-link>
               <router-link
                 id="departments"
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'department.index' }"
               >
                 <span class="font-weight-bold">Departamentos</span>
               </router-link>
               <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'customer.index' }"
               >
                 <span class="font-weight-bold">Clientes</span>
               </router-link>
               <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'user.index' }"
               >
                 <span class="font-weight-bold">Usuarios</span>
               </router-link>
               <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'post.index' }"
               >
                 <span class="font-weight-bold">Blog</span>
@@ -130,7 +137,7 @@
               data-parent="#sidebar_navbar"
             >
               <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'ticket.index' }"
               >
                 <span>Todas las Incidencias</span>
@@ -138,7 +145,7 @@
               <router-link
                 v-for="status in ticket_statuses"
                 :key="status.id"
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'ticket.index', query: { status: status.id } }"
                 >Incidencias
                 <span class="ml-1">{{ status.menu_name }}</span></router-link
@@ -231,12 +238,12 @@
             </div>
             <div class="collapse" id="user_info" data-parent="#sidebar_navbar">
               <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'profile.index', params: { user: user.id } }"
                 >Mi Perfil
               </router-link>
               <button
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
+                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 onclick="event.preventDefault();  
                                 document.getElementById('logout-form').submit();"
               >

@@ -7,12 +7,23 @@
       <div id="sidebar_navbar" class="navbar-collapse mt-2">
         <ul class="navbar-nav">
           <div class="navbar-header">
-            <router-link
-              :to="{ name: 'ticket.index' }"
-              class="row justify-content-center"
+            <div
+              class="d-flex flex-column justify-content-center align-items-center"
             >
-              <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
-            </router-link>
+              <router-link
+                :to="{ name: 'ticket.index' }"
+                class="row justify-content-center"
+              >
+                <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
+              </router-link>
+              <div class="row justify-content-center my-3 w-100">
+                <router-link
+                  class="btn btn-success btn-block text-uppercase shadow font-weight-bold"
+                  :to="{ name: 'profile.index', params: { user: user.id } }"
+                  >Hola {{ user.name }}
+                </router-link>
+              </div>
+            </div>
           </div>
           <div class="dropdown-divider border-dark"></div>
           <!-- TICKETS  -->
