@@ -3,7 +3,7 @@
         <div class="card-body">
             <form @submit="handleSubmit">
                 <div class="row justify-content-start">
-                    <div class="col-12 col-md-6 mt-2" v-show="user_role == 'superadmin' || user_role == 'admin' || user_role == 'department' || user_role == 'staff'">
+                    <div class="col-12 col-md-6 mt-2" v-show="user_role <= 4">
                         <label class="sr-only">Cliente</label>
                         <div class="input-group">
                             <div class="input-group-prepend">

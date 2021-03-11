@@ -9,12 +9,16 @@
       >
         <ul class="navbar-nav">
           <div class="navbar-header">
-            <router-link
-              :to="{ name: 'ticket.index' }"
-              class="row justify-content-center"
+            <div
+              class="d-flex flex-column justify-content-center align-items-center"
             >
-              <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
-            </router-link>
+              <router-link
+                :to="{ name: 'ticket.index' }"
+                class="row justify-content-center"
+              >
+                <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
+              </router-link>
+            </div>
           </div>
           <div class="dropdown-divider border-dark"></div>
           <!-- ADMINISTRACIÓN -->
@@ -120,7 +124,11 @@
               </div>
               <!-- Lineas horizontales -->
             </div>
-            <div class="collapse show" id="tickets_sidebar" data-parent="#sidebar_navbar">
+            <div
+              class="collapse show"
+              id="tickets_sidebar"
+              data-parent="#sidebar_navbar"
+            >
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'ticket.index' }"

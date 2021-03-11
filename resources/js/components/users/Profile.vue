@@ -28,7 +28,7 @@
             Mi Perfil
           </a>
         </li>
-        <li class="nav-item" v-if="user_role === 'customer'">
+        <li class="nav-item" v-if="user_role == 5">
           <a
             class="nav-link"
             id="contact-tab"
@@ -52,7 +52,7 @@
       >
         <!-- SI ES PERFIL CUSTOMER -->
         <div
-          v-if="user_role === 'customer'"
+          v-if="user_role == 5"
           class="d-flex flex-wrap justify-content-start mt-3 pt-3"
         >
           <div v-if="customerSuccess.status" class="w-100">

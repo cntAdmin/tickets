@@ -10,7 +10,7 @@
                 class="text-center"
                 scope="col"
                 v-show="
-                  Object.keys(['superadmin', 'admin', 'department', 'staff'].filter((str) => str === user_role)).length > 0
+                  Object.keys([1, 2, 3, 4].filter((str) => str === user_role)).length > 0
                 "
               >
                 CLIENTE
@@ -34,7 +34,7 @@
             </td>
             <td
               class="text-left"
-              v-show="Object.keys(['superadmin', 'department', 'staff'].filter((str) => str === user_role)).length > 0"
+              v-show="Object.keys([1, 2, 3, 4].filter((str) => str === user_role)).length > 0"
             >
               {{ call.customer ? call.customer.comercial_name || call.customer.fiscal_name : null }}
             </td>
