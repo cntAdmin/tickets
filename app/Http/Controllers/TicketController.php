@@ -9,6 +9,7 @@ use App\Models\Attachment;
 use App\Models\Brand;
 use App\Models\Call;
 use App\Models\CarModel;
+use App\Models\Comment;
 use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Ticket;
@@ -208,7 +209,10 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $inserted = GetCalls::dispatch();
+        dd($ticket);
+        if(auth()->check()) {
+            $inserted = GetCalls::dispatch();
+        }
 
         return response()->json([
             'success' => true,
@@ -462,5 +466,9 @@ class TicketController extends Controller
 
     public function ticket_import() {
         Excel::import(new TicketsImport, 'imports/Importar_Incidencias_prueba.csv');
+    }
+
+    public function view_ticket(Ticket $ticket) {
+        return view('tickets.view')->with(['ticket' => $ticket]);
     }
 }

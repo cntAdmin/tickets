@@ -330,7 +330,7 @@ export default {
         })
         .then((res) => {
           if (res.data.success) {
-            console.log(res.data.msg)
+            // console.log(res.data.msg)
           }
         });
     },
@@ -338,7 +338,7 @@ export default {
       axios
         .get(`/api/get_customer_contacts/${this.customer.id}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           this.contacts = res.data.contacts;
         });
     },

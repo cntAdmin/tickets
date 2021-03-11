@@ -158,6 +158,9 @@ export default {
       spinner: false,
     };
   },
+  mounted() {
+    console.log("AAAAAAAAA")
+  },
   methods: {
     uploadFile(e) {
       this.files = e.target.files;
@@ -185,13 +188,12 @@ export default {
       formData.append("comment", this.$refs.comment.ej2Instances.value);
 
       axios
-        .post("/api/ticket/" + this.ticket_id + "/comment", formData, {
+        .post(`/api/ticket/${this.ticket_id}/comment`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
-          console.log(res.data)
           this.spinner = false;
 
           if (res.data.success) {
@@ -205,7 +207,13 @@ export default {
                 status: false,
                 msg: "",
               };
-              this.$router.push("/ticket");
+              if (this.user_role === "undefined" || this.user_role >= 5) {
+                setTimeout(() => {
+                  window.location.href = "/incidencias";
+                }, 1000);
+                } else {
+                  this.$router.push("/incidencias");
+              }
             }, 2500);
           } else if (res.data.error) {
             this.success = false;
@@ -216,7 +224,7 @@ export default {
         });
     },
     align() {
-      if (this.user_role === "undefined" || this.user_role === "contact") {
+      if (this.user_role === "undefined" || this.user_role > 5) {
         return "ml-auto";
       }
       return "mr-auto";

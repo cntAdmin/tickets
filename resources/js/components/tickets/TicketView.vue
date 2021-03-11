@@ -146,7 +146,7 @@
         />
       </div>
     </div>
-    <div class="form-group col-12 col-md-6 mt-2" v-if="!isFaq">
+    <div class="form-group col-12 col-md-6 mt-2" v-if="!isFaq && user_role <= 4">
       <button
         type="button"
         :class="
@@ -194,7 +194,7 @@
 
 <script>
 export default {
-  props: ["ticket", "isFaq"],
+  props: ["ticket", "isFaq", "user_role"],
   data() {
     return {
       showCallsModal: false,

@@ -9,7 +9,7 @@
               <span class="font-weight-bold">( {{ ticket.custom_id }} )</span>
             </h4>
             <!-- Solo mostrar en desktop -->
-            <div class="col-xl-6 d-none d-xl-inline-block">
+            <div class="col-xl-6 d-none d-xl-inline-block" v-show="ticket && user_role <= 4">
               <div class="input-group mt-2">
                 <p class="mr-3 mt-1">
                   <span class="d-none d-xl-inline-block">Añadir a </span>
@@ -27,7 +27,7 @@
             </div>
           </div>
           <!-- Solo mostrar en mobile -->
-          <div class="mr-xl-auto col-12 col-xl-6 d-xl-none d-inline-block">
+          <div class="mr-xl-auto col-12 col-xl-6 d-xl-none d-inline-block" v-show="ticket && user_role <= 4">
             <div class="input-group mt-2">
               <p class="mr-3 mt-1">
                 <span class="d-none d-xl-inline-block">Añadir a </span>
@@ -43,7 +43,7 @@
               </label>
             </div>
           </div>
-          <div class="ml-xl-auto col-12 col-xl-6 mt-2" v-show="ticket">
+          <div class="ml-xl-auto col-12 col-xl-6 mt-2" v-show="ticket && user_role <= 4">
             <div class="d-flex flex-row justify-content-xl-end">
               <div class="col-6 col-xl-4">
                 <router-link
@@ -90,7 +90,7 @@
           </div>
         </div>
 
-        <ticket-view :ticket="ticket" />
+        <ticket-view :ticket="ticket" :user_role="user_role" />
       </div>
     </div>
 
@@ -105,14 +105,14 @@
       </div>
     </div>
 
-    <div class="d-none d-xl-block">
+    <div class="d-none d-xl-block" v-show="ticket && user_role <= 4">
       <ticket-view-calls
         v-show="Object.keys(ticket.calls).length > 0"
         :calls="ticket.calls"
       ></ticket-view-calls>
     </div>
 
-    <div class="d-xl-none d-block">
+    <div class="d-xl-none d-block" v-show="ticket && user_role <= 4">
       <ticket-cards-calls
         v-show="Object.keys(ticket.calls).length > 0"
         :calls="ticket.calls"
@@ -173,8 +173,12 @@ export default {
     };
   },
   activated() {
-    this.get_ticket(this.ticketID);
-    this.getCalls();
+    // this.get_ticket(this.ticketID);
+    // this.getCalls();
+  },
+  mounted() {
+    let routeArray = this.$route.params.pathMatch.split('/');
+    this.get_ticket(this.ticketID ? this.ticketID : routeArray[routeArray.length - 1]);
   },
   methods: {
     closeAll() {
@@ -214,7 +218,7 @@ export default {
     },
     get_ticket(ticket_id) {
       axios
-        .get("/api/ticket/" + ticket_id)
+        .get(`/api/ticket/${ticket_id}`)
         .then((res) => {
           this.ticket = res.data.ticket;
         })

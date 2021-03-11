@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Str;
 
 class CommentController extends Controller
 {
@@ -55,7 +56,6 @@ class CommentController extends Controller
             'array' => __(':attribute debe ser un array de ficheros.'),
             'size' => __(':attribute tiene un tamaño máximo de 25MB.'),
         ];
-
         $validator = Validator::make($req->all(), [
             'comment' => ['required', 'string'],
             'files' => ['array', 'nullable', 'max:25600']
@@ -66,12 +66,14 @@ class CommentController extends Controller
                 'error' => $validator->errors()
             ]);
         }
-        
+
         $create_comment = Comment::create([
             'ticket_id' => $ticket->id,
-            'user_id' => auth()->user()->id,
-            'description' => $req->comment
-            ]);
+            'user_id' => auth()->user()->id ?? $ticket->user->id,
+            'description' => $req->comment,
+            '_token' => Str::uuid(),
+        ]);
+
 
         $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
         $ticket_admin_comments = Ticket::where('tickets.id', $ticket->id)
@@ -164,5 +166,14 @@ class CommentController extends Controller
             : response()->json([
                 'error' => true, 'msg' => 'El comentario no se ha podido borrar, pruebe de nuevo mas tarde o contacte con el administrador.'
             ]);
+    }
+
+    public function view_ticket_token(Comment $comment)
+    {
+        if ($comment->created_at->diffInMinutes(now()) > $comment->expires_in) {
+            abort(404);
+        }
+        return redirect('/ver/incidencia/' . $comment->ticket->id);
+        dd(auth()->user());
     }
 }

@@ -98,7 +98,6 @@ export default {
     get_all_roles() {
       axios.get('/api/get_all_roles')
       .then( res => {
-        console.log(res.data)
         this.roles = res.data.roles;
       })
     },

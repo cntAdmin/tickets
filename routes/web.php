@@ -22,7 +22,10 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 // Route::get('testing1', 'UserController@export_users');
 Route::get('/testing', function (Request $req) {
-    // dd(Ticket::withTrashed()->withoutGlobalScope(RoleTicketFilterScope::class)->latest('id')->first()->custom_id);
+    \App\Models\Comment::all()->each(function(\App\Models\Comment $comment) {
+        $comment->update(['_token' => Str::uuid()]);
+    });
+    dd(Str::uuid());
 });
 
 Route::get('/', function () {
@@ -30,6 +33,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('/ver/{comment:_token}', 'CommentController@view_ticket_token');
+Route::get('/ver/incidencia/{ticket}',function(Ticket $ticket) {
+    // dd($ticket->load(['customer', 'user', 'department', 'brand', 'car_model']));
+    return view('tickets.view')->withTicket($ticket->load(['customer', 'user', 'department', 'brand', 'car_model']));
+});
+Route::post('/api/ticket/{ticket}/comment', 'CommentController@store')->name('ticket.comment.store');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/{any}', 'SpaController@index')->where('any', '.*');

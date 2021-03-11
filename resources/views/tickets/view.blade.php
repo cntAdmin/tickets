@@ -1,12 +1,42 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 @section('content')
-    <ticket-view-info class="shadow" :ticket="{{ $ticket }}"></ticket-view-info>
-    @if($ticket->calls->count() > 0) 
-        <ticket-view-calls :calls="{{ $ticket->calls }}"></ticket-view-calls>
+<div class="m-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="row justify-content-center">
+                <div class="mr-xl-auto col-12 col-xl-6">
+                    <h4 class="title text-uppercase">
+                        Incidencia:
+                        <span class="font-weight-bold">( {{ $ticket->custom_id }} )</span>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{-- {{ dd($ticket->customer) }} --}}
+            <ticket-view user_role="5" :ticket="{{ $ticket }}"></ticket-view>
+
+            @if($ticket->attachments->count() > 0)
+            <div class="row justify-content-end mx-1">
+                @foreach($ticket->attachments as $attachment)
+                <div>
+                    <a :href="`/api/download/ticket/${ticket.id}/file/${attachment.id}`"
+                        class="btn btn-sm btn-success shadow font-weight-bold mr-2 my-2">
+                        {{ $attachment->name ? $attachment->name : $attachment->path }}
+                    </a>
+                </div>
+                @endforeach
+            </div>
+            @endif
+
+        </div>
+    </div>
+    @if($ticket->comments->count() > 0)
+    <ticket-comments :comments="{{ $ticket->comments }}" user_role="5"></ticket-comments>
     @endif
-    @foreach ($ticket->comments as $comment)
-        <ticket-comment :user_role="{{ $comment->user->getRoleNames() }}" username="{{$comment->user->name}}"
-            :comment="{{ $comment }}" timestamp="{{ $comment->created_at->diffForHumans() }}"></ticket-comment>
-    @endforeach
-    <ticket-new-coment :user_role="{{ auth()->user()->getRoleNames() }}" :ticket_id='{{ $ticket->id }}'></ticket-new-coment>
+
+    <div class="row justify-content-center">
+        <ticket-new-coment :ticket_id="{{ $ticket->id }}" user_role="5"></ticket-new-coment>
+    </div>
+</div>
 @endsection

@@ -9,7 +9,7 @@
                     <p v-html="comment.description"></p>
                 </div> 
                 <button class="btn btn-link text-danger ml-auto" title="Eliminar Comentario" @click="openDeleteModal(comment)"
-                    v-show="comment.user.id === user.id">
+                    v-show="user_role <= 4">
                     <i class="fa fa-trash-alt"></i>
                 </button>
             </div>
@@ -45,7 +45,7 @@ export default {
         },
         deleteComment() {
             this.showDeleteModal = false;
-            axios.delete('/api/ticket/' + this.comment.ticket_id + '/comment/' + this.comment.id)
+            axios.delete(`/api/ticket/${this.comment.ticket_id}/comment/${this.comment.id}`)
                 .then( res => {
                     if(res.data.success) {
                         this.$emit('succeeded', res.data.msg);
@@ -55,7 +55,7 @@ export default {
                 });
         },
         get_user_role() {
-            axios.get('/api/get_user_role/' + this.comment.user_id)
+            axios.get(`/api/get_user_role/${this.comment.user_id}`)
                 .then(res => {
                     this.user_role = res.data.user_role;
                 }).catch( err => {
@@ -65,13 +65,13 @@ export default {
         align(str) {
             switch (str) {
                 case 'comment':
-                    if(this.user_role === "customer" || this.user_role === 'contact'){
+                    if(this.user_role > 4){
                         return 'end';
                     }
                     return 'start';
                     break;
                 case 'text':
-                    if(this.user_role === "customer" || this.user_role === 'contact'){
+                    if(this.user_role > 4){
                         return 'right';
                     }
                     return 'left';

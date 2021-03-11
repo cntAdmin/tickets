@@ -4,7 +4,6 @@
       <ticket-comment
         :comment="comment"
         :key="comment.id"
-        :user="user"
         :isFaq="isFaq"
         @succeeded="succeeded"
       ></ticket-comment>
@@ -14,7 +13,10 @@
 
 <script>
 export default {
-  props: ["comments", "user", "isFaq"],
+  props: ["comments", "isFaq"],
+  mounted(){
+    // console.log(this.comments)
+  },
   methods: {
     succeeded(data) {
       // console.log('datacomments', data);
