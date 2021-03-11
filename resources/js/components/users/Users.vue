@@ -185,6 +185,7 @@ export default {
             username: data ? data.username : null,
             email: data ? data.email : null,
             role_id: data ? data.role_id : null,
+            is_active: data ? data.is_active : null,
           },
         })
         .then((res) => {

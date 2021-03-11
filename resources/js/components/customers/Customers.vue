@@ -81,7 +81,11 @@
     <transition name="fade" v-else-if="customers.data" mode="out-in">
       <div v-if="customers.total > 0">
         <div class="d-none d-xl-block">
-          <exports @exportFile="exportFile" toExport="customers" :searched="searched"></exports>
+          <exports
+            @exportFile="exportFile"
+            toExport="customers"
+            :searched="searched"
+          ></exports>
         </div>
 
         <customers-table
@@ -91,6 +95,9 @@
           @deleted="succeeded"
           @edit="editCustomer"
         ></customers-table>
+      </div>
+      <div v-else class="mt-3 mx-3 shadow">
+        <div class="alert alert-warning text-center">Haga una nueva búsqueda</div>
       </div>
     </transition>
   </div>
@@ -143,6 +150,7 @@ export default {
               : null,
             shop: this.searched.shop ? this.searched.shop : null,
             phone: this.searched.phone ? this.searched.phone : null,
+            is_active: this.searched.is_active ? this.searched.is_active : null,
             type: type,
           },
         })
@@ -213,6 +221,7 @@ export default {
             fiscal_name: data ? data.fiscal_name : null,
             shop: data ? data.shop : null,
             phone: data ? data.phone : null,
+            is_active: data ? data.is_active : null,
           },
         })
         .then((res) => {

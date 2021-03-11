@@ -70,6 +70,19 @@ class User extends Authenticatable
             $q->where('email', 'LIKE', $email . '%');
         })->when(request()->input('phone'), function(Builder $q, $phone) {
             $q->where('phone', 'LIKE', $phone . '%');
+        })->when(request()->input('is_active'), function(Builder $q, $is_active) {
+            switch ($is_active) {
+                case '1':
+                    $q->where('is_active', true);
+                    break;
+                case '2':
+                    $q->where('is_active', false);
+                    break;
+                
+                default:
+                    $q->where('is_active', true);
+                break;
+            }
         })->when(request()->input('role_id'), function(Builder $q, $role) {
             $q->whereHas('roles', function(Builder $q2) use ($role) {
                 $q2->where('id', $role);

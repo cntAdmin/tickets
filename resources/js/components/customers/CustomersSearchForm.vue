@@ -76,6 +76,19 @@
                 />
               </div>
             </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Estado</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">Estado</div>
+                </div>
+                <select v-model="selected.is_active" class="form-control">
+                  <option value="">-- TODOS --</option>
+                  <option value="1">Activos</option>
+                  <option value="2">Inactivos</option>
+                </select>
+              </div>
+            </div>
           </div>
           <div class="d-flex justify-content-center mt-3">
             <button class="btn btn-sm btn-block btn-success text-uppercase">
@@ -105,6 +118,7 @@ export default {
         fiscal_name: "",
         shop: "",
         phone: "",
+        is_active: "",
       },
     };
   },

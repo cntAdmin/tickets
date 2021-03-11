@@ -11,17 +11,18 @@ use Illuminate\Support\Collection;
 class Customer extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'cif', 'custom_id', 'fiscal_name', 'comercial_name', 'phone_1', 'phone_2', 'phone_3', 'email', 'street', 'city', 'province', 'country', 'postcode',
         'shop', 'is_active', 'deleted_by'
     ];
     protected $appends = ['active_status'];
 
-    public function getActiveStatusAttribute() {
+    public function getActiveStatusAttribute()
+    {
         return $this->attributes['is_active'] == 1 ? 'Activo' : 'Inactivo';
     }
-    
+
 
     public function users(): HasMany
     {
@@ -40,43 +41,49 @@ class Customer extends Model
      */
     public function contacts(): Collection
     {
-        return $this->users()->whereHas('roles', function(Builder $q){
+        return $this->users()->whereHas('roles', function (Builder $q) {
             $q->where('roles.id', 6);
         })->with(['roles'])->get();
     }
 
     public function scopeFilterCustomers(Builder $builder)
     {
-        return $builder->when(request()->input('custom_id'), function(Builder $q, $custom_id){
+        return $builder->when(request()->input('custom_id'), function (Builder $q, $custom_id) {
             $q->where('custom_id', 'LIKE', $custom_id . '%');
-        })->when(request()->input('cif'), function(Builder $q, $cif){
+        })->when(request()->input('cif'), function (Builder $q, $cif) {
             $q->where('cif', 'LIKE', $cif . '%');
-        })->when(request()->input('fiscal_name'), function(Builder $q, $fiscal_name){
+        })->when(request()->input('fiscal_name'), function (Builder $q, $fiscal_name) {
             $q->where('fiscal_name', 'LIKE', '%' . $fiscal_name . '%');
-        })->when(request()->input('comercial_name'), function(Builder $q, $comercial_name){
+        })->when(request()->input('comercial_name'), function (Builder $q, $comercial_name) {
             $q->where('comercial_name', 'LIKE', '%' . $comercial_name . '%');
-        })->when(request()->input('phone'), function(Builder $q, $phone){
+        })->when(request()->input('phone'), function (Builder $q, $phone) {
             $q->where('phone_1', 'LIKE', $phone . '%')
                 ->orWhere('phone_2', 'LIKE', $phone . '%')
                 ->orWhere('phone_3', 'LIKE', $phone . '%');
-        })->when(request()->input('email'), function(Builder $q, $email){
+        })->when(request()->input('email'), function (Builder $q, $email) {
             $q->where('email', 'LIKE', $email . '%');
-        })->when(request()->input('street'), function(Builder $q, $street){
+        })->when(request()->input('street'), function (Builder $q, $street) {
             $q->where('street', 'LIKE', $street . '%');
-        })->when(request()->input('town'), function(Builder $q, $town){
+        })->when(request()->input('town'), function (Builder $q, $town) {
             $q->where('town', 'LIKE', $town . '%');
-        })->when(request()->input('city'), function(Builder $q, $city){
+        })->when(request()->input('city'), function (Builder $q, $city) {
             $q->where('city', 'LIKE', $city . '%');
-        })->when(request()->input('country'), function(Builder $q, $country){
+        })->when(request()->input('country'), function (Builder $q, $country) {
             $q->where('country', 'LIKE', $country . '%');
-        })->when(request()->input('postcode'), function(Builder $q, $postcode){
+        })->when(request()->input('postcode'), function (Builder $q, $postcode) {
             $q->where('postcode', 'LIKE', $postcode . '%');
-        })->when(request()->input('shop'), function(Builder $q, $shop){
+        })->when(request()->input('shop'), function (Builder $q, $shop) {
             $q->where('shop', 'LIKE', $shop . '%');
-        })->when(request()->input('is_active'), function(Builder $q, $is_active){
-            $q->where('is_active', $is_active);
+        })->when(request()->input('is_active'), function (Builder $q, $is_active) {
+            switch ($is_active) {
+                case "2":
+                    $q->where('is_active', false);
+                    break;
+
+                default:
+                    $q->where('is_active', true);
+                    break;
+            }
         });
     }
-
 }
-
