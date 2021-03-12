@@ -1,6 +1,6 @@
 <template>
   <div class="flex-row justify-content-center" id="cards-list">
-    <div class="card mt-3 shadow" v-for="ticket in tickets" :key="ticket.id">
+    <div :class="getAnsweredStyle(ticket)" v-for="ticket in tickets" :key="ticket.id">
       <div class="card-header">
         <h4 class="text-uppercase text-left font-weight-bold">
           <router-link
@@ -14,7 +14,7 @@
         </h4>
         <span>{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
       </div>
-      <div class="card-body">
+      <div class="card-body border">
         <p class="text-truncate">
           {{ ticket.subject }}
         </p>
@@ -116,7 +116,7 @@
 
 <script>
 export default {
-  props: ["ticket_statuses", "searched", "answered"],
+  props: ["ticket_statuses", "searched", "answered", "user_role"],
   data() {
     return {
       tickets: [],
@@ -219,6 +219,15 @@ export default {
           break;
       }
     },
+    getAnsweredStyle(ticket) {
+      if(this.user_role <= 4 && ticket.answered == true) {
+        return 'font-weight-bold card mt-3 shadow border border-danger';
+      }else if(this.user_role > 4 && ticket.answered == false) {
+        return 'font-weight-bold card mt-3 shadow border border-danger';
+      } else {
+        return 'card mt-3 shadow'
+      }
+    }
   },
 };
 </script>

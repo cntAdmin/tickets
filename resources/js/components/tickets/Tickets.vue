@@ -95,6 +95,7 @@
             :tickets="tickets"
             :ticket_statuses="ticket_statuses"
             :searched="searched"
+            :user_role="user_role"
             @page="getTickets"
             @deleted="hasBeenDeleted"
             @getCounters="getCount()"
@@ -106,6 +107,7 @@
             :tickets="tickets"
             :ticket_statuses="ticket_statuses"
             :searched="searched"
+            :user_role="user_role"
             @page="getTickets"
             @deleted="hasBeenDeleted"
             @getCounters="getCount()"
@@ -123,7 +125,7 @@
 
 <script>
 export default {
-  props: ["user"],
+  props: ["user_role", "user"],
   data() {
     return {
       tickets: [],

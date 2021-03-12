@@ -78,9 +78,9 @@ class CommentController extends Controller
             return $th;
         }
 
-        $ticket->update([
-            'answered' => ((auth()->user() && auth()->user()->roles[0]->id > 4) || !auth()->user()) ? 1 : 0
-            ]);
+        // $ticket->update([
+        //     'answered' => ((auth()->user() && auth()->user()->roles[0]->id > 4) || !auth()->user()) ? 1 : 0
+        //     ]);
 
         $admin_users = \App\Models\User::role([1, 2, 3, 4])->pluck('id', 'id');
         $ticket_admin_comments = Ticket::where('tickets.id', $ticket->id)

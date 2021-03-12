@@ -15,8 +15,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              :class="ticket.status.id == 1 ? 'bg-danger text-white' : ''"
+            <tr 
+              :class="ticket.status.id == 1 ? 'bg-danger text-white' : ''
+                      + user_role <= 4 && ticket.answered == true ? 'font-weight-bold' : ''
+                      + user_role > 4 && ticket.answered == false ? 'font-weight-bold' : ''"
               v-for="ticket in tickets.data"
               :key="ticket.id"
             >
@@ -146,7 +148,7 @@
 
 <script>
 export default {
-  props: ["tickets", "searched", "ticket_statuses"],
+  props: ["tickets", "searched", "ticket_statuses", "user_role"],
   data() {
     return {
       showModal: false,

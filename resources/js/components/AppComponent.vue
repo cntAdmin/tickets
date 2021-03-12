@@ -48,7 +48,7 @@ export default {
   methods: {
     get_new_tickets() {
       axios
-        .get("/api/answered_tickets")
+        .get("/api/get_answered")
         .then((res) => {
           this.answered_tickets = res.data.answered;
         })

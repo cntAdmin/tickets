@@ -30,8 +30,8 @@ class CreateTicketsTable extends Migration
             $table->text('description');
             $table->text('tests_done')->nullable();
             $table->string('ask_for', 50);
-            $table->boolean('knowledge_base');
-            $table->boolean('answered')->default(1);
+            $table->boolean('knowledge_base')->default(false);
+            $table->boolean('answered')->default(false);
             $table->foreignId('ticket_status_id')->default(1)->constrained()->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onUpdate('cascade');
             $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade');

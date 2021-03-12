@@ -23,16 +23,7 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 // Route::get('testing1', 'UserController@export_users');
 Route::get('/testing', function (Request $req) {
-    $filename = 'tickets-' . now()->format('Y-m-d_H-i-s') . '.pdf';
-    $storage = 'exports/pdfs/' . $filename;
-    $tickets = Ticket::filterTickets()->limit(500)->get();
-    $pdf = PDF::loadView('exports.tickets', ['tickets' => $tickets])
-        ->setPaper('a4', 'landscape')
-        ->setOptions([
-            'defaultFont' => 'sans-serif',
-            'debugCss' => true
-        ])->save('storage/' . $storage);
-    dd(Storage::path($storage));
+        // return Ticket::whereAnswered(auth()->user()->roles[0]->id <= 4)->dd();
 });
 
 Route::get('/', function () {

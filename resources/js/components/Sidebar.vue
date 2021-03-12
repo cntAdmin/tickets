@@ -59,7 +59,7 @@
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow-lg"
                 :to="{ name: 'ticket.index' }"
               >
-                <span>Todas las Incidencias</span>
+                <span>Todas las Incidencias</span><span class="ml-2 badge badge-secondary">{{ answered }}</span>
               </router-link>
               <router-link
                 v-for="status in ticket_statuses"
@@ -172,10 +172,12 @@ export default {
       csrf: document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content"),
+      answered: 0,
     };
   },
   mounted() {
     this.getTicketStatuses();
+    this.getAnswered();
   },
   methods: {
     getTicketStatuses() {
@@ -183,6 +185,13 @@ export default {
         this.ticket_statuses = res.data.ticket_statuses;
       });
     },
+    getAnswered() {
+      axios.get('/api/get_answered')
+        .then( res => {
+          console.log(res.data)
+          this.answered = res.data.answered
+        })
+    }
   },
 };
 </script>

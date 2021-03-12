@@ -44,9 +44,10 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
     Route::get('/get_all_brands', 'BrandController@get_all_brands');
     Route::get('/get_all_roles', 'RoleController@get_all_roles');
+    Route::get('/get_answered', 'TicketController@get_answered');
     Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download_attachment_comment');
     Route::get('/download/ticket/{ticket}/file/{attachment}', 'AttachmentController@download_attachment_ticket');
-
+    
     // ? EXPORTS
     Route::get('/export_tickets', 'TicketController@export_tickets');
     Route::get('/export_customers', 'CustomerController@export_customers');
@@ -59,7 +60,6 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/mobile_ticket', 'TicketController@mobile_index');
     Route::get('/ticket/{ticket}/status/{ticketStatus}', 'TicketStatusController@change_status');
     Route::get('/toogle_faqs_ticket/{ticket}', 'TicketController@toogle_faqs_ticket');
-    Route::get('/answered_tickets', 'TicketController@answered_tickets');
 
     // ? CALLS TICKET
     Route::put('/call/{call}/ticket/{ticket}', 'CallController@toggle_call_ticket');

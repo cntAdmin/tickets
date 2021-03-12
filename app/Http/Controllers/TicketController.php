@@ -152,7 +152,8 @@ class TicketController extends Controller
                 'ask_for' => $req->ask_for,
                 'knowledge_base' => 0,
                 'created_by' => auth()->user()->id,
-                'ticket_status_id' => 1
+                'ticket_status_id' => 1,
+                'answered' => auth()->user()->roles[0]->id <= 4 ? false : true
             ]);    
         } catch (\Throwable $th) {
             // throw $th;
@@ -492,5 +493,16 @@ class TicketController extends Controller
 
     public function view_ticket(Ticket $ticket) {
         return view('tickets.view')->with(['ticket' => $ticket]);
+    }
+
+    public function get_answered()
+    {
+        $answered = Ticket::whereAnswered(auth()->user()->roles[0]->id <= 4)
+            ->count();
+
+        return response()->json([
+            'success' => true,
+            'answered' => $answered
+        ]);
     }
 }
