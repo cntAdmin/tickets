@@ -88,7 +88,6 @@ export default {
 
             this.$emit("error", res.data.errors);
           }
-          console.log("res", res.data);
         })
         .catch((err) => console.log(err));
     },

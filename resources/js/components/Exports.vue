@@ -41,7 +41,7 @@ export default {
           params: this.searched,
         })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
             // GET FILENAME FROM HEADERS
             var filename = "";
             var disposition = res.headers["content-disposition"];

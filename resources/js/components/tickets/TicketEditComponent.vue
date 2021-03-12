@@ -559,7 +559,6 @@ export default {
           formData.append(`files[${i}]`, this.files[i]);
         }
       }
-      console.log(this.ticket);
       
       if(this.ticket.frame_id !== null) {
         formData.append("frame_id", this.ticket.frame_id);
@@ -596,7 +595,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data)
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
 

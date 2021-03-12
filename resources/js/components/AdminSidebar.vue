@@ -291,7 +291,6 @@ export default {
     getAnswered() {
       axios.get('/api/get_answered')
         .then( res => {
-          console.log(res.data)
           this.answered = res.data.answered
         })
     }
