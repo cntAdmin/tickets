@@ -452,7 +452,7 @@ export default {
       };
     },
     showContactSuccess(data) {
-      console.log('data', data)
+      // console.log('data', data)
       this.contactSuccess = {
         status: true,
         msg: data,
