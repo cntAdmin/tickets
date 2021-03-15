@@ -223,6 +223,26 @@
                 </vue-select>
               </div>
             </div>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+              <label class="sr-only" for="dateFrom">Otro Marca/Modelo</label>
+              <div class="input-group w-100">
+                <div class="input-group-prepend">
+                  <div class="input-group-text text-uppercase">
+                    Otro Marca/Modelo
+                  </div>
+                </div>
+                <input
+                  :class="
+                    [error.errors.other_brand_model ? 'is-invalid' : ''] +
+                    ' form-control'
+                  "
+                  type="text"
+                  v-model="ticket.other_brand_model"
+                  v-if="!ticket.model_id"
+                />
+                <input v-else class="form-control" type="text" disabled />
+              </div>
+            </div>
             <div
               class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2"
             >
