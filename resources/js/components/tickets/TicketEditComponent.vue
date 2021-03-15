@@ -238,7 +238,7 @@
                   "
                   type="text"
                   v-model="ticket.other_brand_model"
-                  v-if="!ticket.model_id"
+                  v-if="!ticket.car_model_id"
                 />
                 <input v-else class="form-control" type="text" disabled />
               </div>
@@ -469,7 +469,7 @@ export default {
       this.get_all_users();
     },
     setModel(value) {
-      this.ticket.car_model.id = value ? value.id : null;
+      this.ticket.car_model_id = value ? value.id : null;
     },
     setBrand(value) {
       this.ticket.brand.id = value ? value.id : null;
