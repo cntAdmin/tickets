@@ -194,7 +194,7 @@
                 >
                   <div slot="no-options">No hay opciones con esta busqueda</div>
                   <template slot="option" slot-scope="option">
-                    {{ option.id }} - {{ option.name }}
+                    {{ option.name }}
                   </template>
                 </vue-select>
               </div>
@@ -218,7 +218,7 @@
                 >
                   <div slot="no-options">No hay opciones con esta busqueda</div>
                   <template slot="option" slot-scope="option">
-                    {{ option.id }} - {{ option.name }}
+                    {{ option.name }}
                   </template>
                 </vue-select>
               </div>
