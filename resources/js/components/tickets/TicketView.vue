@@ -119,6 +119,20 @@
       </div>
     </div>
     <div class="col-12 col-md-6 col-lg-4 mt-2">
+      <label class="sr-only" for="dateFrom">Otra Marca/Modelo</label>
+      <div class="input-group w-100">
+        <div class="input-group-prepend">
+          <div class="input-group-text text-uppercase">Otra Marca/Modelo</div>
+        </div>
+        <input
+          class="form-control"
+          type="text"
+          v-model="ticket.other_brand_model"
+          disabled
+        />
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mt-2">
       <label class="sr-only" for="dateFrom">Solicito</label>
       <div class="input-group w-100">
         <div class="input-group-prepend">
