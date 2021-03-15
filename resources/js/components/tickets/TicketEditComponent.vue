@@ -261,8 +261,6 @@
                 />
               </div>
             </div>
-          </div>
-          <div class="form-inline mt-2">
             <div class="form-group col-12 col-md-6">
               <label class="sr-only" for="dateFrom">Asunto</label>
               <div class="input-group w-100">
