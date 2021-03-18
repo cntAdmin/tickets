@@ -52,7 +52,7 @@
           </vue-select>
         </div>
       </div>
-      <div :class="'mt-2 ' + size" v-else-if="!is_admin && user.roles[0].id < 4">
+      <div :class="'mt-2 ' + size" v-else-if="!is_admin && user.roles[0].id <= 4">
         <label class="sr-only" for="dateFrom">Departamento</label>
         <div class="input-group w-100">
           <div class="input-group-prepend">

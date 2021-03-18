@@ -14,17 +14,7 @@
                                     title="Minimo 3 caracteres" autofocus />
                             </div>
                         </div>
-                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2"  v-if="user.roles[0].id < 4">
-                            <label class="sr-only" for="dateFrom">Usuario</label>
-                            <div class="input-group w-100">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text text-uppercase">Usuario</div>
-                                </div>
-                                <input type="text" v-model="selected.user_name" class="form-control" minlength="3"
-                                    title="Minimo 3 caracteres" />
-                            </div>
-                        </div>
-                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id < 4">
+                        <div class="form-group col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id <= 4">
                             <label class="sr-only" for="dateFrom">Cod. Cliente</label>
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">

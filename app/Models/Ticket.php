@@ -133,9 +133,9 @@ class Ticket extends Model
         })->when(request()->input('ticket_id'), function (Builder $q, $id) {
             $q->where('custom_id', 'LIKE', '%' . $id . '%');
         })->when(request()->input('frame_id'), function (Builder $q, $frame_id) {
-            $q->where('frame_id', 'LIKE', $frame_id . '%');
+            $q->where('frame_id', 'LIKE', '%' . $frame_id . '%');
         })->when(request()->input('plate'), function (Builder $q, $plate) {
-            $q->where('plate', 'LIKE', $plate . '%');
+            $q->where('plate', 'LIKE', '%' . $plate . '%');
         })->when(request()->input('brand'), function (Builder $q, $brand) {
             $q->where('brand', 'LIKE', $brand . '%');
         })->when(request()->input('model'), function (Builder $q, $model) {
@@ -176,26 +176,20 @@ class Ticket extends Model
             // SI ESTE TICKET TIENE USUARIOS BUSCA POR EL NOMBRE
             ->when(request()->input('user_name'), function (Builder $q, $user_name) {
                 $q->whereHas('user', function ($q2) use ($user_name) {
-                    $q2->where('users.name', 'LIKE', $user_name . '%');
+                    $q2->where('users.name', 'LIKE', '%' . $user_name . '%');
                 });
             })
             // SI ESTE TICKET TIENE UN CLIENTE BUSCA POR EL ID
             ->when(request()->input('customer_custom_id'), function (Builder $q, $custom_id) {
                 $q->whereHas('customer', function ($q2) use ($custom_id) {
-                    $q2->where('customers.custom_id', 'LIKE', $custom_id . '%');
+                    $q2->where('customers.custom_id', 'LIKE', '%' . $custom_id . '%');
                 });
-            }, function (Builder $q) {
-                if (!auth()->user()->hasRole([1, 2, 3, 4])) {
-                    $q->whereHas('customer', function ($q2) {
-                        $q2->where('customers.id', auth()->user()->customer_id);
-                    });
-                }
             })
             // SI ESTE TICKET TIENE UN CLIENTE BUSCA POR EL ID
             ->when(request()->input('customer_name'), function (Builder $q, $customer_name) {
                 $q->whereHas('customer', function ($q2) use ($customer_name) {
-                    $q2->where('customers.comercial_name', 'LIKE', $customer_name . '%')
-                        ->orWhere('customers.fiscal_name', 'LIKE', $customer_name . '%');
+                    $q2->where('customers.comercial_name', 'LIKE', '%' . $customer_name . '%')
+                        ->orWhere('customers.fiscal_name', 'LIKE', '%' . $customer_name . '%');
                 });
             })
             // SI ESTE TICKET TIENE UN DEPARTAMENTO BUSCA POR EL ID
