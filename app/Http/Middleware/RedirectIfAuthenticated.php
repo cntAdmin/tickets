@@ -18,11 +18,6 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if(!auth()->user()->hasAnyRole([1,2,3])) {
-                return redirect('ticket');
-            } else {
-                return redirect('admin/ticket');
-            }
             return $next($request);
         }
 
