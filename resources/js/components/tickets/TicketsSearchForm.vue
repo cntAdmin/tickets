@@ -241,7 +241,7 @@ export default {
     console.log(this.status)
     this.selected.status = this.status
       ? this.status
-      : null;
+      : '';
   },
   mounted() {
     this.get_all_departments();
