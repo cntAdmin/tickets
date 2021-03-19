@@ -4,7 +4,7 @@
       class="d-flex flex-row justify-content-center align-items-center bg-blue-gradient w-100 shadow"
       style="height: 100px"
     >
-      <h2 class="font-weight-bolder text-white text-shadow-md text-uppercase">AAP-TC Glosario de Incidencias</h2>
+      <h2 class="font-weight-bolder text-white text-shadow-md text-uppercase">Glosario de Incidencias</h2>
     </div>
     <faqs-search-form @search="getFaqs" />
 

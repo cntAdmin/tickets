@@ -497,8 +497,7 @@ class TicketController extends Controller
 
     public function get_answered()
     {
-        $answered = Ticket::whereAnswered(auth()->user()->roles[0]->id <= 4)
-            ->count();
+        $answered = Ticket::answered()->count();
 
         return response()->json([
             'success' => true,

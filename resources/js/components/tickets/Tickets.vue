@@ -56,6 +56,7 @@
       class="collapse hidden d-xl-block"
       :ticket_statuses="ticket_statuses"
       :user="user"
+      :status="$route.query.status"
       @search="getTickets"
     />
 
@@ -125,7 +126,7 @@
 
 <script>
 export default {
-  props: ["user_role", "user"],
+  props: ["user_role", "user", "status"],
   data() {
     return {
       tickets: [],
@@ -138,6 +139,7 @@ export default {
       searching: false,
       searched: {
         page: 1,
+        status: this.$route.query.status
       },
       deleted: {
         status: false,
@@ -150,9 +152,7 @@ export default {
     };
   },
   activated() {
-    this.searched.status = this.$route.query.status
-      ? this.$route.query.status
-      : null;
+    console.log(this.searched.status)
     this.getTickets();
     this.get_all_ticket_statuses();
   },
@@ -189,6 +189,8 @@ export default {
         .get("/api/get_ticket_counters", {
           params: {
             ticket_id: this.searched ? this.searched.ticket_id : null,
+            brand_id: this.searched ? this.searched.brand_id : null,
+            car_model_id: this.searched ? this.searched.car_model_id : null,
             user_name: this.searched ? this.searched.user_name : null,
             customer_custom_id: this.searched
               ? this.searched.customer_custom_id
@@ -199,6 +201,7 @@ export default {
             date_from: this.searched ? this.searched.date_from : null,
             date_to: this.searched ? this.searched.date_to : null,
             knowledge_base: this.searched ? this.searched.knowledge_base : null,
+            answered: this.searched ? this.searched.answered : null,
           },
         })
         .then((res) => {
@@ -224,6 +227,8 @@ export default {
         .get("/api/ticket", {
           params: {
             page: this.searched ? this.searched.page : null,
+            brand_id: this.searched ? this.searched.brand_id : null,
+            car_model_id: this.searched ? this.searched.car_model_id : null,
             ticket_id: this.searched ? this.searched.ticket_id : null,
             user_name: this.searched ? this.searched.user_name : null,
             customer_custom_id: this.searched
@@ -235,9 +240,11 @@ export default {
             date_from: this.searched ? this.searched.date_from : null,
             date_to: this.searched ? this.searched.date_to : null,
             knowledge_base: this.searched ? this.searched.knowledge_base : null,
+            answered: this.searched ? this.searched.answered : null,
           },
         })
         .then((res) => {
+          console.log(res.data)
           this.tickets = res.data.tickets;
           this.searching = false;
         })

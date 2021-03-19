@@ -29,7 +29,7 @@ class CommentObserver
         // }
         // UPDATE TICKET ANSWERED: IF COMMENTED BY ADMINS SET AS FALSE ELSE SET AS TRUE
         $comment->ticket->update([
-            'answered' => $comment->user->roles[0]->id <= 4 ? false : true
+            'answered' => $comment->user->roles[0]->id <= 4 ? true : false
         ]);
     }
 

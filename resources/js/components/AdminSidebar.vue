@@ -140,16 +140,21 @@
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'ticket.index' }"
               >
-                <span>Todas las Incidencias</span><span class="ml-2 badge badge-secondary">{{ answered }}</span>
+                <span>Todas las Incidencias</span
+                ><span class="ml-2 badge badge-secondary">{{ answered }}</span>
               </router-link>
               <router-link
                 v-for="status in ticket_statuses"
                 :key="status.id"
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
+                :class="
+                  status.id == 3
+                    ? 'd-none'
+                    : 'btn btn-dark btn-block mt-2 text-light text-uppercase shadow'
+                "
                 :to="{ name: 'ticket.index', query: { status: status.id } }"
-                >Incidencias
-                <span class="ml-1">{{ status.menu_name }}</span></router-link
               >
+                <span class="ml-1">{{ status.menu_name }}</span>
+              </router-link>
             </div>
           </li>
           <!-- FIN TICKETS  -->
@@ -282,6 +287,13 @@ export default {
     this.getTicketStatuses();
     this.getAnswered();
   },
+  mounted() {
+    this.$nextTick(function () {
+      window.setInterval(() => {
+        this.getAnswered();
+      }, 60000);
+    });
+  },
   methods: {
     getTicketStatuses() {
       axios.get("/api/get_all_ticket_statuses").then((res) => {
@@ -289,11 +301,10 @@ export default {
       });
     },
     getAnswered() {
-      axios.get('/api/get_answered')
-        .then( res => {
-          this.answered = res.data.answered
-        })
-    }
+      axios.get("/api/get_answered").then((res) => {
+        this.answered = res.data.answered;
+      });
+    },
   },
 };
 </script>

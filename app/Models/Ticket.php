@@ -107,13 +107,25 @@ class Ticket extends Model
             ->where('attachable_type', 'App\Models\Comment');
     }
 
+    public function scopeAnswered($query)
+    {
+        return $query->where(function(Builder $q) {
+                if(auth()->user()->roles[0]->id > 4) {
+                    $q->whereAnswered(true);
+                } else {
+                    $q->whereAnswered(false);
+                }
+            });
+    }
+
     public function scopeFilterTickets($query, String $type = 'tickets'): Builder
     {
         return $query->when($type === 'faqs', function (Builder $q, $faqs) {
             $q->where('knowledge_base', 1)
                 ->when(request()->input('text'), function(Builder $q2, $text) {
                     $q2->where(function(Builder $q3) use ($text){
-                        $q3->where('subject', 'LIKE', '%' . $text . '%')->orWhere('description', 'LIKE', '%' . $text . '%');
+                        $q3->where('subject', 'LIKE', '%' . $text . '%')->orWhere('description', 'LIKE', '%' . $text . '%')
+                            ->orWhere('other_brand_model', 'LIKE', '%' . $text . '%');
                     });
                 })->when(request()->input('brand_id'), function(Builder $q, $brand_id) {
                     $q->whereHas('brand', function(Builder $q2) use ($brand_id){
@@ -124,11 +136,19 @@ class Ticket extends Model
                         $q2->where('id', $model_id);
                     });
                 });
-        })->when(request()->input('answered'), function (Builder $q) {
-            if(auth()->user()->roles[0]->id > 4) {
-                $q->whereAnswered(true);
+        })->when(request()->input('answered'), function (Builder $q, $answered) {
+            if($answered == 1) {
+                if(auth()->user()->roles[0]->id > 4) {
+                    $q->whereAnswered(false);
+                } else {
+                    $q->whereAnswered(true);
+                }
             } else {
-                $q->whereAnswered(false);
+                if(auth()->user()->roles[0]->id > 4) {
+                    $q->whereAnswered(true);
+                } else {
+                    $q->whereAnswered(false);
+                }
             }
         })->when(request()->input('ticket_id'), function (Builder $q, $id) {
             $q->where('custom_id', 'LIKE', '%' . $id . '%');
@@ -136,10 +156,10 @@ class Ticket extends Model
             $q->where('frame_id', 'LIKE', '%' . $frame_id . '%');
         })->when(request()->input('plate'), function (Builder $q, $plate) {
             $q->where('plate', 'LIKE', '%' . $plate . '%');
-        })->when(request()->input('brand'), function (Builder $q, $brand) {
-            $q->where('brand', 'LIKE', $brand . '%');
-        })->when(request()->input('model'), function (Builder $q, $model) {
-            $q->where('model', 'LIKE', $model . '%');
+        })->when(request()->input('brand_id'), function (Builder $q, $brand) {
+            $q->where('brand_id', $brand);
+        })->when(request()->input('car_model_id'), function (Builder $q, $model) {
+            $q->where('car_model_id', $model);
         })->when(request()->input('engine_type'), function (Builder $q, $engine_type) {
             $q->where('engine_type', 'LIKE', $engine_type . '%');
         })->when(request()->input('subject'), function (Builder $q, $subject) {
@@ -169,10 +189,19 @@ class Ticket extends Model
         })
             // SI ESTE TICKET ESTADO BUSCA POR EL ID DEL ESTADO
             ->when(request()->input('status'), function (Builder $q, $status_id) {
-                $q->whereHas('status', function ($q2) use ($status_id) {
-                    $q2->where('ticket_statuses.id', $status_id);
-                });
-            })
+
+                if($status_id == 1) {
+                    $q->where(function(Builder $q3) use ($status_id) {
+                        if(auth()->user()->roles[0]->id > 4) { // Si es customer answered tiene que ser true porque HA SIDO contestado por algun admin
+                            $q3->where('ticket_status_id', $status_id)->orWhere('answered', true);
+                        } else {
+                            $q3->where('ticket_status_id', $status_id)->orWhere('answered', false);
+                        }
+                    });
+                } else {
+                    $q->where('ticket_status_id', $status_id);
+                }
+        })
             // SI ESTE TICKET TIENE USUARIOS BUSCA POR EL NOMBRE
             ->when(request()->input('user_name'), function (Builder $q, $user_name) {
                 $q->whereHas('user', function ($q2) use ($user_name) {
