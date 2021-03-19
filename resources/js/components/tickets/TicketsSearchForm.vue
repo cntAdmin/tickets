@@ -242,8 +242,6 @@ export default {
     this.selected.status = this.status
       ? this.status
       : '';
-  },
-  mounted() {
     this.get_all_departments();
     this.get_all_brands();
   },
