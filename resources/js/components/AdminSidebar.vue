@@ -140,8 +140,7 @@
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'ticket.index' }"
               >
-                <span>Todas las Incidencias</span
-                ><span class="ml-2 badge badge-secondary">{{ answered }}</span>
+                <span>Todas las Incidencias</span>
               </router-link>
               <router-link
                 v-for="status in ticket_statuses"
@@ -153,7 +152,7 @@
                 "
                 :to="{ name: 'ticket.index', query: { status: status.id } }"
               >
-                <span class="ml-1">{{ status.menu_name }}</span>
+                <span class="ml-1">{{ status.menu_name }}<span class="ml-2 badge badge-danger" v-if="status.id == 1">{{ answered }}</span></span>
               </router-link>
             </div>
           </li>
