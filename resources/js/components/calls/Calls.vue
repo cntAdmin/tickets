@@ -102,6 +102,10 @@ export default {
       incall_time_counter: 0,
       searching: false,
       searched: {},
+      error: {
+        status: false,
+        msg:''
+      }
     };
   },
   methods: {
