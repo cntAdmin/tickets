@@ -177,7 +177,6 @@ class CommentController extends Controller
             abort(404);
         }
         return redirect('/ver/incidencia/' . $comment->ticket->id);
-        dd(auth()->user());
     }
  
     public function createToken()

@@ -20,6 +20,9 @@ Route::get('/get_user_role/{id?}', function ($id) {
     return response()->json(['user_role' => $get_user->roles[0]->id]);
 });
 
+Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download_attachment_comment');
+Route::get('/download/ticket/{ticket}/file/{attachment}', 'AttachmentController@download_attachment_ticket');
+
 Route::group(['middleware' => ['auth:web']], function () {
     Route::resource('user', 'UserController');
     Route::resource('file-manager', 'AttachmentController')->parameter('file-manager', 'attachment');
@@ -45,8 +48,6 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_all_brands', 'BrandController@get_all_brands');
     Route::get('/get_all_roles', 'RoleController@get_all_roles');
     Route::get('/get_answered', 'TicketController@get_answered');
-    Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download_attachment_comment');
-    Route::get('/download/ticket/{ticket}/file/{attachment}', 'AttachmentController@download_attachment_ticket');
     
     // ? EXPORTS
     Route::get('/export_tickets', 'TicketController@export_tickets');
