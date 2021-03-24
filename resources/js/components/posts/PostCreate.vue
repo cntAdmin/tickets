@@ -63,6 +63,7 @@
                   :height="800"
                   :toolbarSettings="toolbarSettings"
                   :enableResize="true"
+                  :insertImageSettings="fileManagerSettings"
                 >
                 </ejs-richtexteditor>
               </div>
@@ -114,6 +115,12 @@ export default {
   },
   data() {
     return {
+      fileManagerSettings: {
+        enable: true,
+        path: '/storage/media/' + new Date().getFullYear() + '/' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '/',
+        saveUrl: '/api/FileManager/Upload',
+        removeUrl: '/api/FileManager/Delete',
+      },
       quickToolbarSettings: {
         image: [
           "Replace",
@@ -197,6 +204,7 @@ export default {
       formData.append("title", this.selected.title);
       formData.append("description", this.$refs.description.ej2Instances.value);
       formData.append("featured", this.selected.featured);
+
       axios
         .post("/api/post", formData, {
           headers: {
@@ -204,6 +212,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res.data)
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
@@ -211,7 +220,7 @@ export default {
               msg: res.data.msg,
             };
             setTimeout(() => {
-              this.$router.push("/post");
+              this.$router.push("/admin/blog");
             }, 2000);
           } else if (res.data.error) {
             this.error = {

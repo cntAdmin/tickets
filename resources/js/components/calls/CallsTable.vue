@@ -9,9 +9,7 @@
               <th
                 class="text-center"
                 scope="col"
-                v-show="
-                  Object.keys([1, 2, 3, 4].filter((str) => str === user_role)).length > 0
-                "
+                v-if="[1, 2, 3, 4].includes(user_role)"
               >
                 CLIENTE
               </th>
@@ -34,7 +32,7 @@
             </td>
             <td
               class="text-left"
-              v-show="Object.keys([1, 2, 3, 4].filter((str) => str === user_role)).length > 0"
+              v-if="[1, 2, 3, 4].includes(user_role)"
             >
               {{ call.customer ? call.customer.comercial_name || call.customer.fiscal_name : null }}
             </td>

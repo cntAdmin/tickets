@@ -8,8 +8,8 @@
         AAP-TC INFORMACIÓN
       </h2>
     </div>
-
-    <div class="d-flex flex-column flex-lg-row flex-wrap justify-content-center mt-3 w-100" v-if="featuredPosts.data && Object.keys(featuredPosts.data) > 0">
+    <div class="card-columns mt-3"
+      v-if="featuredPosts.data && Object.keys(featuredPosts.data).length > 0">
       <thumbnail-post
         v-for="(post, idx) in featuredPosts.data"
         :key="post.id"
@@ -33,8 +33,8 @@
           Object.keys(featuredPosts.data).length > 0
         "
         :data="featuredPosts"
-        @pagination-change-page="getFeaturedPosts"
         :limit="3"
+        @pagination-change-page="getFeaturedPosts"
         size="small"
         align="center"
       >
@@ -94,7 +94,6 @@ export default {
             },
           })
           .then((res) => {
-            // console.log(res.data);
             if (res.data.posts.length === 0) {
               this.searching = false;
               return (this.dontLoad = true);

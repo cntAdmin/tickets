@@ -88,7 +88,7 @@ export default {
   deactivated() {
     this.resetFields();
   },
-  mounted() {
+  activated() {
     this.get_all_customers();
   },
   data() {

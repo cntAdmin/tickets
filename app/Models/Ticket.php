@@ -233,14 +233,17 @@ class Ticket extends Model
 
     public static function getLastID()
     {
-        if(Ticket::first() === null) {
+        if(Ticket::first() == null) {
             return 1;
         }
 
         $last_custom_id = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->withTrashed()->latest('id')->first()->custom_id;
+        // SEPARA CUSTOM_ID POR GUION
         $array_custom_id = explode('-', $last_custom_id);
+        // EXTRAE LOS ULTIMOS 4 CARACTERES DEL PRIMER ARRAY (DEPARTAMENTO AÑO)= AÑO
         $get_year_from_custom_id = substr($array_custom_id[0], -4);
         
+        // SI EL AÑO ES EL MISMO EN EL QUE ESTAMOS SUMAMOS 1 AL CUSTOM_ID
         if($get_year_from_custom_id == now()->year) {
             return intval($array_custom_id[1]) + 1;
         }

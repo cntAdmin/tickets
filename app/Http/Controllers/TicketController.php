@@ -153,7 +153,7 @@ class TicketController extends Controller
                 'knowledge_base' => 0,
                 'created_by' => auth()->user()->id,
                 'ticket_status_id' => 1,
-                'answered' => auth()->user()->roles[0]->id <= 4 ? false : true
+                'answered' => auth()->user()->roles[0]->id <= 4 ? true : false
             ]);    
         } catch (\Throwable $th) {
             // throw $th;
