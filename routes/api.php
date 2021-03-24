@@ -86,6 +86,13 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::post('/deleteAllFiles', 'AttachmentController@deleteAll');
     Route::post('/deleteSelectedFiles', 'AttachmentController@deleteSelected');
     Route::get('/get_files_counters', 'AttachmentController@get_files_counters');
+    // ? FILE MANAGER E2-VUE PLUGIN
+    Route::get('/FileManager/GetImage', 'FileManagerPluginController@show');
+    Route::post('/FileManager/Upload', 'FileManagerPluginController@store');
+    Route::get('/FileManager/Download', 'FileManagerPluginController@download');
+    Route::post('/FileManager/Delete', 'FileManagerPluginController@destroy');
+
+
 
     // ? POSTS
     Route::get('/get_posts_counters', 'PostController@get_posts_counters');
@@ -94,7 +101,8 @@ Route::group(['middleware' => ['auth:web']], function () {
     // ? POST
     Route::get('/featured_post', 'PostController@featured_post');
     Route::get('/featured_post_mobile', 'PostController@featured_post_mobile');
-
+    Route::get('/get_other_posts/{post}', 'PostController@get_other_posts');
+    
     // ? MODELS
     Route::get('/get_car_models_counter', 'CarModelController@get_car_models_counter');
 

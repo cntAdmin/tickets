@@ -120,7 +120,6 @@ Vue.component('files-table', require('./components/file-manager/FilesTable').def
 Vue.component('posts-search-form', require('./components/posts/PostsSearchForm').default);
 Vue.component('posts-table', require('./components/posts/PostsTable').default);
 // POST
-Vue.component('post-header', require('./components/posts/PostHeader').default);
 Vue.component('featured-posts', require('./components/posts/FeaturedPosts').default);
 Vue.component('other-posts', require('./components/posts/OtherPosts').default);
 

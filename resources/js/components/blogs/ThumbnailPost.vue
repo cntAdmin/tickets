@@ -1,24 +1,22 @@
 <template>
-  <div class="col-12 col-lg-4 mt-3">
-    <!-- <div class="d-flex justify-content-center"> -->
-      <div class="card shadow mx-auto" style="width: 70%">
-        <img
-          class="card-img-top"
-          :src="'/storage/' + post.image"
-          :alt="post.title"
-        />
-        <div class="card-body">
-          <h5 class="card-title font-weight-bold clamped">{{ post.title }}</h5>
-        </div>
-        <!-- <div class="card-footer">
+  <div>
+    <div class="card shadow mt-3">
+      <img
+        class="card-img-top"
+        :src="'/storage/media/' + post.attachments > 0 ? post.attachments[0].path : ''"
+        :alt="post.title"
+      />
+      <div class="card-body">
+        <h5 class="card-title font-weight-bold clamped">{{ post.title }}</h5>
+      </div>
+      <!-- <div class="card-footer">
           <router-link
             :to="{ name: 'post.show', params: { post: post.id } }"
             class="btn btn-primary btn-sm btn-block"
             >Saber más...
           </router-link>
         </div> -->
-      </div>
-    <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -29,6 +27,9 @@ export default {
     return {
       storageURL: "/storage/",
     };
+  },
+  mounted(){
+    console.log();
   },
   methods: {
     orderImage(idx) {

@@ -61,8 +61,7 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string'],
             'files' => ['nullable', 'array'],
-        ], $this->messages, $this->attributes);
-
+        ], $this->messages);
         if($validator->fails()) {
             return response()->json([
                 'error' => true,
@@ -76,12 +75,12 @@ class PostController extends Controller
             'featured' => $req->featured == "true" ? 1 : 0,
         ]);
 
-        $create_post->user()->associate(auth()->user());
+        $create_post->created_by()->associate(auth()->user()->id);
         $create_post->save();
 
         if($req->file('files')) {
             foreach ($req->file('files') as $file) {
-                $stored_file = Storage::disk('media')->put('/', $file);
+                $stored_file = Storage::disk('media')->put('/' . now()->year . '/'. now()->month, $file);
                 $attachment = Attachment::create([
                     'name' => $file->getClientOriginalName(),
                     'path' => $stored_file
@@ -105,7 +104,7 @@ class PostController extends Controller
     {
         return response()->json([
             'success' => true,
-            'post' => $post
+            'post' => $post->load(['attachments'])
         ]);
     }
 
@@ -199,7 +198,8 @@ class PostController extends Controller
 
         if($req->file('files')) {
             foreach ($req->file('files') as $file) {
-                $stored_file = Storage::disk('media')->put('/', $file);
+                // NO CREA LA IMAGEN
+                $stored_file = Storage::disk('media')->put('/' . now()->year . '/'. now()->month, $file);
                 $attachment = Attachment::create([
                     'name' => $file->getClientOriginalName(),
                     'path' => $stored_file
@@ -216,9 +216,14 @@ class PostController extends Controller
     public function featured_post(Request $req)
     {
         $posts = Post::filterPosts()
+            ->with(['attachments'])
             ->orderBy('featured', 'ASC')
             ->orderBy('created_at', 'DESC')
-            ->paginate();
+            ->when(request()->input('limit'), function(Builder $q, int $limit) {
+                return $q->limit($limit)->get();
+            }, function(Builder $q){
+                return $q->paginate();
+            });
 
         return response()->json([
             'success' => true,
@@ -233,6 +238,16 @@ class PostController extends Controller
             ->skip($req->offset)
             ->take(10)
             ->get();
+
+        return response()->json([
+            'success' => true,
+            'posts' => $posts
+        ]);
+    }
+
+    public function get_other_posts(Post $post)
+    {
+        $posts = Post::where('id', '<>', $post->id)->inRandomOrder()->limit(3)->get();
 
         return response()->json([
             'success' => true,
