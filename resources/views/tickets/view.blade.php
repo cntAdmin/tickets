@@ -13,9 +13,8 @@
             </div>
         </div>
         <div class="card-body">
-            {{-- {{ dd($ticket->customer) }} --}}
-            <ticket-view user_role="5" :ticket="{{ $ticket }}"></ticket-view>
-
+            <ticket-view :user_role="5" :ticket="{{ $ticket }}"></ticket-view>
+            
             @if($ticket->attachments->count() > 0)
             <div class="row justify-content-end mx-1">
                 @foreach($ticket->attachments as $attachment)
@@ -28,7 +27,6 @@
                 @endforeach
             </div>
             @endif
-
         </div>
     </div>
     @if($ticket->comments->count() > 0)
