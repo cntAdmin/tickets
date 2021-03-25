@@ -89,6 +89,9 @@ class TicketStatusController extends Controller
     }
 
     public function change_status(Ticket $ticket, TicketStatus $ticketStatus) {
+        if($ticketStatus->id === 4) {
+            $ticket->update(['answered' => 1]);
+        }
         $ticket->status()->associate($ticketStatus);
         $ticket->save();
 
