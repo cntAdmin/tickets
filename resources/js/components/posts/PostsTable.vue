@@ -1,5 +1,21 @@
 <template>
   <div class="w-100">
+    <div
+      v-show="success.status"
+      class="alert alert-success alert-dismissible fade show text-center my-3"
+      role="alert"
+    >
+      {{ success.msg }}
+
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        @click="success.status = false"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <div class="card shadow mt-3" v-if="posts.total > 0">
       <div class="card-body">
         <table class="table table-hover table-striped shadow text-left">
@@ -95,8 +111,8 @@
     </div>
     <delete-modal
       v-show="showDelete"
-      :data="post"
       title="Post"
+      :data="post"
       @getDeleted="getDeleted"
       @close="showDelete = false"
     ></delete-modal>
@@ -110,6 +126,10 @@ export default {
     return {
       post: {},
       showDelete: false,
+      success: {
+        status: false,
+        msg: "",
+      },
     };
   },
   methods: {
@@ -117,7 +137,20 @@ export default {
       axios
         .delete(`/api/post/${this.post.id}`)
         .then((res) => {
-          // console.log(res.data);
+          if (res.data.success) {
+            this.success = {
+              status: true,
+              msg: res.data.msg,
+            };
+            this.emit_pagination(1);
+
+            setTimeout(() => {
+              this.success = {
+                status: false,
+                msg: "",
+              };
+            }, 1500);
+          }
         })
         .catch((err) => console.log(err));
     },

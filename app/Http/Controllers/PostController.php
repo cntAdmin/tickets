@@ -61,18 +61,22 @@ class PostController extends Controller
             'title' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string'],
             'files' => ['nullable', 'array'],
+            'published' => ['boolean'],
+            'featured' => ['boolean']
         ], $this->messages);
+
         if($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'errors' => $validator->errors(),
             ]);
         }
-
+        
         $create_post = Post::create([
             'title' => $req->title,
             'description' => $req->description,
-            'featured' => $req->featured == "true" ? 1 : 0,
+            'published' => $req->published,
+            'featured' => $req->featured,
         ]);
 
         $create_post->created_by()->associate(auth()->user()->id);
@@ -139,7 +143,18 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->attachments()->delete();
+
+        $post->update([
+            'deleted_by' => auth()->user()->id
+        ]);
+
+        $post->delete();
+
+        return response()->json([
+            'success' => true,
+            'msg' => 'Post eliminado correctamente.'
+        ]);
     }
 
     public function get_posts_counters() {
@@ -213,7 +228,7 @@ class PostController extends Controller
             : response()->json(['error' => true, 'msg' => 'El post no se ha podido editar correctamente']);
     }
 
-    public function featured_post(Request $req)
+    public function published_posts(Request $req)
     {
         $posts = Post::filterPosts()
             ->with(['attachments'])
@@ -231,7 +246,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function featured_post_mobile(Request $req) {
+    public function published_posts_mobile(Request $req) {
         $posts = Post::filterPosts()
             ->orderBy('featured', 'ASC')
             ->orderBy('created_at', 'DESC')

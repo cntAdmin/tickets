@@ -41,13 +41,25 @@
                 />
               </div>
             </div>
-            <div class="form-group col-12 col-md-6">
-              <label class="sr-only">Título</label>
+            <div class="form-group col-12 col-md-3">
+              <label class="sr-only">Añadir a Destacados</label>
               <div class="input-group w-100">
                 <div class="input-group">
                   <span class="mr-3 mt-1">Añadir a Destacados</span>
                   <label class="switch">
                     <input type="checkbox" v-model="selected.featured" />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-12 col-md-3">
+              <label class="sr-only">Publicar</label>
+              <div class="input-group w-100">
+                <div class="input-group">
+                  <span class="mr-3 mt-1">Publicar</span>
+                  <label class="switch">
+                    <input type="checkbox" v-model="selected.published" />
                     <span class="slider round"></span>
                   </label>
                 </div>
@@ -68,7 +80,7 @@
                 </ejs-richtexteditor>
               </div>
             </div>
-            <div class="form-group mt-3 w-100">
+            <div class="form-group col-12 mt-3">
               <label class="sr-only" for="dateFrom">Adjuntar Fichero(s)</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
@@ -85,13 +97,15 @@
               </div>
             </div>
           </div>
-          <div class="form-inline mt-4">
-            <button
-              type="submit"
-              class="btn btn-sm btn-secondary btn-block mx-3 text-uppercase font-weight-bold"
-            >
-              Crear Post
-            </button>
+          <div class="d-flex justify-content-center align-items-center mt-4">
+            <div class="form-group col-12">
+              <button
+                type="submit"
+                class="btn btn-sm btn-secondary btn-block text-uppercase font-weight-bold"
+              >
+                Crear Post
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -113,13 +127,22 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar, Resize],
   },
+  deactivated() {
+    this.resetFields();
+    this.$refs.description.ej2Instances.value = "";
+  },
   data() {
     return {
       fileManagerSettings: {
         enable: true,
-        path: '/storage/media/' + new Date().getFullYear() + '/' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '/',
-        saveUrl: '/api/FileManager/Upload',
-        removeUrl: '/api/FileManager/Delete',
+        path:
+          "/storage/media/" +
+          new Date().getFullYear() +
+          "/" +
+          ("0" + (new Date().getMonth() + 1)).slice(-2) +
+          "/",
+        saveUrl: "/api/FileManager/Upload",
+        removeUrl: "/api/FileManager/Delete",
       },
       quickToolbarSettings: {
         image: [
@@ -175,6 +198,7 @@ export default {
         title: "",
         featured: false,
       },
+
       success: {
         status: false,
         msg: "",
@@ -203,7 +227,8 @@ export default {
       }
       formData.append("title", this.selected.title);
       formData.append("description", this.$refs.description.ej2Instances.value);
-      formData.append("featured", this.selected.featured);
+      formData.append("featured", this.selected.featured ? 1 : 0);
+      formData.append("published", this.selected.published ? 1 : 0);
 
       axios
         .post("/api/post", formData, {
@@ -212,7 +237,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {

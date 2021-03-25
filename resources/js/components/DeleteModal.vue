@@ -53,6 +53,9 @@ export default {
         case "Blog":
           return this.data.title ? this.data.title : 'Blog';
           break;
+        case "Post":
+          return this.data.title ? this.data.title : 'Post';
+          break;
 
         default:
           return this.data.name;

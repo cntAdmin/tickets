@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     protected $fillable = [
-        'image', 'title', 'description', 'likes', 'dislikes', 'published', 'featured'
+        'image', 'title', 'description', 'likes', 'dislikes', 'published', 'featured', 'deleted_by', 'deleted_at'
     ];
     
     protected $with = ['created_by'];

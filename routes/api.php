@@ -100,8 +100,8 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/toggle_post/{post}', 'PostController@toggle_post');
     Route::post('/edit_post/{post}', 'PostController@edit_post');
     // ? POST
-    Route::get('/featured_post', 'PostController@featured_post');
-    Route::get('/featured_post_mobile', 'PostController@featured_post_mobile');
+    Route::get('/featured_post', 'PostController@published_posts');
+    Route::get('/featured_post_mobile', 'PostController@published_posts_mobile');
     Route::get('/get_other_posts/{post}', 'PostController@get_other_posts');
     
     // ? MODELS

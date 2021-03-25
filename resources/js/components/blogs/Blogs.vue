@@ -89,6 +89,7 @@ export default {
         axios
           .get(this.url, {
             params: {
+              published: 1,
               page: page,
               offset: this.offset,
             },
