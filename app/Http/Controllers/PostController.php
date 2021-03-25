@@ -247,7 +247,8 @@ class PostController extends Controller
 
     public function get_other_posts(Post $post)
     {
-        $posts = Post::where('id', '<>', $post->id)->inRandomOrder()->limit(3)->get();
+        $posts = Post::where('id', '<>', $post->id)
+            ->where('featured', false)->inRandomOrder()->limit(3)->get();
 
         return response()->json([
             'success' => true,

@@ -38,12 +38,19 @@
       </div>
     </div>
 
-    <div class="col-2 order-sm-0 order-md-1 mt-3">
-      <featured-posts></featured-posts>
+    <div class="col-2 order-sm-0 order-md-1">
+      <div class="card shadow">
+        <div class="card-header d-flex justify-content-center align-items-center">
+          <h4 class="my-auto font-weight-bold">DESTACADOS</h4>
+        </div>
+        <div class="card-body p-0 pb-3 bg-transparent">
+          <featured-posts></featured-posts>
+        </div>
+      </div>
     </div>
 
     <div class="dropdown-divider"></div>
-
+    
     <div class="col-sm-12 col-md-4 order-sm-2 order-md-2">
       <thumbnail-post
         v-for="(post, idx) in otherPosts"
