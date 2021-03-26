@@ -169,9 +169,9 @@ class Ticket extends Model
         })->when(request()->input('tests_done'), function (Builder $q, $tests_done) {
             $q->where('tests_done', 'LIKE', $tests_done . '%');
         })->when(request()->input('date_from'), function (Builder $q, $date_from) {
-            $q->whereDate('tickets.created_at', '>=', $date_from);
+            $q->whereDate('tickets.updated_at', '>=', $date_from);
         })->when(request()->input('date_to'), function (Builder $q, $date_to) {
-            $q->whereDate('tickets.created_at', '<=', $date_to);
+            $q->whereDate('tickets.updated_at', '<=', $date_to);
         })->when(request()->input('knowledge_base'), function (Builder $q, $knowledge_base) {
             switch ($knowledge_base) {
                 case '1':
@@ -185,7 +185,7 @@ class Ticket extends Model
         })->when(request()->input('order_by'), function (Builder $q, $order_by) {
             $q->orderBy($order_by->field, $order_by->value);
         }, function ($q) {
-            $q->orderBy('tickets.created_at', 'DESC');
+            $q->orderBy('tickets.updated_at', 'DESC');
         })
             // SI ESTE TICKET ESTADO BUSCA POR EL ID DEL ESTADO
             ->when(request()->input('status'), function (Builder $q, $status_id) {

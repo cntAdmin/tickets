@@ -38,7 +38,7 @@
               <td>{{ ticket.department.name }}</td>
               <td>{{ ticket.subject_short }}...</td>
               <td class="text-center">
-                {{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}
+                {{ ticket.updated_at | moment("DD-MM-YYYY HH:mm:ss") }}
               </td>
               <td>
                 <div class="d-flex justify-content-center">
