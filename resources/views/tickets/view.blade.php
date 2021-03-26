@@ -30,7 +30,7 @@
         </div>
     </div>
     @if($ticket->comments->count() > 0)
-    <ticket-comments :comments="{{ $ticket->comments }}" user_role="5"></ticket-comments>
+        <ticket-comments :comments="{{ $ticket->comments }}" user_role="5"></ticket-comments>
     @endif
 
     <div class="row justify-content-center">

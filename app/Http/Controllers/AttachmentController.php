@@ -97,18 +97,10 @@ class AttachmentController extends Controller
         return $attachment;
     }
 
-    public function download_attachment_comment(Comment $comment, Attachment $attachment) {
+    public function download_attachment_comment(Comment $comment, Attachment $attachment, Request $req) {
         // $this->authorize('downloads.comment.files', $comment);
 
-        if(auth()->user()->hasRole([1, 2, 3]) || $comment->ticket->whereHas('comments', function(Builder $q) {
-            $q->where('comments.user_id', auth()->user()->id);
-        })->exists()) {
-            return Storage::download($attachment->path, $attachment->name);
-        }
-        return response()->json([
-            'error' => true,
-            'msg' => 'No se ha podido descargar el fichero.' 
-        ]);
+        return Storage::download($attachment->path, $attachment->name);
     }
     public function download_attachment_ticket(Ticket $ticket, Attachment $attachment) {
         // $this->authorize('downloads.comment.files', $comment);
