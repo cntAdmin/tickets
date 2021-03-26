@@ -60,7 +60,7 @@
                     <th>{{ $ticket->custom_id }}</th>
                     <td>{{ ($ticket->customer && $ticket->customer->comercial_name) ? $ticket->customer->comercial_name : $ticket->customer->fiscal_name ?? ''  }}</td>
                     <td>{{ $ticket->subject}}...</td><i class="fa fa-call"></i>
-                    <td>{{ \Carbon\Carbon::parse($ticket->created_at)->format('d-m-Y H:i:s') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($ticket->updated_at)->format('d-m-Y H:i:s') }}</td>
                     <td>{{ $ticket->status->name }}</td>
                     <td>{{ $ticket->calls_count }}</td>
                     <td>{{ count($ticket->comment_attachments) }}</td>
