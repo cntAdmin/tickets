@@ -102,7 +102,6 @@ class TicketController extends Controller
             'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
-            'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
@@ -127,7 +126,6 @@ class TicketController extends Controller
         $get_user = User::find($req->user_id);
         $get_customer = Customer::find($get_user->customer_id);
         $get_department = Department::find($req->department_id);
-        $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
         $get_status = TicketStatus::find($req->status ?? 1);
         $get_calls = $req->calls ? Call::find($req->calls) : null;
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
@@ -175,10 +173,6 @@ class TicketController extends Controller
         // ASSOCIATE STATUS
         $create_ticket->status()->associate($get_status);
 
-        if ($req->assigned_to) {
-            // ASSIGN USER ASSIGNED TO THIS TICKET
-            $create_ticket->tickets()->associate($get_assigned_to);
-        }
         if ($req->calls) {
             foreach ($get_calls as $call) {
                 // ASSIGN CALLS TO THIS TICKET
@@ -196,9 +190,10 @@ class TicketController extends Controller
         $create_ticket->save();
 
         return $create_ticket
-            ? response()->json(['success' => __('Ticket creado correctamente.')], 200)
+            ? response()->json(['success' => true, 'msg' =>  __('Ticket creado correctamente.')], 200)
             : response()->json([
-                'error' => __('El Ticket no se ha podido crear, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
+                'error' => true,
+                'msg' => __('El Ticket no se ha podido crear, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
             ], 422);
     }
 
@@ -247,6 +242,7 @@ class TicketController extends Controller
      */
     public function update(Request $req, Ticket $ticket)
     {
+
         // $this->authorize('tickets.update');
         $custom_attributes = [
             'user_id' => __('Usuario'),
@@ -279,7 +275,6 @@ class TicketController extends Controller
             'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
-            'assigned_to' => ['nullable', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'sometimes', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
@@ -329,8 +324,6 @@ class TicketController extends Controller
         $get_user = User::find($req->user_id);
         $get_customer = Customer::find($get_user->customer_id);
         $get_department = Department::find($req->department_id);
-        $get_assigned_to = $req->assigned_to ? User::find($req->assigned_to) : null;
-        $get_calls = $req->calls ? Call::find($req->calls) : null;
         $get_brand = $req->brand_id ? Brand::find($req->brand_id) : null;
         $get_car_model = $req->model_id ? CarModel::find($req->model_id) : null;
 
@@ -342,41 +335,38 @@ class TicketController extends Controller
         // ASSIGN DEPARTMENT
         $ticket->department()->associate($get_department);
 
-        if ($req->assigned_to) {
-            // ASSIGN USER ASSIGNED TO THIS TICKET
-            $ticket->tickets()->associate($get_assigned_to);
-        }
-        if ($req->calls) {
-            foreach ($get_calls as $call) {
-                // ASSIGN CALLS TO THIS TICKET
-                $ticket->calls()->save($call);
-            }
-        }
         if ($req->brand_id) {
             $ticket->brand()->associate($get_brand);
+        } else {
+            $ticket->brand()->dissociate();
         }
+
         if ($req->model_id) {
             $ticket->car_model()->associate($get_car_model);
+        } else {
+            $ticket->car_model()->dissociate();
         }
 
         // ? SAVE ASSOCIATED DATA
         $ticket->save();
 
+        // ? ASSOCIATE CALLS TO TICKET
         Call::where('ticket_id', $ticket->id)->each(function ($call) {
             $call->update(['ticket_id' => null]);
         });
 
         $get_calls = $req->calls ? Call::find(array_values($req->calls)) : [];
-
+        
         foreach ($get_calls as $call) {
             $call->ticket()->associate($ticket->id);
             $call->save();
         }
-
+        
         return $updated
-            ? response()->json(['success' => __('Ticket actualizado correctamente.')])
+            ? response()->json(['success' => true, 'msg' => __('Ticket actualizado correctamente.')])
             : response()->json([
-                'error' => __('El Ticket no se ha podido actualizar, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
+                'error' => true,
+                'msg' => __('El Ticket no se ha podido actualizar, prueba de nuevo mas tarde o póngase en contacto con el administrador.')
             ]);
     }
 

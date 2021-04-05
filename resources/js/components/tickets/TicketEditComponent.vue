@@ -472,15 +472,17 @@ export default {
       this.ticket.car_model_id = value ? value.id : null;
     },
     setBrand(value) {
-      this.ticket.brand.id = value ? value.id : null;
-      axios
-        .get("/api/brand/" + this.ticket.brand.id + "/model")
-        .then((res) => {
-          this.models = res.data.models;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.ticket.brand_id = value ? value.id : null;
+      if (value) {
+        axios
+          .get("/api/brand/" + this.ticket.brand.id + "/model")
+          .then((res) => {
+            this.models = res.data.models;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     get_all_brands() {
       axios.get("/api/get_all_brands").then((res) => {
@@ -577,23 +579,23 @@ export default {
           formData.append(`files[${i}]`, this.files[i]);
         }
       }
-      
-      if(this.ticket.frame_id !== null) {
+
+      if (this.ticket.frame_id !== null) {
         formData.append("frame_id", this.ticket.frame_id);
       }
-      if(this.ticket.plate !== null) {
+      if (this.ticket.plate !== null) {
         formData.append("plate", this.ticket.plate);
       }
-      if(this.ticket.brand_id !== null) {
+      if (this.ticket.brand_id !== null) {
         formData.append("brand_id", this.ticket.brand_id);
       }
-      if(this.ticket.car_model_id !== null) {
+      if (this.ticket.car_model_id !== null) {
         formData.append("model_id", this.ticket.car_model_id);
       }
-      if(this.$refs.tests_done.ej2Instances.value !== null) {
+      if (this.$refs.tests_done.ej2Instances.value !== null) {
         formData.append("tests_done", this.$refs.tests_done.ej2Instances.value);
       }
-      if(this.ticket.other_brand_model !== null) {
+      if (this.ticket.other_brand_model !== null) {
         formData.append("other_brand_model", this.ticket.other_brand_model);
       }
 
@@ -613,12 +615,16 @@ export default {
           },
         })
         .then((res) => {
+          // console.log(res.data)
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
 
-            this.success.value = true;
-            this.success.message = res.data.success;
-            setTimeout(() => {
+            this.success = {
+              status: true,
+              msg: res.data.msg
+            };
+
+          setTimeout(() => {
               this.$router.push(`/incidencia/${this.ticket.id}`);
             }, 2000);
           } else if (res.data.error) {
