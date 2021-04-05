@@ -341,6 +341,7 @@
           </div>
           <div class="form-inline mt-4">
             <button
+              v-if="disableButton == false"
               form="create_ticket_form"
               type="submit"
               class="btn btn-success btn-block mx-3"
@@ -457,7 +458,8 @@ export default {
       is_admin: false,
       admin_roles: [
         1, 2, 3, 4
-      ]
+      ],
+      disableButton: false
     };
   },
   activated() {
@@ -570,7 +572,7 @@ export default {
 
         return this.error.errors;
       }
-
+      this.disableButton = true;
       this.success = {
         status: false,
       };
@@ -630,6 +632,7 @@ export default {
 
             setTimeout(() => {
               // RESETAR VARIALBES A VACIO O NULL
+              this.disableButton = false;
               this.success = {
                 status: false,
                 msg: "",

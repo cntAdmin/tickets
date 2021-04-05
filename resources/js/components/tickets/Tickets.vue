@@ -152,7 +152,6 @@ export default {
     };
   },
   activated() {
-    console.log(this.searched.status)
     this.getTickets();
     this.get_all_ticket_statuses();
   },
@@ -244,7 +243,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           this.tickets = res.data.tickets;
           this.searching = false;
         })

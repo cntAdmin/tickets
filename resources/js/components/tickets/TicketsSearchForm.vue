@@ -238,7 +238,6 @@ export default {
     };
   },
   activated() {
-    console.log(this.status)
     this.selected.status = this.status
       ? this.status
       : '';
@@ -260,7 +259,7 @@ export default {
     },
     get_all_car_models() {
       axios.get(`/api/brand/${this.selected.brand_id}/model`).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.car_models = res.data.models;
       });
     },
