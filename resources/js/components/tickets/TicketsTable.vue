@@ -7,7 +7,7 @@
             <tr>
               <th class="text-center" scope="col"># Incidencia</th>
               <th scope="col">Cliente</th>
-              <th scope="col">Departamento</th>
+              <th scope="col">Marca</th>
               <th scope="col">Asunto</th>
               <th class="text-center" scope="col">Fecha</th>
               <th class="text-center" scope="col">Estado</th>
@@ -35,7 +35,7 @@
                 </router-link>
               </th>
               <td>{{ ticket.customer ? ticket.customer.comercial_name : '' }}</td>
-              <td>{{ ticket.department.name }}</td>
+              <td>{{ ticket.brand ? ticket.brand.name : ticket.other_brand_model }}</td>
               <td>{{ ticket.subject_short }}...</td>
               <td class="text-center">
                 {{ ticket.updated_at | moment("DD-MM-YYYY HH:mm:ss") }}

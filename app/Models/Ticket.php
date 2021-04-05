@@ -31,7 +31,7 @@ class Ticket extends Model
     ];
 
     protected $with = [
-        'comments', 'status', 'calls', 'attachments', 'comment_attachments'
+        'comments', 'status', 'calls', 'attachments', 'comment_attachments', 'brand', 'car_model'
     ];
 
     protected $appends = ['subject_short'];
