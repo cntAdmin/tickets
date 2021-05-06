@@ -69,9 +69,9 @@
                 <vue-select
                   class="col-9 px-0 w-100"
                   transition="vs__fade"
-                  :options="customers"
                   label="comercial_name"
                   itemid="id"
+                  :options="customers"
                   @input="setCustomer"
                   v-model="ticket.customer.comercial_name"
                 >

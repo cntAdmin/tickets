@@ -13,7 +13,7 @@
               @click="$emit('close')"
               aria-label="Close"
             >
-            Cerrar
+              Cerrar
               <i class="fa fa-times"></i>
             </button>
           </div>
@@ -21,7 +21,26 @@
       </div>
       <!-- FIN CARD HEADER -->
       <div class="card-body">
-        <user-edit-form :user="user" :error="error" @error="$emit('error', error.errors)"></user-edit-form>
+        <div v-show="success.status">
+          <div class="alert alert-dismissable alert-success">
+            {{ success.msg }}
+            <button
+              type="button"
+              class="close mb-3"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <user-edit-form
+          :user="user"
+          :error="error"
+          @error="$emit('error', error.errors)"
+          @updated="userUpdated"
+        ></user-edit-form>
       </div>
       <!-- FIN CARD BODY -->
     </div>
@@ -43,6 +62,10 @@ export default {
       error: {
         status: false,
         errors: []
+      },
+      success: {
+        status: false, 
+        msg: null
       }
     };
   },
@@ -52,6 +75,19 @@ export default {
     this.get_all_departments();
   },
   methods: {
+    userUpdated(msg) {
+      this.success = {
+        status: true,
+        msg: msg
+      }
+      setTimeout(() => {
+        this.success = {
+          status: false,
+          msg: null
+        }
+        this.$emit('close');
+      }, 1500);
+    },
     setCustomer(value) {
       this.user.customer.comercial_name = value ? value.comercial_name : null;
       this.user.customer_id = value ? value.id : null;

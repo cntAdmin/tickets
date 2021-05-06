@@ -1,6 +1,10 @@
 <template>
   <div class="flex-row justify-content-center" id="cards-list">
-    <div :class="getAnsweredStyle(ticket)" v-for="ticket in tickets" :key="ticket.id">
+    <div
+      :class="getAnsweredStyle(ticket)"
+      v-for="ticket in tickets"
+      :key="ticket.id"
+    >
       <div class="card-header">
         <h4 class="text-uppercase text-left font-weight-bold">
           <router-link
@@ -104,8 +108,10 @@
             </div>
           </div>
         </div>
-      </div>  <!-- END OF CARD FOOTER -->
-    </div>  <!-- END OF CARD -->
+      </div>
+      <!-- END OF CARD FOOTER -->
+    </div>
+    <!-- END OF CARD -->
     <transition name="fade" v-if="searching" mode="out-in">
       <div class="row justify-content-center mt-5">
         <spinner></spinner>
@@ -122,7 +128,7 @@ export default {
       tickets: [],
       searching: false,
       offset: 0,
-      dontLoad: false
+      dontLoad: false,
     };
   },
   mounted() {
@@ -149,7 +155,7 @@ export default {
       }
     },
     loadMore() {
-      if(!this.dontLoad && !this.searching) {
+      if (!this.dontLoad && !this.searching) {
         this.searching = true;
 
         axios
@@ -166,15 +172,17 @@ export default {
               status: this.searched ? this.searched.status : null,
               date_from: this.searched ? this.searched.date_from : null,
               date_to: this.searched ? this.searched.date_to : null,
-              knowledge_base: this.searched ? this.searched.knowledge_base : null,
+              knowledge_base: this.searched
+                ? this.searched.knowledge_base
+                : null,
               offset: this.offset,
-              answered: this.answered
+              answered: this.answered,
             },
           })
           .then((res) => {
-            if(res.data.tickets.length === 0) {
-                return this.dontLoad = true;
-            } else if(res.data.success) {
+            if (res.data.tickets.length === 0) {
+              return (this.dontLoad = true);
+            } else if (res.data.success) {
               this.offset += 10;
               setTimeout(() => {
                 this.tickets.push(...res.data.tickets);
@@ -182,7 +190,7 @@ export default {
             }
           })
           .catch((err) => console.log(err));
-          this.searching = false;
+        this.searching = false;
       }
     },
     setIcon(status_id) {
@@ -220,14 +228,14 @@ export default {
       }
     },
     getAnsweredStyle(ticket) {
-      if(this.user_role <= 4 && ticket.answered == true) {
-        return 'font-weight-bold card mt-3 shadow border border-danger';
-      }else if(this.user_role > 4 && ticket.answered == false) {
-        return 'font-weight-bold card mt-3 shadow border border-danger';
+      if (this.user_role <= 4 && ticket.answered == true) {
+        return "font-weight-bold card mt-3 shadow border border-danger";
+      } else if (this.user_role > 4 && ticket.answered == false) {
+        return "font-weight-bold card mt-3 shadow border border-danger";
       } else {
-        return 'card mt-3 shadow'
+        return "card mt-3 shadow";
       }
-    }
+    },
   },
 };
 </script>

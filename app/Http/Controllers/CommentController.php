@@ -174,7 +174,7 @@ class CommentController extends Controller
     public function view_ticket_token(Comment $comment)
     {
         if ($comment->created_at->diffInMinutes(now()) > $comment->expires_in) {
-            abort(404);
+            abort(403);
         }
         return redirect('/ver/incidencia/' . $comment->ticket->id);
     }

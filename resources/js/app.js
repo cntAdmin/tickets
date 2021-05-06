@@ -5,13 +5,13 @@
  */
 
 import router from './components/router';
-import {
-    RichTextEditorPlugin
-} from "@syncfusion/ej2-vue-richtexteditor";
 import vSelect from 'vue-select';
 import Vuex from 'vuex';
 import FileManager from 'laravel-file-manager';
 import VueScreen from 'vue-screen';
+import {
+    RichTextEditorPlugin
+} from "@syncfusion/ej2-vue-richtexteditor";
 
 
 //  console.log(router)

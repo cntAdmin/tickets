@@ -9,8 +9,12 @@
                             <div class="input-group-prepend">
                             <div class="input-group-text text-uppercase py-1 ">Cliente</div>
                             </div>
-                            <vue-select class="col-10 px-0" transition="vs__fade" :options="customers" label="comercial_name" itemid="id"
-                                @input="setCustomer">
+                            <vue-select class="col-10 px-0" transition="vs__fade"
+                                :options="customers"
+                                label="comercial_name"
+                                itemid="id"
+                                @input="setCustomer"
+                                >
                                     <div slot="no-options">No hay opciones con esta busqueda</div>
                                     <template slot="option" slot-scope="option">
                                         {{ option.custom_id }} - {{ option.comercial_name }}
