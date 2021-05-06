@@ -261,11 +261,11 @@ class UserController extends Controller
     }
 
     public function get_users_counters() {
-        $admin_count = User::role('admin')->count();
-        $staff_count = User::role('staff')->count();
-        $department_count = User::role('department')->count();
-        $customer_count = User::role('customer')->count();
-        $contact_count = User::role('contact')->count();
+        $admin_count = User::role(1)->count();
+        $staff_count = User::role(2)->count();
+        $department_count = User::role(3)->count();
+        $customer_count = User::role(4)->count();
+        $contact_count = User::role(5)->count();
 
         return response()->json([
             'admin_count' => $admin_count,
