@@ -1,17 +1,30 @@
 <template>
   <div>
-    <div class="card shadow mt-3">
-      <img
+    <div class="card shadow mt-3" v-if="post.attachments[0]">
+      <img  
         class="card-img-top"
-        :src="'/storage/media/' + post.attachments > 0
-            ? post.attachments[0].path
-            : ''"
+        :src="'/storage/media/'+post.attachments[0].path"
         :alt="post.title"
       />
       <div class="card-body">
         <h5 class="card-title font-weight-bold clamped">{{ post.title }}</h5>
+        <div v-html="post.short_description+'...'" class="card-text"></div>
       </div>
-      <!-- 
+        <div class="card-footer">
+          <router-link
+            :to="{ name: 'post.show', params: { post: post.id } }"
+            class="btn btn-primary btn-sm btn-block"
+          >
+            Saber más...
+          </router-link>
+        </div>
+    </div>
+
+    <div class="card shadow mt-3" v-else>
+      <div class="card-body">
+        <h5 class="card-title font-weight-bold clamped">{{ post.title }}</h5>
+        <div v-html="post.short_description+'...'" class="card-text"></div>
+      </div>
         <div class="card-footer">
           <router-link
             :to="{ name: 'post.show', params: { post: post.id } }"
@@ -19,8 +32,8 @@
             >Saber más...
           </router-link>
         </div>
-         -->
     </div>
+
   </div>
 </template>
 
@@ -32,6 +45,9 @@ export default {
       storageURL: "/storage/",
     };
   },
+  // mounted(){
+  //   console.log("ThumbnailPost.vue  --> mounted()");
+  // },
   methods: {
     orderImage(idx) {
       if (idx % 2 === 0) {
@@ -57,5 +73,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+.card-body{
+  padding-bottom: 0px;
+}
 </style>

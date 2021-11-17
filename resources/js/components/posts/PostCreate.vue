@@ -197,6 +197,7 @@ export default {
       selected: {
         title: "",
         featured: false,
+        published: false,
       },
 
       success: {

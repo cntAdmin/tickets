@@ -66,7 +66,7 @@
                     Cliente
                   </div>
                 </div>
-                <vue-select
+                <!-- <vue-select
                   class="col-9 px-0 w-100"
                   transition="vs__fade"
                   label="comercial_name"
@@ -74,6 +74,7 @@
                   :options="customers"
                   @input="setCustomer"
                   v-model="ticket.customer.comercial_name"
+                  disabled
                 >
                   <div slot="no-options">No hay opciones con esta busqueda</div>
                   <template slot="option" slot-scope="option">
@@ -84,7 +85,13 @@
                         : cs.fiscal_name
                     }}
                   </template>
-                </vue-select>
+                </vue-select> -->
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model="ticket.customer.comercial_name"
+                  disabled
+                />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -93,12 +100,18 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Contacto</div>
                 </div>
-                <select class="form-control" v-model="ticket.user.id" required>
+                <!-- <select class="form-control" v-model="ticket.user.id" required disabled>
                   <option value="" disabled>-- SELECCIONE UN USUARIO --</option>
                   <option v-for="user in users" :key="user.id" :value="user.id">
                     {{ user.name }}
                   </option>
-                </select>
+                </select> -->
+                <input
+                  class="form-control"
+                  type="text"
+                  v-model="ticket.user.name"
+                  disabled
+                />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -598,6 +611,18 @@ export default {
       if (this.ticket.other_brand_model !== null) {
         formData.append("other_brand_model", this.ticket.other_brand_model);
       }
+
+      // console.log("   --> handleSubmit() ");
+      // console.log("   --> this.ticket.customer_id: ",this.ticket.customer_id);
+      // console.log("   --> this.ticket.user_id: ",this.ticket.user_id);
+      // console.log("   --> this.files: ",this.files);
+      // console.log("   --> this.ticket.frame_id: ",this.ticket.frame_id);
+      // console.log("   --> this.ticket.plate: ",this.ticket.plate);
+      // console.log("   --> this.ticket.brand_id: ",this.ticket.brand_id);
+      // console.log("   --> this.ticket.framcar_model_ide_id: ",this.ticket.car_model_id);
+      // console.log("   --> this.$refs.tests_done.ej2Instances.value: ",this.$refs.tests_done.ej2Instances.value);
+      // console.log("   --> this.ticket.other_brand_model: ",this.ticket.other_brand_model);
+      // return;
 
       formData.append("customer_id", this.ticket.customer_id);
       formData.append("user_id", this.ticket.user_id);
