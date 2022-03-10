@@ -233,10 +233,10 @@ class Ticket extends Model
 
     public static function getLastID()
     {
-        if(Ticket::first() == null) {
-            // return 1;
-            return 70000;
-        }
+        // if(Ticket::first() == null) {
+        //     // return 1;
+        //     return 70000;
+        // }
 
         $last_custom_id = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->withTrashed()->latest('id')->first()->custom_id;
         // SEPARA CUSTOM_ID POR GUION
@@ -246,12 +246,12 @@ class Ticket extends Model
         
         // SI EL AÑO ES EL MISMO EN EL QUE ESTAMOS SUMAMOS 1 AL CUSTOM_ID
         if($get_year_from_custom_id == now()->year) {
-            // return intval($array_custom_id[1]) + 1;
+            return intval($array_custom_id[1]) + 1;
             // return $get_year_from_custom_id;
-            return 8000;
+            // return 8000;
         }
         // SI EMPIEZA UN NUEVO AÑO RESETEAR CONTADOR A 1
-        // return 1;
-        return 90000;
+        return 1;
+        // return 90000;
     }
 }
