@@ -490,15 +490,26 @@ export default {
     },
 
     setModel(value) {
+      console.log("TicketsCreateComponent.vue -> setModel()");
+      console.log("TicketsCreateComponent.vue ->    value: ", value);
       this.selected.model_id = value ? value.id : null;
+      console.log("TicketsCreateComponent.vue ->        this.selected.model_id: ", this.selected.model_id);
+
     },
     setBrand(value) {
+      console.log("TicketsCreateComponent.vue -> setBrand()");
+      console.log("TicketsCreateComponent.vue ->    value: ", value);
+
       this.selected.brand_id = value ? value.id : null;
+      console.log("TicketsCreateComponent.vue ->        this.selected.brand_id: ", this.selected.brand_id);
+
       if (value) {
         axios
           .get("/api/brand/" + this.selected.brand_id + "/model")
           .then((res) => {
             this.models = res.data.models;
+            console.log("TicketsCreateComponent.vue ->            this.models: ", this.models);
+
           })
           .catch((err) => {
             console.log(err);
@@ -506,43 +517,62 @@ export default {
       }
     },
     setCustomer(value) {
+      console.log("TicketsCreateComponent.vue -> setCustomer()");
+      console.log("TicketsCreateComponent.vue ->    value: ", value);
+
+
       this.selected.customer_id = value ? value.id : null;
+      console.log("TicketsCreateComponent.vue ->        this.selected.customer_id: ", this.selected.customer_id);
       if (value) {
         this.get_all_users();
       }
     },
     get_all_brands() {
+      console.log("TicketsCreateComponent.vue -> get_all_brands()");
+
       axios
         .get("/api/get_all_brands")
         .then((res) => {
           this.brands = res.data.brands;
+          console.log("TicketsCreateComponent.vue ->        this.brands: ", this.brands);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     get_all_departments() {
+      console.log("TicketsCreateComponent.vue -> get_all_departments()");
+
       axios
         .get("/api/get_all_departments")
         .then((res) => {
           this.departments = res.data.departments;
           this.selected.department_id = this.departments[0].id;
+          console.log("TicketsCreateComponent.vue ->        this.departments: ", this.departments);
+          console.log("TicketsCreateComponent.vue ->        this.selected.department_id: ", this.selected.department_id);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     get_all_customers() {
+      console.log("TicketsCreateComponent.vue -> get_all_customers()");
+
       axios
         .get("/api/get_all_customers")
         .then((res) => {
           this.customers = res.data.customers;
+          console.log("TicketsCreateComponent.vue ->        this.customers: ", this.customers);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     get_all_users() {
+      console.log("TicketsCreateComponent.vue -> get_all_users()");
+      console.log("TicketsCreateComponent.vue ->    this.selected.customer_id: ", this.selected.customer_id);
+      console.log("TicketsCreateComponent.vue ->    this.$route.params.customer_id: ", this.$route.params.customer_id);
+      
       if (this.selected.customer_id !== "" || this.$route.params.customer_id) {
         axios
           .get("/api/get_all_users", {
@@ -554,6 +584,7 @@ export default {
           })
           .then((res) => {
             this.users = res.data.users;
+            console.log("TicketsCreateComponent.vue ->        this.users: ", this.users);
           })
           .catch((err) => {
             console.log(err);
@@ -561,6 +592,7 @@ export default {
       }
     },
     handleSubmit() {
+      console.log("TicketsCreateComponent.vue -> handleSubmit()");
       if (this.selected.frame_id === "" && this.selected.plate === "") {
         $("html, body").animate({ scrollTop: 0 }, "slow");
         this.error.status = true;
@@ -615,6 +647,11 @@ export default {
       formData.append("description", this.$refs.description.ej2Instances.value);
       formData.append("calls", this.selected.calls);
 
+      console.log("TicketsCreateComponent.vue ->    this.selected: ", this.selected);
+      console.log("TicketsCreateComponent.vue ->    this.$refs.description.ej2Instances.value: ", this.$refs.description.ej2Instances.value);
+      console.log("TicketsCreateComponent.vue ->    this.$refs.tests_done.ej2Instances.value: ", this.$refs.tests_done.ej2Instances.value);
+
+
       axios
         .post("/api/ticket", formData, {
           headers: {
@@ -622,7 +659,7 @@ export default {
           },
         })
         .then((res) => {
-          // console.log(res.data)
+          console.log(res.data)
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
@@ -676,6 +713,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+        
     },
     remove_errors() {
       this.error = {

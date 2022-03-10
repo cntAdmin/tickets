@@ -60,8 +60,12 @@
       @search="getTickets"
     />
 
-    <div
+    <!-- <div
       class="alert alert-dismissable alert-danger my-3"
+      v-if="deleted.status"
+    > -->
+    <div
+      class="alert alert-dismissable alert-success my-3"
       v-if="deleted.status"
     >
       {{ deleted.msg }}
