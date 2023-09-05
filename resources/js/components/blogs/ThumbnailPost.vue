@@ -1,11 +1,20 @@
 <template>
   <div>
     <div class="card shadow mt-3" v-if="post.attachments[0]">
-      <img  
-        class="card-img-top"
-        :src="'/storage/media/'+post.attachments[0].path"
-        :alt="post.title"
-      />
+      <div class="card-header" v-if="post.attachments[0].path.includes('.mp4','.bin', '.bin', '.mkv', '.avi')">
+        <div class="embed-responsive embed-responsive-16by9">
+          <video controls class="embed-responsive-item">
+            <source :src="'/storage/media/'+post.attachments[0].path" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div v-else>
+        <img  
+          class="card-img-top"
+          :src="'/storage/media/'+post.attachments[0].path"
+          :alt="post.title"
+        />
+      </div>
       <div class="card-body">
         <h5 class="card-title font-weight-bold clamped">{{ post.title }}</h5>
         <div v-html="post.short_description+'...'" class="card-text"></div>
