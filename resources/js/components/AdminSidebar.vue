@@ -7,15 +7,9 @@
       >
         <ul class="navbar-nav">
           <div class="navbar-header">
-            <div
-              class="d-flex flex-column justify-content-center align-items-center"
-            >
-              <router-link
-                :to="{ name: 'ticket.index' }"
-                class="row justify-content-center"
-              >
-                <!-- <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" /> -->
-                <img src="/storage/logo-andel.svg" alt="AAP" width="200px"/>
+            <div class="d-flex flex-column justify-content-center align-items-center">
+              <router-link :to="{ name: 'ticket.index' }" class="row justify-content-center">
+                <img src="/storage/Logo-Andel.png" alt="AAP" width="200px"/>
               </router-link>
               <div class="row justify-content-center my-3 w-100">
                 <router-link
@@ -37,9 +31,7 @@
               aria-controls="admin"
             >
               <div class="mr-auto">
-                <h5
-                  class="font-weight-bold text-uppercase m-3 text-shadow-light-sm"
-                >
+                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
                   Administración
                 </h5>
               </div>
