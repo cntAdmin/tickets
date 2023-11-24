@@ -1,7 +1,5 @@
 <template>
-  <nav
-    class="navbar navbar-light bg-blue-gradient h-100 overflow-hidden align-items-start"
-  >
+  <nav class="navbar navbar-light bg-orange-gradient h-100 overflow-hidden align-items-start">
     <div class="container">
       <div
         class="accordion navbar-collapse mt-2 d-none d-md-block"
@@ -16,7 +14,8 @@
                 :to="{ name: 'ticket.index' }"
                 class="row justify-content-center"
               >
-                <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" />
+                <!-- <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" /> -->
+                <img src="/storage/logo-andel.svg" alt="AAP" width="200px"/>
               </router-link>
               <div class="row justify-content-center my-3 w-100">
                 <router-link

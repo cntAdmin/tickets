@@ -10,11 +10,12 @@
         <div class="d-flex justify-content-start">
             <div class="col-md-10">
                 <div class="card shadow-lg">
-                    <div class="card-header bg-white">
+                    {{-- <div class="card-header bg-white"> --}}
+                    <div class="card-header" style="background-color: #FA5002;">
                         <div class="d-flex justify-content-center align-items-center">
-                            <img src="{{ asset('/storage/aap_logo.jpeg')}}" class="d-inline-block align-middle w-25"
-                                alt="">
-                            <h1 class="text-uppercase mx-5">{{ env('APP_NAME') }}</h1>
+                            {{-- <img src="{{ asset('/storage/aap_logo.jpeg')}}" class="d-inline-block align-middle w-25" alt=""> --}}
+                            <img src="{{ asset('/storage/logo-andel.svg')}}" class="d-inline-block align-middle" alt="" style="width: 30% !important;">
+                            <h1 class="text-uppercase text-white mx-5">{{ env('APP_NAME') }}</h1>
                         </div>
                     </div>
 

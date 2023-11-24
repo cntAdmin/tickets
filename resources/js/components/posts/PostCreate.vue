@@ -231,6 +231,13 @@ export default {
       formData.append("featured", this.selected.featured ? 1 : 0);
       formData.append("published", this.selected.published ? 1 : 0);
 
+      // console.log(this.files);
+      // console.log(this.selected.title);
+      // console.log(this.$refs.description.ej2Instances.value);
+      // console.log(this.selected.featured);
+      // console.log(this.selected.published);
+      // return;
+
       axios
         .post("/api/post", formData, {
           headers: {
