@@ -14,7 +14,7 @@
                     <div class="card-header" style="background-color: #FA5002;">
                         <div class="d-flex justify-content-center align-items-center">
                             {{-- <img src="{{ asset('/storage/aap_logo.jpeg')}}" class="d-inline-block align-middle w-25" alt=""> --}}
-                            <img src="{{ asset('/storage/Logo-Andel.png')}}" class="d-inline-block align-middle" alt="" width="200px">
+                            <img src="{{ asset('/storage/logo-andel.svg')}}" class="d-inline-block align-middle" alt="" width="200px">
                             <h5 class="text-uppercase text-center text-white mx-5" style="margin-bottom: 0px !important;">Asistencia Técnica</h5>
                         </div>
                     </div>

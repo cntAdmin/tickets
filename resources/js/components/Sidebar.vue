@@ -13,7 +13,7 @@
                 class="row justify-content-center"
               >
                 <!-- <img src="/storage/aap_logo.jpeg" alt="AAP" width="50%" /> -->
-                <img src="/storage/Logo-Andel.png" alt="AAP" width="200px"/>
+                <img src="/storage/logo-andel.svg" alt="AAP" width="200px"/>
               </router-link>
               <div class="row justify-content-center my-3 w-100">
                 <router-link
