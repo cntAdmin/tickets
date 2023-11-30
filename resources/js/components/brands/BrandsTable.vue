@@ -27,7 +27,7 @@
                   <div class="form-inline">
                     <button
                       type="button"
-                      class="btn btn-sm btn-info text-white"
+                      class="btn btn-sm btn-orange text-white"
                       @click="$emit('edit', brand)"
                     >
                       <i class="fa fa-edit"></i>

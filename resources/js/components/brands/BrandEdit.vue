@@ -40,7 +40,7 @@
                 />
               </div>
             </div>
-            <button class="btn btn-info text-white text-uppercase ml-3">
+            <button class="btn btn-orange text-white text-uppercase ml-3">
               Guardar Cambios
             </button>
           </div>

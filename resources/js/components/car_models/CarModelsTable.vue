@@ -23,7 +23,7 @@
               <td>
                 <button
                   type="button"
-                  class="btn btn-sm btn-info text-white"
+                  class="btn btn-sm btn-orange text-white"
                   @click="$emit('edit', model)"
                 >
                   <i class="fa fa-edit"></i>

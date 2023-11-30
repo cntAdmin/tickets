@@ -89,7 +89,7 @@
     </div>
 
     <div class="col-2 order-sm-1 order-md-0">
-      <a href="/blog" class="btn btn-lg btn-info text-white">Volver</a>
+      <a href="/blog" class="btn btn-lg btn-orange text-white">Volver</a>
     </div>
 
   </div>

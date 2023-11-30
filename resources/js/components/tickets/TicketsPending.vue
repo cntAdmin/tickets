@@ -3,7 +3,7 @@
     <div class="row">
       <card-counter
         title="Nuevas"
-        color="primary"
+        color="orange"
         :count="newTickets"
         icon="clipboard-list"
         size="3"
@@ -40,7 +40,7 @@
     </div>
     <div class="d-xl-none d-block d-flex justify-content-center my-3">
       <button
-        class="btn btn-primary btn-sm btn-block text-uppercase font-weight-bold"
+        class="btn btn-orange btn-sm btn-block text-uppercase font-weight-bold"
         type="button"
         data-toggle="collapse"
         data-target="#finder"

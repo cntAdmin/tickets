@@ -42,7 +42,7 @@
                 <div class="d-flex justify-content-center">
                   <button
                     v-if="department.id !== user.department_id"
-                    class="btn btn-sm btn-info text-white"
+                    class="btn btn-sm btn-orange text-white"
                     :title="'Asignar a: ' + department.name"
                     @click="assignUser(user)"
                   >

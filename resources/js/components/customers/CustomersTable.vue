@@ -37,7 +37,7 @@
                                         :to="{name: 'ticket.create', params: {customer_id: cs.id}}" >
                                         <i class="fa fa-plus-circle"></i>
                                     </router-link>
-                                    <button class="btn btn-sm btn-info text-white mx-2" @click="$emit('edit', cs)" title="Editar Cliente">
+                                    <button class="btn btn-sm btn-orange text-white mx-2" @click="$emit('edit', cs)" title="Editar Cliente">
                                         <i class="fa fa-edit"></i>
                                     </button>
                                     <button class="btn btn-sm btn-danger mx-2" @click="openDeleteModal(cs)" title="Eliminar Cliente">

@@ -250,7 +250,7 @@
           </div>
           <div class="d-flex justify-content-center mt-3">
             <button
-              class="btn btn-sm btn-block btn-info text-white text-uppercase font-weight-bold"
+              class="btn btn-sm btn-block btn-orange text-white text-uppercase font-weight-bold"
             >
               Actualizar Cliente
             </button>

@@ -2,7 +2,7 @@
   <div class="d-flex flex-column justify-content-center mx-lg-3">
     <div class="d-flex flex-row justify-content-center align-items-center bg-orange-gradient w-100 shadow" style="height: 100px">
       <h2 class="font-weight-bolder text-white text-shadow-md">
-        AAP-TC INFORMACIÓN
+        CENTRO DE INFORMACIÓN ANDEL
       </h2>
     </div>
     <div class="card-columns mt-3"

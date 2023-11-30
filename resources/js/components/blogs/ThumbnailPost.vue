@@ -22,7 +22,7 @@
         <div class="card-footer">
           <router-link
             :to="{ name: 'post.show', params: { post: post.id } }"
-            class="btn btn-primary btn-sm btn-block"
+            class="btn btn-orange btn-sm btn-block"
           >
             Saber más...
           </router-link>
@@ -37,7 +37,7 @@
         <div class="card-footer">
           <router-link
             :to="{ name: 'post.show', params: { post: post.id } }"
-            class="btn btn-primary btn-sm btn-block"
+            class="btn btn-orange btn-sm btn-block"
             >Saber más...
           </router-link>
         </div>

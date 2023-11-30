@@ -83,7 +83,7 @@
                   <!-- SI ESTADO ES ABIERTO -->
                   <div class="dropdown">
                     <button
-                      class="btn btn-sm btn-primary dropdown-toggle mx-1"
+                      class="btn btn-sm btn-orange dropdown-toggle mx-1"
                       type="button"
                       id="statuses"
                       data-toggle="dropdown"

@@ -71,7 +71,7 @@
               <div class="col-6 px-2 py-0">
                 <div class="dropdown">
                   <button
-                    class="btn btn-sm btn-primary dropdown-toggle btn-block"
+                    class="btn btn-sm btn-orange dropdown-toggle btn-block"
                     type="button"
                     id="statuses"
                     data-toggle="dropdown"

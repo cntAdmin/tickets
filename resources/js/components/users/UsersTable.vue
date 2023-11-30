@@ -54,7 +54,7 @@
               <td>
                 <div class="d-flex justify-content-center">
                   <button
-                    class="btn btn-sm btn-info text-white mx-2"
+                    class="btn btn-sm btn-orange text-white mx-2"
                     @click="$emit('edit', u)"
                     title="Editar Cliente"
                   >

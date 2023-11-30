@@ -1,17 +1,18 @@
 <template>
   <div class="d-flex flex-row">
     <!-- DESKTOP SIDEBAR  -->
-    <div class="d-none d-xl-block position-fixed vh-100 col-2 m-0 p-0 flex-column shadow">
+    <!-- <div class="d-none d-xl-block position-fixed vh-100 col-2 m-0 p-0 flex-column shadow"> -->
+    <div class="d-none d-xl-block vh-100 col-lx-2">
       <sidebar v-if="!is_admin" :user_role="user_role" :user="user"></sidebar>
       <admin-sidebar v-else :user_role="user_role" :user="user"></admin-sidebar>
     </div>
     <!-- MAIN CONTEN -->
-    <div class="col-xl-10 col-12 ml-auto">
+    <div class="col-xl-10 col-md-12 ">
       <main>
         <transition name="fade" mode="out-in">
           <keep-alive>
             <router-view
-            class="mt-2"
+              class="mt-2"
               :key="$route.fullPath"
               :user_role="user_role"
               :user="user"
@@ -61,11 +62,11 @@ export default {
 };
 </script>
 <style>
-.bg-blue-gradient {
-  background: #2980b9; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #8dc4e9, #6dd5fa, #f0f0f0); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #8dc4e9, #6dd5fa, #f0f0f0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+/* .bg-blue-gradient {
+  background: #2980b9; 
+  background: -webkit-linear-gradient(to bottom, #8dc4e9, #6dd5fa, #f0f0f0);
+  background: linear-gradient(to bottom, #8dc4e9, #6dd5fa, #f0f0f0); 
+} */
 .bg-orange-gradient {
   background: #FA5002; /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom, #FA5002, #f0f0f0); /* Chrome 10-25, Safari 5.1-6 */

@@ -165,7 +165,7 @@
         type="button"
         :class="
           'btn btn-block text-white ' +
-          (Object.keys(ticket.calls).length > 0 ? 'btn-danger' : 'btn-info')
+          (Object.keys(ticket.calls).length > 0 ? 'btn-danger' : 'btn-orange')
         "
         data-toggle="modal"
         data-target="#assignCall"

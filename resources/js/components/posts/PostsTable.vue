@@ -77,7 +77,7 @@
                     <i class="fas fa-eye"></i>
                   </router-link>
                   <router-link
-                    class="btn btn-sm btn-info text-white ml-3"
+                    class="btn btn-sm btn-orange text-white ml-3"
                     :to="{ name: 'post.edit', params: { post: post.id } }"
                   >
                     <i class="fas fa-edit"></i>

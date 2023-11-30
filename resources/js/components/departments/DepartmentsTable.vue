@@ -25,7 +25,7 @@
                                             title="Añadir usuarios">
                                             <i class="fa fa-user-plus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-info text-white mr-2" title="Editar Departamento"
+                                        <button type="button" class="btn btn-sm btn-orange text-white mr-2" title="Editar Departamento"
                                             @click="$emit('edit', department)">
                                             <i class="fa fa-edit"></i>
                                         </button>

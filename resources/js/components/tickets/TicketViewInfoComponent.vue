@@ -47,7 +47,7 @@
             <div class="d-flex flex-row justify-content-xl-end">
               <div class="col-6 col-xl-4">
                 <router-link
-                  class="btn btn-sm btn-primary btn-block"
+                  class="btn btn-sm btn-orange btn-block"
                   :to="{
                     name: 'ticket.edit',
                     params: { ticketID: ticketID },

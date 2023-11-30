@@ -3,7 +3,7 @@
     <div class="row">
       <card-counter
         title="Total"
-        color="primary"
+        color="orange"
         :count="customers ? customers.total : 0"
         icon="clipboard-list"
         size="4"

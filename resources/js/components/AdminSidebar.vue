@@ -1,10 +1,8 @@
 <template>
-  <nav class="navbar navbar-light bg-orange-gradient h-100 overflow-hidden align-items-start">
+  <!-- <nav class="navbar navbar-light bg-orange-gradient h-100 overflow-hidden align-items-start"> -->
+  <nav class="navbar navbar-light bg-orange-gradient h-100 align-items-start">
     <div class="container">
-      <div
-        class="accordion navbar-collapse mt-2 d-none d-md-block"
-        id="sidebar_navbar"
-      >
+      <div class="accordion navbar-collapse mt-2 d-none d-md-block" id="sidebar_navbar">
         <ul class="navbar-nav">
           <div class="navbar-header">
             <div class="d-flex flex-column justify-content-center align-items-center">
@@ -13,7 +11,7 @@
               </router-link>
               <div class="row justify-content-center my-3 w-100">
                 <router-link
-                  class="btn btn-success btn-block text-uppercase shadow font-weight-bold"
+                  class="btn btn-light btn-block text-uppercase shadow font-weight-bold"
                   :to="{ name: 'profile.index', params: { user: user.id } }"
                   >Hola {{ user.name }}
                 </router-link>

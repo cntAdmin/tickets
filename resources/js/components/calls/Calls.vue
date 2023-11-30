@@ -4,7 +4,7 @@
     <div class="row">
       <card-counter
         title="Totales"
-        color="primary"
+        color="orange"
         :count="calls.data ? calls.total : 0"
         icon="headset"
         size="3"
