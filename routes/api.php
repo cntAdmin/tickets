@@ -23,7 +23,7 @@ Route::get('/get_user_role/{id?}', function ($id) {
 Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download_attachment_comment');
 Route::get('/download/ticket/{ticket}/file/{attachment}', 'AttachmentController@download_attachment_ticket');
 
-Route::group(['middleware' => ['role:superadmin']], function () {
+Route::group(['middleware' => ['role:superadmin', 'role:Admin']], function () {
     Route::resource('brand', 'BrandController');
     Route::resource('car-model', 'CarModelController')->parameter('car_model', 'carModel');
     Route::resource('department', 'DepartmentController');
