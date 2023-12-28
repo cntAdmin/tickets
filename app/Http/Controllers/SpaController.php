@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class SpaController extends Controller
 {
-    public function index() {
+    public function index() 
+    {
         return view('layouts.admin');
     }
 }

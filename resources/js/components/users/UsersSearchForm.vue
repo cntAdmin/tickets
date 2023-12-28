@@ -4,8 +4,7 @@
       <div class="card-body">
         <form @submit.prevent="handleSubmit">
           <div class="form-inline">
-            <div class="form-group col-12 col-md-6 col-lg-3">
-              <label class="sr-only" for="dateFrom">Rol</label>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Rol</div>
@@ -16,50 +15,32 @@
                 </select>
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-3">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <label class="sr-only" for="dateFrom">Nombre</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Nombre</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="selected.name"
-                  class="form-control"
-                  autofocus
-                />
+                <input type="text" v-model="selected.name" class="form-control" autofocus/>
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-3">
-              <label class="sr-only" for="dateFrom">Usuario</label>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">
-                    Usuario
-                  </div>
+                  <div class="input-group-text text-uppercase">Usuario</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="selected.username"
-                  class="form-control"
-                />
+                <input type="text" v-model="selected.username" class="form-control"/>
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-3">
-              <label class="sr-only" for="dateFrom">Email</label>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Email</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="selected.email"
-                  class="form-control"
-                />
+                <input type="text" v-model="selected.email" class="form-control"/>
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-3 mt-2">
-              <label class="sr-only" for="dateFrom">Estado</label>
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Estado</div>
@@ -71,12 +52,17 @@
                 </select>
               </div>
             </div>
+            <div class="form-group col-12 mt-2">
+              <button class="btn btn-sm btn-block btn-success text-uppercase">
+                Buscar
+              </button>
+            </div>
           </div>
-          <div class="d-flex justify-content-center mt-3">
+          <!-- <div class="d-flex justify-content-center mt-2">
             <button class="btn btn-sm btn-block btn-success text-uppercase">
               Buscar
             </button>
-          </div>
+          </div> -->
         </form>
       </div>
     </div>

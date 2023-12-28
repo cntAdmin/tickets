@@ -84,7 +84,23 @@ export default {
     }
   },
   methods: {
-    
+    setIcon(status_id) {
+      switch (status_id) {
+        case 2:
+          return (status_id = "envelope-open");
+          break;
+        case 3:
+          return (status_id = "times-circle");
+          break;
+        case 4:
+          return (status_id = "check-circle");
+          break;
+
+        default:
+          return (status_id = "clipboard-list");
+          break;
+      }
+    },
   },
 };
 </script>

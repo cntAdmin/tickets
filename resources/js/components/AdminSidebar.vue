@@ -1,5 +1,4 @@
 <template>
-  <!-- <nav class="navbar navbar-light bg-orange-gradient h-100 overflow-hidden align-items-start"> -->
   <nav class="navbar navbar-light bg-orange-gradient h-100 align-items-start">
     <div class="container">
       <div class="accordion navbar-collapse mt-2 d-none d-md-block" id="sidebar_navbar">
@@ -18,7 +17,8 @@
               </div>
             </div>
           </div>
-          <div class="dropdown-divider border-dark"></div>
+          <!-- <div class="dropdown-divider border-dark"></div> -->
+          
           <!-- ADMINISTRACIÓN -->
           <li class="nav-item w-100">
             <div
@@ -88,7 +88,8 @@
               </router-link>
             </div>
           </li>
-          <!-- FIN ADMINISTRACIÓN -->
+
+
           <!-- TICKETS  -->
           <li class="nav-item w-100">
             <div
@@ -100,13 +101,10 @@
               data-parent="sidebar_navbar"
             >
               <div class="mr-auto">
-                <h5
-                  class="font-weight-bold text-uppercase m-3 text-shadow-light-sm"
-                >
+                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
                   Incidencias
                 </h5>
               </div>
-              <!-- Lineas horizontales -->
               <div class="ml-auto">
                 <span
                   class="navbar-toggler-icon mr-3"
@@ -118,102 +116,76 @@
                 >
                 </span>
               </div>
-              <!-- Lineas horizontales -->
             </div>
-            <div
-              class="collapse show"
-              id="tickets_sidebar"
-              data-parent="#sidebar_navbar"
-            >
-              <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                :to="{ name: 'ticket.index' }"
-              >
+            <div class="collapse show" id="tickets_sidebar" data-parent="#sidebar_navbar">
+              <router-link class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'ticket.index' }">
                 <span>Todas las Incidencias</span>
               </router-link>
               <router-link
-                v-for="status in ticket_statuses"
-                :key="status.id"
-                :class="
-                  status.id == 3
-                    ? 'd-none'
-                    : 'btn btn-dark btn-block mt-2 text-light text-uppercase shadow'
-                "
+                v-for="status in ticket_statuses" :key="status.id"
+                :class=" status.id == 3 ? 'd-none' : 'btn btn-dark btn-block mt-2 text-light text-uppercase shadow'"
                 :to="{ name: 'ticket.index', query: { status: status.id } }"
               >
-                <span class="ml-1">{{ status.menu_name }}<span class="ml-2 badge badge-danger" v-if="status.id == 1">{{ answered }}</span></span>
+                <span class="ml-1">
+                  {{ status.menu_name }}<span class="ml-2 badge badge-danger" v-if="status.id == 1">{{ answered }}</span>
+                </span>
               </router-link>
             </div>
           </li>
-          <!-- FIN TICKETS  -->
+          
+
+          <!-- LLAMADAS  -->
           <li class="nav-item shadow-sm mt-2">
-            <router-link
-              id="calls"
-              class="text-decoration-none nav-link"
-              :to="{ name: 'call.index' }"
-            >
-              <h5
-                class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm"
-              >
+            <router-link id="calls" class="text-decoration-none nav-link" :to="{ name: 'call.index' }">
+              <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
                 Llamadas
               </h5>
             </router-link>
           </li>
+
+
+          <!-- BLOG  -->
           <li class="nav-item shadow-sm mt-2">
-            <router-link
-              id="blog"
-              class="text-decoration-none nav-link"
-              :to="{ name: 'users-blog.index' }"
-            >
-              <h5
-                class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm"
-              >
+            <router-link id="blog" class="text-decoration-none nav-link" :to="{ name: 'users-blog.index' }">
+              <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
                 Blog
               </h5>
             </router-link>
           </li>
+
+
+          <!-- GLOSARIO DE INCIDENCIAS  -->
           <li class="nav-item mt-2">
             <div class="shadow-sm">
-              <router-link
-                id="faqs"
-                class="d-flex align-items-center shadow-sm w-100 text-decoration-none"
-                :to="{ name: 'faqs.index' }"
-              >
-                <h5
-                  class="font-weight-bold text-uppercase m-3 text-shadow-light-sm text-dark"
-                >
+              <router-link id="faqs" class="d-flex align-items-center shadow-sm w-100 text-decoration-none" :to="{ name: 'faqs.index' }">
+                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm text-dark">
                   Glosario de Incidencias
                 </h5>
               </router-link>
             </div>
           </li>
 
+
+          <!-- MEDIA  -->
           <li class="nav-item shadow-sm mt-2">
-            <router-link
-              id="file_manager"
-              class="text-decoration-none nav-link"
-              :to="{ name: 'file_manager.index' }"
-            >
-              <h5
-                class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm"
-              >
+            <router-link id="file_manager" class="text-decoration-none nav-link" :to="{ name: 'file_manager.index' }">
+              <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
                 Media
               </h5>
             </router-link>
           </li>
-          <div class="dropdown-divider"></div>
+          <!-- <div class="dropdown-divider border-dark"></div> -->
+
           <li class="nav-item w-100">
             <div
-              class="d-flex align-items-center shadow-sm w-100 border border-light collapsed"
+              class="d-flex align-items-center shadow-sm w-100 collapsed"
               data-toggle="collapse"
               data-target="#user_info"
               aria-expanded="true"
               aria-controls="user_info"
             >
               <div class="mr-auto">
-                <h5
-                  class="font-weight-bold text-uppercase m-3 text-shadow-light-sm"
-                >
+                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
                   Mi Perfil
                 </h5>
               </div>
@@ -233,22 +205,17 @@
               <router-link
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
                 :to="{ name: 'profile.index', params: { user: user.id } }"
-                >Mi Perfil
+              >
+                Mi Perfil
               </router-link>
               <button
                 class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                onclick="event.preventDefault();  
-                                document.getElementById('logout-form').submit();"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
               >
                 Logout
               </button>
 
-              <form
-                id="logout-form"
-                action="/logout"
-                method="POST"
-                class="d-none"
-              >
+              <form id="logout-form" action="/logout" method="POST" class="d-none">
                 <input type="hidden" name="_token" :value="csrf" />
               </form>
             </div>

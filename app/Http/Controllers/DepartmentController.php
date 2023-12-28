@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $req)
     {
         if(!$req->ajax()) {
@@ -44,23 +39,11 @@ class DepartmentController extends Controller
         
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('departments.create');
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         $messages = [
@@ -93,23 +76,6 @@ class DepartmentController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Department $department)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Department  $department
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Department $department)
     {
         $this->authorize('department.update');
@@ -117,13 +83,6 @@ class DepartmentController extends Controller
         return view('department.edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Department  $department
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, Department $department)
     {
         $messages = [
@@ -156,12 +115,6 @@ class DepartmentController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Department  $department
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Department $department)
     {
         $this->authorize('departments.destroy');
@@ -177,14 +130,16 @@ class DepartmentController extends Controller
         : response()->json([ 'error' => true, 'msg' => __('Lo sentimos, algo ha ido mal, inténtelo de nuevo mas tarde') ]);
     }
 
-    public function get_all_departments() {
+    public function get_all_departments() 
+    {
         return response()->json([
             'success' => true,
             'departments' => \App\Models\Department::all()->toArray()
         ]);
     }
 
-    public function get_department_users(Request $req) {
+    public function get_department_users(Request $req) 
+    {
         $users = User::whereNull('customer_id')
             ->when($req->name, function(Builder $q, $name) {
                 $q->where('name', 'LIKE', '%' . $name . '%');
@@ -202,7 +157,8 @@ class DepartmentController extends Controller
         ]);
     }
 
-    public function assign_user(Department $department, User $user) {
+    public function assign_user(Department $department, User $user) 
+    {
         $user->department()->associate($department);
         $user->save();
 
@@ -213,7 +169,8 @@ class DepartmentController extends Controller
         ]) ;
     }
 
-    public function unassign_user(Department $department, User $user) {
+    public function unassign_user(Department $department, User $user) 
+    {
         $user->department()->dissociate($department);
         $user->save();
 

@@ -4,6 +4,7 @@
     <!-- <div class="d-none d-xl-block position-fixed vh-100 col-2 m-0 p-0 flex-column shadow"> -->
     <div class="d-none d-xl-block vh-100 col-lx-2">
       <sidebar v-if="!is_admin" :user_role="user_role" :user="user"></sidebar>
+      <agent-sidebar v-else-if="user_role == 4" :user_role="user_role" :user="user"></agent-sidebar>
       <admin-sidebar v-else :user_role="user_role" :user="user"></admin-sidebar>
     </div>
     <!-- MAIN CONTEN -->

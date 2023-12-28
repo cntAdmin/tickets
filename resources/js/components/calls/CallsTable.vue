@@ -2,7 +2,7 @@
   <div class="w-100">
     <div class="card shadow mt-3" v-if="calls.total > 0">
       <div class="card-body">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-sm">
           <thead class="thead-dark">
             <tr class="text-center text-uppercase">
               <th scope="col">INCIDENCIA</th>

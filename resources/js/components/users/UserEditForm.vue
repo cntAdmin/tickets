@@ -226,7 +226,7 @@ export default {
     if (this.type === "card") {
       this.size = "col-12";
     } else {
-      this.size = "col-12 col-md-6 col-lg-4";
+      this.size = "col-12 col-md-6 col-lg-6";
     }
     this.is_admin = this.admin_roles.some(
       (role) => role === this.user.roles[0].id

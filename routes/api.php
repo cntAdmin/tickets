@@ -23,20 +23,29 @@ Route::get('/get_user_role/{id?}', function ($id) {
 Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download_attachment_comment');
 Route::get('/download/ticket/{ticket}/file/{attachment}', 'AttachmentController@download_attachment_ticket');
 
-Route::group(['middleware' => ['auth:web']], function () {
-    Route::resource('user', 'UserController');
-    Route::resource('file-manager', 'AttachmentController')->parameter('file-manager', 'attachment');
+Route::group(['middleware' => ['role:superadmin']], function () {
+    Route::resource('brand', 'BrandController');
+    Route::resource('car-model', 'CarModelController')->parameter('car_model', 'carModel');
     Route::resource('department', 'DepartmentController');
+    Route::resource('customer', 'CustomerController');
+    Route::resource('user', 'UserController');
+    Route::resource('call', 'CallController');
+});
+
+Route::group(['middleware' => ['auth:web']], function () {
+    Route::resource('file-manager', 'AttachmentController')->parameter('file-manager', 'attachment');
     Route::resource('ticket', 'TicketController')->except(['ticket.update']);
     Route::post('/ticket/{ticket}', 'TicketController@update');
     Route::resource('ticket.comment', 'CommentController')->except(['ticket.comment.store']);
-    Route::resource('customer', 'CustomerController');
     Route::resource('customer.ticket', 'CustomerTicketController');
     Route::resource('faqs', 'FaqController');
     Route::resource('post', 'PostController');
-    Route::resource('call', 'CallController');
-    Route::resource('brand', 'BrandController');
-    Route::resource('car-model', 'CarModelController')->parameter('car_model', 'carModel');
+    Route::resource('user', 'UserController');
+    // Route::resource('department', 'DepartmentController');
+    // Route::resource('customer', 'CustomerController');
+    // Route::resource('call', 'CallController');
+    // Route::resource('brand', 'BrandController');
+    // Route::resource('car-model', 'CarModelController')->parameter('car_model', 'carModel');
 
     // ? GENERICS
     Route::get('/get_all_customers', 'CustomerController@get_all_customers');

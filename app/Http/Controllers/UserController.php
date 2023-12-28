@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\UserExport;
+use App\Models\User;
+use App\Models\Ticket;
 use App\Models\Customer;
 use App\Models\Department;
-use App\Models\Ticket;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use App\Exports\UserExport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -31,11 +31,6 @@ class UserController extends Controller
         'customer_id.required_without' => ':attribute es un campo requerido si el rol no es cliente o contacto.'
     ];
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $req)
     {
         if(!$req->ajax()) {
@@ -55,23 +50,12 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('users.create');
         
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         // Validación de datos
@@ -131,12 +115,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user)
     {
         if($user->getRoleNames()[0] === "customer") {
@@ -151,12 +129,6 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         $this->authorize('users.update');
@@ -164,13 +136,6 @@ class UserController extends Controller
         return view('users.edit', compact($user));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, User $user)
     {
         // Mensajes de respuesta si falla alguna validación
@@ -225,12 +190,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
         $this->authorize('users.destroy');
@@ -249,7 +208,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function get_all_users(Request $req) {
+    public function get_all_users(Request $req) 
+    {
         $users = User::where('is_active', 1)->when($req->customer_id, function(Builder $q, $customer_id){
             $q->where('customer_id', $customer_id);
         })->get()->toArray();
@@ -260,15 +220,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function get_users_counters() {
-        $admin_count = User::role(1)->count();
-        $staff_count = User::role(2)->count();
+    public function get_users_counters() 
+    {
+        $superadmin_count = User::role(1)->count();
+        $admin_count = User::role(2)->count();
         $department_count = User::role(3)->count();
-        $customer_count = User::role(4)->count();
-        $contact_count = User::role(5)->count();
+        $staff_count = User::role(4)->count();
+        $customer_count = User::role(5)->count();
+        $contact_count = User::role(6)->count();
 
         return response()->json([
-            'admin_count' => $admin_count,
+            'admin_count' => $admin_count + $superadmin_count,
             'staff_count' => $staff_count,
             'department_count' => $department_count,
             'customer_count' => $customer_count,
@@ -276,7 +238,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function export_users(Request $req) {
+    public function export_users(Request $req) 
+    {
         switch ($req->type) {
             case 'excel':
                 if (!Storage::exists('exports/excels')) {

@@ -27,11 +27,6 @@ use Str;
 
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $req)
     {
         if ($req->ajax()) {
@@ -42,6 +37,7 @@ class TicketController extends Controller
             ]);
         }
     }
+
     public function mobile_index(Request $req)
     {
         if ($req->ajax()) {
@@ -55,22 +51,6 @@ class TicketController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         $custom_attributes = [
@@ -197,12 +177,6 @@ class TicketController extends Controller
             ], 422);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
     public function show(Ticket $ticket)
     {
         if(auth()->check()) {
@@ -215,12 +189,6 @@ class TicketController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Ticket $ticket)
     {
         // $this->authorize('tickets.update');
@@ -233,13 +201,6 @@ class TicketController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, Ticket $ticket)
     {
 
@@ -370,12 +331,6 @@ class TicketController extends Controller
             ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Ticket $ticket)
     {
         $this->authorize('tickets.destroy');
@@ -462,7 +417,8 @@ class TicketController extends Controller
         return response()->download(Storage::path($storage), $filename, $headers);
     }
 
-    public function answered_tickets() {
+    public function answered_tickets() 
+    {
         $answered = Ticket::where(function(Builder $q) {
             if(auth()->user()->roles[0]->id > 4) {
                 $q->where('answered', true);
@@ -477,11 +433,13 @@ class TicketController extends Controller
         ]);
     }
 
-    public function ticket_import() {
+    public function ticket_import() 
+    {
         Excel::import(new TicketsImport, 'imports/Importar_Incidencias_prueba.csv');
     }
 
-    public function view_ticket(Ticket $ticket) {
+    public function view_ticket(Ticket $ticket) 
+    {
         return view('tickets.view')->with(['ticket' => $ticket]);
     }
 

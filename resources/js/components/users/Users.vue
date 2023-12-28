@@ -2,7 +2,7 @@
   <div class="mx-3">
     <div class="row">
       <card-counter
-        title="Total"
+        title="Total usuarios"
         color="orange"
         :count="users ? users.total : 0"
         icon="clipboard-list"
@@ -16,7 +16,7 @@
         size="4"
       />
       <card-counter
-        title="Agentes"
+        title="Agente"
         color="info"
         :count="staff_count"
         icon="envelope-open"
@@ -30,25 +30,22 @@
         size="4"
       />
       <card-counter
-        title="Clientes"
+        title="Cliente"
         color="dark"
         :count="customer_count"
         icon="times-circle"
         size="4"
       />
       <card-counter
-        title="Usuarios"
-        color="danger"
+        title="Contacto"
+        color="primary"
         :count="contact_count"
         icon="envelope-open"
         size="4"
       />
     </div>
     <div class="d-flex justify-content-center my-3">
-      <button
-        class="btn btn-secondary btn-sm text-uppercase btn-block font-weight-bold"
-        @click="is_new = true"
-      >
+      <button class="btn btn-secondary btn-sm text-uppercase btn-block font-weight-bold" @click="is_new = true">
         Crear Usuario
       </button>
     </div>
@@ -57,23 +54,14 @@
       <users-search-form @search="getUsers"></users-search-form>
     </transition>
 
-    <div
-      class="alert alert-dismissable alert-danger my-3 text-center"
-      v-if="deleted.status"
-    >
+    <div class="alert alert-dismissable alert-danger my-3 text-center" v-if="deleted.status">
       {{ deleted.msg }}
     </div>
-    <div
-      class="alert alert-dismissable alert-success my-3 text-center"
-      v-if="success.status"
-    >
+    <div class="alert alert-dismissable alert-success my-3 text-center" v-if="success.status">
       {{ success.msg }}
     </div>
     <div v-if="error.status">
-      <form-errors
-        :errors="error.errors"
-        @close="error.status = false"
-      ></form-errors>
+      <form-errors :errors="error.errors" @close="error.status = false"></form-errors>
     </div>
     <transition name="fade" v-if="is_new" mode="out-in">
       <user-new
@@ -207,8 +195,8 @@ export default {
     getCounters() {
       axios.get("/api/get_users_counters").then((res) => {
         this.admin_count = res.data.admin_count;
-        this.staff_count = res.data.staff_count;
         this.department_count = res.data.department_count;
+        this.staff_count = res.data.staff_count;
         this.customer_count = res.data.customer_count;
         this.contact_count = res.data.contact_count;
       });

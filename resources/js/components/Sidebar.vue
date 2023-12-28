@@ -102,7 +102,7 @@
                 <h5
                   class="font-weight-bold text-uppercase m-3 text-shadow-light-sm text-dark"
                 >
-                  Glosario de Incidencias
+                  Glosario de Incidencias fdsa fdsa fds
                 </h5>
               </router-link>
             </div>

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\CustomerExport;
 use App\Models\Customer;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Exports\CustomerExport;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -27,11 +27,7 @@ class CustomerController extends Controller
             'boolean' => __(':attribute debe ser tipo boleano (true/false)'),
         ];
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $req)
     {
         if($req->ajax()) {
@@ -48,25 +44,15 @@ class CustomerController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('customers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         // $this->authorize('customers.create');
+
         $validator = Validator::make($req->all(), [
             'cif' => ['nullable', 'sometimes', 'string', 'max:9', 'unique:customers,cif'],
             'custom_id' => ['nullable', 'sometimes', 'string', 'max:100', 'unique:customers,custom_id'],
@@ -130,12 +116,6 @@ class CustomerController extends Controller
             : response()->json(['error' =>  true, 'msg' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
     public function show(Customer $customer)
     {
         return response()->json([
@@ -144,12 +124,6 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Customer $customer)
     {
         $this->authorize('customers.update');
@@ -157,13 +131,6 @@ class CustomerController extends Controller
         return view('customers.edit', compact($customer));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, Customer $customer)
     {
         // $this->authorize('customers.update');
@@ -214,12 +181,6 @@ class CustomerController extends Controller
             : response()->json(['error' => true, 'msg' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Customer $customer)
     {
         // $this->authorize('customers.destroy');
@@ -235,7 +196,8 @@ class CustomerController extends Controller
             : response()->json(['error' => true, 'msg' => __('Lo sentimos, algo ha ido mal, vuelva a intentarlo mas tarde.')]);
     }
 
-    public function get_all_customers() {
+    public function get_all_customers() 
+    {
         $customers = \App\Models\Customer::where('is_active', 1)
                         ->orderBy('comercial_name')
                         ->get()
@@ -247,7 +209,8 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function get_customers_count() {
+    public function get_customers_count() 
+    {
         $active = Customer::where('is_active', 1)->get()->count();
         $inactive = Customer::where('is_active', 0)->get()->count();
 
@@ -257,8 +220,10 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function get_customer_contacts(Customer $customer) {
+    public function get_customer_contacts(Customer $customer) 
+    {
         $customer_with_users = $customer->users;
+
         return response()->json([
             'success' => true,
             'contacts' => $customer_with_users
@@ -306,6 +271,7 @@ class CustomerController extends Controller
             'is_active' => $req->is_active
         ]);
         $status = $req->is_active ? 'activado' : 'desactivado';
+
         return $updated
             ? response()->json([ 'success' => true, 'msg' => 'Cliente ' . $status . ' correctamente.'])
             : response()->json([ 'success' => true, 'msg' => 'Cliente no ha podido ser ' . $status . ' correctamente, contácte con el administrador.']);

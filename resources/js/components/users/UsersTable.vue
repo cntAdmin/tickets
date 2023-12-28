@@ -2,7 +2,7 @@
   <div class="w-100">
     <div class="card shadow mt-3" v-if="users.total > 0">
       <div class="card-body">
-        <table class="table table-hover table-striped shadow">
+        <table class="table table-hover table-striped table-sm shadow">
           <thead class="thead-dark">
             <tr>
               <th scope="col">Rol</th>

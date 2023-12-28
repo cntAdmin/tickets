@@ -18,9 +18,9 @@
     </div>
     <div class="card shadow mt-3" v-if="posts.total > 0">
       <div class="card-body">
-        <table class="table table-hover table-striped shadow text-left">
+        <table class="table table-hover table-striped table-sm shadow">
           <thead class="thead-dark">
-            <tr class="text-center text-uppercase">
+            <tr class="text-left text-uppercase">
               <th scope="col">#</th>
               <th scope="col">Creado Por</th>
               <th scope="col">Título</th>
@@ -32,12 +32,10 @@
           </thead>
           <tbody>
             <tr v-for="post in posts.data" :key="post.id">
-              <th scope="row">{{ post.id }}</th>
+              <th class="text-left" scope="row">{{ post.id }}</th>
               <td>{{ post.created_by.name }}</td>
               <td>{{ post.title }}</td>
-              <td class="text-center">
-                {{ post.created_at | moment("DD-MM-YYYY") }}
-              </td>
+              <td>{{ post.created_at | moment("DD-MM-YYYY") }}</td>
               <td>
                 <div class="d-flex justify-content-center">
                   <div class="input-group">
