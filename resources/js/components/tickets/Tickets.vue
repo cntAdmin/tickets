@@ -205,7 +205,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log('traigo contadores');
           this.total_count = res.data.total_count;
           this.opened = res.data.opened;
           this.closed = res.data.closed;
@@ -245,7 +244,6 @@ export default {
         .then((res) => {
           // console.log(res.data)
           this.tickets = res.data.tickets;
-          console.log('traigo tickets');
           this.getCount();
           this.searching = false;
         })
