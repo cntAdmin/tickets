@@ -64,10 +64,7 @@
       class="alert alert-dismissable alert-danger my-3"
       v-if="deleted.status"
     > -->
-    <div
-      class="alert alert-dismissable alert-success my-3"
-      v-if="deleted.status"
-    >
+    <div class="alert alert-dismissable alert-success my-3" v-if="deleted.status">
       {{ deleted.msg }}
     </div>
     <transition name="fade" v-else-if="searching" mode="out-in">
@@ -208,12 +205,13 @@ export default {
           },
         })
         .then((res) => {
+          console.log('traigo contadores');
           this.total_count = res.data.total_count;
           this.opened = res.data.opened;
           this.closed = res.data.closed;
           this.resolved = res.data.resolved;
           this.newTickets = res.data.newTickets;
-          this.$emit("getNewTickets");
+          // this.$emit("getNewTickets");
         })
         .catch((err) => {
           console.log(err);
@@ -224,7 +222,7 @@ export default {
       this.closeAll();
       this.searching = true;
       this.searched = data ? data : this.searched;
-      this.getCount();
+      // this.getCount();
 
       axios
         .get("/api/ticket", {
@@ -234,9 +232,7 @@ export default {
             car_model_id: this.searched ? this.searched.car_model_id : null,
             ticket_id: this.searched ? this.searched.ticket_id : null,
             user_name: this.searched ? this.searched.user_name : null,
-            customer_custom_id: this.searched
-              ? this.searched.customer_custom_id
-              : null,
+            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
             customer_name: this.searched ? this.searched.customer_name : null,
             department_id: this.searched ? this.searched.department_id : null,
             status: this.searched ? this.searched.status : null,
@@ -249,6 +245,8 @@ export default {
         .then((res) => {
           // console.log(res.data)
           this.tickets = res.data.tickets;
+          console.log('traigo tickets');
+          this.getCount();
           this.searching = false;
         })
         .catch((err) => {
