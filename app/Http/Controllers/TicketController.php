@@ -351,6 +351,8 @@ class TicketController extends Controller
 
     public function get_ticket_counters(Request $req)
     {
+        ini_set('memory_limit', '1024M');
+        
         $new_tickets = Ticket::filterTickets()->where('ticket_status_id', 1)->get()->count();
         $opened = Ticket::filterTickets()->where('ticket_status_id', 2)->get()->count();
         $closed = Ticket::filterTickets()->where('ticket_status_id', 3)->get()->count();
