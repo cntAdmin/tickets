@@ -172,7 +172,8 @@
         });
       },
       getAnswered() {
-        axios.get("/api/get_answered").then((res) => {
+        // axios.get("/api/get_answered").then((res) => {
+        axios.get("/api/get_nuevos_tickets").then((res) => {
           this.answered = res.data.answered;
         });
       },

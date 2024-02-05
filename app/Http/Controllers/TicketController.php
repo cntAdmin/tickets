@@ -455,4 +455,13 @@ class TicketController extends Controller
             'answered' => $answered
         ]);
     }
+
+    public function get_nuevos_tickets()
+    {
+        $nuevos = Ticket::where('ticket_status_id', 1)->count();
+
+        return response()->json([
+            'answered' => $nuevos
+        ]);
+    }
 }

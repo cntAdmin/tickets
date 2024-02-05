@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_all_brands', 'BrandController@get_all_brands');
     Route::get('/get_all_roles', 'RoleController@get_all_roles');
     Route::get('/get_answered', 'TicketController@get_answered');
+    Route::get('/get_nuevos_tickets', 'TicketController@get_nuevos_tickets');
     
     // ? EXPORTS
     Route::get('/export_tickets', 'TicketController@export_tickets');

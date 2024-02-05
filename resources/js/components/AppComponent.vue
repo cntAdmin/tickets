@@ -47,12 +47,10 @@ export default {
   },
   methods: {
     get_new_tickets() {
-      axios
-        .get("/api/get_answered")
-        .then((res) => {
-          this.answered_tickets = res.data.answered;
-        })
-        .catch((err) => console.log(err));
+      // axios.get("/api/get_answered").then((res) => {
+      axios.get("/api/get_nuevos_tickets").then((res) => {
+        this.answered_tickets = res.data.answered;
+      }).catch((err) => console.log(err));
     },
   },
   watch: {
