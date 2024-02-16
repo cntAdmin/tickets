@@ -105,7 +105,8 @@ class CustomerController extends Controller
             'is_active' => true
         ]);
 
-        $create_user->assignRole('customer');
+        // $create_user->assignRole('customer');
+        $create_user->assignRole('Cliente');
 
         if(env('APP_ENV') !== 'local') {
             $create_user->sendResetLinkEmail($req);

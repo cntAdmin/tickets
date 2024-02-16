@@ -10,40 +10,25 @@
       ></card-counter>
     </div>
     <div class="d-flex justify-content-center my-3">
-      <button
-        type="button"
-        class="btn btn-secondary btn-sm text-uppercase btn-block"
-        @click="is_new = true"
-      >
+      <button type="button" class="btn btn-secondary btn-sm text-uppercase btn-block" @click="is_new = true">
         Crear Nueva Marca
       </button>
     </div>
 
-    <div v-show="success.status">
+    <div v-if="success.status">
       <div class="alert alert-dismissable alert-success">
         {{ success.msg }}
-        <button
-          type="button"
-          class="close mb-3"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
+        <button type="button" class="close mb-3" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
     </div>
 
-    <div v-show="error.status">
-      <form-errors
-        :errors="error.errors"
-        @close="error.status = false"
-      ></form-errors>
+    <div v-if="error.status">
+      <form-errors :errors="error.errors" @close="error.status = false"></form-errors>
     </div>
 
-    <div
-      v-show="deleted.status"
-      class="alert alert-dismissable alert-danger my-3"
-    >
+    <div v-if="deleted.status" class="alert alert-dismissable alert-danger my-3">
       {{ deleted.msg }}
     </div>
 
@@ -163,30 +148,27 @@ export default {
       this.searching = true;
       this.searched = data ? data : this.searched;
       let page = data && typeof data.page !== undefined ? data.page : 1;
-      axios
-        .get("/api/brand", {
-          params: {
-            page: page,
-            name: data ? data.name : null,
-          },
-        })
-        .then((res) => {
-          if (res.data.success) {
-            this.searching = false;
-            this.brands = res.data.brands;
-          }
-        })
-        .catch((err) => console.log(err));
+      axios.get("/api/brand", {
+        params: {
+          page: page,
+          name: data ? data.name : null,
+        },
+      }).then((res) => {
+        if (res.data.success) {
+          this.searching = false;
+          this.brands = res.data.brands;
+        }
+      }).catch((err) => console.log(err));
     },
   },
 };
 </script>
 <style lang="css">
-.fade-enter-active,
-.fade-edit-form-leave-active {
-  transition: opacity 0.3s;
-}
-.fade-edit-form-enter, .fade-edit-form-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+  .fade-enter-active,
+  .fade-edit-form-leave-active {
+    transition: opacity 0.3s;
+  }
+  .fade-edit-form-enter, .fade-edit-form-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
 </style>

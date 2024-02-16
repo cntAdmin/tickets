@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -114,4 +115,8 @@ class User extends Authenticatable
         return $this->belongsTo(\App\Models\Department::class, 'department_id', 'id');
     }
 
+    public function assigned_to(): HasOne
+    {
+        return $this->hasOne(\App\Models\Ticket::class, 'assigned_to', 'id');
+    }
 }

@@ -76,6 +76,11 @@ class CommentController extends Controller
             }
         }
 
+        // Actualizamos 'updated_at' del ticket. 
+        // Es necesario para el Job/CloseTickets.php que cerrará tickets que no se hayan actualizado en los últimos 7 días
+        $ticket->updated_at = now()->format('Y-m-d H:i:s');
+        $ticket->update();
+
         return $create_comment
             ? response()->json(['success' => true, 'msg' => __('Comentario creado correctamente.')])
             : response()->json([

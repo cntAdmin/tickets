@@ -21,10 +21,8 @@ use Maatwebsite\Excel\Facades\Excel;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('testing1', 'UserController@export_users');
-Route::get('/testing', function (Request $req) {
-        // return Ticket::whereAnswered(auth()->user()->roles[0]->id <= 4)->dd();
-});
+Route::get('/testing', 'TestController@tests');
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -41,4 +39,5 @@ Route::post('/api/ticket/{ticket}/comment', 'CommentController@store')->name('ti
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/{any}', 'SpaController@index')->where('any', '.*');
+    Route::get('/test', 'TestController@tests');
 });

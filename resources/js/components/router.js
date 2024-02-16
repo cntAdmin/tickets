@@ -25,6 +25,7 @@ import Calls from './calls/Calls';
 import Blogs from './blogs/Blogs';
 import Faqs from './faqs/Faqs';
 import FaqViewInfo from './faqs/FaqViewInfo';
+import Dashboard from './dashboard/Dashboard';
 
 Vue.use(VueRouter);
 
@@ -82,6 +83,11 @@ const router = new VueRouter({
             path: '/admin/file-manager',
             name: 'file_manager.index', 
             component: FileManager
+        },
+        {
+            path: '/admin/dashboard',
+            name: 'dashboard.index',
+            component: Dashboard
         },
         {
             path: '/admin/blog',

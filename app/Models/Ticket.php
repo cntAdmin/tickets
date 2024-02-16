@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,8 +19,8 @@ class Ticket extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'custom_id', 'frame_id', 'plate', 'brand', 'model', 'subject', 'description', 'tests_done', 'ask_for', 'knowledge_base',
-        'engine_type', 'other_brand_model',
+        'custom_id', 'frame_id', 'plate', 'brand', 'model', 'subject', 'description', 'tests_done', 'ask_for_id', 'knowledge_base',
+        'engine_type', 'other_brand_model', 'assigned_to', 'resolution_time',
         // IF TRUE => ADMIN HAS ANSWERED
         'answered',
         // FOREIGN KEYS
@@ -31,7 +32,7 @@ class Ticket extends Model
     ];
 
     protected $with = [
-        'comments', 'status', 'calls', 'attachments', 'comment_attachments', 'brand', 'car_model'
+        'comments', 'status', 'calls', 'attachments', 'comment_attachments', 'brand', 'car_model', 'assigned_to', 'ask_for'
     ];
 
     protected $appends = ['subject_short'];
@@ -96,6 +97,15 @@ class Ticket extends Model
         return $this->belongsTo(\App\Models\CarModel::class, 'car_model_id', 'id');
     }
 
+    public function assigned_to(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'assigned_to', 'id');
+    }
+
+    public function ask_for(): HasOne
+    {
+        return $this->hasOne(\App\Models\AskFors::class, 'id', 'ask_for_id');
+    }
     /**
      * Get all of the comment_attachments for the Comment
      *
@@ -172,6 +182,8 @@ class Ticket extends Model
             $q->whereDate('tickets.updated_at', '>=', $date_from);
         })->when(request()->input('date_to'), function (Builder $q, $date_to) {
             $q->whereDate('tickets.updated_at', '<=', $date_to);
+        })->when(request()->input('agent_id'), function (Builder $q, $agent_id) {
+            $q->where('assigned_to', $agent_id);
         })->when(request()->input('knowledge_base'), function (Builder $q, $knowledge_base) {
             switch ($knowledge_base) {
                 case '1':
@@ -228,7 +240,8 @@ class Ticket extends Model
                 });
             })
             ->with(['user', 'customer', 'department', 'status'])
-            ->withCount(['comments', 'calls']);
+            // ->withCount(['comments', 'calls']);
+            ->withCount(['comments']);
     }
 
     public static function getLastID()

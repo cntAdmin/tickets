@@ -2,28 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Call;
+use App\Models\User;
+use App\Models\Brand;
+use App\Jobs\GetCalls;
+use App\Models\Ticket;
+use App\Models\CarModel;
+use App\Models\Customer;
+use App\Models\Attachment;
+use App\Models\Department;
+use App\Models\TicketStatus;
 use App\Exports\TicketExport;
 use App\Imports\TicketsImport;
-use App\Jobs\GetCalls;
-use App\Models\Attachment;
-use App\Models\Brand;
-use App\Models\Call;
-use App\Models\CarModel;
-use App\Models\Comment;
-use App\Models\Customer;
-use App\Models\Department;
-use App\Models\Ticket;
-use App\Models\TicketStatus;
-use App\Models\User;
-use App\Scopes\RoleTicketFilterScope;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
+// use App\Models\Comment;
+// use App\Scopes\RoleTicketFilterScope;
+
 use Str;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller
 {
@@ -54,7 +57,8 @@ class TicketController extends Controller
     public function store(Request $req)
     {
         $custom_attributes = [
-            'user_id' => __('Usuario'),
+            'customer_id' => __('Cliente'),
+            'user_id' => __('Contacto'),
             'department_id' => __('Departamento'),
             'assigned_to' => __('Asignado a'),
             'frame_id' => __('Número de Bastidor'),
@@ -64,24 +68,25 @@ class TicketController extends Controller
             'engine_type' => __('Tipo de Motor'),
             'subject' => __('Asunto'),
             'description' => __('Descripción'),
-            'test_done' => __('Pruebas realizadas'),
-            'ask_for' => __('Solicito'),
+            // 'test_done' => __('Pruebas realizadas'),
+            'ask_for_id' => __('Solicito'),
             'status' => __('Estado'),
             'files' => __('Ficheros')
         ];
-        // return $req->subject;
+
         $messages = [
-            'required' => __(':attribute es un campo requerido.'),
-            'exists' => __(':attribute debe existir en la tabla :table.'),
-            'string' => __(':attribute debe ser de una cadena de texto.'),
-            'max' => __(':attribute debe ser inferior a :max caracteres.'),
-            'boolean' => __(':attribute debe ser de tipo boleano (true/false).'),
+            'required' => __("':attribute' es un campo requerido."),
+            'exists' => __("':attribute' debe existir en la tabla :table."),
+            'string' => __("':attribute' debe ser de una cadena de texto."),
+            'max' => __("':attribute' debe ser inferior a :max caracteres."),
+            'boolean' => __("':attribute' debe ser de tipo boleano (true/false)."),
         ];
 
         $validator = Validator::make($req->all(), [
             'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
+            'assigned_to' => ['required', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
@@ -90,13 +95,13 @@ class TicketController extends Controller
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'tests_done' => ['nullable', 'string'],
-            'ask_for' => ['required', 'string', 'max:50'],
+            // 'tests_done' => ['nullable', 'string'],
+            'ask_for_id' => ['required', 'numeric', 'exists:ask_fors,id'],
             'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
             'calls' => ['nullable', 'array'],
             'files' => ['array', 'nullable', 'max:25600']
         ], $messages, $custom_attributes);
-        // return $validator->errors();
+
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()
@@ -114,11 +119,11 @@ class TicketController extends Controller
         $lastID = Ticket::getLastID();
 
         try {
-            //code...
             $create_ticket = Ticket::create([
                 'customer_id' => $req->customer_id,
                 'user_id' => $req->user_id,
                 'department_id' => $req->department_id,
+                'assigned_to' => $req->assigned_to,
                 'custom_id' => Str::upper($get_department->code) . now()->year . '-' . str_pad(($lastID), 5, '0', STR_PAD_LEFT),
                 'frame_id' => $req->frame_id,
                 'other_brand_model' => $req->other_brand_model,
@@ -126,15 +131,14 @@ class TicketController extends Controller
                 'engine_type' => $req->engine_type,
                 'subject' => $req->subject,
                 'description' => $req->description,
-                'tests_done' => $req->tests_done !== 'null' ? $req->tests_done : null,
-                'ask_for' => $req->ask_for,
+                // 'tests_done' => $req->tests_done !== 'null' ? $req->tests_done : null,
+                'ask_for_id' => $req->ask_for_id,
                 'knowledge_base' => 0,
                 'created_by' => auth()->user()->id,
                 'ticket_status_id' => 1,
                 'answered' => auth()->user()->roles[0]->id <= 4 ? true : false
             ]);    
         } catch (\Throwable $th) {
-            // throw $th;
             return $th;
         }
 
@@ -155,7 +159,6 @@ class TicketController extends Controller
 
         if ($req->calls) {
             foreach ($get_calls as $call) {
-                // ASSIGN CALLS TO THIS TICKET
                 $create_ticket->calls()->save($call);
             }
         }
@@ -185,13 +188,12 @@ class TicketController extends Controller
 
         return response()->json([
             'success' => true,
-            'ticket' => $ticket->load(['customer', 'user', 'department', 'brand', 'car_model'])
+            'ticket' => $ticket->load(['customer', 'user', 'department', 'brand', 'car_model','ask_for'])
         ]);
     }
 
     public function edit(Ticket $ticket)
     {
-        // $this->authorize('tickets.update');
         // GET NEW CALLS
         $inserted = GetCalls::dispatch($ticket);
 
@@ -203,10 +205,9 @@ class TicketController extends Controller
 
     public function update(Request $req, Ticket $ticket)
     {
-
-        // $this->authorize('tickets.update');
         $custom_attributes = [
-            'user_id' => __('Usuario'),
+            'customer_id' => __('Cliente'),
+            'user_id' => __('Contacto'),
             'department_id' => __('Departamento'),
             'assigned_to' => __('Asignado a'),
             'frame_id' => __('Número de Bastidor'),
@@ -216,26 +217,25 @@ class TicketController extends Controller
             'engine_type' => __('Tipo de Motor'),
             'subject' => __('Asunto'),
             'description' => __('Descripción'),
-            'test_done' => __('Pruebas realizadas'),
-            'ask_for' => __('Solicito'),
+            // 'test_done' => __('Pruebas realizadas'),
+            'ask_for_id' => __('Solicito'),
             'status' => __('Estado'),
             'knowledge_base' => __('FAQ\'s')
         ];
 
-        // return $req->subject;
         $messages = [
-            'required' => __(':attribute es un campo requerido.'),
-            'exists' => __(':attribute debe existir en la tabla :table.'),
-            'string' => __(':attribute debe ser de una cadena de texto.'),
-            'max' => __(':attribute debe ser inferior a :max caracteres.'),
-            'boolean' => __(':attribute debe ser de tipo boleano (true/false).'),
+            'required' => __("':attribute' es un campo requerido."),
+            'exists' => __("':attribute' debe existir en la tabla :table.'"),
+            'string' => __("':attribute' debe ser de una cadena de texto."),
+            'max' => __("':attribute' debe ser inferior a :max caracteres."),
+            'boolean' => __("':attribute' debe ser de tipo boleano (true/false)."),
         ];
 
-        // return $req;
         $validator = Validator::make($req->all(), [
             'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
+            'assigned_to' => ['required', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'sometimes', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
@@ -244,8 +244,8 @@ class TicketController extends Controller
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'tests_done' => ['nullable', 'string'],
-            'ask_for' => ['required', 'string', 'max:50'],
+            // 'tests_done' => ['nullable', 'string'],
+            'ask_for_id' => ['required', 'numeric', 'exists:ask_fors,id'],
             'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
             'calls' => ['nullable', 'array'],
             'files' => ['array', 'nullable', 'max:25600'],
@@ -265,10 +265,11 @@ class TicketController extends Controller
             'engine_type' => $req->engine_type ?? $ticket->engine_type,
             'subject' => $req->subject ?? $ticket->subject,
             'description' => $req->description ?? $ticket->description,
-            'tests_done' => $req->tests_done ?? $ticket->tests_done,
-            'ask_for' => $req->ask_for ?? $ticket->ask_for,
+            // 'tests_done' => $req->tests_done ?? $ticket->tests_done,
+            'ask_for_id' => $req->ask_for_id ?? $ticket->ask_for_id,
             'knowledge_base' => $req->knowledge_base ? 1 : 0,
             'ticket_status_id' => $req->status  ?? $ticket->ticket_status_id,
+            'assigned_to' => $req->assigned_to ?? $ticket->assigned_to,
         ]);
 
         if ($req->file('files')) {
@@ -462,6 +463,95 @@ class TicketController extends Controller
 
         return response()->json([
             'answered' => $nuevos
+        ]);
+    }
+
+    public function get_admin_charts(Request $req)
+    {
+        // Promedio tiempo de respuesta de los agentes
+        $promedioTiempoRespuestaAgentes = DB::table('tickets')
+        ->join('users','users.id', '=', 'tickets.assigned_to')
+        ->select([
+            DB::raw('count(tickets.assigned_to) as total_incidencias'), 
+            DB::raw('sum(tickets.resolution_time) as resolution_time'), 
+            DB::raw('users.name as name')
+        ])
+        ->where('tickets.ticket_status_id', 4)
+        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
+        ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
+        ->groupBy('name')
+        ->orderBy('name', 'ASC')
+        ->get();
+
+        
+        // Incidencias generadas por días pasados por parámetro
+        $incidenciasPorDias = DB::table('tickets')->select([
+            DB::raw('count(id) as total'), 
+            DB::raw('DATE(created_at) as dia')
+        ])
+        // ->where('created_at', '>=', now()->subDays($req->days))
+        ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
+        ->groupBy('dia')
+        ->get();
+
+
+        // Incidencias por agentes (Todos los agentes)
+        $incidenciasPorAgente = DB::table('tickets')
+        ->join('users','users.id', '=', 'tickets.assigned_to')
+        ->select([
+            DB::raw('count(tickets.assigned_to) as total'), 
+            DB::raw('users.name as name')
+        ])
+        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
+        ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
+        ->groupBy('name')
+        ->orderBy('name', 'ASC')
+        ->get();
+
+
+        // Talleres con más incidencias (5)
+        $incidenciasPorTalleres = DB::table('tickets')
+        ->join('customers','customers.id', '=', 'tickets.customer_id')
+        ->select([
+            DB::raw('count(tickets.id) as total'), 
+            DB::raw('customers.fiscal_name as name')
+        ])
+        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
+        ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
+        ->groupBy('name')
+        ->orderBy('name', 'ASC')
+        ->limit(5)
+        ->get();
+
+        
+        
+        // Obtenemostotal de Incidencias por estado
+        $estadoIncidencias = DB::table('tickets')
+        ->join('ticket_statuses','ticket_statuses.id', '=', 'tickets.ticket_status_id')
+        ->select([
+            DB::raw('count(tickets.ticket_status_id) as total'), 
+            DB::raw('ticket_statuses.name as estado')
+        ])
+        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
+        ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
+        ->groupBy('estado')
+        ->get();
+      
+
+        return response()->json([
+            'promedioTiempoRespuestaAgentes' => $promedioTiempoRespuestaAgentes,
+            'incidenciasPorDias' => $incidenciasPorDias,
+            'incidenciasPorAgente' => $incidenciasPorAgente,
+            'incidenciasPorTalleres' => $incidenciasPorTalleres,
+            'estadoIncidencias' => $estadoIncidencias,
+        ]);
+    }
+
+    public function get_all_ask_for()
+    {
+        return response()->json([
+            'success' => true,
+            'ask_for' => \App\Models\AskFors::all()->toArray()
         ]);
     }
 }

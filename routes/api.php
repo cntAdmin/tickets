@@ -23,22 +23,14 @@ Route::get('/get_user_role/{id?}', function ($id) {
 Route::get('/download/comment/{comment}/file/{attachment}', 'AttachmentController@download_attachment_comment');
 Route::get('/download/ticket/{ticket}/file/{attachment}', 'AttachmentController@download_attachment_ticket');
 
-Route::group(['middleware' => ['role:superadmin']], function () {
+Route::group(['middleware' => ['role:superadmin|Admin']], function () {
     Route::resource('brand', 'BrandController');
     Route::resource('car-model', 'CarModelController')->parameter('car_model', 'carModel');
     Route::resource('department', 'DepartmentController');
     Route::resource('customer', 'CustomerController');
     Route::resource('user', 'UserController');
     Route::resource('call', 'CallController');
-});
-
-Route::group(['middleware' => ['role:Admin']], function () {
-    Route::resource('brand', 'BrandController');
-    Route::resource('car-model', 'CarModelController')->parameter('car_model', 'carModel');
-    Route::resource('department', 'DepartmentController');
-    Route::resource('customer', 'CustomerController');
-    Route::resource('user', 'UserController');
-    Route::resource('call', 'CallController');
+    Route::resource('dashboard', 'DashboardController');
 });
 
 Route::group(['middleware' => ['auth:web']], function () {
@@ -60,11 +52,13 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_all_customers', 'CustomerController@get_all_customers');
     Route::get('/get_all_users', 'UserController@get_all_users');
     Route::get('/get_all_departments', 'DepartmentController@get_all_departments');
-    Route::get('/get_all_calls', 'CallController@get_all_calls');
-    Route::get('/get_all_tickets', 'DepartmentController@get_all_departments');
+    // Route::get('/get_all_calls', 'CallController@get_all_calls');
+    Route::get('/get_all_tickets', 'TicketController@get_all_tickets');
     Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses');
     Route::get('/get_all_brands', 'BrandController@get_all_brands');
     Route::get('/get_all_roles', 'RoleController@get_all_roles');
+    Route::get('/get_all_agents', 'UserController@get_all_agents');
+    Route::get('/get_all_ask_for', 'TicketController@get_all_ask_for');
     Route::get('/get_answered', 'TicketController@get_answered');
     Route::get('/get_nuevos_tickets', 'TicketController@get_nuevos_tickets');
     
@@ -72,7 +66,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/export_tickets', 'TicketController@export_tickets');
     Route::get('/export_customers', 'CustomerController@export_customers');
     Route::get('/export_users', 'UserController@export_users');
-    Route::get('/export_calls', 'CallController@export_calls');
+    // Route::get('/export_calls', 'CallController@export_calls');
 
     // ? VUE GETTERS
     // ? TICKETS
@@ -83,7 +77,7 @@ Route::group(['middleware' => ['auth:web']], function () {
 
     // ? CALLS TICKET
     Route::put('/call/{call}/ticket/{ticket}', 'CallController@toggle_call_ticket');
-    Route::get('/asignable_calls', 'CallController@asignable_calls');
+    // Route::get('/asignable_calls', 'CallController@asignable_calls');
 
     // ? BRANDS
     Route::get('/brand/{brand}/model', 'CarModelController@get_brand_models');
@@ -127,8 +121,11 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/get_car_models_counter', 'CarModelController@get_car_models_counter');
 
     // ? CALLS
-    Route::get('/get_calls_count', 'CallController@get_calls_count');
+    // Route::get('/get_calls_count', 'CallController@get_calls_count');
 
     // ? COMMENTS
     Route::get('/mark_comment_as_read/{comment}', 'CommentController@mark_comment_as_read');
+
+    // Datos de gráficos (Dashboard)
+    Route::get('/get_admin_charts', 'TicketController@get_admin_charts')->name('get_admin_charts');
 });

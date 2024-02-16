@@ -20,8 +20,15 @@ class BrandController extends Controller
         if($req->ajax()) {
             $brands = Brand::when($req->name, function(Builder $q, $name) {
                 $q->where('name', 'LIKE', '%'. $name . '%');
+            // })->withCount('models')
+            // ->paginate();
             })->withCount('models')
-            ->paginate();
+            // Contabilizamos las incidencias de los últimos 6 meses pertenecientes a cada marca
+            ->withCount(['tickets' => function ($query) {
+                    $query->where('ticket_status_id', '<', 6)
+                            ->where("created_at",">", now()->subMonths(6));
+                }
+            ])->paginate();
 
             return response()->json([
                 'success' => true,

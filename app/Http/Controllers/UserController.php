@@ -283,4 +283,14 @@ class UserController extends Controller
             ? response()->json([ 'success' => true, 'msg' => 'Usuario ' . $status  . ' correctamente.'])
             : response()->json([ 'success' => true, 'msg' => 'No ha podido ser '. $status . ' correctamente']);
     }
+
+    // Usuarios agentes a los que se les asignarán las incidencias (Metemos también Admin)
+    public function get_all_agents()
+    {
+        $agents = User::role(['Agente','Admin'])->get()->toArray();
+
+        return response()->json([
+            'agents' => $agents,
+        ]);
+    }
 }

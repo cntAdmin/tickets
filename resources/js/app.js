@@ -48,6 +48,7 @@ Vue.use(FileManager, {
 Vue.component('App', require('./components/AppComponent').default);
 Vue.component('admin-sidebar', require('./components/AdminSidebar').default);
 Vue.component('agent-sidebar', require('./components/AgentSidebar').default);
+Vue.component('control-sidebar', require('./components/ControlSidebar').default);
 Vue.component('sidebar', require('./components/Sidebar').default);
 Vue.component('navbar', require('./components/Navbar').default);
 Vue.component('pagination', require('laravel-vue-pagination'));

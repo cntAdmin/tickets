@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-dismissable alert-danger text-center">
+    <div>
       <button type="button" class="close" @click="$emit('close')">
         <span>&times;</span>
       </button>

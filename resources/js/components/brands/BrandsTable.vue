@@ -2,42 +2,28 @@
   <div class="w-100">
     <div class="card shadow mt-3" v-if="brands.total > 0">
       <div class="card-body">
+        <p><strong class="font-weight-bold">*</strong> El total de incidencias contabilizadas pertenece a los últimos <strong class="font-weight-bold">6 MESES</strong></p>
         <table class="table table-hover table-striped table-sm shadow text-left">
           <thead class="thead-dark">
             <tr class="text-center text-uppercase">
-              <th scope="col">#</th>
               <th scope="col">Nombre</th>
               <th scope="col">Modelos</th>
-              <th scope="col">Fecha Creación</th>
+              <th scope="col">Incidencias</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              class="text-center"
-              v-for="brand in brands.data"
-              :key="brand.id"
-            >
-              <th scope="row">{{ brand.id }}</th>
-              <td class="text-left">{{ brand.name }}</td>
+            <tr class="text-center" v-for="brand in brands.data" :key="brand.id">
+              <td class="text-center">{{ brand.name }}</td>
               <td>{{ brand.models_count }}</td>
-              <td>{{ brand.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
+              <td>{{ brand.tickets_count }}</td>
               <td>
                 <div class="d-flex justify-content-center">
                   <div class="form-inline">
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-orange text-white"
-                      @click="$emit('edit', brand)"
-                    >
+                    <button type="button" class="btn btn-sm btn-orange text-white" @click="$emit('edit', brand)">
                       <i class="fa fa-edit"></i>
                     </button>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-danger ml-2"
-                      title="Eliminar Departamento"
-                      @click="openDeleteModal(brand)"
-                    >
+                    <button type="button" class="btn btn-sm btn-danger ml-2" title="Eliminar Departamento" @click="openDeleteModal(brand)">
                       <i class="fa fa-trash-alt"></i>
                     </button>
                   </div>
@@ -83,16 +69,13 @@ export default {
   methods: {
     getDeleted() {
       this.showModal = false;
-      axios
-        .delete(`/api/brand/${this.brand.id}`)
-        .then((res) => {
-          if (res.data.success) {
-            this.$emit("deleted", res.data.msg);
-          } else if (res.data.error) {
-            this.$emit("error", res.data.msg);
-          }
-        })
-        .catch((err) => console.log(err));
+      axios.delete(`/api/brand/${this.brand.id}`).then((res) => {
+        if (res.data.success) {
+          this.$emit("deleted", res.data.msg);
+        } else if (res.data.error) {
+          this.$emit("error", res.data.msg);
+        }
+      }).catch((err) => console.log(err));
     },
     openDeleteModal(brand) {
       this.showModal = true;

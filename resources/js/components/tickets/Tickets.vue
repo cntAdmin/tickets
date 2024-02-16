@@ -60,10 +60,6 @@
       @search="getTickets"
     />
 
-    <!-- <div
-      class="alert alert-dismissable alert-danger my-3"
-      v-if="deleted.status"
-    > -->
     <div class="alert alert-dismissable alert-success my-3" v-if="deleted.status">
       {{ deleted.msg }}
     </div>
@@ -167,14 +163,11 @@ export default {
       };
     },
     get_all_ticket_statuses() {
-      axios
-        .get("/api/get_all_ticket_statuses")
-        .then((res) => {
-          this.ticket_statuses = res.data.ticket_statuses;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.get("/api/get_all_ticket_statuses").then((res) => {
+        this.ticket_statuses = res.data.ticket_statuses;
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     hasBeenDeleted(data) {
       this.deleted.status = true;
@@ -185,71 +178,62 @@ export default {
       }, 1500);
     },
     getCount() {
-      axios
-        .get("/api/get_ticket_counters", {
-          params: {
-            ticket_id: this.searched ? this.searched.ticket_id : null,
-            brand_id: this.searched ? this.searched.brand_id : null,
-            car_model_id: this.searched ? this.searched.car_model_id : null,
-            user_name: this.searched ? this.searched.user_name : null,
-            customer_custom_id: this.searched
-              ? this.searched.customer_custom_id
-              : null,
-            customer_name: this.searched ? this.searched.customer_name : null,
-            department_id: this.searched ? this.searched.department_id : null,
-            status: this.searched ? this.searched.status : null,
-            date_from: this.searched ? this.searched.date_from : null,
-            date_to: this.searched ? this.searched.date_to : null,
-            knowledge_base: this.searched ? this.searched.knowledge_base : null,
-            answered: this.searched ? this.searched.answered : null,
-          },
-        })
-        .then((res) => {
-          this.total_count = res.data.total_count;
-          this.opened = res.data.opened;
-          this.closed = res.data.closed;
-          this.resolved = res.data.resolved;
-          this.newTickets = res.data.newTickets;
-          // this.$emit("getNewTickets");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.get("/api/get_ticket_counters", {params: {
+          ticket_id: this.searched ? this.searched.ticket_id : null,
+          brand_id: this.searched ? this.searched.brand_id : null,
+          car_model_id: this.searched ? this.searched.car_model_id : null,
+          assigned_to: this.searched ? this.searched.assigned_to : null,
+          user_name: this.searched ? this.searched.user_name : null,
+          customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+          customer_name: this.searched ? this.searched.customer_name : null,
+          plate: this.searched ? this.searched.plate : null,
+          department_id: this.searched ? this.searched.department_id : null,
+          status: this.searched ? this.searched.status : null,
+          date_from: this.searched ? this.searched.date_from : null,
+          date_to: this.searched ? this.searched.date_to : null,
+          knowledge_base: this.searched ? this.searched.knowledge_base : null,
+          answered: this.searched ? this.searched.answered : null,
+        },
+      }).then((res) => {
+        this.total_count = res.data.total_count;
+        this.opened = res.data.opened;
+        this.closed = res.data.closed;
+        this.resolved = res.data.resolved;
+        this.newTickets = res.data.newTickets;
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     getTickets(data) {
       document.querySelector("div#finder").classList.remove("show");
       this.closeAll();
       this.searching = true;
       this.searched = data ? data : this.searched;
-      // this.getCount();
 
-      axios
-        .get("/api/ticket", {
-          params: {
-            page: this.searched ? this.searched.page : null,
-            brand_id: this.searched ? this.searched.brand_id : null,
-            car_model_id: this.searched ? this.searched.car_model_id : null,
-            ticket_id: this.searched ? this.searched.ticket_id : null,
-            user_name: this.searched ? this.searched.user_name : null,
-            customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
-            customer_name: this.searched ? this.searched.customer_name : null,
-            department_id: this.searched ? this.searched.department_id : null,
-            status: this.searched ? this.searched.status : null,
-            date_from: this.searched ? this.searched.date_from : null,
-            date_to: this.searched ? this.searched.date_to : null,
-            knowledge_base: this.searched ? this.searched.knowledge_base : null,
-            answered: this.searched ? this.searched.answered : null,
-          },
-        })
-        .then((res) => {
-          // console.log(res.data)
-          this.tickets = res.data.tickets;
-          this.getCount();
-          this.searching = false;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.get("/api/ticket", {params: {
+          page: this.searched ? this.searched.page : null,
+          agent_id: this.searched ? this.searched.agent_id : null,
+          brand_id: this.searched ? this.searched.brand_id : null,
+          car_model_id: this.searched ? this.searched.car_model_id : null,
+          ticket_id: this.searched ? this.searched.ticket_id : null,
+          user_name: this.searched ? this.searched.user_name : null,
+          customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
+          customer_name: this.searched ? this.searched.customer_name : null,
+          plate: this.searched ? this.searched.plate : null,
+          department_id: this.searched ? this.searched.department_id : null,
+          status: this.searched ? this.searched.status : null,
+          date_from: this.searched ? this.searched.date_from : null,
+          date_to: this.searched ? this.searched.date_to : null,
+          knowledge_base: this.searched ? this.searched.knowledge_base : null,
+          answered: this.searched ? this.searched.answered : null,
+        },
+      }).then((res) => {
+        this.tickets = res.data.tickets;
+        this.getCount();
+        this.searching = false;
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     closeAll() {
       this.deleted.status = false;
@@ -259,11 +243,11 @@ export default {
 };
 </script>
 <style lang="css">
-.fade-enter-active,
-.fade-edit-form-leave-active {
-  transition: opacity 1s;
-}
-.fade-edit-form-enter, .fade-edit-form-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+  .fade-enter-active,
+  .fade-edit-form-leave-active {
+    transition: opacity 1s;
+  }
+  .fade-edit-form-enter, .fade-edit-form-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
 </style>

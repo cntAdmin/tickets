@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="collapse" id="tickets_sidebar">
-                            <a class="btn btn-toolbar btn-block mt-2" href="{{ route('ticket.index') }}">
+                            {{-- <a class="btn btn-toolbar btn-block mt-2" href="{{ route('ticket.index') }}">
                                 - <span class="ml-2">{{ __('Todos los Tickets') }}</span>
                             </a>
                             <a class="btn btn-toolbar btn-block" href="{{ route('ticket.index', ['status' => 1]) }}">
@@ -34,7 +34,7 @@
                             </a>
                             <a class="btn btn-toolbar btn-block" href="{{ route('ticket.index', ['status' => 3]) }}">
                                 - <span class="ml-2">{{ __('Tickets Resueltos') }}</span>
-                            </a>
+                            </a> --}}
                         </div>
                     </li>
                     {{-- APARTADO DEPARTAMENTOS --}}

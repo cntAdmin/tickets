@@ -19,6 +19,13 @@
           </div>
           <!-- <div class="dropdown-divider border-dark"></div> -->
           
+          <!-- DASHBOARD  -->
+          <li class="nav-item shadow-sm mt-2">
+            <router-link id="calls" class="text-decoration-none nav-link" :to="{ name: 'dashboard.index' }">
+              <h5 class="text-dark font-weight-bold text-uppercase m-3">Dashboard</h5>
+            </router-link>
+          </li>
+
           <!-- ADMINISTRACIÓN -->
           <li class="nav-item w-100">
             <div
@@ -29,9 +36,7 @@
               aria-controls="admin"
             >
               <div class="mr-auto">
-                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
-                  Administración
-                </h5>
+                <h5 class="text-dark font-weight-bold text-uppercase m-3">Administración</h5>
               </div>
               <div class="ml-auto">
                 <span
@@ -101,9 +106,7 @@
               data-parent="sidebar_navbar"
             >
               <div class="mr-auto">
-                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
-                  Incidencias
-                </h5>
+                <h5 class="text-dark font-weight-bold text-uppercase m-3">Incidencias</h5>
               </div>
               <div class="ml-auto">
                 <span
@@ -135,21 +138,19 @@
           
 
           <!-- LLAMADAS  -->
-          <li class="nav-item shadow-sm mt-2">
+          <!-- <li class="nav-item shadow-sm mt-2">
             <router-link id="calls" class="text-decoration-none nav-link" :to="{ name: 'call.index' }">
               <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
                 Llamadas
               </h5>
             </router-link>
-          </li>
+          </li> -->
 
 
           <!-- BLOG  -->
           <li class="nav-item shadow-sm mt-2">
             <router-link id="blog" class="text-decoration-none nav-link" :to="{ name: 'users-blog.index' }">
-              <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
-                Blog
-              </h5>
+              <h5 class="text-dark font-weight-bold text-uppercase m-3">Blog</h5>
             </router-link>
           </li>
 
@@ -158,7 +159,7 @@
           <li class="nav-item mt-2">
             <div class="shadow-sm">
               <router-link id="faqs" class="d-flex align-items-center shadow-sm w-100 text-decoration-none" :to="{ name: 'faqs.index' }">
-                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm text-dark">
+                <h5 class="text-dark font-weight-bold text-uppercase m-3">
                   Glosario de Incidencias
                 </h5>
               </router-link>
@@ -169,13 +170,11 @@
           <!-- MEDIA  -->
           <li class="nav-item shadow-sm mt-2">
             <router-link id="file_manager" class="text-decoration-none nav-link" :to="{ name: 'file_manager.index' }">
-              <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
-                Media
-              </h5>
+              <h5 class="text-dark font-weight-bold text-uppercase m-3">Media</h5>
             </router-link>
           </li>
-          <!-- <div class="dropdown-divider border-dark"></div> -->
 
+          <!-- MI PERFIL -->
           <li class="nav-item w-100">
             <div
               class="d-flex align-items-center shadow-sm w-100 collapsed"
@@ -185,9 +184,7 @@
               aria-controls="user_info"
             >
               <div class="mr-auto">
-                <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
-                  Mi Perfil
-                </h5>
+                <h5 class="text-dark font-weight-bold text-uppercase m-3">Mi Perfil</h5>
               </div>
               <div class="ml-auto">
                 <span

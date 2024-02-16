@@ -5,43 +5,37 @@
         <table class="table table-hover table-striped table-sm shadow text-left">
           <thead class="thead-dark">
             <tr>
-              <th class="text-center" scope="col"># Incidencia</th>
-              <th scope="col">Cliente</th>
-              <th scope="col">Marca</th>
-              <th scope="col">Asunto</th>
-              <th class="text-center" scope="col">Fecha</th>
-              <th class="text-center" scope="col">Estado</th>
-              <th class="text-center" scope="col">Acciones</th>
+              <th class="text-center"># Incidencia</th>
+              <th class="text-left">Cliente</th>
+              <th class="text-left" v-if="user_role != 7">Marca</th>
+              <th class="text-left">Asunto</th>
+              <th class="text-left">Fecha</th>
+              <th class="text-left" v-if="user_role == 7">Respuesta</th>
+              <th class="text-left">Estado</th>
+              <th class="text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr 
-              :class="ticket.status.id == 1 ? 'bg-danger text-white' : ''
+            <tr :class="ticket.status.id == 1 ? 'bg-new-ticket text-white' : ticket.status.id == 6 ? 'bg-info text-dark' : ''
                       + user_role <= 4 && ticket.answered == false ? 'font-weight-bold' : ''
                       + user_role > 4 && ticket.answered == true ? 'font-weight-bold' : ''"
               v-for="ticket in tickets.data"
               :key="ticket.id"
             >
-              <th class="text-center" scope="row">
-                <router-link
-                  :to="{ name: 'ticket.show', params: { ticketID: ticket.id } }"
-                  :class="
-                    ticket.status.id == 1
-                      ? 'text-white'
-                      : '' + ' btn btn-link btn-sm text-uppercase'
-                  "
+              <th class="text-center">
+                <router-link :to="{ name: 'ticket.show', params: { ticketID: ticket.id } }"
+                  :class="ticket.status.id == 1 ? 'text-white' : ticket.status.id == 6 ? 'text-dark' : '' + ' btn btn-link btn-sm text-uppercase'"
                 >
                   {{ ticket.custom_id }}
                 </router-link>
               </th>
               <td>{{ ticket.customer ? ticket.customer.comercial_name : '' }}</td>
-              <td>{{ ticket.brand ? ticket.brand.name : ticket.other_brand_model }}</td>
+              <td v-if="user_role != 7">{{ ticket.brand ? ticket.brand.name : ticket.other_brand_model }}</td>
               <td>{{ ticket.subject_short }}...</td>
-              <td class="text-center">
-                {{ ticket.updated_at | moment("DD-MM-YYYY HH:mm:ss") }}
-              </td>
+              <td class="text-left">{{ ticket.updated_at | moment("DD/MM/YY - HH:mm") }}</td>
+              <td class="text-left" v-if="user_role == 7">{{ getResolutionTime(ticket) }}</td>
               <td>
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-start">
                   <div class="form-inline">
                     <button
                       :class="'btn btn-sm btn-' + setColor(ticket.status.id)"
@@ -51,13 +45,7 @@
                     >
                       <i :class="'fa fa-' + setIcon(ticket.status.id)"></i>
                     </button>
-                    <span class="btn btn-sm btn-link ml-2">
-                      <i class="text-info fas fa-headset"></i
-                      ><span class="badge badge-dark ml-2">{{
-                        ticket.calls_count
-                      }}</span>
-                    </span>
-                    <span class="btn btn-sm btn-link ml-2">
+                    <span class="btn btn-sm btn-link ml-2" v-if="user_role != 7">
                       <i class="text-secondary fas fa-paperclip"></i
                       ><span class="badge badge-dark ml-2">
                         {{
@@ -66,50 +54,39 @@
                         }}
                       </span>
                     </span>
+                    <span class="ml-2" v-if="ticket.assigned_to != null">
+                      <button :title="ticket.assigned_to.name" type="button" disabled="disabled" class="text-uppercase badge badge-secondary">
+                        {{ getAssignedToName(ticket.assigned_to.name) }}
+                      </button>
+                    </span>
+                    <span v-else>
+                      
+                    </span>
                   </div>
                 </div>
               </td>
               <td>
                 <div class="d-flex justify-content-center">
-                  <router-link
-                    :to="{
-                      name: 'ticket.show',
-                      params: { ticketID: ticket.id },
-                    }"
-                    class="btn btn-sm btn-success mx-1"
-                  >
+                  <router-link :to="{name: 'ticket.show',params: { ticketID: ticket.id },}" class="btn btn-sm btn-success mr-2">
                     <i class="fa fa-eye"></i>
                   </router-link>
-                  <!-- SI ESTADO ES ABIERTO -->
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-sm btn-orange dropdown-toggle mx-1"
-                      type="button"
-                      id="statuses"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="fa fa-exchange-alt"></i>
+                  <div class="btn-group dropleft" v-if="user_role != 7">
+                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa fa-bars"></i>
                     </button>
-                    <div
-                      class="dropdown-menu dropdown-menu-right"
-                      aria-labelledby="statuses"
-                    >
-                      <div v-for="status in ticket_statuses" :key="status.id">
-                        <button
-                          type="button"
-                          class="dropdown-item"
-                          @click.prevent="setStatus(ticket, status.id)"
-                        >
-                          {{ status.name }}
-                        </button>
-                      </div>
+                    <div class="dropdown-menu">
                       <button
-                        v-if="ticket.status.id == 1"
+                        v-for="status in ticket_statuses" :key="status.id"
                         type="button"
-                        title="Cambiar estado"
-                        class="dropdown-item"
+                        class="dropdown-item" 
+                        @click.prevent="setStatus(ticket, status.id)"
+                      >
+                        {{ status.name }}
+                      </button>
+                      <button
+                        v-if="ticket.status.id == 1 || user_role == 1"
+                        type="button" 
+                        class="dropdown-item bg-danger text-white" 
                         @click="openDeleteModal(ticket)"
                       >
                         Borrar Ticket
@@ -147,6 +124,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   props: ["tickets", "searched", "ticket_statuses", "user_role"],
   data() {
@@ -157,33 +136,26 @@ export default {
   },
   methods: {
     getDeleted() {
-      axios
-        .delete("/api/ticket/" + this.ticket.id)
-        .then((res) => {
-          if (res.data.success) {
-            this.$emit("close");
-            this.$emit("deleted", res.data.msg);
-          }
-        })
-        .catch((err) => {});
+      axios.delete("/api/ticket/" + this.ticket.id).then((res) => {
+        if (res.data.success) {
+          this.$emit("close");
+          this.$emit("deleted", res.data.msg);
+        }
+      }).catch((err) => {});
     },
     openDeleteModal(ticket) {
       this.showModal = true;
       this.ticket = ticket;
     },
     setStatus(ticket, id) {
-      axios
-        .get("/api/ticket/" + ticket.id + "/status/" + id)
-        .then((res) => {
-          this.emit_pagination(1);
-          this.$emit("getCounters");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.get("/api/ticket/" + ticket.id + "/status/" + id).then((res) => {
+        this.emit_pagination(1);
+        this.$emit("getCounters");
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     setIcon(status_id) {
-      // console.log(status_id);
       switch (status_id) {
         case 2:
           return (status_id = "envelope-open");
@@ -194,7 +166,12 @@ export default {
         case 4:
           return (status_id = "check-circle");
           break;
-
+        case 5:
+          return (status_id = "circle");
+          break;
+        case 6:
+          return (status_id = "info-circle");
+          break;
         default:
           return (status_id = "clipboard-list");
           break;
@@ -202,18 +179,23 @@ export default {
       return status_id;
     },
     setColor(status_id) {
-      // console.log(status_id);
       switch (status_id) {
         case 2:
           return (status_id = "secondary");
           break;
         case 3:
-          return (status_id = "info text-white");
+          // return (status_id = "info text-white");
+          return (status_id = "danger");
           break;
         case 4:
           return (status_id = "success");
           break;
-
+        case 5:
+          return (status_id = "dark");
+          break;
+        case 6:
+          return (status_id = "light text-dark");
+          break;
         default:
           return (status_id = "dark");
           break;
@@ -222,6 +204,23 @@ export default {
     emit_pagination(page) {
       this.searched.page = page;
       this.$emit("page", this.searched);
+    },
+    getAssignedToName(text) {
+      return text.substring(0, 2);
+    },
+    getResolutionTime(ticket) {
+
+      if(ticket.ticket_status_id == 4){
+        return this.toHoursAndMinutes(ticket.resolution_time);
+      }
+      else{
+        return '';
+      }
+    },
+    toHoursAndMinutes(totalMinutes) {
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = Math.round(totalMinutes % 60);
+      return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
     },
   },
 };

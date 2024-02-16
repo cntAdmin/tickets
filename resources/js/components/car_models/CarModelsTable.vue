@@ -76,16 +76,13 @@ export default {
   },
   methods: {
     getDeleted() {
-      axios
-        .delete(`/api/car-model/${this.carModel.id}`)
-        .then((res) => {
-          if (res.data.success) {
-            this.$emit("deleted", res.data.msg);
-          } else if (res.data.error) {
-            this.$emit("error", res.data.msg);
-          }
-        })
-        .catch((err) => console.log(err));
+      axios.delete(`/api/car-model/${this.carModel.id}`).then((res) => {
+        if (res.data.success) {
+          this.$emit("deleted", res.data.msg);
+        } else if (res.data.error) {
+          this.$emit("error", res.data.msg);
+        }
+      }).catch((err) => console.log(err));
     },
     openDeleteModal(carModel) {
       this.showModal = true;

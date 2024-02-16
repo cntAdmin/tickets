@@ -72,12 +72,7 @@
       ></user-new>
     </transition>
     <transition name="fade" v-else-if="is_edit" mode="out-in">
-      <user-edit
-        :user="user"
-        @close="closeAll()"
-        @updated="succeeded"
-        @error="showErrors"
-      ></user-edit>
+      <user-edit :user="user" @close="closeAll()" @updated="succeeded" @error="showErrors"></user-edit>
     </transition>
     <transition name="fade" v-else-if="searching" mode="out-in">
       <div class="row justify-content-center mt-5">
@@ -89,12 +84,12 @@
       <div v-if="users.total > 0">
         <div class="d-none d-xl-block">
           <exports
-          toExport="users"
-          :searched="searched"
-          :total="users.total"
-          @error="showErrors"
-          @close="closeAll"
-            ></exports>
+            toExport="users"
+            :searched="searched"
+            :total="users.total"
+            @error="showErrors"
+            @close="closeAll"
+          ></exports>
         </div>
 
         <users-table

@@ -30,7 +30,7 @@
                 data-parent="sidebar_navbar"
               >
                 <div class="mr-auto">
-                  <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
+                  <h5 class="font-weight-bold text-uppercase m-3">
                     Incidencias
                   </h5>
                 </div>
@@ -65,9 +65,7 @@
             <!-- BLOG  -->
             <li class="nav-item shadow-sm mt-2">
               <router-link id="blog" class="text-decoration-none nav-link" :to="{ name: 'users-blog.index' }">
-                <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
-                  Blog
-                </h5>
+                <h5 class="text-dark font-weight-bold text-uppercase m-3">Blog</h5>
               </router-link>
             </li>
   
@@ -75,9 +73,7 @@
             <li class="nav-item mt-2">
               <div class="shadow-sm">
                 <router-link id="faqs" class="d-flex align-items-center shadow-sm w-100 text-decoration-none" :to="{ name: 'faqs.index' }">
-                  <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm text-dark">
-                    Glosario de Incidencias
-                  </h5>
+                  <h5 class="font-weight-bold text-uppercase m-3 text-dark">Glosario de Incidencias</h5>
                 </router-link>
               </div>
             </li>
@@ -85,9 +81,7 @@
             <!-- MEDIA  -->
             <li class="nav-item shadow-sm mt-2">
               <router-link id="file_manager" class="text-decoration-none nav-link" :to="{ name: 'file_manager.index' }">
-                <h5 class="text-dark font-weight-bold text-uppercase mx-3 text-shadow-light-sm">
-                  Media
-                </h5>
+                <h5 class="text-dark font-weight-bold text-uppercase m-3">Media</h5>
               </router-link>
             </li>
 
@@ -101,7 +95,7 @@
                 aria-controls="user_info"
               >
                 <div class="mr-auto">
-                  <h5 class="font-weight-bold text-uppercase m-3 text-shadow-light-sm">
+                  <h5 class="font-weight-bold text-uppercase m-3">
                     Mi Perfil
                   </h5>
                 </div>
@@ -172,7 +166,6 @@
         });
       },
       getAnswered() {
-        // axios.get("/api/get_answered").then((res) => {
         axios.get("/api/get_nuevos_tickets").then((res) => {
           this.answered = res.data.answered;
         });

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\CloseTickets;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->job(new CloseTickets)->dailyAt('00:00');     // Cerrar tickets que llevan 7 días sin actividad
     }
 
     /**
