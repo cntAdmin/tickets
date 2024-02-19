@@ -1,8 +1,7 @@
 <template>
   <form @submit.prevent="handleSubmit">
     <div class="d-flex flex-wrap justify-content-center">
-      <div :class="'mt-2 ' + size" v-if="is_admin">
-        <label class="sr-only" for="dateFrom">Rol</label>
+      <div class="col-12 col-md-6 mt-2" v-if="is_admin">
         <div class="input-group w-100">
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Rol</div>
@@ -20,21 +19,13 @@
           </select>
         </div>
       </div>
-      <div :class="'mt-2 ' + size" v-if="is_admin">
-        <label class="sr-only" for="dateFrom">Cliente</label>
+      <div class="col-12 col-md-6 mt-2" v-if="is_admin">
         <div class="input-group w-100">
           <div class="input-group-prepend">
-            <div
-              class="input-group-text text-uppercase d-none d-lg-inline py-1"
-            >
-              Cliente
-            </div>
-            <div class="input-group-text text-uppercase d-lg-none d-inline">
-              <i class="fa fa-user-tie"></i>
-            </div>
+            <div class="input-group-text text-uppercase">Cliente</div>
           </div>
           <vue-select
-            class="col-9 px-0 w-100"
+            class="col-8 px-0 w-100"
             transition="vs__fade"
             :options="customers"
             label="comercial_name"
@@ -52,17 +43,14 @@
           </vue-select>
         </div>
       </div>
-      <div :class="'mt-2 ' + size" v-else-if="!is_admin && user.roles[0].id <= 4">
-        <label class="sr-only" for="dateFrom">Departamento</label>
+      <div class="col-12 col-md-6 mt-2" v-else-if="!is_admin && user.roles[0].id <= 4">
         <div class="input-group w-100">
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Departamento</div>
           </div>
-          <select
+          <select 
             v-model="user.department_id"
-            :class="
-              [error.errors.department_id ? 'is-invalid' : ''] + ' form-control'
-            "
+            :class="[error.errors.department_id ? 'is-invalid' : ''] + ' form-control'"
           >
             <option value="" disabled>Seleccione un Departamento</option>
             <option
@@ -76,8 +64,7 @@
           </select>
         </div>
       </div>
-      <div :class="'mt-2 ' + size">
-        <label class="sr-only" for="dateFrom">Nombre</label>
+      <div class="col-12 col-md-6 mt-2">
         <div class="input-group w-100">
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Nombre</div>
@@ -89,8 +76,7 @@
           />
         </div>
       </div>
-      <div :class="'mt-2 ' + size">
-        <label class="sr-only" for="dateFrom">Apellidos</label>
+      <div class="col-12 col-md-6 mt-2">
         <div class="input-group w-100">
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Apellidos</div>
@@ -98,57 +84,35 @@
           <input
             type="text"
             v-model="user.surname"
-            :class="
-              [error.errors.surname ? 'is-invalid' : ''] + ' form-control'
-            "
+            :class="[error.errors.surname ? 'is-invalid' : ''] + ' form-control'"
           />
         </div>
       </div>
-      <div :class="'mt-2 ' + size">
-        <label class="sr-only" for="dateFrom">Nombre de Usuario</label>
+      <div class="col-12 col-md-6 mt-2">
         <div class="input-group w-100">
           <div class="input-group-prepend">
-            <div class="input-group-text text-uppercase d-none d-lg-inline">
-              Nombre de Usuario
-            </div>
-            <div class="input-group-text text-uppercase d-lg-none d-inline">
-              <i class="fa fa-user-tag"></i>
-            </div>
+            <div class="input-group-text text-uppercase">Nombre de Usuario</div>
           </div>
           <input
             type="text"
             v-model="user.username"
-            :class="
-              [error.errors.username ? 'is-invalid' : ''] + ' form-control'
-            "
+            :class="[error.errors.username ? 'is-invalid' : ''] + ' form-control'"
             required
           />
         </div>
       </div>
-      <div :class="'mt-2 ' + size">
-        <label class="sr-only" for="dateFrom">Teléfono</label>
+      <div class="col-12 col-md-6 mt-2">
         <div class="input-group w-100">
           <div class="input-group-prepend">
-            <div class="input-group-text text-uppercase d-none d-lg-inline">
-              Teléfono
-            </div>
-            <div class="input-group-text text-uppercase d-lg-none d-inline">
-              <i class="fa fa-phone"></i>
-            </div>
+            <div class="input-group-text text-uppercase">Teléfono</div>
           </div>
           <input type="text" v-model="user.phone" class="form-control" />
         </div>
       </div>
-      <div :class="'mt-2 ' + size">
-        <label class="sr-only" for="dateFrom">Email</label>
+      <div class="col-12 col-md-6 mt-2">
         <div class="input-group w-100">
           <div class="input-group-prepend">
-            <div class="input-group-text text-uppercase d-none d-lg-inline">
-              Email
-            </div>
-            <div class="input-group-text text-uppercase d-lg-none d-inline">
-              <i class="fa fa-at"></i>
-            </div>
+            <div class="input-group-text text-uppercase">Email</div>
           </div>
           <input
             type="email"
@@ -157,52 +121,33 @@
           />
         </div>
       </div>
-      <div :class="'mt-2 ' + size">
-        <label class="sr-only" for="dateFrom">Contraseña</label>
+      <div class="col-12 col-md-6 mt-2">
         <div class="input-group w-100">
           <div class="input-group-prepend">
-            <div class="input-group-text text-uppercase d-none d-lg-inline">
-              Contraseña
-            </div>
-            <div class="input-group-text text-uppercase d-lg-none d-inline">
-              <i class="fa fa-unlock-alt"></i>
-            </div>
+            <div class="input-group-text text-uppercase">Contraseña</div>
           </div>
           <input
             type="password"
             v-model="user.password"
-            :class="
-              [error.errors.password ? 'is-invalid' : ''] + ' form-control'
-            "
+            :class="[error.errors.password ? 'is-invalid' : ''] + ' form-control'"
           />
         </div>
       </div>
-      <div :class="'mt-2 ' + size">
-        <label class="sr-only" for="dateFrom">Rep. Contraseña</label>
+      <div class="col-12 col-md-6 mt-2">
         <div class="input-group w-100">
           <div class="input-group-prepend">
-            <div class="input-group-text text-uppercase d-none d-lg-inline">
-              Rep. Contraseña
-            </div>
-            <div class="input-group-text text-uppercase d-lg-none d-inline">
-              <i class="fa fa-unlock-alt"></i><sup>2</sup>
-            </div>
+            <div class="input-group-text text-uppercase">Rep. Contraseña</div>
           </div>
           <input
             type="password"
             v-model="user.password_confirmation"
-            :class="
-              [error.errors.password_confirmation ? 'is-invalid' : ''] +
-              ' form-control'
-            "
+            :class="[error.errors.password_confirmation ? 'is-invalid' : ''] +' form-control'"
           />
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center mt-3">
-      <button
-        class="btn btn-sm btn-block btn-orange text-white text-uppercase font-weight-bold"
-      >
+    <div class="d-flex flex-wrap justify-content-center mt-3">
+      <button class="btn btn-sm btn-block btn-orange text-white text-uppercase font-weight-bold">
         Guardar Usuario
       </button>
     </div>
@@ -219,7 +164,7 @@ export default {
       departments: [],
       size: "",
       is_admin: false,
-      admin_roles: [ 1, 2, 3, 4]
+      admin_roles: [ 1, 2]
     };
   },
   mounted() {

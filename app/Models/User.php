@@ -19,20 +19,10 @@ class User extends Authenticatable
     use HasRoles;
     use SendsPasswordResetEmails;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'surname', 'username', 'phone', 'email', 'password', 'email_verified_at', 'remember_token', 'is_active'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -41,11 +31,6 @@ class User extends Authenticatable
         'customer', 'roles'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -117,6 +102,6 @@ class User extends Authenticatable
 
     public function assigned_to(): HasOne
     {
-        return $this->hasOne(\App\Models\Ticket::class, 'assigned_to', 'id');
+        return $this->hasOne(\App\Models\Ticket::class, 'assigned_to_id', 'id');
     }
 }

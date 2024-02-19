@@ -22,7 +22,7 @@
             <!-- DASHBOARD  -->
             <li class="nav-item shadow-sm mt-2">
               <router-link id="calls" class="text-decoration-none nav-link" :to="{ name: 'dashboard.index' }">
-                <h5 class="text-dark font-weight-bold text-uppercase m-3">Dashboard</h5>
+                <h5 class="text-dark font-weight-bold text-uppercase my-1 ml-3">Dashboard</h5>
               </router-link>
             </li>
     

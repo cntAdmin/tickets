@@ -18,16 +18,23 @@ class TestController extends Controller
 
     public function tests()
     {
-        $tickets = Ticket::where('id',1517)->get();
+        // $tickets = Ticket::where('id',1517)->get();
         
-        foreach ($tickets as $ticket) {
-            $created_at = Carbon::parse($ticket->created_at);
-            $diff_in_minutes = $created_at->diffInMinutes(Carbon::now());
+        // foreach ($tickets as $ticket) {
+        //     $created_at = Carbon::parse($ticket->created_at);
+        //     $diff_in_minutes = $created_at->diffInMinutes(Carbon::now());
 
-            $human_format = CarbonInterval::minutes($diff_in_minutes)->cascade()->forHumans();
-            dd($diff_in_minutes, $human_format);
+        //     $human_format = CarbonInterval::minutes($diff_in_minutes)->cascade()->forHumans();
+        //     dd($diff_in_minutes, $human_format);
 
-        }
+        // }
+
+        $agents = User::role(['Agente','Admin'])
+            ->where('id','!=', 126)
+            ->where('id','!=', 565)
+            ->get()->toArray();
+        
+            dd($agents);
 
         // $field_name = '';
         // $brands = Brand::when($field_name, function(Builder $q, $name) {

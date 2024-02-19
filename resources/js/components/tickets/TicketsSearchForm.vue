@@ -52,13 +52,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Matrícula</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="selected.plate"
-                  minlength="3"
-                  class="form-control"
-                  title="Minimo 3 caracteres"
-                />
+                <input type="text" v-model="selected.plate" class="form-control"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">

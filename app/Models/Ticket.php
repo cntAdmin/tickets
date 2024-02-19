@@ -20,7 +20,7 @@ class Ticket extends Model
     
     protected $fillable = [
         'custom_id', 'frame_id', 'plate', 'brand', 'model', 'subject', 'description', 'tests_done', 'ask_for_id', 'knowledge_base',
-        'engine_type', 'other_brand_model', 'assigned_to', 'resolution_time',
+        'engine_type', 'other_brand_model', 'assigned_to_id', 'resolution_time',
         // IF TRUE => ADMIN HAS ANSWERED
         'answered',
         // FOREIGN KEYS
@@ -99,18 +99,14 @@ class Ticket extends Model
 
     public function assigned_to(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'assigned_to', 'id');
+        return $this->belongsTo(\App\Models\User::class, 'assigned_to_id', 'id');
     }
 
     public function ask_for(): HasOne
     {
         return $this->hasOne(\App\Models\AskFors::class, 'id', 'ask_for_id');
     }
-    /**
-     * Get all of the comment_attachments for the Comment
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
+
     public function comment_attachments(): HasManyThrough
     {
         return $this->hasManyThrough(Attachable::class, Comment::class, 'ticket_id', 'attachable_id', 'id', 'id')
@@ -183,7 +179,7 @@ class Ticket extends Model
         })->when(request()->input('date_to'), function (Builder $q, $date_to) {
             $q->whereDate('tickets.updated_at', '<=', $date_to);
         })->when(request()->input('agent_id'), function (Builder $q, $agent_id) {
-            $q->where('assigned_to', $agent_id);
+            $q->where('assigned_to_id', $agent_id);
         })->when(request()->input('knowledge_base'), function (Builder $q, $knowledge_base) {
             switch ($knowledge_base) {
                 case '1':
@@ -246,10 +242,6 @@ class Ticket extends Model
 
     public static function getLastID()
     {
-        // if(Ticket::first() == null) {
-        //     return 1;
-        // }
-
         $last_custom_id = Ticket::withoutGlobalScope(RoleTicketFilterScope::class)->withTrashed()->latest('id')->first()->custom_id;
         // SEPARA CUSTOM_ID POR GUION
         $array_custom_id = explode('-', $last_custom_id);

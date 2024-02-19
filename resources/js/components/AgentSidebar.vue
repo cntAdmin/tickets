@@ -30,7 +30,7 @@
                 data-parent="sidebar_navbar"
               >
                 <div class="mr-auto">
-                  <h5 class="font-weight-bold text-uppercase m-3">
+                  <h5 class="text-dark font-weight-bold text-uppercase ml-3">
                     Incidencias
                   </h5>
                 </div>
@@ -65,17 +65,17 @@
             <!-- BLOG  -->
             <li class="nav-item shadow-sm mt-2">
               <router-link id="blog" class="text-decoration-none nav-link" :to="{ name: 'users-blog.index' }">
-                <h5 class="text-dark font-weight-bold text-uppercase m-3">Blog</h5>
+                <h5 class="text-dark font-weight-bold text-uppercase my-1 ml-3">Blog</h5>
               </router-link>
             </li>
   
             <!-- GLOSARIO DE INCIDENCIAS  -->
             <li class="nav-item mt-2">
-              <div class="shadow-sm">
-                <router-link id="faqs" class="d-flex align-items-center shadow-sm w-100 text-decoration-none" :to="{ name: 'faqs.index' }">
-                  <h5 class="font-weight-bold text-uppercase m-3 text-dark">Glosario de Incidencias</h5>
+              <!-- <div class="shadow-sm"> -->
+                <router-link id="faqs" class="text-decoration-none nav-link" :to="{ name: 'faqs.index' }">
+                  <h5 class="font-weight-bold text-uppercase text-dark my-1 ml-3">Glosario de Incidencias</h5>
                 </router-link>
-              </div>
+              <!-- </div> -->
             </li>
   
             <!-- MEDIA  -->

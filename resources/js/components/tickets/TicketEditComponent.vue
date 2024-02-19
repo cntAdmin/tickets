@@ -39,9 +39,7 @@
             <div class="form-group col-12 col-md-6 col-lg-4">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase py-1">
-                    Cliente
-                  </div>
+                  <div class="input-group-text text-uppercase py-1">Cliente</div>
                 </div>
                 <input class="form-control" type="text" v-model="ticket.customer.comercial_name" disabled/>
               </div>
@@ -142,12 +140,6 @@
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 order-0 order-lg-0 mt-2">
-              <!-- <div class="input-group w-100">
-                <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Solicito</div>
-                </div>
-                <input class="form-control" type="text" v-model="ticket.ask_for"/>
-              </div> -->
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Solicito</div>
@@ -189,7 +181,7 @@
                   label="name"
                   itemid="id"
                   @input="setAgent"
-                  :value="ticket.assigned_to.name"
+                  v-model="ticket.assigned_to.name"
                 >
                   <div slot="no-options">No hay opciones con esta busqueda</div>
                   <template slot="option" slot-scope="option">
@@ -374,7 +366,7 @@ export default {
       this.ticket.car_model_id = value ? value.id : null;
     },
     setAgent(value) {
-      this.ticket.assigned_to = value ? value.id : null;
+      this.ticket.assigned_to_id = value ? value.id : null;
     },
     setAskFor(value) {
       this.ticket.ask_for_id = value ? value.id : null;
@@ -506,17 +498,14 @@ export default {
       if (this.ticket.car_model_id !== null) {
         formData.append("model_id", this.ticket.car_model_id);
       }
-      // if (this.$refs.tests_done.ej2Instances.value !== null) {
-      //   formData.append("tests_done", this.$refs.tests_done.ej2Instances.value);
-      // }
       if (this.ticket.other_brand_model !== null) {
         formData.append("other_brand_model", this.ticket.other_brand_model);
       }
       if (this.ticket.engine_type !== null) {
         formData.append("engine_type", this.ticket.engine_type);
       }
-      if (this.ticket.assigned_to !== null) {
-        formData.append("assigned_to", this.ticket.assigned_to.id);
+      if (this.ticket.assigned_to_id !== null) {
+        formData.append("assigned_to_id", this.ticket.assigned_to_id);
       }
       if (this.ticket.ask_for_id !== null) {
         formData.append("ask_for_id", this.ticket.ask_for_id);
@@ -524,6 +513,12 @@ export default {
       // if (this.ticket.calls !== null) {
       //   formData.append("calls", this.ticket.calls);
       // }
+      if (this.$refs.description.ej2Instances.value !== null) {
+        formData.append("description", this.$refs.description.ej2Instances.value);
+      }
+      else{
+        formData.append("description", '');
+      }
 
       // console.log("   --> handleSubmit() ");
       // console.log("   --> this.ticket.customer_id: ",this.ticket.customer_id);
@@ -536,7 +531,7 @@ export default {
       // console.log("   --> this.ticket.other_brand_model: ",this.ticket.other_brand_model);
       // console.log("   --> this.ticket.ask_for: ",this.ticket.ask_for);
       // console.log("   --> this.ticket.subject: ",this.ticket.subject);
-      // console.log("   --> this.ticket.assigned_to: ",this.ticket.assigned_to.id);
+      // console.log("   --> this.ticket.assigned_to_id: ",this.ticket.assigned_to_id);
       // console.log("   --> this.ticket.ask_for_id: ",this.ticket.ask_for_id);
       // console.log("   --> this.$refs.description.ej2Instances.value: ",this.$refs.description.ej2Instances.value);
       // console.log("   --> this.$refs.tests_done.ej2Instances.value: ",this.$refs.tests_done.ej2Instances.value);
@@ -545,7 +540,6 @@ export default {
       formData.append("customer_id", this.ticket.customer_id);
       formData.append("user_id", this.ticket.user_id);
       formData.append("department_id", this.ticket.department_id);
-      // formData.append("engine_type", this.ticket.engine_type);
       formData.append("ask_for", this.ticket.ask_for);
       formData.append("subject", this.ticket.subject);
       formData.append("description", this.$refs.description.ej2Instances.value);

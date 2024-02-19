@@ -16,7 +16,7 @@
         size="3"
       />
       <card-counter
-        title="Cerradas"
+        title="Canceladas"
         color="info"
         :count="closed"
         icon="times-circle"
@@ -182,7 +182,7 @@ export default {
           ticket_id: this.searched ? this.searched.ticket_id : null,
           brand_id: this.searched ? this.searched.brand_id : null,
           car_model_id: this.searched ? this.searched.car_model_id : null,
-          assigned_to: this.searched ? this.searched.assigned_to : null,
+          assigned_to_id: this.searched ? this.searched.assigned_to_id : null,
           user_name: this.searched ? this.searched.user_name : null,
           customer_custom_id: this.searched ? this.searched.customer_custom_id : null,
           customer_name: this.searched ? this.searched.customer_name : null,

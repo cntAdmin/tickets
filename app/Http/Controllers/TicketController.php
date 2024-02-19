@@ -60,7 +60,7 @@ class TicketController extends Controller
             'customer_id' => __('Cliente'),
             'user_id' => __('Contacto'),
             'department_id' => __('Departamento'),
-            'assigned_to' => __('Asignado a'),
+            'assigned_to_id' => __('Asignado a'),
             'frame_id' => __('Número de Bastidor'),
             'plate' => __('Matrícula'),
             'brand_id' => __('Marca'),
@@ -86,7 +86,7 @@ class TicketController extends Controller
             'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
-            'assigned_to' => ['required', 'numeric', 'exists:users,id'],
+            'assigned_to_id' => ['required', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
@@ -94,7 +94,7 @@ class TicketController extends Controller
             'other_brand_model' => ['nullable', 'string', 'max:255'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
             // 'tests_done' => ['nullable', 'string'],
             'ask_for_id' => ['required', 'numeric', 'exists:ask_fors,id'],
             'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
@@ -123,7 +123,7 @@ class TicketController extends Controller
                 'customer_id' => $req->customer_id,
                 'user_id' => $req->user_id,
                 'department_id' => $req->department_id,
-                'assigned_to' => $req->assigned_to,
+                'assigned_to_id' => $req->assigned_to_id,
                 'custom_id' => Str::upper($get_department->code) . now()->year . '-' . str_pad(($lastID), 5, '0', STR_PAD_LEFT),
                 'frame_id' => $req->frame_id,
                 'other_brand_model' => $req->other_brand_model,
@@ -209,7 +209,7 @@ class TicketController extends Controller
             'customer_id' => __('Cliente'),
             'user_id' => __('Contacto'),
             'department_id' => __('Departamento'),
-            'assigned_to' => __('Asignado a'),
+            'assigned_to_id' => __('Asignado a'),
             'frame_id' => __('Número de Bastidor'),
             'plate' => __('Matrícula'),
             'brand_id' => __('Marca'),
@@ -235,7 +235,7 @@ class TicketController extends Controller
             'customer_id' => ['required', 'numeric', 'exists:customers,id'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'department_id' => ['required', 'numeric', 'exists:departments,id'],
-            'assigned_to' => ['required', 'numeric', 'exists:users,id'],
+            'assigned_to_id' => ['required', 'numeric', 'exists:users,id'],
             'frame_id' => ['nullable', 'sometimes', 'string', 'max:100'],
             'plate' => ['nullable', 'string', 'max:100'],
             'brand_id' => ['nullable', 'sometimes', 'exists:brands,id'],
@@ -243,7 +243,7 @@ class TicketController extends Controller
             'other_brand_model' => ['nullable', 'string', 'max:255'],
             'engine_type' => ['nullable', 'string'],
             'subject' => ['required', 'string'],
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
             // 'tests_done' => ['nullable', 'string'],
             'ask_for_id' => ['required', 'numeric', 'exists:ask_fors,id'],
             'status' => ['nullable', 'string', 'max:100', 'exists:ticket_statuses,id'],
@@ -269,7 +269,7 @@ class TicketController extends Controller
             'ask_for_id' => $req->ask_for_id ?? $ticket->ask_for_id,
             'knowledge_base' => $req->knowledge_base ? 1 : 0,
             'ticket_status_id' => $req->status  ?? $ticket->ticket_status_id,
-            'assigned_to' => $req->assigned_to ?? $ticket->assigned_to,
+            'assigned_to_id' => $req->assigned_to_id ?? $ticket->assigned_to_id,
         ]);
 
         if ($req->file('files')) {
@@ -470,14 +470,13 @@ class TicketController extends Controller
     {
         // Promedio tiempo de respuesta de los agentes
         $promedioTiempoRespuestaAgentes = DB::table('tickets')
-        ->join('users','users.id', '=', 'tickets.assigned_to')
+        ->join('users','users.id', '=', 'tickets.assigned_to_id')
         ->select([
-            DB::raw('count(tickets.assigned_to) as total_incidencias'), 
+            DB::raw('count(tickets.assigned_to_id) as total_incidencias'), 
             DB::raw('sum(tickets.resolution_time) as resolution_time'), 
             DB::raw('users.name as name')
         ])
         ->where('tickets.ticket_status_id', 4)
-        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
         ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
         ->groupBy('name')
         ->orderBy('name', 'ASC')
@@ -489,7 +488,6 @@ class TicketController extends Controller
             DB::raw('count(id) as total'), 
             DB::raw('DATE(created_at) as dia')
         ])
-        // ->where('created_at', '>=', now()->subDays($req->days))
         ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
         ->groupBy('dia')
         ->get();
@@ -497,12 +495,11 @@ class TicketController extends Controller
 
         // Incidencias por agentes (Todos los agentes)
         $incidenciasPorAgente = DB::table('tickets')
-        ->join('users','users.id', '=', 'tickets.assigned_to')
+        ->join('users','users.id', '=', 'tickets.assigned_to_id')
         ->select([
-            DB::raw('count(tickets.assigned_to) as total'), 
+            DB::raw('count(tickets.assigned_to_id) as total'), 
             DB::raw('users.name as name')
         ])
-        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
         ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
         ->groupBy('name')
         ->orderBy('name', 'ASC')
@@ -516,7 +513,6 @@ class TicketController extends Controller
             DB::raw('count(tickets.id) as total'), 
             DB::raw('customers.fiscal_name as name')
         ])
-        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
         ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
         ->groupBy('name')
         ->orderBy('name', 'ASC')
@@ -532,7 +528,6 @@ class TicketController extends Controller
             DB::raw('count(tickets.ticket_status_id) as total'), 
             DB::raw('ticket_statuses.name as estado')
         ])
-        // ->where('tickets.created_at', '>=', now()->subDays($req->days))
         ->whereDate( 'tickets.created_at', '>', now()->subDays($req->days))
         ->groupBy('estado')
         ->get();

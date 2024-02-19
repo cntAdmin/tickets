@@ -287,7 +287,10 @@ class UserController extends Controller
     // Usuarios agentes a los que se les asignarán las incidencias (Metemos también Admin)
     public function get_all_agents()
     {
-        $agents = User::role(['Agente','Admin'])->get()->toArray();
+        $agents = User::role(['Agente','Admin'])
+            ->where('id','!=', 214) // Juan Jose - Jefe
+            ->where('id','!=', 565) // Juanjo Rodaex - Jefe
+            ->get()->toArray();
 
         return response()->json([
             'agents' => $agents,

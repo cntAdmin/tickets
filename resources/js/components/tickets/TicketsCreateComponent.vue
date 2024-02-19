@@ -162,12 +162,6 @@
               </div>
             </div>
             <div class="form-group col-12 col-md-6 mt-2">
-              <!-- <div class="input-group w-100">
-                <div class="input-group-prepend">
-                  <div class="input-group-text text-uppercase">Solicito</div>
-                </div>
-                <input class="form-control" type="text" v-model="selected.ask_for"/>
-              </div> -->
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase py-1">Solicito</div>
@@ -175,6 +169,7 @@
                 <vue-select
                   class="col-8 px-0"
                   transition="vs__fade"
+                  ref="solicitoSelect"
                   :options="ask_for"
                   label="name"
                   itemid="id"
@@ -195,6 +190,7 @@
                 <vue-select
                   class="col-8 px-0"
                   transition="vs__fade"
+                  ref="agentSelect"
                   :options="agents"
                   label="name"
                   itemid="id"
@@ -225,26 +221,6 @@
               </ejs-richtexteditor>
             </div>
           </div>
-          <!-- <div class="form-inline">
-            <div class="form-group col-12 mt-2">
-              <div class="input-group w-100">
-                <div class="input-group-prepend">
-                  <div
-                    :class="'input-group-text text-uppercase'"
-                  >
-                    Pruebas Realizadas
-                  </div>
-                </div>
-              </div>
-              <ejs-richtexteditor
-                ref="tests_done"
-                :quickToolbarSettings="quickToolbarSettings"
-                :height="400"
-                :toolbarSettings="toolbarSettings"
-              >
-              </ejs-richtexteditor>
-            </div>
-          </div> -->
           <div class="form-inline mx-3">
             <div class="form-group mt-2 w-100">
               <div class="input-group w-100">
@@ -258,14 +234,6 @@
             </div>
           </div>
           <div class="form-inline mt-4">
-            <!-- <button
-              v-if="disableButton == false"
-              form="create_ticket_form"
-              type="submit"
-              class="btn btn-success btn-block mx-3"
-            >
-              Enviar Incidencia
-            </button> -->
             <button form="create_ticket_form" type="submit" class="btn btn-success btn-block mx-3">
               Enviar Incidencia
             </button>
@@ -315,10 +283,9 @@ export default {
         other_brand_model: "",
         engine_type: "",
         subject: "",
-        assigned_to: "",
+        assigned_to_id: "",
         ask_for_id: "",
         description: "",
-        // tests_done: "",
         // calls: [],
       },
       success: {
@@ -384,7 +351,6 @@ export default {
       admin_roles: [
         1, 2, 3, 4
       ],
-      // disableButton: false
     };
   },
   activated() {
@@ -417,7 +383,7 @@ export default {
       this.selected.model_id = value ? value.id : null;
     },
     setAgent(value) {
-      this.selected.assigned_to = value ? value.id : null;
+      this.selected.assigned_to_id = value ? value.id : null;
     },
     setAskFor(value) {
       this.selected.ask_for_id = value ? value.id : null;
@@ -519,14 +485,14 @@ export default {
       if(this.selected.model_id !== null) {
         formData.append("model_id", this.selected.model_id);
       }
-      // if(this.$refs.tests_done.ej2Instances.value !== null) {
-      //   formData.append("tests_done", this.$refs.tests_done.ej2Instances.value);
-      // }
       if(this.selected.other_brand_model !== null) {
         formData.append("other_brand_model", this.selected.other_brand_model);
       }
       if(this.$refs.description.ej2Instances.value !== null) {
         formData.append("description", this.$refs.description.ej2Instances.value);
+      }
+      else{
+        formData.append("description", '');
       }
 
       formData.append("customer_id", this.selected.customer_id);
@@ -535,12 +501,8 @@ export default {
       formData.append("engine_type", this.selected.engine_type);
       formData.append("ask_for_id", this.selected.ask_for_id);
       formData.append("subject", this.selected.subject);
-      // formData.append("description", this.$refs.description.ej2Instances.value);
       // formData.append("calls", this.selected.calls);
-      formData.append("assigned_to", this.selected.assigned_to);
-
-      console.log(this.selected);
-      // return;
+      formData.append("assigned_to_id", this.selected.assigned_to_id);
 
       axios.post("/api/ticket", formData, {headers: {
             "Content-Type": "multipart/form-data",
@@ -572,9 +534,8 @@ export default {
                 engine_type: "",
                 subject: "",
                 ask_for_id: "",
-                assigned_to: "",
+                assigned_to_id: "",
                 description: "",
-                // tests_done: "",
                 // calls: [],
               };
 
@@ -582,8 +543,9 @@ export default {
               this.$refs.customersSelect.clearSelection();
               this.$refs.brandsSelect.clearSelection();
               this.$refs.modelsSelect.clearSelection();
+              this.$refs.solicitoSelect.clearSelection();
+              this.$refs.agentSelect.clearSelection();
               this.$refs.description.ej2Instances.value = '';
-              // this.$refs.tests_done.ej2Instances.value = '';
               this.error = {
                 status: false,
                 errors: [],

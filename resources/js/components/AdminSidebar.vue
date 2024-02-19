@@ -22,7 +22,7 @@
           <!-- DASHBOARD  -->
           <li class="nav-item shadow-sm mt-2">
             <router-link id="calls" class="text-decoration-none nav-link" :to="{ name: 'dashboard.index' }">
-              <h5 class="text-dark font-weight-bold text-uppercase m-3">Dashboard</h5>
+              <h5 class="text-dark font-weight-bold text-uppercase my-1 ml-3">Dashboard</h5>
             </router-link>
           </li>
 
@@ -50,45 +50,24 @@
               </div>
             </div>
             <div class="collapse" id="admin" data-parent="#sidebar_navbar">
-              <li class="nav-item">
-                <router-link
-                  id="brands"
-                  class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                  :to="{ name: 'brand.index' }"
-                >
+              <!-- <li class="nav-item"> -->
+                <router-link id="brands" class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'brand.index' }">
                   <span class="font-weight-bold">Marcas</span>
                 </router-link>
-              </li>
-              <router-link
-                id="car-model"
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                :to="{ name: 'car_model.index' }"
-              >
+              <!-- </li> -->
+              <router-link id="car-model" class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'car_model.index' }">
                 <span class="font-weight-bold">Modelos</span>
               </router-link>
-              <router-link
-                id="departments"
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                :to="{ name: 'department.index' }"
-              >
+              <router-link id="departments" class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'department.index' }">
                 <span class="font-weight-bold">Departamentos</span>
               </router-link>
-              <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                :to="{ name: 'customer.index' }"
-              >
+              <router-link class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'customer.index' }">
                 <span class="font-weight-bold">Clientes</span>
               </router-link>
-              <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                :to="{ name: 'user.index' }"
-              >
+              <router-link class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'user.index' }">
                 <span class="font-weight-bold">Usuarios</span>
               </router-link>
-              <router-link
-                class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow"
-                :to="{ name: 'post.index' }"
-              >
+              <router-link class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'post.index' }">
                 <span class="font-weight-bold">Blog</span>
               </router-link>
             </div>
@@ -150,27 +129,27 @@
           <!-- BLOG  -->
           <li class="nav-item shadow-sm mt-2">
             <router-link id="blog" class="text-decoration-none nav-link" :to="{ name: 'users-blog.index' }">
-              <h5 class="text-dark font-weight-bold text-uppercase m-3">Blog</h5>
+              <h5 class="text-dark font-weight-bold text-uppercase my-1 ml-3">Blog</h5>
             </router-link>
           </li>
 
 
           <!-- GLOSARIO DE INCIDENCIAS  -->
-          <li class="nav-item mt-2">
-            <div class="shadow-sm">
-              <router-link id="faqs" class="d-flex align-items-center shadow-sm w-100 text-decoration-none" :to="{ name: 'faqs.index' }">
-                <h5 class="text-dark font-weight-bold text-uppercase m-3">
+          <li class="nav-item shadow-sm mt-2">
+            <!-- <div class="shadow-sm"> -->
+              <router-link id="faqs" class="text-decoration-none nav-link" :to="{ name: 'faqs.index' }">
+                <h5 class="text-dark font-weight-bold text-uppercase my-1 ml-3">
                   Glosario de Incidencias
                 </h5>
               </router-link>
-            </div>
+            <!-- </div> -->
           </li>
 
 
           <!-- MEDIA  -->
           <li class="nav-item shadow-sm mt-2">
             <router-link id="file_manager" class="text-decoration-none nav-link" :to="{ name: 'file_manager.index' }">
-              <h5 class="text-dark font-weight-bold text-uppercase m-3">Media</h5>
+              <h5 class="text-dark font-weight-bold text-uppercase my-1 ml-3">Media</h5>
             </router-link>
           </li>
 

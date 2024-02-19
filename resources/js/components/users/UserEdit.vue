@@ -1,6 +1,6 @@
 <template>
   <div class="w-100 mt-3">
-    <div class="card shadow border-info">
+    <div class="card shadow border-dark">
       <div class="card-header">
         <div class="d-flex justify-content-between">
           <div class="mr-auto">
@@ -21,15 +21,10 @@
       </div>
       <!-- FIN CARD HEADER -->
       <div class="card-body">
-        <div v-show="success.status">
+        <div v-if="success.status">
           <div class="alert alert-dismissable alert-success">
             {{ success.msg }}
-            <button
-              type="button"
-              class="close mb-3"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
+            <button type="button" class="close mb-3" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
