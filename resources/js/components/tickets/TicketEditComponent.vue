@@ -517,7 +517,7 @@ export default {
         formData.append("description", this.$refs.description.ej2Instances.value);
       }
       else{
-        formData.append("description", '');
+        formData.append("description", ' ');
       }
 
       // console.log("   --> handleSubmit() ");

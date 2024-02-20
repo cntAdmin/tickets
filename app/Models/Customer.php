@@ -23,7 +23,6 @@ class Customer extends Model
         return $this->attributes['is_active'] == 1 ? 'Activo' : 'Inactivo';
     }
 
-
     public function users(): HasMany
     {
         return $this->hasMany(\App\Models\User::class, 'customer_id', 'id');
@@ -34,11 +33,6 @@ class Customer extends Model
         return $this->hasMany(\App\Models\Ticket::class, 'customer_id', 'id');
     }
 
-    /**
-     * Get the contacts that owns the Customer
-     *
-     * @return \Illuminate\Support\Collection
-     */
     public function contacts(): Collection
     {
         return $this->users()->whereHas('roles', function (Builder $q) {

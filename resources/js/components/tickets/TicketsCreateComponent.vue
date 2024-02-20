@@ -492,7 +492,7 @@ export default {
         formData.append("description", this.$refs.description.ej2Instances.value);
       }
       else{
-        formData.append("description", '');
+        formData.append("description", ' ');
       }
 
       formData.append("customer_id", this.selected.customer_id);

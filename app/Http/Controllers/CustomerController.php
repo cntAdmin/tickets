@@ -161,6 +161,7 @@ class CustomerController extends Controller
             ]);
         }
         $updated = $customer->update([
+            'custom_id' => $req->custom_id,
             'cif' => $req->cif,
             'fiscal_name' => $req->fiscal_name,
             'comercial_name' => $req->comercial_name,

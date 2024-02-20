@@ -139,8 +139,7 @@ export default {
   },
   methods: {
     exportFile(type) {
-      axios
-        .get("/api/export_customers", {
+      axios.get("/api/export_customers", {
           responseType: "arraybuffer",
           params: {
             custom_id: this.searched.custom_id ? this.searched.custom_id : null,
@@ -214,8 +213,7 @@ export default {
       this.searching = true;
       this.searched = data ? data : this.searched;
 
-      axios
-        .get("/api/customer", {
+      axios.get("/api/customer", {
           params: {
             page: data ? data.page : 1,
             custom_id: data ? data.custom_id : null,
@@ -225,12 +223,10 @@ export default {
             phone: data ? data.phone : null,
             is_active: data ? data.is_active : null,
           },
-        })
-        .then((res) => {
+        }).then((res) => {
           this.customers = res.data.customers;
           this.searching = false;
-        })
-        .catch((err) => {
+        }).catch((err) => {
           console.log(err);
         });
     },

@@ -299,6 +299,9 @@ export default {
       };
     },
     handleSubmit() {
+      console.log(this.customer);
+      return;
+      
       axios.put("/api/customer/" + this.customer.id, {
         custom_id: this.customer.custom_id,
         cif: this.customer.cif,
