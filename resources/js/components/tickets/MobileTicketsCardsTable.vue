@@ -1,37 +1,23 @@
 <template>
   <div class="flex-row justify-content-center" id="cards-list">
-    <div
-      :class="getAnsweredStyle(ticket)"
-      v-for="ticket in tickets"
-      :key="ticket.id"
-    >
+    <div :class="getAnsweredStyle(ticket)" v-for="ticket in tickets" :key="ticket.id">
       <div class="card-header">
         <h4 class="text-uppercase text-left font-weight-bold">
-          <router-link
-            :to="{
-              name: 'ticket.show',
-              params: { ticketID: ticket.id },
-            }"
-          >
+          <router-link :to="{ name: 'ticket.show', params: { ticketID: ticket.id }, }">
             {{ ticket.custom_id }}
           </router-link>
         </h4>
         <span>{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
       </div>
       <div class="card-body border">
-        <p class="text-truncate">
-          {{ ticket.subject }}
-        </p>
+        <p class="text-truncate">{{ ticket.subject }}</p>
       </div>
       <div class="card-footer">
         <div class="d-flex flex-row">
           <div class="col-8">
             <div class="row justify-content-center">
               <span
-                :class="
-                  'disabled col-4 btn btn-sm btn-block btn-' +
-                  setColor(ticket.status.id)
-                "
+                :class="'disabled col-4 btn btn-sm btn-block btn-' + setColor(ticket.status.id)"
                 type="button"
                 :title="ticket.status.id"
               >
@@ -39,9 +25,7 @@
               </span>
               <span class="col-4 btn btn-sm btn-link">
                 <i class="text-info fas fa-headset"></i>
-                <span class="badge badge-dark ml-2">
-                  {{ ticket.calls_count }}
-                </span>
+                <span class="badge badge-dark ml-2">{{ ticket.calls_count }}</span>
               </span>
               <span class="col-4 btn btn-sm btn-link">
                 <i class="text-secondary fas fa-paperclip"></i
@@ -57,13 +41,7 @@
           <div class="col-4 px-2 py-0 m-0">
             <div class="row justify-content-between">
               <div class="col-6 px-2 py-0">
-                <router-link
-                  :to="{
-                    name: 'ticket.show',
-                    params: { ticketID: ticket.id },
-                  }"
-                  class="btn btn-sm btn-success btn-block"
-                >
+                <router-link :to="{ name: 'ticket.show', params: { ticketID: ticket.id }, }" class="btn btn-sm btn-success btn-block">
                   <i class="fa fa-eye"></i>
                 </router-link>
               </div>
@@ -80,16 +58,9 @@
                   >
                     <i class="fa fa-exchange-alt"></i>
                   </button>
-                  <div
-                    class="dropdown-menu dropdown-menu-right"
-                    aria-labelledby="statuses"
-                  >
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="statuses">
                     <div v-for="status in ticket_statuses" :key="status.id">
-                      <button
-                        type="button"
-                        class="dropdown-item"
-                        @click.prevent="setStatus(ticket, status.id)"
-                      >
+                      <button type="button" class="dropdown-item" @click.prevent="setStatus(ticket, status.id)">
                         {{ status.name }}
                       </button>
                     </div>

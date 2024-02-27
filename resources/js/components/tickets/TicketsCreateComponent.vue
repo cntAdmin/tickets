@@ -504,13 +504,13 @@ export default {
       // formData.append("calls", this.selected.calls);
       formData.append("assigned_to_id", this.selected.assigned_to_id);
 
-      console.log(this.selected);
+      // console.log(this.selected);  
 
       axios.post("/api/ticket", formData, {headers: {
             "Content-Type": "multipart/form-data",
           },
         }).then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
 
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");

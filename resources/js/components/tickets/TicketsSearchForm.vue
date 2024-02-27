@@ -19,7 +19,7 @@
                 />
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id <= 4">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Cod. Cliente</div>
@@ -33,7 +33,7 @@
                 />
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id <= 4">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Nom. Cliente</div>
@@ -47,7 +47,7 @@
                 />
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id <= 4">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Matrícula</div>
