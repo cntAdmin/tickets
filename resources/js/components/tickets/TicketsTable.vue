@@ -84,7 +84,7 @@
                         {{ status.name }}
                       </button>
                       <button
-                        v-if="ticket.status.id == 1 || user_role == 1"
+                        v-if="ticket.status.id != 4 && (user_role == 1 || user_role == 2)"
                         type="button" 
                         class="dropdown-item bg-danger text-white" 
                         @click="openDeleteModal(ticket)"
