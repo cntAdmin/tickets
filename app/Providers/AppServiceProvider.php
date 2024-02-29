@@ -6,6 +6,8 @@ use App\Models\Comment;
 use App\Models\Ticket;
 use App\Observers\CommentObserver;
 use App\Observers\TicketObserver;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

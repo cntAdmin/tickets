@@ -50,7 +50,8 @@
                 <th>Asunto</th>
                 <th>Fecha</th>
                 <th>Estado</th>
-                <th>Llamadas</th>
+                <th>Tiempo Respuesta</th>
+                <th>Asignado a...</th>
                 <th>Adjuntos</th>
             </tr>
         </thead>
@@ -62,12 +63,24 @@
                     <td>{{ $ticket->subject}}...</td><i class="fa fa-call"></i>
                     <td>{{ \Carbon\Carbon::parse($ticket->updated_at)->format('d-m-Y H:i:s') }}</td>
                     <td>{{ $ticket->status->name }}</td>
-                    <td>{{ $ticket->calls_count }}</td>
+                    @if ($ticket->ticket_status_id == 4)
+                        {{-- <td>
+                            {{ (intdiv($ticket->resolution_time , 60) ? intdiv($ticket->resolution_time , 60) .'hrs ' : '') }}
+                            {{ (($ticket->resolution_time % 60) > 0) ? ($ticket->resolution_time % 60) .'mins' : '' }}
+                        </td> --}}
+                        <td>{{ $ticket->resolution_time }}</td>
+                    @else
+                        <td>0</td>
+                    @endif
+                    @if ($ticket->assigned_to->name)
+                        <td>{{ $ticket->assigned_to->name }}</td>
+                    @else
+                        <td> - </td>
+                    @endif
                     <td>{{ count($ticket->comment_attachments) }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
 </body>
 </html>
