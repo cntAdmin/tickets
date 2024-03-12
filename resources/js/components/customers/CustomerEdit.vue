@@ -41,12 +41,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Codigo Cliente</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.custom_id"
-                  :class="[error.errors.custom_id ? 'is-invalid' : ''] + ' form-control'"
-                  autofocus
-                />
+                <input type="text" v-model="customer.custom_id" :class="[error.errors.custom_id ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -54,11 +49,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">CIF</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.cif"
-                  :class="[error.errors.cif ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.cif" :class="[error.errors.cif ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -66,12 +57,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Nombre Fiscal</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.fiscal_name"
-                  :class="[error.errors.fiscal_name ? 'is-invalid' : ''] + ' form-control'"
-                  autofocus
-                />
+                <input type="text" v-model="customer.fiscal_name" :class="[error.errors.fiscal_name ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -79,24 +65,15 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Nombre Comercial</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.comercial_name"
-                  :class="[error.errors.comercial_name ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.comercial_name" :class="[error.errors.comercial_name ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
-              <label class="sr-only" for="dateFrom">Email</label>
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Email</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.email"
-                  :class="[error.errors.email ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.email" :class="[error.errors.email ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -104,11 +81,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Tienda</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.shop"
-                  :class="[error.errors.shop ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.shop" :class="[error.errors.shop ? 'is-invalid' : ''] + ' form-control'" />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -116,11 +89,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Teléfono 1</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.phone_1"
-                  :class="[error.errors.phone_1 ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.phone_1" :class="[error.errors.phone_1 ? 'is-invalid' : ''] + ' form-control'" />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -128,11 +97,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Teléfono 2</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.phone_2"
-                  :class="[error.errors.phone_2 ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.phone_2" :class="[error.errors.phone_2 ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -140,11 +105,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Teléfono 3</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.phone_3"
-                  :class="[error.errors.phone_3 ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.phone_3" :class="[error.errors.phone_3 ? 'is-invalid' : ''] + ' form-control'" />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -152,11 +113,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Dirección</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.street"
-                  :class="[error.errors.street ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.street" :class="[error.errors.street ? 'is-invalid' : ''] + ' form-control'" />
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -164,11 +121,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Ciudad</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.city"
-                  :class="[error.errors.city ? 'is-invalid' : ''] + ' form-control'"
-                />
+                <input type="text" v-model="customer.city" :class="[error.errors.city ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -176,14 +129,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Provincia</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.province"
-                  :class="
-                    [error.errors.province ? 'is-invalid' : ''] +
-                    ' form-control'
-                  "
-                />
+                <input type="text" v-model="customer.province" :class="[error.errors.province ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -191,24 +137,19 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">País</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="customer.country"
-                  :class="
-                    [error.errors.country ? 'is-invalid' : ''] + ' form-control'
-                  "
-                />
+                <input type="text" v-model="customer.country" :class="[error.errors.country ? 'is-invalid' : ''] + ' form-control'"/>
               </div>
             </div>
-          </div>
-          <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-sm btn-block btn-orange text-white text-uppercase font-weight-bold">
-              Actualizar Cliente
-            </button>
+            <div class="col-12"></div>
+            <div class="col-12 mt-3">
+              <button class="btn btn-sm btn-block btn-orange text-white text-uppercase font-weight-bold">
+                Actualizar Cliente
+              </button>
+            </div>
           </div>
         </form>
-        <div class="my-4 dropdown-divider"></div>
-        <div class="card shadow mt-4">
+        <!-- <div class="my-4 dropdown-divider"></div> -->
+        <!-- <div class="card shadow mt-4">
           <div class="card-header text-uppercase">
             <h5>Usuarios</h5>
           </div>
@@ -216,10 +157,7 @@
             {{ success.msg }}
           </div>
           <div v-if="error.status" class="m-3">
-            <form-errors
-              :errors="error.errors"
-              @close="error.status = false"
-            ></form-errors>
+            <form-errors :errors="error.errors" @close="error.status = false" ></form-errors>
           </div>
           <div class="d-flex justify-content-start" v-if="Object.keys(contacts).length > 0">
             <div class="form-inline">
@@ -232,7 +170,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -299,9 +237,6 @@ export default {
       };
     },
     handleSubmit() {
-      console.log(this.customer);
-      return;
-      
       axios.put("/api/customer/" + this.customer.id, {
         custom_id: this.customer.custom_id,
         cif: this.customer.cif,
