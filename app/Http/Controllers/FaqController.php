@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Scopes\RoleTicketFilterScope;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;

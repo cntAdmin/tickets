@@ -19,6 +19,49 @@
             </div>
           </div>
 
+          <!-- INCIDENCIAS  -->
+          <li class="nav-item w-100">
+            <div
+              class="d-flex align-items-center shadow-sm w-100"
+              data-toggle="collapse"
+              data-target="#tickets_sidebar"
+              aria-expanded="true"
+              aria-controls="tickets_sidebar"
+              data-parent="sidebar_navbar"
+            >
+              <div class="mr-auto">
+                <h5 class="text-dark font-weight-bold text-uppercase ml-3">
+                  Incidencias
+                </h5>
+              </div>
+              <div class="ml-auto">
+                <span
+                  class="navbar-toggler-icon mr-3"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#tickets_sidebar"
+                  aria-expanded="true"
+                  aria-controls="tickets_sidebar"
+                >
+                </span>
+              </div>
+            </div>
+            <div class="collapse show" id="tickets_sidebar" data-parent="#sidebar_navbar">
+              <router-link class="btn btn-dark text-light btn-block mt-2 text-uppercase shadow" :to="{ name: 'ticket.index' }">
+                <span>Todas las Incidencias</span>
+              </router-link>
+              <router-link
+                v-for="status in ticket_statuses" :key="status.id"
+                :class=" status.id == 3 ? 'd-none' : 'btn btn-dark btn-block mt-2 text-light text-uppercase shadow'"
+                :to="{ name: 'ticket.index', query: { status: status.id } }"
+              >
+                <span class="ml-1">
+                  {{ status.menu_name }}<span class="ml-2 badge badge-danger" v-if="status.id == 1">{{ answered }}</span>
+                </span>
+              </router-link>
+            </div>
+          </li>
+
           <li class="nav-item mt-2">
             <div class="shadow-sm">
               <router-link id="blog" class="d-flex align-items-center shadow-sm w-100 text-decoration-none" :to="{ name: 'users-blog.index' }">
