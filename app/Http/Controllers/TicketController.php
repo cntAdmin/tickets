@@ -406,7 +406,7 @@ class TicketController extends Controller
                 $filename = 'tickets-' . now()->format('Y-m-d_H-i-s') . '.pdf';
                 $storage = 'exports/pdfs/' . $filename;
                 $tickets = Ticket::filterTickets()->get();
-                $pdf = PDF::loadView('exports.tickets', ['tickets' => $tickets])
+                $pdf = PDF::loadView('exports.tickets', ['tickets' => $tickets, 'type' => $req->type])
                     ->setPaper('a4', 'landscape')
                     ->setOptions([
                         'defaultFont' => 'sans-serif',

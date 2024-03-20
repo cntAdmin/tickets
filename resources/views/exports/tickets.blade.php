@@ -64,11 +64,14 @@
                     <td>{{ \Carbon\Carbon::parse($ticket->updated_at)->format('d-m-Y H:i:s') }}</td>
                     <td>{{ $ticket->status->name }}</td>
                     @if ($ticket->ticket_status_id == 4)
-                        {{-- <td>
-                            {{ (intdiv($ticket->resolution_time , 60) ? intdiv($ticket->resolution_time , 60) .'hrs ' : '') }}
-                            {{ (($ticket->resolution_time % 60) > 0) ? ($ticket->resolution_time % 60) .'mins' : '' }}
-                        </td> --}}
-                        <td>{{ $ticket->resolution_time }}</td>
+                        @if($type == 'pdf')
+                            <td>
+                                {{ (intdiv($ticket->resolution_time , 60) ? intdiv($ticket->resolution_time , 60) .'hrs ' : '') }}
+                                {{ (($ticket->resolution_time % 60) > 0) ? ($ticket->resolution_time % 60) .'mins' : '' }}
+                            </td>
+                        @else
+                            <td>{{ $ticket->resolution_time }}</td>
+                        @endif
                     @else
                         <td>0</td>
                     @endif
