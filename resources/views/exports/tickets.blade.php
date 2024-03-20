@@ -72,7 +72,7 @@
                     @else
                         <td>0</td>
                     @endif
-                    @if ($ticket->assigned_to->name)
+                    @if ($ticket->assigned_to)
                         <td>{{ $ticket->assigned_to->name }}</td>
                     @else
                         <td> - </td>
