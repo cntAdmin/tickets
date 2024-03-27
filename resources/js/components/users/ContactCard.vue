@@ -51,45 +51,39 @@ export default {
   },
   methods: {
     toggleActive(e) {
-      axios
-        .put(`/api/toggle_active_user/${this.contact.id}`, {
-          is_active: e.target.checked,
-        })
-        .then((res) => {
-          if (res.data.success) {
-            // console.log(res.data.msg)
-          }
-        });
+      axios.put(`/api/toggle_active_user/${this.contact.id}`, {
+        is_active: e.target.checked,
+      }).then((res) => {
+        if (res.data.success) {
+          // console.log(res.data.msg)
+        }
+      });
     },
     handleSubmit() {
       this.$emit("closeAll");
-      axios
-        .put(`/api/user/${this.contact.id}`, {
-          customer_id: this.contact.customer_id,
-          department_id: this.contact.department_id,
-          name: this.contact.name,
-          surname: this.contact.surname,
-          username: this.contact.username,
-          phone: this.contact.phone,
-          email: this.contact.email,
-          password: this.contact.password,
-          password_confirmation: this.contact.password_confirmation,
-          is_active: this.contact.is_active,
-        })
-        .then((res) => {
-          // console.log(res.data);
-          if (res.data.success) {
-            this.$emit("updated", res.data.msg);
-          } else if (res.data.error) {
-            this.error = {
-              status: true,
-              errors: res.data.errors,
-            };
-
-            this.$emit("error", res.data.errors);
-          }
-        })
-        .catch((err) => console.log(err));
+      axios.put(`/api/user/${this.contact.id}`, {
+        customer_id: this.contact.customer_id,
+        department_id: this.contact.department_id,
+        name: this.contact.name,
+        surname: this.contact.surname,
+        username: this.contact.username,
+        phone: this.contact.phone,
+        email: this.contact.email,
+        password: this.contact.password,
+        password_confirmation: this.contact.password_confirmation,
+        is_active: this.contact.is_active,
+      }).then((res) => {
+        // console.log(res.data);
+        if (res.data.success) {
+          this.$emit("updated", res.data.msg);
+        } else if (res.data.error) {
+          this.error = {
+            status: true,
+            errors: res.data.errors,
+          };
+          this.$emit("error", res.data.errors);
+        }
+      }).catch((err) => console.log(err));
     },
     emitUpdate(data) {
       this.$emit("updated", data);

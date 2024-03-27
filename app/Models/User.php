@@ -47,15 +47,15 @@ class User extends Authenticatable
 
     public function scopeFilterUsers(Builder $query) {
         $query->when(request()->input('name'), function(Builder $q, $name) {
-            $q->where('name', 'LIKE', $name . '%');
+            $q->where('name', 'LIKE', '%'. $name . '%');
         })->when(request()->input('surname'), function(Builder $q, $surname) {
-            $q->where('surname', 'LIKE', $surname . '%');
+            $q->where('surname', 'LIKE', '%'. $surname . '%');
         })->when(request()->input('username'), function(Builder $q, $username) {
-            $q->where('username', 'LIKE', $username . '%');
+            $q->where('username', 'LIKE', '%'. $username . '%');
         })->when(request()->input('email'), function(Builder $q, $email) {
-            $q->where('email', 'LIKE', $email . '%');
+            $q->where('email', 'LIKE', '%'. $email . '%');
         })->when(request()->input('phone'), function(Builder $q, $phone) {
-            $q->where('phone', 'LIKE', $phone . '%');
+            $q->where('phone', 'LIKE', '%'. $phone . '%');
         })->when(request()->input('is_active'), function(Builder $q, $is_active) {
             switch ($is_active) {
                 case '1':

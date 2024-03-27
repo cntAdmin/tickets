@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row justify-content-center">
           <div class="mr-xl-auto col-12 col-xl-6">
-            <h4 class="title text-uppercase" v-show="ticket">
+            <h4 class="title text-uppercase" v-if="ticket">
               Incidencia:
               <span class="font-weight-bold">( {{ ticket.custom_id }} )</span>
             </h4>

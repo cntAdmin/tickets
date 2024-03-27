@@ -69,6 +69,7 @@ Vue.component('tickets-table', require('./components/tickets/TicketsTable').defa
 Vue.component('tickets-search-form', require('./components/tickets/TicketsSearchForm').default);
 Vue.component('ticket-view', require('./components/tickets/TicketView').default);
 Vue.component('ticket-view-info', require('./components/tickets/TicketViewInfoComponent').default);
+// Vue.component('asign-agent-modal', require('./components/tickets/AsignAgentModal').default);
 
 // MOBILE
 Vue.component('mobile-tickets-cards-table', require('./components/tickets/MobileTicketsCardsTable').default);

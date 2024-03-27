@@ -148,29 +148,6 @@
             </div>
           </div>
         </form>
-        <!-- <div class="my-4 dropdown-divider"></div> -->
-        <!-- <div class="card shadow mt-4">
-          <div class="card-header text-uppercase">
-            <h5>Usuarios</h5>
-          </div>
-          <div class="alert alert-dismissable alert-success m-3 text-center" v-if="success.status">
-            {{ success.msg }}
-          </div>
-          <div v-if="error.status" class="m-3">
-            <form-errors :errors="error.errors" @close="error.status = false" ></form-errors>
-          </div>
-          <div class="d-flex justify-content-start" v-if="Object.keys(contacts).length > 0">
-            <div class="form-inline">
-              <div class="col-4 my-3" v-for="contact in contacts" :key="contact.id">
-                <contact-card
-                  :contact="contact"
-                  @updated="showSuccess"
-                  @error="showErrors"
-                ></contact-card>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -213,7 +190,6 @@ export default {
     },
     getContacts() {
       axios.get(`/api/get_customer_contacts/${this.customer.id}`).then((res) => {
-        // console.log(res.data);
         this.contacts = res.data.contacts;
       });
     },

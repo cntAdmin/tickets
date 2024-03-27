@@ -8,12 +8,7 @@
           </div>
           <select v-model="user.roles[0].id" class="form-control" required>
             <option value="" disabled>Seleccione un rol</option>
-            <option
-              v-for="role in roles"
-              :value="role.id"
-              :key="role.id"
-              class="text-capitalize"
-            >
+            <option v-for="role in roles" :value="role.id" :key="role.id" class="text-capitalize">
               {{ role.name }}
             </option>
           </select>
@@ -69,11 +64,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Nombre</div>
           </div>
-          <input
-            type="text"
-            v-model="user.name"
-            :class="[error.errors.name ? 'is-invalid' : ''] + ' form-control'"
-          />
+          <input type="text" v-model="user.name" :class="[error.errors.name ? 'is-invalid' : ''] + ' form-control'"/>
         </div>
       </div>
       <div class="col-12 col-md-6 mt-2">
@@ -81,11 +72,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Apellidos</div>
           </div>
-          <input
-            type="text"
-            v-model="user.surname"
-            :class="[error.errors.surname ? 'is-invalid' : ''] + ' form-control'"
-          />
+          <input type="text" v-model="user.surname" :class="[error.errors.surname ? 'is-invalid' : ''] + ' form-control'"/>
         </div>
       </div>
       <div class="col-12 col-md-6 mt-2">
@@ -93,12 +80,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Nombre de Usuario</div>
           </div>
-          <input
-            type="text"
-            v-model="user.username"
-            :class="[error.errors.username ? 'is-invalid' : ''] + ' form-control'"
-            required
-          />
+          <input type="text" v-model="user.username" :class="[error.errors.username ? 'is-invalid' : ''] + ' form-control'" required/>
         </div>
       </div>
       <div class="col-12 col-md-6 mt-2">
@@ -114,11 +96,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Email</div>
           </div>
-          <input
-            type="email"
-            v-model="user.email"
-            :class="[error.errors.email ? 'is-invalid' : ''] + ' form-control'"
-          />
+          <input type="email" v-model="user.email" :class="[error.errors.email ? 'is-invalid' : ''] + ' form-control'"/>
         </div>
       </div>
       <div class="col-12 col-md-6 mt-2">
@@ -126,11 +104,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Contraseña</div>
           </div>
-          <input
-            type="password"
-            v-model="user.password"
-            :class="[error.errors.password ? 'is-invalid' : ''] + ' form-control'"
-          />
+          <input type="password" v-model="user.password" :class="[error.errors.password ? 'is-invalid' : ''] + ' form-control'"/>
         </div>
       </div>
       <div class="col-12 col-md-6 mt-2">
@@ -138,11 +112,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text text-uppercase">Rep. Contraseña</div>
           </div>
-          <input
-            type="password"
-            v-model="user.password_confirmation"
-            :class="[error.errors.password_confirmation ? 'is-invalid' : ''] +' form-control'"
-          />
+          <input type="password" v-model="user.password_confirmation" :class="[error.errors.password_confirmation ? 'is-invalid' : ''] +' form-control'"/>
         </div>
       </div>
     </div>
@@ -186,31 +156,27 @@ export default {
       this.user.customer.comercial_name = value ? value.comercial_name : null;
       this.user.customer_id = value ? value.id : null;
     },
-
     handleSubmit() {
-      axios
-        .put(`/api/user/${this.user.id}`, {
-          role_id: this.user.roles[0].id,
-          customer_id: this.user.customer_id,
-          department_id: this.user.department_id,
-          name: this.user.name,
-          surname: this.user.surname,
-          username: this.user.username,
-          phone: this.user.phone,
-          email: this.user.email,
-          password: this.user.password,
-          password_confirmation: this.user.password_confirmation,
-          is_active: this.user.is_active,
-        })
-        .then((res) => {
-          if (res.data.success) {
-            this.$emit("updated", res.data.msg);
-          } else if (res.data.error) {
-            this.error.errors = res.data.errors;
-            this.$emit("error", res.data.errors);
-          }
-        })
-        .catch((err) => console.log(err));
+      axios.put(`/api/user/${this.user.id}`, {
+        role_id: this.user.roles[0].id,
+        customer_id: this.user.customer_id,
+        department_id: this.user.department_id,
+        name: this.user.name,
+        surname: this.user.surname,
+        username: this.user.username,
+        phone: this.user.phone,
+        email: this.user.email,
+        password: this.user.password,
+        password_confirmation: this.user.password_confirmation,
+        is_active: this.user.is_active,
+      }).then((res) => {
+        if (res.data.success) {
+          this.$emit("updated", res.data.msg);
+        } else if (res.data.error) {
+          this.error.errors = res.data.errors;
+          this.$emit("error", res.data.errors);
+        }
+      }).catch((err) => console.log(err));
     },
     get_all_customers() {
       axios.get("/api/get_all_customers").then((res) => {

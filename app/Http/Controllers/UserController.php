@@ -279,6 +279,7 @@ class UserController extends Controller
             'is_active' => $req->is_active
         ]);
         $status = $req->is_active ? "activado" : "desactivado";
+        
         return $updated
             ? response()->json([ 'success' => true, 'msg' => 'Usuario ' . $status  . ' correctamente.'])
             : response()->json([ 'success' => true, 'msg' => 'No ha podido ser '. $status . ' correctamente']);

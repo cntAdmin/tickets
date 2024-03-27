@@ -182,7 +182,7 @@
                 </vue-select>
               </div>
             </div>
-            <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
+            <div class="form-group col-12 col-md-6 col-lg-4 mt-2" v-if="is_admin">
               <div class="input-group w-100">
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase py-1">Asignado a...</div>
@@ -510,7 +510,6 @@ export default {
             "Content-Type": "multipart/form-data",
           },
         }).then((res) => {
-          // console.log(res.data);
 
           if (res.data.success) {
             $("html, body").animate({ scrollTop: 0 }, "slow");

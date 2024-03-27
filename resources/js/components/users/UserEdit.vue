@@ -1,7 +1,7 @@
 <template>
   <div class="w-100 mt-3">
     <div class="card shadow border-dark">
-      <div class="card-header">
+      <!-- <div class="card-header">
         <div class="d-flex justify-content-between">
           <div class="mr-auto">
             <h3 class="text-uppercase">Editar Usuario</h3>
@@ -16,6 +16,38 @@
               Cerrar
               <i class="fa fa-times"></i>
             </button>
+          </div>
+        </div>
+      </div> -->
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="col-9">
+            <h3 class="text-uppercase">Editar Usuario</h3>
+          </div>
+          <div class="col-3">
+            <div class="d-flex flex-row justify-content-between my-auto">
+              <div class="col-7 my-auto">
+                <div class="d-flex flex-row justify-content-end">
+                  <label class="switch my-auto">
+                    <input v-model="user.is_active" type="checkbox" @click="toggleActive($event)"/>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-5 my-auto ml-auto">
+                <div class="d-flex flex-row justify-content-end">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger text-uppercase mb-3 my-auto"
+                    @click="$emit('close')"
+                    aria-label="Close"
+                  >
+                  Cerrar
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -88,32 +120,29 @@ export default {
       this.user.customer_id = value ? value.id : null;
     },
     handleSubmit() {
-      axios
-        .put("/api/user/" + this.user.id, {
-          role_id: this.user.roles[0].id,
-          customer_id: this.user.customer_id,
-          department_id: this.user.department_id,
-          name: this.user.name,
-          surname: this.user.surname,
-          username: this.user.username,
-          phone: this.user.phone,
-          email: this.user.email,
-          password: this.user.password,
-          password_confirmation: this.user.password_confirmation,
-          is_active: this.user.is_active,
-        })
-        .then((res) => {
-          // console.log(res.data)
-          if (res.data.success) {
-            this.$emit("updated", res.data.msg);
-          } else if (res.data.error) {
-            this.error.errors = res.data.errors;
-            this.$emit("error", res.data.errors);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.put("/api/user/" + this.user.id, {
+        role_id: this.user.roles[0].id,
+        customer_id: this.user.customer_id,
+        department_id: this.user.department_id,
+        name: this.user.name,
+        surname: this.user.surname,
+        username: this.user.username,
+        phone: this.user.phone,
+        email: this.user.email,
+        password: this.user.password,
+        password_confirmation: this.user.password_confirmation,
+        is_active: this.user.is_active,
+      }).then((res) => {
+        // console.log(res.data)
+        if (res.data.success) {
+          this.$emit("updated", res.data.msg);
+        } else if (res.data.error) {
+          this.error.errors = res.data.errors;
+          this.$emit("error", res.data.errors);
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
     },
     get_all_customers() {
       axios.get("/api/get_all_customers").then((res) => {
@@ -128,6 +157,15 @@ export default {
     get_all_departments() {
       axios.get("/api/get_all_departments").then((res) => {
         this.departments = res.data.departments;
+      });
+    },
+    toggleActive(e) {
+      axios.put(`/api/toggle_active_user/${this.user.id}`, {
+        is_active: e.target.checked,
+      }).then((res) => {
+        if (res.data.success) {
+          // console.log(res.data.msg)
+        }
       });
     },
   },

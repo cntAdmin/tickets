@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Exports\CustomerExport;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -272,6 +273,15 @@ class CustomerController extends Controller
         $updated = $customer->update([
             'is_active' => $req->is_active
         ]);
+
+        // Activamos / Desactivamos todos los usuarios del customer
+        $users = User::where('customer_id', $customer->id)->get();
+        foreach ($users as $user){
+            $user->update([
+                'is_active' => $req->is_active
+            ]);
+        }
+
         $status = $req->is_active ? 'activado' : 'desactivado';
 
         return $updated

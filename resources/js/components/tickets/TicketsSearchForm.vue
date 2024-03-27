@@ -9,14 +9,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase"># Incidencia</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="selected.ticket_id"
-                  minlength="3"
-                  class="form-control"
-                  title="Minimo 3 caracteres"
-                  autofocus
-                />
+                <input type="text" v-model="selected.ticket_id" minlength="3" class="form-control" title="Minimo 3 caracteres" autofocus/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -24,13 +17,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Cod. Cliente</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="selected.customer_custom_id"
-                  minlength="3"
-                  class="form-control"
-                  title="Minimo 3 caracteres"
-                />
+                <input type="text" v-model="selected.customer_custom_id" minlength="3" class="form-control" title="Minimo 3 caracteres"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -38,13 +25,7 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text text-uppercase">Nom. Cliente</div>
                 </div>
-                <input
-                  type="text"
-                  v-model="selected.customer_name"
-                  minlength="3"
-                  class="form-control"
-                  title="Minimo 3 caracteres"
-                />
+                <input type="text" v-model="selected.customer_name" minlength="3" class="form-control" title="Minimo 3 caracteres"/>
               </div>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4 mt-2">
@@ -183,7 +164,7 @@
               </div>
             </div>
           </div>
-          <div class="d-flex justify-content-center mt-3">
+          <div class="form-group col-12 mt-3">
             <button class="btn btn-sm btn-block btn-success text-uppercase">
               Buscar
             </button>
